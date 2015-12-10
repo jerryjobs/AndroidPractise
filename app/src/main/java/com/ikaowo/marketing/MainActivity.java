@@ -13,6 +13,7 @@ import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkManager;
 import com.common.framework.umeng.UmengService;
 import com.common.framework.umeng.UmengShareService;
+import com.component.photo.PhotoService;
 import com.ikaowo.marketing.network.KwMarketNetworkCallback;
 import com.ikaowo.marketing.network.TestInterface;
 import com.ikaowo.marketing.network.bean.request.LoginRequest;
@@ -159,6 +160,15 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ViewImageActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        final Button takePhoto = (Button) findViewById(R.id.takePhoto);
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoService photoService = new PhotoService(MainActivity.this);
+                photoService.takePhoto(MainActivity.this, takePhoto, null);
             }
         });
     }

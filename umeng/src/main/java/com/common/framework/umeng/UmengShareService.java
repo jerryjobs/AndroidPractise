@@ -207,13 +207,14 @@ public class UmengShareService {
     }
 
      class SharePopupWindow extends PopupWindow implements AdapterView.OnItemClickListener {
+
         private ShareAdapter sAdapter;
-        String title, content, targetUrl, picUrl;
-        String[] shareBeanValues = new String[]{"微信好友", "朋友圈", "QQ", "QQ空间", "微博"};
-        int[] shareBeanDrawids = new int[]{R.drawable.umeng_socialize_wechat, R.drawable.umeng_socialize_wxcircle,
+        private String title, content, targetUrl, picUrl;
+        private String[] shareBeanValues = new String[]{"微信好友", "朋友圈", "QQ", "QQ空间", "微博"};
+        private int[] shareBeanDrawids = new int[]{R.drawable.umeng_socialize_wechat, R.drawable.umeng_socialize_wxcircle,
                 R.drawable.umeng_socialize_qq_on, R.drawable.umeng_socialize_qzone_on,
                 R.drawable.umeng_socialize_sina_on};
-        SHARE_MEDIA[] shareBeanMedias = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE,
+        private SHARE_MEDIA[] shareBeanMedias = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE,
                 SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.SINA};
         private View mMenuView;
         private GridView gridView;

@@ -82,4 +82,11 @@
         android:layout_below="@id/um_update"
         android:text="View Image" />
 
+    <Button
+        android:id="@+id/takePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/um_update"
+        android:text="Take Photo" />
+
 </LinearLayout>

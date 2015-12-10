@@ -1,1 +1,1 @@
-include ':app', ':umeng', ':core'
+include ':app', ':umeng', ':core', ':photo'
