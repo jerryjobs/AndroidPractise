@@ -11,15 +11,18 @@ import com.ikaowo.marketing.modules.me.MeSys;
 import com.ikaowo.marketing.modules.message.MessageSys;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainTabActivity extends TabActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        notificatonStyle = NotificatonStyle.Badge;
         super.onCreate(savedInstanceState);
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getNotificationCount();
     }
 
     @Override
@@ -69,5 +72,20 @@ public class MainTabActivity extends TabActivity {
         menuResId = tab.getMenu();
         invalidateOptionsMenu();
         super.onClicked(tab);
+    }
+
+    @Override
+    protected void getNotificationCount() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("homesys", 1);
+        map.put("mesys", 3);
+        for (BaseSys tab : tabbarList) {
+            Integer count = map.get(tab.getTag().toLowerCase());
+            if (null == count || count == 0) {
+                tab.hideNotification();
+            } else {
+                tab.showNotification(notificatonStyle, count);
+            }
+        }
     }
 }

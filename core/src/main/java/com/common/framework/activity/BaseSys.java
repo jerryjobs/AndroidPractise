@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.framework.core.JApplication;
 import com.common.framework.core.JFragment;
 import com.common.framework.core.R;
 import com.common.framework.interceptor.JInterceptor;
@@ -66,7 +67,9 @@ public abstract class BaseSys {
         });
     }
     protected abstract int getTabIcon();
+
     protected abstract String getTabTitle();
+
     private void performClick() {
         if (listener != null) {
             listener.onClicked(this);
@@ -94,6 +97,39 @@ public abstract class BaseSys {
 
     public int getMenu() {
         return 0;
+    }
+
+    private void showBadgeNotification(int count) {
+        TextView tv = (TextView) tab.findViewById(R.id.unread);
+        tv.setText(String.valueOf(count));
+        tv.setVisibility(View.VISIBLE);
+    }
+
+    public void hideNotification() {
+        TextView tv = (TextView) tab.findViewById(R.id.unread);
+        tv.setVisibility(View.GONE);
+    }
+
+    private void showNormalNotification() {
+        TextView tv = (TextView) tab.findViewById(R.id.unread);
+        ViewGroup.LayoutParams layoutParams = tv.getLayoutParams();
+        layoutParams.width = JApplication.getJContext().dip2px(16);
+        layoutParams.height = JApplication.getJContext().dip2px(16);
+        tv.setLayoutParams(layoutParams);
+        tv.setVisibility(View.VISIBLE);
+    }
+
+
+    public void showNotification(TabActivity.NotificatonStyle notificatonStyle, int count) {
+        switch (notificatonStyle) {
+            case Normal:
+                showNormalNotification();
+                break;
+
+            case Badge:
+                showBadgeNotification(count);
+                break;
+        }
     }
 
 }

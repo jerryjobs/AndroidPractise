@@ -44,8 +44,9 @@ public abstract class JFragmentActivity extends AppCompatActivity {
 
     protected void hideInput(Context context, View view) {
         /**
-         * solve
-         * Attempt to invoke virtual method 'android.os.IBinder android.view.View.getWindowToken()' on a null object reference
+         * solve:
+         * Attempt to invoke virtual method 'android.os.IBinder android.view.View.getWindowToken()'
+         * on a null object reference
          */
         if(view!=null){
             InputMethodManager inputMethodManager =

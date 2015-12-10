@@ -13,7 +13,7 @@
             android:id="@+id/tab_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/tab_title"
@@ -24,4 +24,19 @@
             android:textIsSelectable="true"
             android:layout_gravity="center" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/unread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/unread_hint"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:text=""
+        android:visibility="gone"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/unread_text_size"/>
 </FrameLayout>

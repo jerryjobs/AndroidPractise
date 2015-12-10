@@ -18,8 +18,14 @@ import java.util.List;
  */
 public abstract class TabActivity extends JFragmentActivity implements BaseSys.TabListener {
 
+    public enum NotificatonStyle {
+        Normal,
+        Badge
+    }
+
     protected List<BaseSys> tabbarList = new ArrayList<>();
     protected LinearLayout tabContainerLayout;
+    protected NotificatonStyle notificatonStyle;
 
     private int clickedPos;
 
@@ -107,6 +113,8 @@ public abstract class TabActivity extends JFragmentActivity implements BaseSys.T
     private void changeTitle(String title) {
         toolbar.setTitle(title);
     }
+
+    protected abstract void getNotificationCount();
 
     @Override
     protected void onResume() {
