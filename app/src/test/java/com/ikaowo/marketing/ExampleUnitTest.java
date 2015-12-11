@@ -1,4 +1,4 @@
-package com.ikaowo.marketing;
+package com.scaffold.demo;
 
 import org.junit.Test;
 
