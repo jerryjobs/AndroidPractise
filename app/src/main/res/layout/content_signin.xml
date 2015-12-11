@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:background="#999"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/icon_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"/>
+
+    <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+        android:id="@+id/name_et"
+        android:hint="手机号码"
+        android:textSize="14sp"
+        app:bottom_line_color="@color/c1"
+        android:layout_marginTop="50dp"
+        android:inputType="number"
+        android:layout_below="@id/icon_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+        android:id="@+id/passwod_et"
+        android:hint="密码"
+        android:textSize="14sp"
+        app:bottom_line_color="@color/c1"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/name_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/login_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/btn_bg_dark"
+        android:layout_below="@id/passwod_et"
+        android:textColor="@color/c1"
+        android:text="登  录"/>
+
+    <EditText
+        android:id="@+id/reg_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@id/login_tv"
+        android:text="新用户注册"/>
+
+</RelativeLayout>

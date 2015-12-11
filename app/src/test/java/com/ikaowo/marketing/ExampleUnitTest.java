@@ -1,4 +1,4 @@
-package com.scaffold.demo;
+package com.ikaowo.join;
 
 import org.junit.Test;
 
