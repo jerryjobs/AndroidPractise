@@ -36,7 +36,7 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
     }
 
     private void init(Context context, AttributeSet attrs) {
-        deleteIconDrawable = ResourceUtil.getDrawable(context, R.drawable.edittext_delete_icon);
+        deleteIconDrawable = ResourceUtil.getDrawable(context, R.drawable.abc_ic_clear_mtrl_alpha);
 
         addTextChangedListener(new TextWatcher() {
 

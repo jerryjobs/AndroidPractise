@@ -27,7 +27,7 @@
         </activity>
 
         <activity android:name=".modules.user.SigninActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar.TransparentBar"/>
 
         <!-- Umeng Config -->
         <service
