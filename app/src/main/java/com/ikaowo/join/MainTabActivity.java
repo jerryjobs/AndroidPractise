@@ -2,7 +2,6 @@ package com.ikaowo.join;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 
 import com.common.framework.activity.BaseSys;

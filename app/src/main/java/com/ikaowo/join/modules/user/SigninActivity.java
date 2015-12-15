@@ -19,9 +19,10 @@ public class SigninActivity extends BaseActivity {
         setContentView(R.layout.activity_signin);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        final ActionBar ab = getSupportActionBar();
+        ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
 

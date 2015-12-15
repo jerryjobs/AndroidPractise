@@ -5,10 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="window_background">#FFF5F5F5</color>
 
-    <color name="c1">#ACBABF</color>
-    <color name="c2">#1BA7E1</color>
-
-    <color name="c3">#666</color>
-    <color name="c4">#999</color>
-    <color name="c5">#000</color>
+    <color name="c1">@color/colorPrimary</color>
+    <color name="c2">#ACBABF</color>
 </resources>

@@ -15,18 +15,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity
-            android:name="com.ikaowo.join.MainActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/app_name">
+
+        <activity
+            android:name="com.ikaowo.join.MainTabActivity"
+            android:label="@string/title_activity_main_tab">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
+        </activity>
 
-        <activity android:name=".modules.user.SigninActivity"/>
+        <activity android:name=".modules.user.SigninActivity"
+            android:theme="@style/AppTheme.FullScreen"/>
 
         <!-- Umeng Config -->
         <service
@@ -49,14 +49,7 @@
             android:label="@string/title_activity_view_image"
             android:theme="@style/AppTheme.FullScreen" />
 
-        <activity
-            android:name="com.ikaowo.join.MainTabActivity"
-            android:label="@string/title_activity_main_tab">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
     </application>
 
 </manifest>
