@@ -3,8 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="window_background">#FFF5F5F5</color>
 
-    <color name="c1">#ffffff</color>
+    <color name="c1">#ffffff</color>>
     <color name="c2">#333</color>
     <color name="c3">#666</color>
     <color name="c4">#999</color>
