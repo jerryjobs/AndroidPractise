@@ -77,7 +77,7 @@ public abstract class TabActivity extends JFragmentActivity implements BaseSys.T
         });
 
         changeTabPage(tab);
-        changeTitle(tab.getTabTitle());
+        changeTitle(tab.getActionBarTitle());
     }
 
     private void changeTabBar(BaseSys tabbar) {

@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">KaowoMarketing</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">JOIN</string>
+    <string name="action_search">Settings</string>
+    <string name="action_add">Settings</string>
     <string name="title_activity_view_image">ViewImageActivity</string>
-    <string name="title_activity_main_tab">MainTabActivity</string>
+    <string name="title_activity_main_tab">JOIN</string>
 </resources>

@@ -2,13 +2,14 @@ package com.ikaowo.join;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.ikaowo.join.modules.company.CompanySys;
 import com.ikaowo.join.modules.home.HomeSys;
-import com.ikaowo.join.modules.me.MeSys;
+import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.user.SigninActivity;
 
@@ -21,10 +22,10 @@ public class MainTabActivity extends TabActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        notificatonStyle = NotificatonStyle.Badge;
+//        notificatonStyle = NotificatonStyle.Badge;
         super.onCreate(savedInstanceState);
-
-        getNotificationCount();
+        toolbar.setTitle(getResources().getString(R.string.app_name));
+//        getNotificationCount();
     }
 
     @Override
@@ -35,7 +36,6 @@ public class MainTabActivity extends TabActivity {
     @Override
     protected List<BaseSys> getTabPages() {
         List<BaseSys> tabList = new ArrayList<>();
-        //Context context, ViewGroup tabContainer, TabListener listener
         BaseSys homeTab = new HomeSys(this, tabContainerLayout, this);
         tabList.add(homeTab);
         homeTab.setTabTitleTxtColor(R.color.tab_title);
@@ -48,7 +48,7 @@ public class MainTabActivity extends TabActivity {
         msgTab.setTabTitleTxtColor(R.color.tab_title);
         tabList.add(msgTab);
 
-        BaseSys meTab = new MeSys(this, tabContainerLayout, this);
+        BaseSys meTab = new MineSys(this, tabContainerLayout, this);
         meTab.setTabTitleTxtColor(R.color.tab_title);
         tabList.add(meTab);
         return tabList;

@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.me;
+package com.ikaowo.join.modules.mine;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -10,20 +10,20 @@ import com.ikaowo.join.R;
 /**
  * Created by weibo on 15-12-8.
  */
-public class MeSys extends BaseSys {
+public class MineSys extends BaseSys {
 
-    public MeSys(Context context, ViewGroup tabContainer, TabListener listener) {
+    public MineSys(Context context, ViewGroup tabContainer, TabListener listener) {
         super(context, tabContainer, listener);
     }
 
     @Override
     protected JFragment createFragment() {
-        return new MeFragment();
+        return new MineFragment();
     }
 
     @Override
     protected int getTabIcon() {
-        return R.drawable.home_tab_icon;
+        return R.drawable.mine_tab_icon;
     }
 
     @Override
@@ -32,8 +32,13 @@ public class MeSys extends BaseSys {
     }
 
     @Override
+    protected String getActionBarTitle() {
+        return context.getResources().getString(R.string.app_name);
+    }
+
+    @Override
     public String getTag() {
-        return "MeSys";
+        return "MineSys";
     }
 
     @Override

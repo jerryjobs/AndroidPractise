@@ -23,12 +23,17 @@ public class MessageSys extends BaseSys {
 
     @Override
     protected int getTabIcon() {
-        return R.drawable.home_tab_icon;
+        return R.drawable.message_tab_icon;
     }
 
     @Override
     protected String getTabTitle() {
         return "消息";
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return context.getResources().getString(R.string.app_name);
     }
 
     @Override

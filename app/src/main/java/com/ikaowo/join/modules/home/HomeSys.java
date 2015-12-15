@@ -32,6 +32,11 @@ public class HomeSys extends BaseSys {
     }
 
     @Override
+    protected String getActionBarTitle() {
+        return context.getResources().getString(R.string.app_name);
+    }
+
+    @Override
     public String getTag() {
         return "HomeSys";
     }

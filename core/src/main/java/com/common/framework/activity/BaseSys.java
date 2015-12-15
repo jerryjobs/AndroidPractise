@@ -18,8 +18,8 @@ import com.common.framework.interceptor.JInterceptor;
  * Created by weibo on 15-12-8.
  */
 public abstract class BaseSys {
+    protected Context context;
 
-    private Context context;
     private ViewGroup tabContainer;
     private TabListener listener;
     private View tab;
@@ -69,6 +69,8 @@ public abstract class BaseSys {
     protected abstract int getTabIcon();
 
     protected abstract String getTabTitle();
+
+    protected abstract String getActionBarTitle();
 
     private void performClick() {
         if (listener != null) {

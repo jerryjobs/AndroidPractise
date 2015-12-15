@@ -17,7 +17,7 @@ public class CompanyFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_companye, null, false);
+        View view = inflater.inflate(R.layout.fragment_company, null, false);
         return view;
     }
 
