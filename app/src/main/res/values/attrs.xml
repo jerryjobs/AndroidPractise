@@ -4,4 +4,7 @@
         <attr name="bottom_line_color" format="color"></attr>
 
     </declare-styleable>
+    <declare-styleable name="CustomEditTextView">
+        <attr name="custom_view" format="reference"></attr>
+    </declare-styleable>
 </resources>

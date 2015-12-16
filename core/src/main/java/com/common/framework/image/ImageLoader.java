@@ -56,7 +56,7 @@ public class ImageLoader {
      * 获取7牛的不同的模式的缩略图，具体参考
      * <a>http://developer.qiniu.com/docs/v6/api/reference/fop/image/imageview2.html</a>
      */
-    private String getModeUrl(int mode, int width, int height) {
+    public String getModeUrl(int mode, int width, int height) {
         if (width < 0 && height < 0) {
             return "";
         }

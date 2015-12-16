@@ -6,10 +6,11 @@ import android.view.MenuItem;
 
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
-import com.ikaowo.join.modules.company.CompanySys;
+import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.home.HomeSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.message.MessageSys;
+import com.ikaowo.join.modules.user.AddBrandActivity;
 import com.ikaowo.join.modules.user.SigninActivity;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class MainTabActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         toolbar.setTitle(getResources().getString(R.string.app_name));
 //        getNotificationCount();
+
     }
 
     @Override
@@ -39,7 +41,7 @@ public class MainTabActivity extends TabActivity {
         tabList.add(homeTab);
         homeTab.setTabTitleTxtColor(R.color.tab_title);
 
-        BaseSys companyTab = new CompanySys(this, tabContainerLayout, this);
+        BaseSys companyTab = new BrandSys(this, tabContainerLayout, this);
         companyTab.setTabTitleTxtColor(R.color.tab_title);
         tabList.add(companyTab);
 
@@ -60,7 +62,7 @@ public class MainTabActivity extends TabActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        Intent intent = new Intent(MainTabActivity.this, SigninActivity.class);
+        Intent intent = new Intent(MainTabActivity.this, AddBrandActivity.class);
         startActivity(intent);
 
         //noinspection SimplifiableIfStatement

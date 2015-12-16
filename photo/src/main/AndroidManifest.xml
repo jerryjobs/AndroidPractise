@@ -9,8 +9,8 @@
         android:supportsRtl="true">
 
         <activity android:name=".CropPhotoActivity" />
-
         <activity android:name=".TakePhotoActivity" />
+        <activity android:name=".PhotoViewActivity" />
 
     </application>
 

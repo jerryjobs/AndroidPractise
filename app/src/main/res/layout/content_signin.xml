@@ -28,7 +28,7 @@
         android:layout_marginTop="20dp"
         android:inputType="number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="50dp" />
 
     <com.ikaowo.join.modules.user.widget.DeletableEditTextView
         android:id="@+id/passwod_et"
@@ -36,7 +36,7 @@
         app:bottom_line_color="@color/c1"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="50dp" />
 
     <TextView
         android:id="@+id/login_tv"

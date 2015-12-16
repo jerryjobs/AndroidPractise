@@ -23,8 +23,8 @@ public class CropPhotoActivity extends AppCompatActivity {
     private String cropToPath;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         filePath = getIntent().getStringExtra(PhotoUtil.FILE_KEY);
         aspectCrop = getIntent().getBooleanExtra(PhotoUtil.ASPECT_KEY, false);
@@ -60,5 +60,39 @@ public class CropPhotoActivity extends AppCompatActivity {
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path)));
         startActivityForResult(intent, PhotoUtil.REQUEST_CROP_PHOTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PhotoUtil.REQUEST_CROP_PHOTO:
+                if (resultCode == RESULT_CANCELED) {
+                    cancel();
+                } else {
+                    cropSuc(cropToPath);
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // 直接返回数据
+    private void cropSuc(String path) {
+        Intent intent = new Intent();
+        intent.setData(Uri.fromFile(new File(path)));
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        cancel();
+    }
+
+    private void cancel() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 }

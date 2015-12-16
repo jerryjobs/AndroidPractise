@@ -1,8 +1,10 @@
 package com.ikaowo.join.util;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 
 
 /**
@@ -30,5 +32,11 @@ public class ResourceUtil {
         }
 
         return drawable;
+    }
+
+    public static Drawable updateDrawableColor(Context context, int srcDrawable, int color) {
+        final Drawable upArrow = ContextCompat.getDrawable(context, srcDrawable);
+        upArrow.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP);
+        return upArrow;
     }
 }

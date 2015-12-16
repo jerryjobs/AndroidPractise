@@ -43,7 +43,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             startActivityForResult(intent, PhotoUtil.REQUEST_PICK_PHOTO);
         } else {
             try {
-                tmpPicPath = PhotoUtil.getFilePath();
+                tmpPicPath = PhotoUtil.getFilePath() + "/" + System.currentTimeMillis() + ".jpg";
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(tmpPicPath)));
                 startActivityForResult(intent, PhotoUtil.REQUEST_TAKE_PHOTO);
@@ -156,7 +156,6 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         private String saveImgToDisk(Uri uri) throws FileNotFoundException {
             String filePath = tmpPicPath + "/" + System.currentTimeMillis() + ".jpg";
-            ;
             Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
             saveBitmap(filePath, bitmap);
 

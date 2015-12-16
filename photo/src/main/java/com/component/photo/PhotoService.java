@@ -3,12 +3,21 @@ package com.component.photo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+
+import org.json.JSONObject;
 
 /**
  * Created by weibo on 15-12-10.
@@ -17,6 +26,7 @@ public class PhotoService {
 
     private Context context;
     private TakePhotoPopupWindow popupWindow;
+    private UploadManager uploadManager = new UploadManager();
 
     public PhotoService(Context context) {
         this.context = context;
@@ -46,7 +56,7 @@ public class PhotoService {
                     }
                 });
 
-        popupWindow.showAtLocation(attachView, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        popupWindow.showAtLocation(attachView, Gravity.BOTTOM, 0, 0);
     }
 
     // view自定义
@@ -67,7 +77,11 @@ public class PhotoService {
                     }
                 });
 
-        popupWindow.showAtLocation(attachView, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        popupWindow.showAtLocation(attachView, Gravity.BOTTOM, 0, 0);
+    }
+
+    public void takePhoto(Context context, View attachView, final Fragment fragment, boolean aspectCrop) {
+        takePhoto(context, attachView, fragment, aspectCrop, 1, 1);
     }
 
     public void takePhoto(Context context, View attachView, final Fragment fragment) {
@@ -82,10 +96,10 @@ public class PhotoService {
 
     private void startPhoto(boolean selecteSystemPic, Fragment fragment, boolean aspectCrop, int aspectX, int aspectY) {
         Intent intent = new Intent(context, TakePhotoActivity.class);
-        intent.putExtra("aspect", aspectCrop);
+        intent.putExtra(PhotoUtil.ASPECT_KEY, aspectCrop);
         Bundle bundle = new Bundle();
-        bundle.putInt("aspectX", aspectX);
-        bundle.putInt("aspectY", aspectY);
+        bundle.putInt(PhotoUtil.ASPECTX, aspectX);
+        bundle.putInt(PhotoUtil.ASPECTY, aspectY);
         intent.putExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME, bundle);
         if (selecteSystemPic) {
             intent.putExtra(PhotoUtil.PHOTO_ACTION, true);
@@ -101,8 +115,62 @@ public class PhotoService {
             } else {
                 ((Activity)context).startActivityForResult(intent, PhotoUtil.REQUEST_TAKE_PHOTO);
             }
-
         }
     }
 
+    public void onUploadPic(int requestCode, int resultCode, final String key, String token,
+                            Intent data, final UploadFinishInterface uploadFinishInterface) {
+
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+
+        switch (requestCode) {
+            case PhotoUtil.REQUEST_PICK_PHOTO:
+            case PhotoUtil.REQUEST_TAKE_PHOTO:
+                if (TextUtils.isEmpty(key) || TextUtils.isEmpty(token) || data == null) {
+                    return;
+                }
+                final Uri imgUri = data.getData();
+                if (imgUri == null) {
+                    return;
+                }
+
+                try {
+                    final Bitmap bitmap = PicHelper.getBitmap(imgUri.getPath(), 1080);
+                    uploadManager.put(PicHelper.compressImageStream(bitmap).toByteArray(),
+                            key, token, new UpCompletionHandler() {
+                        @Override
+                        public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+                            if (responseInfo.isOK()) {
+                                uploadFinishInterface.onImageLoadFinish(key, imgUri);
+                            } else {
+                                uploadFinishInterface.onImageLoadFailed();
+                            }
+                        }
+                    }, null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    public void viewPhoto(Context context, Uri imgUri) {
+        Intent intent = new Intent(context, PhotoViewActivity.class);
+        intent.putExtra("image", imgUri);
+        context.startActivity(intent);
+    }
+
+    public void viewPhoto(Context context, String imgUrl) {
+        Intent intent = new Intent(context, PhotoViewActivity.class);
+        intent.putExtra("image", imgUrl);
+        context.startActivity(intent);
+    }
+
+    public interface UploadFinishInterface {
+
+        void onImageLoadFinish(String fileName, Uri imgUri);
+        void onImageLoadFailed();
+    }
 }

@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.company;
+package com.ikaowo.join.modules.brand;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import com.ikaowo.join.R;
 /**
  * Created by weibo on 15-12-8.
  */
-public class CompanyFragment extends BaseFragment {
+public class BrandFragment extends BaseFragment {
 
     @Nullable
     @Override

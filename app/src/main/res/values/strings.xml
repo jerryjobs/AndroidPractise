@@ -4,4 +4,5 @@
     <string name="action_add">Settings</string>
     <string name="title_activity_view_image">ViewImageActivity</string>
     <string name="title_activity_main_tab">JOIN</string>
+    <string name="title_activity_add_brand">添加品牌</string>
 </resources>

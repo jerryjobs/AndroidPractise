@@ -28,6 +28,9 @@
         <activity android:name=".modules.user.SigninActivity"
             android:theme="@style/AppTheme.FullScreen"/>
 
+        <activity android:name=".modules.user.AddBrandActivity"
+            android:label="@string/title_activity_add_brand"/>
+
         <!-- Umeng Config -->
         <service
             android:name="com.umeng.update.net.DownloadingService"

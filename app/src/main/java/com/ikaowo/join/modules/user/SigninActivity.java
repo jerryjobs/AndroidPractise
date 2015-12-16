@@ -22,8 +22,7 @@ public class SigninActivity extends BaseActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        displayHomeAsIndicator(R.drawable.nav_ic_close_blue);
     }
 
     @Override

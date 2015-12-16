@@ -1,0 +1,66 @@
+package com.ikaowo.join.modules.user.widget;
+
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.ikaowo.join.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+/**
+ * Created by weibo on 15-12-16.
+ */
+public class CustomEditTextView extends LinearLayout {
+    @Bind(R.id.right_container)
+    LinearLayout containerLayout;
+
+    @Bind(R.id.title)
+    TextView titleView;
+
+    private Context context;
+
+    public CustomEditTextView(Context context) {
+        super(context);
+        this.context = context;
+        init();
+    }
+
+    public CustomEditTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        init();
+    }
+
+    private void init() {
+        LayoutInflater.from(context).inflate(R.layout.widget_custom_edittext, this);
+        ButterKnife.bind(this, this);
+    }
+
+    public void setTitle(String title) {
+        titleView.setText(title);
+    }
+
+    public void addRightView(View view, int color) {
+        if (view == null) {
+            return;
+        }
+
+        view.setBackgroundResource(0);
+        if (color > 0 && view instanceof TextView) {
+            ((TextView)view).setTextColor(ContextCompat.getColor(context, color));
+        }
+
+        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        llp.gravity = Gravity.CENTER_VERTICAL;
+        containerLayout.addView(view, llp);
+    }
+}

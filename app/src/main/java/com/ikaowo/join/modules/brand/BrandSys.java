@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.company;
+package com.ikaowo.join.modules.brand;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -10,15 +10,15 @@ import com.ikaowo.join.R;
 /**
  * Created by weibo on 15-12-8.
  */
-public class CompanySys extends BaseSys {
+public class BrandSys extends BaseSys {
 
-    public CompanySys(Context context, ViewGroup tabContainer, TabListener listener) {
+    public BrandSys(Context context, ViewGroup tabContainer, TabListener listener) {
         super(context, tabContainer, listener);
     }
 
     @Override
     protected JFragment createFragment() {
-        return new CompanyFragment();
+        return new BrandFragment();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CompanySys extends BaseSys {
 
     @Override
     public String getTag() {
-        return "CompanySys";
+        return "BrandSys";
     }
 
     @Override

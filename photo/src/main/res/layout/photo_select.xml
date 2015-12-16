@@ -10,7 +10,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="48dp"
         android:background="#40000000"
         android:orientation="vertical">
 
@@ -27,13 +26,13 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:text="拍照"
-                android:textColor="#666666"
-                android:textSize="20sp" />
+                android:textColor="#333"
+                android:textSize="17sp" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dp"
-                android:background="#cccccc" />
+                android:background="#d4d8d9" />
 
             <Button
                 android:id="@+id/btn_pick_photo"
@@ -43,8 +42,8 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:text="从手机相册选取"
-                android:textColor="#666666"
-                android:textSize="20sp" />
+                android:textColor="#333"
+                android:textSize="17sp" />
 
         </LinearLayout>
 
@@ -62,8 +61,8 @@
                 android:paddingBottom="4dp"
                 android:paddingTop="5dp"
                 android:text="取消"
-                android:textColor="#666666"
-                android:textSize="20sp" />
+                android:textColor="#333"
+                android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
 

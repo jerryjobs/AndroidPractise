@@ -7,4 +7,6 @@
 
     <color name="c1">@color/colorPrimary</color>
     <color name="c2">#ACBABF</color>
+    <color name="c3">#333</color>
+    <color name="c4">#d4d8d9</color>
 </resources>

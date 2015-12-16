@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.common.framework.core.JApplication;
+import com.component.photo.PhotoService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -42,6 +43,8 @@ public class ViewImageActivity extends BaseActivity {
         viewImgBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 JApplication.getImageLoader().loadImage(imageView2, "https://futurestud.io/images/books/picasso.png", -1, new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
