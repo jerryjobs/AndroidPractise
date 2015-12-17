@@ -12,4 +12,5 @@ public abstract class UserService extends JCommonService {
     public abstract void resetPassword(Context context);
     public abstract void goToSignup(Context context);
     public abstract void addBrand(Context context);
+    public abstract void chooseBrandList(Context context);
 }

@@ -37,6 +37,7 @@
         <activity android:name=".modules.user.activity.ResetPasswdActivity"
             android:label="@string/title_activity_resetpasswd" />
 
+        <activity android:name=".modules.user.activity.BrandListActivity" />
         <!-- Umeng Config -->
         <service
             android:name="com.umeng.update.net.DownloadingService"

@@ -127,7 +127,7 @@ public class SignupActivity extends BaseActivity
 
     @OnClick(R.id.brand_name)
     public void chooseBrand() {
-        userService.addBrand(this);
+        userService.chooseBrandList(this);
     }
 
 

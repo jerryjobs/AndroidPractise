@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.user.activity.AddBrandActivity;
+import com.ikaowo.join.modules.user.activity.BrandListActivity;
 import com.ikaowo.join.modules.user.activity.ResetPasswdActivity;
 import com.ikaowo.join.modules.user.activity.SigninActivity;
 import com.ikaowo.join.modules.user.activity.SignupActivity;
@@ -35,6 +36,12 @@ public class UserServiceImpl extends UserService {
     @Override
     public void addBrand(Context context) {
         Intent intent = new Intent(context, AddBrandActivity.class);
+        JApplication.getJContext().startActivity(context, intent);
+    }
+
+    @Override
+    public void chooseBrandList(Context context) {
+        Intent intent = new Intent(context, BrandListActivity.class);
         JApplication.getJContext().startActivity(context, intent);
     }
 
