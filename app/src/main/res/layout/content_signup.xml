@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".modules.user.activity.SignupActivity"
+    tools:showIn="@layout/activity_signup">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <com.ikaowo.join.modules.user.widget.CustomEditTextView
+            android:id="@+id/brand_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <com.ikaowo.join.modules.user.widget.CustomEditTextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <com.ikaowo.join.modules.user.widget.CustomEditTextView
+            android:id="@+id/user_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+
+        <com.ikaowo.join.modules.user.widget.CustomEditTextView
+            android:id="@+id/user_card"
+            android:layout_width="match_parent"
+            app:show_split="false"
+            android:layout_height="70dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/c5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:hint="@string/phone"/>
+
+        <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+            android:id="@+id/verify_code"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:show_delete_icon="false"
+            android:textSize="14sp"
+            android:hint="@string/verify_code"/>
+
+        <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:hint="@string/password"/>
+    </LinearLayout>
+</LinearLayout>

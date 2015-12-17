@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
 
-        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlNormal">@color/c4</item>
         <item name="colorControlActivated">@color/c1</item>
         <item name="colorControlHighlight">@color/c1</item>
         <!--<item name="colorControlNormal">@android:color/darker_gray</item>

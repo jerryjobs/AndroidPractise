@@ -6,12 +6,13 @@ import android.view.MenuItem;
 
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
+import com.common.framework.core.JApplication;
+import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.home.HomeSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.message.MessageSys;
-import com.ikaowo.join.modules.user.AddBrandActivity;
-import com.ikaowo.join.modules.user.SigninActivity;
+import com.ikaowo.join.modules.user.activity.SigninActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 public class MainTabActivity extends TabActivity {
 
+    private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     @Override
     public void onCreate(Bundle savedInstanceState) {
 //        notificatonStyle = NotificatonStyle.Badge;
@@ -62,8 +64,7 @@ public class MainTabActivity extends TabActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        Intent intent = new Intent(MainTabActivity.this, AddBrandActivity.class);
-        startActivity(intent);
+        userService.goToSignin(this);
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

@@ -5,4 +5,21 @@
     <string name="title_activity_view_image">ViewImageActivity</string>
     <string name="title_activity_main_tab">JOIN</string>
     <string name="title_activity_add_brand">添加品牌</string>
+    <string name="title_activity_resetpasswd">密码重置</string>
+
+    <string name="brand_name">品牌名称</string>
+    <string name="input_hint">请输入</string>
+    <string name="licence">营业执照</string>
+    <string name="phone">手机号码</string>
+    <string name="verify_code">验证码</string>
+    <string name="password">密码</string>
+    <string name="user_name">姓名</string>
+    <string name="user_title">职位</string>
+    <string name="user_card">工牌/名片</string>
+    <string name="title_activity_signup">注册</string>
+    <string name="choose_hint">请选择</string>
+    <string name="forget_passwd">忘记了您的密码?</string>
+    <string name="login">登 录</string>
+    <string name="signup">新用户注册</string>
+
 </resources>

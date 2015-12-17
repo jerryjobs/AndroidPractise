@@ -2,7 +2,10 @@ package com.ikaowo.join;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JContext;
+import com.common.framework.model.JServiceInfo;
 import com.common.framework.network.NetworkManager;
+import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.modules.user.service.UserServiceImpl;
 import com.ikaowo.join.network.QiniuInterface;
 import com.ikaowo.join.network.TestInterface;
 
@@ -13,7 +16,7 @@ public class KwMarketApplication extends JApplication {
 
     @Override
     public void registerService(JContext context) {
-
+        context.registerService(JServiceInfo.createServiceInfo(UserService.class, new UserServiceImpl()));
     }
 
     @Override

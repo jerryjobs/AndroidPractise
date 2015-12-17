@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ikaowo.join.MainActivity"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp"
     tools:showIn="@layout/activity_signin">
 
     <TextView
@@ -23,36 +23,46 @@
 
     <com.ikaowo.join.modules.user.widget.DeletableEditTextView
         android:id="@+id/name_et"
-        android:hint="手机号码"
+        android:hint="@string/phone"
         app:bottom_line_color="@color/c1"
         android:layout_marginTop="20dp"
         android:inputType="number"
+        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
     <com.ikaowo.join.modules.user.widget.DeletableEditTextView
         android:id="@+id/passwod_et"
-        android:hint="密码"
+        android:hint="@string/password"
         app:bottom_line_color="@color/c1"
         android:layout_marginTop="20dp"
+        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/resetpasswd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/forget_passwd"/>
 
     <TextView
         android:id="@+id/login_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="30dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textSize="18sp"
         android:background="@drawable/btn_bg_dark"
         android:textColor="@android:color/white"
-        android:text="登  录"/>
+        android:text="@string/login"/>
 
     <TextView
-        android:id="@+id/reg_tv"
+        android:id="@+id/signup_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -61,6 +71,6 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textColor="@color/c1"
-        android:text="新用户注册"/>
+        android:text="@string/signup"/>
 
 </LinearLayout>

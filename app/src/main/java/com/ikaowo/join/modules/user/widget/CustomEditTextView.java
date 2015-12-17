@@ -1,6 +1,7 @@
 package com.ikaowo.join.modules.user.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -21,9 +22,10 @@ import butterknife.ButterKnife;
 public class CustomEditTextView extends LinearLayout {
     @Bind(R.id.right_container)
     LinearLayout containerLayout;
-
     @Bind(R.id.title)
     TextView titleView;
+    @Bind(R.id.splite_view)
+    View splitView;
 
     private Context context;
 
@@ -37,6 +39,10 @@ public class CustomEditTextView extends LinearLayout {
         super(context, attrs);
         this.context = context;
         init();
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomEditTextView);
+        boolean showSplit = typedArray.getBoolean(R.styleable.CustomEditTextView_show_split, true);
+        splitView.setVisibility(showSplit ? VISIBLE : INVISIBLE);
     }
 
     private void init() {

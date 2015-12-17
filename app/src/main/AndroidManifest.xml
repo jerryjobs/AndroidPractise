@@ -25,11 +25,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".modules.user.SigninActivity"
+        <activity android:name=".modules.user.activity.SigninActivity"
             android:theme="@style/AppTheme.FullScreen"/>
 
-        <activity android:name=".modules.user.AddBrandActivity"
+        <activity android:name=".modules.user.activity.AddBrandActivity"
             android:label="@string/title_activity_add_brand"/>
+
+        <activity android:name=".modules.user.activity.SignupActivity"
+            android:label="@string/title_activity_signup" />
+
+        <activity android:name=".modules.user.activity.ResetPasswdActivity"
+            android:label="@string/title_activity_resetpasswd" />
 
         <!-- Umeng Config -->
         <service

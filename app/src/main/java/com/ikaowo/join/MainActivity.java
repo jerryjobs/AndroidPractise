@@ -14,7 +14,7 @@ import com.common.framework.network.NetworkManager;
 import com.common.framework.umeng.UmengService;
 import com.common.framework.umeng.UmengShareService;
 import com.component.photo.PhotoService;
-import com.ikaowo.join.modules.user.SigninActivity;
+import com.ikaowo.join.modules.user.activity.SigninActivity;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.TestInterface;
 import com.ikaowo.join.network.bean.request.LoginRequest;

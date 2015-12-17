@@ -1,6 +1,7 @@
 package com.ikaowo.join.modules.user.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatEditText;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 
 import com.ikaowo.join.R;
 import com.ikaowo.join.util.ResourceUtil;
@@ -18,7 +20,8 @@ import com.ikaowo.join.util.ResourceUtil;
  */
 public class DeletableEditTextView extends AppCompatEditText implements View.OnFocusChangeListener {
     private Drawable deleteIconDrawable;
-
+    private TextChangeListener textChangeListener;
+    private boolean showDeleteIcon;
 
     public DeletableEditTextView(Context context) {
         super(context);
@@ -36,7 +39,12 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
     }
 
     private void init(Context context, AttributeSet attrs) {
-        deleteIconDrawable = ResourceUtil.updateDrawableColor(context, R.drawable.abc_ic_clear_mtrl_alpha, android.R.color.darker_gray);
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DeletableEditTextView);
+        showDeleteIcon = typedArray.getBoolean(R.styleable.DeletableEditTextView_show_delete_icon, true);
+
+        deleteIconDrawable = ResourceUtil.updateDrawableColor(
+                context, R.drawable.abc_ic_clear_mtrl_alpha, android.R.color.darker_gray);
 
         addTextChangedListener(new TextWatcher() {
 
@@ -53,11 +61,18 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
             @Override
             public void afterTextChanged(Editable s) {
                 showOrHideDeleteDrawable();
+                if (textChangeListener != null) {
+                    textChangeListener.onChanged(s);
+                }
             }
         });
     }
 
     private void showOrHideDeleteDrawable() {
+        if (!showDeleteIcon) {
+            return;
+        }
+
         if (length() == 0) {
             setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         } else {
@@ -65,7 +80,9 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
         }
     }
 
-
+    public void setTextChangeListener(TextChangeListener listener) {
+        this.textChangeListener = listener;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -101,5 +118,9 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
         } else {
             setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
+    }
+
+    public interface TextChangeListener {
+        void onChanged(Editable s);
     }
 }

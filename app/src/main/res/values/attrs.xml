@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DeletableEditTextView">
-        <attr name="bottom_line_color" format="color"></attr>
+        <attr name="show_delete_icon" format="boolean"></attr>
 
     </declare-styleable>
     <declare-styleable name="CustomEditTextView">
-        <attr name="custom_view" format="reference"></attr>
+        <attr name="show_split" format="boolean"></attr>
+        <attr name="bottom_line_color" format="boolean"></attr>
     </declare-styleable>
 </resources>

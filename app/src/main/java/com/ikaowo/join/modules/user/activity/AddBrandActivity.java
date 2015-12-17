@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.user;
+package com.ikaowo.join.modules.user.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +18,7 @@ import com.common.framework.network.NetworkManager;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.QiniuInterface;
@@ -45,8 +46,10 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
 
     private PhotoService photoService = new PhotoService(AddBrandActivity.this);
     private NetworkManager networkManager = JApplication.getNetworkManager();
+    private InputFiledHelper inputHelper = new InputFiledHelper();
 
-    private ImageView licenceIv;
+    private ImageView brandLicenceIv;
+    private EditText brandNameEt;
     private Uri licenceImgUri, iconImgUri;
     private ClickPos clickPos;
     private String brandName;
@@ -60,6 +63,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_branch);
         ButterKnife.bind(this);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -70,11 +74,8 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     }
 
     private void setupEditText() {
-        brandNameTv.setTitle("品牌名称");
-        EditText editText = new EditText(this);
-        editText.setTextSize(14);
-        editText.setHint("请输入");
-        editText.addTextChangedListener(new TextWatcher() {
+        brandNameTv.setTitle(getString(R.string.brand_name));
+        brandNameEt = inputHelper.getEditText(this, R.string.input_hint, new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -91,12 +92,11 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
                 invalidateOptionsMenu();
             }
         });
-        //editText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        brandNameTv.addRightView(editText, R.color.c1);
+        brandNameTv.addRightView(brandNameEt, R.color.c1);
 
-        licenceIv = new ImageView(this);
-        licenceIv.setImageResource(R.drawable.register_uppic);
-        licenceIv.setOnClickListener(new View.OnClickListener() {
+        brandLicenceIv = new ImageView(this);
+        brandLicenceIv.setImageResource(R.drawable.register_uppic);
+        brandLicenceIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideInput(AddBrandActivity.this, toolbar);
@@ -108,7 +108,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
                 }
             }
         });
-        brandLicenceTv.setTitle("营业执照");
+        brandLicenceTv.setTitle(getString(R.string.licence));
         brandLicenceTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,11 +117,11 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
                 photoService.takePhoto(AddBrandActivity.this, toolbar, null, true);
             }
         });
-        brandLicenceTv.addRightView(licenceIv, 0);
+        brandLicenceTv.addRightView(brandLicenceIv, 0);
     }
 
     private void setOptionMenu() {
-        menuResId = R.menu.menu_add_brand;
+        menuResId = R.menu.menu_add_submit;
         invalidateOptionsMenu();
     }
 
@@ -170,8 +170,8 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
             invalidateOptionsMenu();
             switch (clickPos) {
                 case BRAND_LICENCE:
-                    targetIv = licenceIv;
-                    licenceIv.setTag(imageServerUrl + fileName);
+                    targetIv = brandLicenceIv;
+                    brandLicenceIv.setTag(imageServerUrl + fileName);
                     width = JApplication.getJContext().dip2px(48);
                     height = JApplication.getJContext().dip2px(48);
                     licenceImgUri = imgUri;
