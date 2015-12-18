@@ -28,6 +28,7 @@ public class BrandListActivity extends BaseFragmentActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.title_activity_brand_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setFragment();

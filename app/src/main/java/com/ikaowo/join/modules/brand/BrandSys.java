@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JFragment;
 import com.ikaowo.join.R;
+import com.ikaowo.join.modules.user.fragment.BrandListFragment;
 
 /**
  * Created by weibo on 15-12-8.
@@ -18,7 +19,7 @@ public class BrandSys extends BaseSys {
 
     @Override
     protected JFragment createFragment() {
-        return new BrandFragment();
+        return new BrandListFragment();
     }
 
     @Override

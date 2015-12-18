@@ -47,7 +47,7 @@ public abstract class JFragmentActivity extends AppCompatActivity {
 
     protected abstract String getTag();
 
-    protected void hideInput(Context context, View view) {
+    public void hideInput(Context context, View view) {
         /**
          * solve:
          * Attempt to invoke virtual method 'android.os.IBinder android.view.View.getWindowToken()'

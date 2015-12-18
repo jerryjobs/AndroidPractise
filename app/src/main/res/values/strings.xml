@@ -6,6 +6,7 @@
     <string name="title_activity_main_tab">JOIN</string>
     <string name="title_activity_add_brand">添加品牌</string>
     <string name="title_activity_resetpasswd">密码重置</string>
+    <string name="title_activity_brand_list">选择品牌</string>
 
     <string name="brand_name">品牌名称</string>
     <string name="input_hint">请输入</string>
@@ -21,5 +22,6 @@
     <string name="forget_passwd">忘记了您的密码?</string>
     <string name="login">登 录</string>
     <string name="signup">新用户注册</string>
+    <string name="brand_query_hint">搜索公司或产品名，搜不到可以点击右上角录入</string>
 
 </resources>

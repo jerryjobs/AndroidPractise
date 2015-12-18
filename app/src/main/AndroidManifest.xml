@@ -18,7 +18,8 @@
 
         <activity
             android:name="com.ikaowo.join.MainTabActivity"
-            android:label="@string/title_activity_main_tab">
+            android:label="@string/title_activity_main_tab"
+            android:windowSoftInputMode = "adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,7 +38,8 @@
         <activity android:name=".modules.user.activity.ResetPasswdActivity"
             android:label="@string/title_activity_resetpasswd" />
 
-        <activity android:name=".modules.user.activity.BrandListActivity" />
+        <activity android:name=".modules.user.activity.BrandListActivity"
+            android:windowSoftInputMode = "adjustPan"/>
         <!-- Umeng Config -->
         <service
             android:name="com.umeng.update.net.DownloadingService"

@@ -19,11 +19,12 @@ import java.util.Map;
 
 public class MainTabActivity extends TabActivity {
 
-    private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+    private UserService userService;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 //        notificatonStyle = NotificatonStyle.Badge;
         super.onCreate(savedInstanceState);
+        userService = JApplication.getJContext().getServiceByInterface(UserService.class);
         toolbar.setTitle(getResources().getString(R.string.app_name));
 //        getNotificationCount();
 
