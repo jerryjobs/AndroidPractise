@@ -1,17 +1,25 @@
 package com.ikaowo.join.modules.user.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JFragmentActivity;
 import com.common.framework.model.JResponse;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.common.framework.widget.listview.RecyclerViewHelperInterface;
@@ -35,7 +43,8 @@ import retrofit.Callback;
 /**
  * Created by weibo on 15-12-18.
  */
-public class BrandListFragment extends BaseFragment implements AlphaSlideBar.OnTouchingLetterChangedListener {
+public class BrandListFragment extends BaseFragment
+        implements AlphaSlideBar.OnTouchingLetterChangedListener {
 
     @Bind(R.id.indicator)
     TextView indicatorTv;
@@ -43,44 +52,117 @@ public class BrandListFragment extends BaseFragment implements AlphaSlideBar.OnT
     AlphaSlideBar slideBar;
     @Bind(R.id.listview)
     ScrollMoreRecyclerView recyclerView;
+    @Bind(R.id.search_listview)
+    ScrollMoreRecyclerView searchRecyclerView;
+    @Bind(R.id.search_view)
+    SearchView searchView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerViewHelper<BrandListResponse> recyclerViewHelper = new RecyclerViewHelper<>();
     private Map<String, Integer> map = new HashMap<>();
     private String firstLetter = null;
+    private RecyclerViewHelper<BrandListResponse> recyclerViewHelper;
+    private RecyclerViewHelper<BrandListResponse> searchRecyclerViewHelper;
+    private String queryStr;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        recyclerViewHelper = new RecyclerViewHelper<>();
+        searchRecyclerViewHelper = new RecyclerViewHelper<>();
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_brand_list, null);
         ButterKnife.bind(this, view);
         slideBar.setOnTouchingLetterChangedListener(this);
+        slideBar.getParent().requestDisallowInterceptTouchEvent(true);
         return view;
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        recyclerViewHelper.init(recyclerView, new BrandListAdapter(), null);
+        setupView();
+    }
+
+    private void setupView() {
+        final AutoCompleteTextView searchText
+                = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+        searchText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        setupSearchView(searchView);
+        setupRecyclerView(recyclerView, false, recyclerViewHelper);
+        setupRecyclerView(searchRecyclerView, true, searchRecyclerViewHelper);
+    }
+
+
+    private void setupSearchView(final SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String query) {
+
+                slideBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                searchRecyclerView.setVisibility(View.VISIBLE);
+                queryStr = query;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        searchRecyclerViewHelper.sendRequestAndProcess(
+                                RecyclerViewHelper.Action.REFRESH);
+                        searchView.clearFocus();
+                        ((JFragmentActivity)getActivity()).hideInput(getActivity(), searchView);
+                    }
+                }, 100);
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (TextUtils.isEmpty(newText)) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    searchRecyclerView.setVisibility(View.GONE);
+                    slideBar.setVisibility(View.VISIBLE);
+                }
+                return false;
+            }
+        });
+    }
+
+    /**
+     *
+     * @param recyclerView
+     * @param search 是否为搜索页面的recyclerview
+     */
+    private void setupRecyclerView(ScrollMoreRecyclerView recyclerView, final boolean search,
+                                   final RecyclerViewHelper<BrandListResponse> recyclerViewHelper) {
+
+        recyclerViewHelper.init(recyclerView, new BrandListAdapter(), swipeRefreshLayout);
         recyclerViewHelper.initEmptyView(0, "暂无品牌信息");
-        recyclerViewHelper.supportLoadMore(false);
-        recyclerViewHelper.setHelperInterface(new RecyclerViewHelperInterface<BrandListResponse, Brand>() {
+        recyclerViewHelper.supportLoadMore(search);
+        recyclerViewHelper.setHelperInterface(
+                new RecyclerViewHelperInterface<BrandListResponse, Brand>() {
 
             @Override
             public boolean checkResponse(JResponse baseResponse) {
                 return baseResponse != null&&
                         ((baseResponse instanceof BrandListResponse)
-                            && (((BrandListResponse)baseResponse).data) != null);
+                                && (((BrandListResponse)baseResponse).data) != null);
             }
 
             @Override
             public List<Brand> getList(BrandListResponse brandListResponse) {
                 List<Brand> brandList = brandListResponse.data;
                 int length = brandList.size();
+                if (search) {
+                    return brandListResponse.data;
+                }
                 for (int i = 0; i < length; i ++) {
                     firstLetter = brandList.get(i).brandFirstLetter;
                     switch (i) {
@@ -90,7 +172,8 @@ public class BrandListFragment extends BaseFragment implements AlphaSlideBar.OnT
                             break;
                         default:
                             firstLetter = brandList.get(i).brandFirstLetter;
-                            boolean showSection = (!firstLetter.equalsIgnoreCase(brandList.get(i - 1).brandFirstLetter));
+                            boolean showSection = (!firstLetter
+                                    .equalsIgnoreCase(brandList.get(i - 1).brandFirstLetter));
                             brandList.get(i).showSection = showSection;
                             brandList.get(i - 1).hideSplit = showSection;
                             if (showSection) {
@@ -104,8 +187,14 @@ public class BrandListFragment extends BaseFragment implements AlphaSlideBar.OnT
 
             @Override
             public void sendRequest(Callback<BrandListResponse> callback, int cp, int ps) {
-                BrandInterface brandNetworkService = JApplication.getNetworkManager().getServiceByClass(BrandInterface.class);
-                Call<BrandListResponse> call  = brandNetworkService.getBrandList();
+                BrandInterface brandNetworkService = JApplication.getNetworkManager()
+                        .getServiceByClass(BrandInterface.class);
+                Call<BrandListResponse> call;
+                if (search) {
+                    call =brandNetworkService.searchBrand("2", queryStr, cp, ps);
+                } else {
+                    call =brandNetworkService.getBrandList();
+                }
                 call.enqueue(callback);
             }
 
@@ -114,7 +203,10 @@ public class BrandListFragment extends BaseFragment implements AlphaSlideBar.OnT
 
             }
         });
-        recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
+
+        if (!search) {
+            recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
+        }
     }
 
     @Override
@@ -163,20 +255,21 @@ public class BrandListFragment extends BaseFragment implements AlphaSlideBar.OnT
                         viewHodler.sectionTv.setVisibility(View.GONE);
                     }
 
-                    viewHodler.sectionSplitView.setVisibility(brand.hideSplit ? View.INVISIBLE : View.VISIBLE);
+                    viewHodler.sectionSplitView.setVisibility(
+                            brand.hideSplit ? View.INVISIBLE : View.VISIBLE);
 
                     JApplication.getImageLoader().loadImage(
                             viewHodler.iconIv,
                             brand.brandLogo,
                             JApplication.getJContext().dip2px(64),
                             JApplication.getJContext().dip2px(48),
-                            R.drawable.umeng_socialize_default_avatar);
+                            R.drawable.brand_icon_default);
                 }
             }
         }
     }
 
-    public class BrandListViewHodler extends RecyclerViewHelper.JListViewHolder {
+    public class BrandListViewHodler extends RecyclerView.ViewHolder {
         @Bind(R.id.brand_icon)
         ImageView iconIv;
         @Bind(R.id.brand_name)

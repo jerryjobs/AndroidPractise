@@ -2,6 +2,7 @@ package com.common.framework.widget.listview;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ public class RecyclerViewHelper<T extends JResponse> {
     protected int cp;//
     protected int ps = 10;
 
-    private static RecyclerViewHelperInterface helperInterface;
+    private RecyclerViewHelperInterface helperInterface;
     private ScrollMoreRecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private GetDataListener listener;
@@ -71,8 +72,13 @@ public class RecyclerViewHelper<T extends JResponse> {
     public void initEmptyView(int drawId, String hint) {
         View emptyView = LayoutInflater.from(JApplication.getInstance().getApplicationContext())
                 .inflate(R.layout.view_empty, null);
-        ((ImageView) emptyView.findViewById(R.id.kw_common_emptyview_icon)).setImageResource(drawId);
-        ((TextView) emptyView.findViewById(R.id.kw_common_emptyview_text)).setText(hint);
+        if (drawId > 0) {
+            ((ImageView) emptyView.findViewById(R.id.kw_common_emptyview_icon)).setImageResource(drawId);
+        }
+
+        if (!TextUtils.isEmpty(hint)) {
+            ((TextView) emptyView.findViewById(R.id.kw_common_emptyview_text)).setText(hint);
+        }
         recyclerView.setEmptyView(emptyView);
     }
 
@@ -162,7 +168,7 @@ public class RecyclerViewHelper<T extends JResponse> {
         void onStop();
     }
 
-    public static class JListViewHolder extends RecyclerView.ViewHolder
+    public class JListViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         public JListViewHolder(View itemView) {
@@ -182,6 +188,5 @@ public class RecyclerViewHelper<T extends JResponse> {
         public boolean onLongClick(View v) {
             return false;
         }
-
     }
 }
