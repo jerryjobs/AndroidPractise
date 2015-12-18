@@ -1,4 +1,4 @@
-package com.ikaowo.join.network.bean.base;
+package com.ikaowo.join.model.base;
 
 import com.common.framework.model.JResponse;
 import com.google.gson.annotations.SerializedName;

@@ -1,4 +1,4 @@
-package com.ikaowo.join.network.bean.response;
+package com.ikaowo.join.model.response;
 
 import java.io.Serializable;
 

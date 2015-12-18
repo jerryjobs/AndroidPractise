@@ -1,4 +1,4 @@
-package com.ikaowo.join.network.bean.base;
+package com.ikaowo.join.model.base;
 
 /**
  * Created by weibo on 14/5/15.

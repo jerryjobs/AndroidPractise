@@ -47,9 +47,8 @@ public class AlphaSlideBar extends View {
         for (int i = 0; i < alphas.length; i++) {
             paint.setColor(ContextCompat.getColor(getContext(), R.color.c7));
             // paint.setColor(Color.WHITE);
-            paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
-            paint.setTextSize(40);
+            paint.setTextSize(36);
             // 选中的状态
             if (i == choosedPos) {
                 paint.setColor(ContextCompat.getColor(getContext(), R.color.c7));

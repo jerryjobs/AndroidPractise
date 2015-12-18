@@ -1,8 +1,8 @@
-package com.ikaowo.join.network.bean.response;
+package com.ikaowo.join.model.response;
 
 import com.google.gson.annotations.SerializedName;
-import com.ikaowo.join.network.bean.Expert;
-import com.ikaowo.join.network.bean.base.BaseListResponse;
+import com.ikaowo.join.model.Expert;
+import com.ikaowo.join.model.base.BaseListResponse;
 
 import java.io.Serializable;
 import java.util.List;

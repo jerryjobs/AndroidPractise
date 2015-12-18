@@ -6,6 +6,7 @@ import com.common.framework.model.JServiceInfo;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.user.service.UserServiceImpl;
+import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.QiniuInterface;
 import com.ikaowo.join.network.TestInterface;
 
@@ -23,6 +24,7 @@ public class KwMarketApplication extends JApplication {
     public void registerNetworkService(NetworkManager networkManager) {
         networkManager.registerService(TestInterface.class);
         networkManager.registerService(QiniuInterface.class);
+        networkManager.registerService(BrandInterface.class);
     }
 
     @Override

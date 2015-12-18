@@ -17,9 +17,9 @@ import com.component.photo.PhotoService;
 import com.ikaowo.join.modules.user.activity.SigninActivity;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.TestInterface;
-import com.ikaowo.join.network.bean.request.LoginRequest;
-import com.ikaowo.join.network.bean.response.LoginResponse;
-import com.ikaowo.join.network.bean.response.UserInfoResponse;
+import com.ikaowo.join.model.request.LoginRequest;
+import com.ikaowo.join.model.response.LoginResponse;
+import com.ikaowo.join.model.response.UserInfoResponse;
 
 import retrofit.Call;
 import retrofit.Callback;

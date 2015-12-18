@@ -25,8 +25,8 @@ import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.QiniuInterface;
-import com.ikaowo.join.network.bean.BrandInfo;
-import com.ikaowo.join.network.bean.response.TokenResponse;
+import com.ikaowo.join.model.BrandInfo;
+import com.ikaowo.join.model.response.TokenResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;

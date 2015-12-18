@@ -2,7 +2,7 @@ package com.ikaowo.join.network;
 
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.util.JToast;
-import com.ikaowo.join.network.bean.base.BaseResponse;
+import com.ikaowo.join.model.base.BaseResponse;
 import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;

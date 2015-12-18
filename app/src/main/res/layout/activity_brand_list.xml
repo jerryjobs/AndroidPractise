@@ -21,6 +21,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_brand_list" />
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_height="match_parent" />
 
 </android.support.design.widget.CoordinatorLayout>

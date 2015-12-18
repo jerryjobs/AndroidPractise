@@ -1,8 +1,8 @@
 package com.ikaowo.join.network;
 
-import com.ikaowo.join.network.bean.request.LoginRequest;
-import com.ikaowo.join.network.bean.response.LoginResponse;
-import com.ikaowo.join.network.bean.response.UserInfoResponse;
+import com.ikaowo.join.model.request.LoginRequest;
+import com.ikaowo.join.model.response.LoginResponse;
+import com.ikaowo.join.model.response.UserInfoResponse;
 
 import retrofit.Call;
 import retrofit.http.Body;

@@ -1,6 +1,5 @@
 package com.ikaowo.join;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,7 +11,6 @@ import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.home.HomeSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.message.MessageSys;
-import com.ikaowo.join.modules.user.activity.SigninActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package com.ikaowo.join.network;
 
-import com.ikaowo.join.network.bean.response.TokenResponse;
+import com.ikaowo.join.model.response.TokenResponse;
 
 import java.util.Map;
 

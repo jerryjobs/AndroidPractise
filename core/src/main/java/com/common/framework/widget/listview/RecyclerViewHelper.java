@@ -25,10 +25,10 @@ public class RecyclerViewHelper<T extends JResponse> {
     protected int cp;//
     protected int ps = 10;
 
+    private static RecyclerViewHelperInterface helperInterface;
     private ScrollMoreRecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private GetDataListener listener;
-    private RecyclerViewHelperInterface helperInterface;
     private JAdapter<T> adapter;
     private Callback<T> callback;
 
@@ -57,12 +57,14 @@ public class RecyclerViewHelper<T extends JResponse> {
         };
 
         this.swipeRefreshLayout = swipeRefreshLayout;
-        this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData(Action.REFRESH);
-            }
-        });
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    getData(Action.REFRESH);
+                }
+            });
+        }
     }
 
     //step #2
@@ -120,6 +122,9 @@ public class RecyclerViewHelper<T extends JResponse> {
     }
 
     private void startRefresh(final boolean start) {
+        if (swipeRefreshLayout == null ) {
+            return;
+        }
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -157,7 +162,7 @@ public class RecyclerViewHelper<T extends JResponse> {
         void onStop();
     }
 
-    public class JListViewHolder extends RecyclerView.ViewHolder
+    public static class JListViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         public JListViewHolder(View itemView) {
@@ -177,5 +182,6 @@ public class RecyclerViewHelper<T extends JResponse> {
         public boolean onLongClick(View v) {
             return false;
         }
+
     }
 }
