@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +93,7 @@ public class BrandListFragment extends BaseFragment
     private void setupView() {
         final AutoCompleteTextView searchText
                 = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+
         searchText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         setupSearchView(searchView);
         setupRecyclerView(recyclerView, false, recyclerViewHelper);
@@ -149,6 +149,7 @@ public class BrandListFragment extends BaseFragment
         recyclerViewHelper.setHelperInterface(
                 new RecyclerViewHelperInterface<BrandListResponse, Brand>() {
 
+
             @Override
             public boolean checkResponse(JResponse baseResponse) {
                 return baseResponse != null&&
@@ -189,6 +190,7 @@ public class BrandListFragment extends BaseFragment
             public void sendRequest(Callback<BrandListResponse> callback, int cp, int ps) {
                 BrandInterface brandNetworkService = JApplication.getNetworkManager()
                         .getServiceByClass(BrandInterface.class);
+
                 Call<BrandListResponse> call;
                 if (search) {
                     call =brandNetworkService.searchBrand("2", queryStr, cp, ps);
