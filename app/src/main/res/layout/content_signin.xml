@@ -29,6 +29,8 @@
         android:inputType="number"
         android:textSize="14sp"
         android:layout_width="match_parent"
+        android:maxLength="11"
+        android:maxLines="1"
         android:layout_height="50dp" />
 
     <com.ikaowo.join.modules.user.widget.DeletableEditTextView
@@ -37,6 +39,7 @@
         app:bottom_line_color="@color/c1"
         android:layout_marginTop="20dp"
         android:textSize="14sp"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 

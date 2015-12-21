@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +19,9 @@ import com.common.framework.network.NetworkManager;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.eventbus.AddBrandCallback;
+import com.ikaowo.join.eventbus.ClosePageCallback;
+import com.ikaowo.join.model.Brand;
 import com.ikaowo.join.model.response.TokenResponse;
 import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
@@ -31,6 +35,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -135,6 +140,39 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
   public boolean onPrepareOptionsMenu(Menu menu) {
     menu.getItem(0).setEnabled(!TextUtils.isEmpty(brandName) && iconImgUri != null && licenceImgUri != null);
     return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_submit:
+        submit();
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void submit() {
+    final Brand brand = new Brand();
+    brand.brand_name = brandName;
+    brand.company_icon = brandLicenceIv.getTag().toString();
+    brand.brand_logo = brandIconIv.getTag().toString();
+
+    EventBus.getDefault().post(new AddBrandCallback() {
+      @Override
+      public Brand addBrand() {
+        return brand;
+      }
+    });
+
+
+    EventBus.getDefault().post(new ClosePageCallback() {
+      @Override
+      public boolean close() {
+        return true;
+      }
+    });
+    finish();
   }
 
   @Override

@@ -3,32 +3,43 @@ package com.ikaowo.join.modules.user.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
+import com.common.framework.network.NetworkCallback;
 import com.common.framework.network.NetworkManager;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.AddBrandCallback;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
+import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.model.Brand;
 import com.ikaowo.join.model.BrandInfo;
+import com.ikaowo.join.model.request.SignupRequest;
+import com.ikaowo.join.model.response.SignupResponse;
 import com.ikaowo.join.model.response.TokenResponse;
 import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.QiniuInterface;
+import com.ikaowo.join.network.UserInterface;
+import com.ikaowo.join.util.SharedPreferenceHelper;
+import com.ikaowo.join.util.VerifyCodeHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -37,6 +48,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -56,6 +68,8 @@ public class SignupActivity extends BaseEventBusActivity
   DeletableEditTextView phoneEt;
   @Bind(R.id.verify_code)
   DeletableEditTextView verifyCodeEt;
+  @Bind(R.id.verify_btn)
+  TextView getVerifyBtn;
   @Bind(R.id.password)
   DeletableEditTextView passwordEt;
 
@@ -68,9 +82,9 @@ public class SignupActivity extends BaseEventBusActivity
   private NetworkManager networkManager = JApplication.getNetworkManager();
   private InputFiledHelper inputHelper = new InputFiledHelper();
   private PhotoService photoService = new PhotoService(SignupActivity.this);
+  private VerifyCodeHelper verifyCodeHelper;
+  private SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
 
-  private int brandId;
-  private BrandInfo brandInfo;
   private String userName;
   private String userTitle;
   private String userCardUrl;
@@ -78,6 +92,7 @@ public class SignupActivity extends BaseEventBusActivity
   private String verifyCode;
   private String password;
   private String imageServerUrl;
+  private Uri imageUri;
   private Brand choosedBrand;
 
   @Override
@@ -92,15 +107,24 @@ public class SignupActivity extends BaseEventBusActivity
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
 
-    setupEditText();
-    setOptionMenu();
+    setupView();
+    setupOptionMenu();
   }
 
 
-  private void setupEditText() {
+  private void setupView() {
+    phoneEt.addTextChangedListener(this);
+    verifyCodeEt.addTextChangedListener(this);
+    passwordEt.addTextChangedListener(this);
+    passwordEt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+    verifyCodeHelper = new VerifyCodeHelper(this, phoneEt, getVerifyBtn);
+    verifyCodeHelper.initVerifyBtn();
+
     brandNameTv.setTitle(getString(R.string.brand_name));
     brandNameEt = inputHelper.getTextView(this, R.string.choose_hint);
     brandNameEt.setFocusable(false);
+    brandNameEt.setTextColor(ContextCompat.getColor(this, R.color.c1));
     brandNameTv.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -120,10 +144,23 @@ public class SignupActivity extends BaseEventBusActivity
     userCardTv.setTitle(getString(R.string.user_card));
     userCardIv = new ImageView(this);
     userCardIv.setImageResource(R.drawable.register_uppic);
+
+    userCardIv.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (imageUri != null) {
+          photoService.viewPhoto(SignupActivity.this, imageUri);
+        } else if (!TextUtils.isEmpty(imageServerUrl)) {
+          photoService.viewPhoto(SignupActivity.this, imageServerUrl);
+        } else {
+          photoService.takePhoto(SignupActivity.this, toolbar, null, true);;
+        }
+      }
+    });
     userCardTv.addRightView(userCardIv, 0);
   }
 
-  private void setOptionMenu() {
+  private void setupOptionMenu() {
     menuResId = R.menu.menu_add_submit;
     invalidateOptionsMenu();
   }
@@ -134,20 +171,81 @@ public class SignupActivity extends BaseEventBusActivity
   }
 
 
+  @OnClick(R.id.user_card)
+  public void takePhoto() {
+    photoService.takePhoto(SignupActivity.this, toolbar, null, true);
+  }
+
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    boolean brandNameInputed = brandInfo != null || brandId > 0;
-    boolean userNameInputed = !TextUtils.isEmpty(userNameEt.getText().toString());
-    boolean userTitleInputed = !TextUtils.isEmpty(userTitleEt.getText().toString());
+    boolean brandNameInputed = choosedBrand != null;
+    userName = userNameEt.getText().toString().trim();
+    userTitle = userTitleEt.getText().toString().trim();
+    phone = phoneEt.getText().toString().trim();
+    password  = passwordEt.getText().toString().trim();
+    verifyCode = verifyCodeEt.getText().toString().trim();
+    password = passwordEt.getText().toString().trim();
+
+    boolean userNameInputed = !TextUtils.isEmpty(userName);
+    boolean userTitleInputed = !TextUtils.isEmpty(userTitle);
     boolean userCardInputed = !TextUtils.isEmpty(userCardUrl);
-    boolean userPhoneInputed = !TextUtils.isEmpty(phoneEt.getText().toString());
-    boolean userPaswdInputed = !TextUtils.isEmpty(passwordEt.getText().toString());
-    boolean verifyInputed = !TextUtils.isEmpty(verifyCodeEt.getText().toString());
-    boolean passwordInputed = !TextUtils.isEmpty(passwordEt.getText().toString());
+    boolean userPhoneInputed = !TextUtils.isEmpty(phone);
+    boolean userPaswdInputed = !TextUtils.isEmpty(password);
+    boolean verifyInputed = !TextUtils.isEmpty(verifyCode);
+    boolean passwordInputed = !TextUtils.isEmpty(password) && password.length() >= 6;
     menu.getItem(0).setEnabled(brandNameInputed && userNameInputed && userTitleInputed
             && userCardInputed && userPhoneInputed
             && userPaswdInputed && verifyInputed && passwordInputed);
     return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_submit:
+        submit();
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void submit() {
+    UserInterface userNetworkService
+            = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+    SignupRequest request = new SignupRequest();
+    if (choosedBrand.company_id > 0) {
+      request.company_id = choosedBrand.company_id;
+    } else {
+      BrandInfo brandInfo = new BrandInfo();
+      brandInfo.brand_logo = choosedBrand.brand_logo;
+      brandInfo.brand_name = choosedBrand.brand_name;
+      brandInfo.company_icon = choosedBrand.company_icon; //营业执照
+      request.brand_info = brandInfo;
+    }
+    request.nickname = userName;
+    request.position = userTitle;
+    request.tumblr_icon = userCardUrl;
+    request.phone = phone;
+    request.vcode = verifyCode;
+    request.password = password;
+    Call<SignupResponse> call = userNetworkService.signup(request);
+    call.enqueue(new NetworkCallback<SignupResponse>() {
+      @Override
+      public void onSuccess(SignupResponse signupResponse) {
+
+        // save the user info into the preference.
+        sharedPreferenceHelper.saveUser(signupResponse.data);
+        // the the signin page
+        EventBus.getDefault().post(new ClosePageCallback() {
+          @Override
+          public boolean close() {
+            return true;
+          }
+        });
+
+        finish();
+      }
+    });
   }
 
   @Override
@@ -185,14 +283,27 @@ public class SignupActivity extends BaseEventBusActivity
   @Override
   public void afterTextChanged(Editable s) {
     invalidateOptionsMenu();
+
+    String phone = phoneEt.getText().toString().trim();
+    if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+      if (!getVerifyBtn.isEnabled()) {
+        getVerifyBtn.setEnabled(true);
+      }
+    } else {
+      if (getVerifyBtn.isEnabled()) {
+        getVerifyBtn.setEnabled(false);
+      }
+    }
   }
 
   @Override
   public void onImageLoadFinish(String fileName, Uri imgUri) {
     int width = JApplication.getJContext().dip2px(48);
+    imageUri = imgUri;
     Picasso.with(this)
             .load(imgUri).centerCrop().resize(width, width).into(userCardIv);
     userCardUrl = imageServerUrl + fileName;
+    invalidateOptionsMenu();
   }
 
   @Override
@@ -207,7 +318,13 @@ public class SignupActivity extends BaseEventBusActivity
 
   public void onEvent(ChooseBrandCallback callback) {
     Brand brand = callback.getChoosedBrand();
-    brandNameEt.setText(brand.brandName);
+    brandNameEt.setText(brand.brand_name);
+    choosedBrand = brand;
+  }
+
+  public void onEvent(AddBrandCallback callback) {
+    Brand brand = callback.addBrand();
+    brandNameEt.setText(brand.brand_name);
     choosedBrand = brand;
   }
 }

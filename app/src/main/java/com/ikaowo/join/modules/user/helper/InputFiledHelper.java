@@ -28,7 +28,7 @@ public class InputFiledHelper {
     TextView tv = new TextView(context);
     tv.setTextColor(tv.getCurrentHintTextColor());
 
-    tv.setText(hintRes);
+    tv.setHint(hintRes);
     return tv;
   }
 }

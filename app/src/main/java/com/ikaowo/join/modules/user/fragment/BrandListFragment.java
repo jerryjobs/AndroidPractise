@@ -74,7 +74,7 @@ public class BrandListFragment extends BaseFragment
     super.onCreate(savedInstanceState);
     recyclerViewHelper = new RecyclerViewHelper<>();
     searchRecyclerViewHelper = new RecyclerViewHelper<>();
-    choose = getArguments().getBoolean(UserService.CHOOSE, false);
+    choose = getArguments() == null ? false : getArguments().getBoolean(UserService.CHOOSE, false);
   }
 
   @Nullable
@@ -170,16 +170,16 @@ public class BrandListFragment extends BaseFragment
           return brandListResponse.data;
         }
         for (int i = 0; i < length; i++) {
-          firstLetter = brandList.get(i).brandFirstLetter;
+          firstLetter = brandList.get(i).company_py;
           switch (i) {
             case 0:
               map.put(firstLetter, 0);
               brandList.get(i).showSection = true;
               break;
             default:
-              firstLetter = brandList.get(i).brandFirstLetter;
+              firstLetter = brandList.get(i).company_py;
               boolean showSection = (!firstLetter
-                      .equalsIgnoreCase(brandList.get(i - 1).brandFirstLetter));
+                      .equalsIgnoreCase(brandList.get(i - 1).company_py));
               brandList.get(i).showSection = showSection;
               brandList.get(i - 1).hideSplit = showSection;
               if (showSection) {
@@ -282,11 +282,11 @@ public class BrandListFragment extends BaseFragment
         BrandListViewHodler viewHodler = (BrandListViewHodler) holder;
         Brand brand = objList.get(position);
         if (brand != null) {
-          viewHodler.nameTv.setText(brand.brandName);
+          viewHodler.nameTv.setText(brand.brand_name);
           viewHodler.summaryTv.setText(brand.summary);
           if (brand.showSection) {
             viewHodler.sectionTv.setVisibility(View.VISIBLE);
-            viewHodler.sectionTv.setText(brand.brandFirstLetter);
+            viewHodler.sectionTv.setText(brand.company_py);
           } else {
             viewHodler.sectionTv.setVisibility(View.GONE);
           }
@@ -296,7 +296,7 @@ public class BrandListFragment extends BaseFragment
 
           JApplication.getImageLoader().loadImage(
                   viewHodler.iconIv,
-                  brand.brandLogo,
+                  brand.brand_logo,
                   JApplication.getJContext().dip2px(64),
                   JApplication.getJContext().dip2px(48),
                   R.drawable.brand_icon_default);

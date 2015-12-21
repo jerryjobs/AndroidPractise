@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ikaowo.join.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_submit"
         android:orderInCategory="100"
         android:title="提交"
         app:showAsAction="always" />

@@ -20,4 +20,8 @@ public abstract class UserService extends JCommonService {
   public abstract void addBrand(Context context);
 
   public abstract void chooseBrandList(Context context);
+
+  public abstract void doLogin(Context context, String userName, String password);
+
+  public abstract void resetPasswd(Context context, String userName, String vCode, String password);
 }

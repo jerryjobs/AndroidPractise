@@ -10,4 +10,5 @@ import java.io.Serializable;
 public class UserInfo implements Serializable {
   @SerializedName("nickname")
   public String nickName;
+
 }

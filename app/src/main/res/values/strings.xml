@@ -13,6 +13,7 @@
     <string name="licence">营业执照</string>
     <string name="phone">手机号码</string>
     <string name="verify_code">验证码</string>
+    <string name="get_verify_code">获取验证码</string>
     <string name="password">密码</string>
     <string name="user_name">姓名</string>
     <string name="user_title">职位</string>
@@ -23,5 +24,8 @@
     <string name="login">登 录</string>
     <string name="signup">新用户注册</string>
     <string name="brand_query_hint">搜索公司或产品名，搜不到可以点击右上角录入</string>
+    <string name="verify_code_time_remaining">获取验证码(%1$d)</string>
+    <string name="login_suc">登录成功</string>
+    <string name="reset_passwd_suc">密码修改成功，请重新登录</string>
 
 </resources>

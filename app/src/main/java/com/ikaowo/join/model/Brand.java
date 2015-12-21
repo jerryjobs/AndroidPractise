@@ -8,33 +8,24 @@ import java.io.Serializable;
  * Created by weibo on 15-12-18.
  */
 public class Brand implements Serializable {
-  @SerializedName("company_id")
-  public int companyId;
+  public int company_id;
 
-  @SerializedName("company_name")
-  public String companyName;
+  public String company_name;
 
   //规模
-  @SerializedName("scale")
   public int scale;
 
-  @SerializedName("company_icon")
-  public String companyIcon;
+  public String company_icon;
 
-  @SerializedName("brand_name")
-  public String brandName;
+  public String brand_name;
 
-  @SerializedName("company_py")
-  public String brandFirstLetter;
+  public String company_py;
 
-  @SerializedName("summary")
   public String summary;
 
-  @SerializedName("company_hot")
-  public int companyHot; //热度
+  public int company_hot; //热度
 
-  @SerializedName("brand_logo")
-  public String brandLogo;
+  public String brand_logo;
 
   public boolean showSection;
 

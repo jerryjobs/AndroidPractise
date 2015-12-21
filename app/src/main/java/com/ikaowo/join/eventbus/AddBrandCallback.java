@@ -5,6 +5,6 @@ import com.ikaowo.join.model.Brand;
 /**
  * Created by weibo on 15-12-21.
  */
-public interface ChooseBrandCallback {
-  Brand getChoosedBrand();
+public interface AddBrandCallback {
+  Brand addBrand();
 }

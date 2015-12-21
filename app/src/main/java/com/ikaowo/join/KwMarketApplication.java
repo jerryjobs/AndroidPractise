@@ -9,6 +9,8 @@ import com.ikaowo.join.modules.user.service.UserServiceImpl;
 import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.QiniuInterface;
 import com.ikaowo.join.network.TestInterface;
+import com.ikaowo.join.network.UserInterface;
+import com.ikaowo.join.network.VerifyCodeInterface;
 
 /**
  * Created by weibo on 15-12-1.
@@ -25,6 +27,8 @@ public class KwMarketApplication extends JApplication {
     networkManager.registerService(TestInterface.class);
     networkManager.registerService(QiniuInterface.class);
     networkManager.registerService(BrandInterface.class);
+    networkManager.registerService(VerifyCodeInterface.class);
+    networkManager.registerService(UserInterface.class);
   }
 
   @Override

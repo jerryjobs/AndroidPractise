@@ -65,6 +65,7 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
         }
       }
     });
+    setSingleLine();
   }
 
   private void showOrHideDeleteDrawable() {

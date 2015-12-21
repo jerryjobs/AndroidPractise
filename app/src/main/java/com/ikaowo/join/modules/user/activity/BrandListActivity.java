@@ -5,9 +5,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.common.framework.core.JApplication;
+import com.ikaowo.join.BaseEventBusFragmentActivity;
 import com.ikaowo.join.BaseFragmentActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.modules.user.fragment.BrandListFragment;
 
 import butterknife.ButterKnife;
@@ -15,7 +17,7 @@ import butterknife.ButterKnife;
 /**
  * Created by weibo on 15-12-17.
  */
-public class BrandListActivity extends BaseFragmentActivity {
+public class BrandListActivity extends BaseEventBusFragmentActivity {
 
   private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
   private BrandListFragment brandListFragment;
@@ -62,6 +64,12 @@ public class BrandListActivity extends BaseFragmentActivity {
         return super.onOptionsItemSelected(item);
     }
     return true;
+  }
+
+  public void onEvent(ClosePageCallback callback) {
+    if (callback.close()) {
+      finish();
+    }
   }
 
   @Override
