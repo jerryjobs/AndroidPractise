@@ -12,37 +12,37 @@ import com.ikaowo.join.R;
  */
 public class MineSys extends BaseSys {
 
-    public MineSys(Context context, ViewGroup tabContainer, TabListener listener) {
-        super(context, tabContainer, listener);
-    }
+  public MineSys(Context context, ViewGroup tabContainer, TabListener listener) {
+    super(context, tabContainer, listener);
+  }
 
-    @Override
-    protected JFragment createFragment() {
-        return new MineFragment();
-    }
+  @Override
+  protected JFragment createFragment() {
+    return new MineFragment();
+  }
 
-    @Override
-    protected int getTabIcon() {
-        return R.drawable.mine_tab_icon;
-    }
+  @Override
+  protected int getTabIcon() {
+    return R.drawable.mine_tab_icon;
+  }
 
-    @Override
-    protected String getTabTitle() {
-        return "我";
-    }
+  @Override
+  protected String getTabTitle() {
+    return "我";
+  }
 
-    @Override
-    protected String getActionBarTitle() {
-        return context.getResources().getString(R.string.app_name);
-    }
+  @Override
+  protected String getActionBarTitle() {
+    return context.getResources().getString(R.string.app_name);
+  }
 
-    @Override
-    public String getTag() {
-        return "MineSys";
-    }
+  @Override
+  public String getTag() {
+    return "MineSys";
+  }
 
-    @Override
-    public int getMenu() {
-        return R.menu.menu_me;
-    }
+  @Override
+  public int getMenu() {
+    return R.menu.menu_me;
+  }
 }

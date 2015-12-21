@@ -3,7 +3,6 @@ package com.ikaowo.join;
 import android.support.v7.app.ActionBar;
 
 import com.common.framework.core.JFragmentActivity;
-import com.ikaowo.join.util.ResourceUtil;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -13,29 +12,30 @@ import com.umeng.analytics.MobclickAgent;
  */
 public abstract class BaseActivity extends JFragmentActivity {
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart(getTag());
-    }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    MobclickAgent.onResume(this);
+    MobclickAgent.onPageStart(getTag());
+  }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-        MobclickAgent.onPageEnd(getTag());
-    }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    MobclickAgent.onPause(this);
+    MobclickAgent.onPageEnd(getTag());
+  }
 
-    protected void displayHomeAsIndicator(int drawable) {
-        ActionBar ab = getSupportActionBar();
-        if (ab == null) {
-            return;
-        }
-        ab.setDisplayHomeAsUpEnabled(true);
 
-        if (toolbar != null) {
-            toolbar.setNavigationIcon(drawable);
-        }
+  protected void displayHomeAsIndicator(int drawable) {
+    ActionBar ab = getSupportActionBar();
+    if (ab == null) {
+      return;
     }
+    ab.setDisplayHomeAsUpEnabled(true);
+
+    if (toolbar != null) {
+      toolbar.setNavigationIcon(drawable);
+    }
+  }
 }

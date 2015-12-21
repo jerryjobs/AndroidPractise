@@ -12,37 +12,37 @@ import com.ikaowo.join.R;
  */
 public class HomeSys extends BaseSys {
 
-    public HomeSys(Context context, ViewGroup tabContainer, TabListener listener) {
-        super(context, tabContainer, listener);
-    }
+  public HomeSys(Context context, ViewGroup tabContainer, TabListener listener) {
+    super(context, tabContainer, listener);
+  }
 
-    @Override
-    protected JFragment createFragment() {
-        return new HomeFragment();
-    }
+  @Override
+  protected JFragment createFragment() {
+    return new HomeFragment();
+  }
 
-    @Override
-    protected int getTabIcon() {
-        return R.drawable.home_tab_icon;
-    }
+  @Override
+  protected int getTabIcon() {
+    return R.drawable.home_tab_icon;
+  }
 
-    @Override
-    protected String getTabTitle() {
-        return "首页";
-    }
+  @Override
+  protected String getTabTitle() {
+    return "首页";
+  }
 
-    @Override
-    protected String getActionBarTitle() {
-        return context.getResources().getString(R.string.app_name);
-    }
+  @Override
+  protected String getActionBarTitle() {
+    return context.getResources().getString(R.string.app_name);
+  }
 
-    @Override
-    public String getTag() {
-        return "HomeSys";
-    }
+  @Override
+  public String getTag() {
+    return "HomeSys";
+  }
 
-    @Override
-    public int getMenu() {
-        return R.menu.menu_home;
-    }
+  @Override
+  public int getMenu() {
+    return R.menu.menu_home;
+  }
 }

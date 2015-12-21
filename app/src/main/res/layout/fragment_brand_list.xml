@@ -34,6 +34,7 @@
 
                 <com.common.framework.widget.listview.ScrollMoreRecyclerView
                     android:id="@+id/search_listview"
+                    android:visibility="invisible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </com.common.framework.widget.listview.ScrollMoreRecyclerView>

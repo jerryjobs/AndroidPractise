@@ -10,6 +10,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
+
 /**
  * 含有Fragment的Activity继承这个，跟BaseActivity区别是
  * onResume和onPause里面的区别不一样。
@@ -17,40 +18,45 @@ import java.util.List;
  */
 public abstract class BaseFragmentActivity extends JFragmentActivity {
 
-    public void updateFragment(int fragmentContainerId, BaseFragment fragment) {
-        updateFragment(fragmentContainerId, fragment, 0, 0);
+  public void updateFragment(int fragmentContainerId, BaseFragment fragment) {
+    updateFragment(fragmentContainerId, fragment, 0, 0);
+  }
+
+  public void updateFragment(int fragmentContainerId, BaseFragment fragment, int aniEnter, int aniExit) {
+    FragmentManager manager = getSupportFragmentManager();
+    FragmentTransaction transaction = manager.beginTransaction();
+    transaction.setCustomAnimations(aniEnter, aniExit);
+    List<Fragment> fragmentList = manager.getFragments();
+    if (fragmentList != null && fragmentList.size() > 0) {
+      for (Fragment f : fragmentList) {
+        transaction.hide(f);
+      }
     }
 
-    public void updateFragment(int fragmentContainerId, BaseFragment fragment,int aniEnter,int aniExit) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.setCustomAnimations(aniEnter,aniExit);
-        List<Fragment> fragmentList = manager.getFragments();
-        if (fragmentList != null && fragmentList.size() > 0) {
-            for (Fragment f : fragmentList) {
-                transaction.hide(f);
-            }
-        }
-
-        JFragment f = (JFragment) manager.findFragmentByTag(fragment.getPageName());
-        if (f != null) {
-            transaction.show(f);
-        } else {
-            transaction.add(fragmentContainerId, fragment, fragment.getPageName());
-        }
-
-        transaction.commitAllowingStateLoss();
+    JFragment f = (JFragment) manager.findFragmentByTag(fragment.getPageName());
+    if (f != null) {
+      if (f.isDetached()) {
+        transaction.attach(f);
+      } else {
+        transaction.show(f);
+      }
+    } else {
+      transaction.replace(fragmentContainerId, fragment, fragment.getPageName());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
+    transaction.commitAllowingStateLoss();
+  }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    MobclickAgent.onResume(this);
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    MobclickAgent.onPause(this);
+  }
+
 }

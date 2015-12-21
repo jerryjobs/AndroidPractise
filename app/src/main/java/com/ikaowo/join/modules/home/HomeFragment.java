@@ -14,15 +14,15 @@ import com.ikaowo.join.R;
  */
 public class HomeFragment extends BaseFragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, null, false);
-        return view;
-    }
+  @Nullable
+  @Override
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_home, null, false);
+    return view;
+  }
 
-    @Override
-    public String getPageName() {
-        return "Home";
-    }
+  @Override
+  public String getPageName() {
+    return "Home";
+  }
 }

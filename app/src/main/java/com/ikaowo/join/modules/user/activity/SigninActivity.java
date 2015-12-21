@@ -17,43 +17,44 @@ import butterknife.OnClick;
  */
 public class SigninActivity extends BaseActivity {
 
-    private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
-        ButterKnife.bind(this);
+  private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_signin);
+    ButterKnife.bind(this);
 
-        displayHomeAsIndicator(R.drawable.nav_ic_close_blue);
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    toolbar.setTitle("");
+    setSupportActionBar(toolbar);
+
+    displayHomeAsIndicator(R.drawable.nav_ic_close_blue);
+  }
+
+  @OnClick(R.id.resetpasswd)
+  public void resetPasswd() {
+    userService.resetPassword(this);
+  }
+
+  @OnClick(R.id.signup_tv)
+  public void signup() {
+    userService.goToSignup(this);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int itemId = item.getItemId();
+    switch (itemId) {
+      case android.R.id.home:
+        finish();
+        break;
     }
+    return super.onOptionsItemSelected(item);
+  }
 
-    @OnClick(R.id.resetpasswd)
-    public void resetPasswd() {
-        userService.resetPassword(this);
-    }
-
-    @OnClick(R.id.signup_tv)
-    public void signup() {
-        userService.goToSignup(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        switch (itemId) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected String getTag() {
-        return "SigninActivity";
-    }
+  @Override
+  protected String getTag() {
+    return "SigninActivity";
+  }
 }

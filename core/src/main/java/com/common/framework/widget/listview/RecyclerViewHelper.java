@@ -20,7 +20,7 @@ import retrofit.Callback;
 /**
  * Created by weibo on 15-12-7.
  */
-public class RecyclerViewHelper<T extends JResponse> {
+public class RecyclerViewHelper<T extends JResponse, P> {
 
     protected int pe;
     protected int cp;//
@@ -30,7 +30,7 @@ public class RecyclerViewHelper<T extends JResponse> {
     private ScrollMoreRecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private GetDataListener listener;
-    private JAdapter<T> adapter;
+    private JAdapter<P> adapter;
     private Callback<T> callback;
 
 
@@ -188,5 +188,13 @@ public class RecyclerViewHelper<T extends JResponse> {
         public boolean onLongClick(View v) {
             return false;
         }
+    }
+
+    public JAdapter<P> getAdapter() {
+        return adapter;
+    }
+
+    public RecyclerViewHelperInterface getRecyclerHelperImpl() {
+        return helperInterface;
     }
 }

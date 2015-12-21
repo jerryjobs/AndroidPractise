@@ -17,50 +17,56 @@ import butterknife.ButterKnife;
  */
 public class BrandListActivity extends BaseFragmentActivity {
 
-    private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
-    private BrandListFragment brandListFragment;
+  private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private BrandListFragment brandListFragment;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brand_list);
-        ButterKnife.bind(this);
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_brand_list);
+    ButterKnife.bind(this);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.title_activity_brand_list);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    toolbar.setTitle(R.string.title_activity_brand_list);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setFragment();
-        setOptionMenu();
+    setupFragment();
+    setupOptionMenu();
+  }
+
+  private void setupFragment() {
+    boolean choose = getIntent().getBooleanExtra(UserService.CHOOSE, false);
+    brandListFragment = new BrandListFragment();
+
+    Bundle bundle = new Bundle();
+    bundle.putBoolean(UserService.CHOOSE, choose);
+    brandListFragment.setArguments(bundle);
+    updateFragment(R.id.fragment_container, brandListFragment);
+  }
+
+  private void setupOptionMenu() {
+    menuResId = R.menu.menu_choose_brand;
+    invalidateOptionsMenu();
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+    switch (id) {
+      case R.id.action_add:
+        userService.addBrand(this);
+        break;
+
+      default:
+        return super.onOptionsItemSelected(item);
     }
+    return true;
+  }
 
-    private void setFragment() {
-        brandListFragment = new BrandListFragment();
-        updateFragment(R.id.fragment_container, brandListFragment);
-    }
+  @Override
+  protected String getTag() {
+    return "BrandListActivity";
+  }
 
-    private void setOptionMenu() {
-        menuResId = R.menu.menu_choose_brand;
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_add:
-                userService.addBrand(this);
-                break;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
-
-    @Override
-    protected String getTag() {
-        return "BrandListActivity";
-    }
 }

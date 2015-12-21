@@ -12,6 +12,6 @@ import retrofit.http.QueryMap;
  * Created by weibo on 15-12-16.
  */
 public interface QiniuInterface {
-    @GET("file/token")
-    Call<TokenResponse> getQiniuToken(@QueryMap Map map);
+  @GET("file/token")
+  Call<TokenResponse> getQiniuToken(@QueryMap Map map);
 }

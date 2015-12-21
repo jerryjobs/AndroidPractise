@@ -14,15 +14,15 @@ import com.ikaowo.join.R;
  */
 public class BrandFragment extends BaseFragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_company, null, false);
-        return view;
-    }
+  @Nullable
+  @Override
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_company, null, false);
+    return view;
+  }
 
-    @Override
-    public String getPageName() {
-        return "Company";
-    }
+  @Override
+  public String getPageName() {
+    return "Company";
+  }
 }

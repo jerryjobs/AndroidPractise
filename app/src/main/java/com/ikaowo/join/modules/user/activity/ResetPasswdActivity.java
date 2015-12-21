@@ -17,29 +17,29 @@ import butterknife.OnClick;
  */
 public class ResetPasswdActivity extends BaseActivity {
 
-    @Bind(R.id.verify_btn)
-    TextView verifyBtn;
+  @Bind(R.id.verify_btn)
+  TextView verifyBtn;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset_passwd);
-        ButterKnife.bind(this);
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_reset_passwd);
+    ButterKnife.bind(this);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.title_activity_resetpasswd);
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    toolbar.setTitle(R.string.title_activity_resetpasswd);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  }
 
-    @OnClick(R.id.verify_btn)
-    public void getVerifyCode() {
-        Log.e(getTag(), "Reset passwd clicked");
-    }
+  @OnClick(R.id.verify_btn)
+  public void getVerifyCode() {
+    Log.e(getTag(), "Reset passwd clicked");
+  }
 
-    @Override
-    protected String getTag() {
-        return "ResetPasswdActivity";
-    }
+  @Override
+  protected String getTag() {
+    return "ResetPasswdActivity";
+  }
 }

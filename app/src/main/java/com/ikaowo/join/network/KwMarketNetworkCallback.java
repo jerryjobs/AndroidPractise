@@ -17,15 +17,15 @@ import retrofit.Retrofit;
  */
 public abstract class KwMarketNetworkCallback<T> extends NetworkCallback<T> {
 
-    @Override
-    public void onFailed(Response response, Retrofit retrofit) {
-        Converter<ResponseBody, BaseResponse> converter = retrofit.responseConverter(BaseResponse.class, new Annotation[0]);
-        BaseResponse error;
-        try {
-            error = converter.convert(response.errorBody());
-            JToast.toastShort(error.msg);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  @Override
+  public void onFailed(Response response, Retrofit retrofit) {
+    Converter<ResponseBody, BaseResponse> converter = retrofit.responseConverter(BaseResponse.class, new Annotation[0]);
+    BaseResponse error;
+    try {
+      error = converter.convert(response.errorBody());
+      JToast.toastShort(error.msg);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 }

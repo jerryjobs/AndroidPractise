@@ -9,5 +9,5 @@ import java.util.List;
  * Created by weibo on 15-12-18.
  */
 public class BrandListResponse extends BaseListResponse {
-    public List<Brand> data;
+  public List<Brand> data;
 }

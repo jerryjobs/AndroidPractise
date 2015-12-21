@@ -14,9 +14,9 @@ import retrofit.http.POST;
  */
 public interface TestInterface {
 
-    @GET("v1/user")
-    Call<UserInfoResponse> getUserInfo();
+  @GET("v1/user")
+  Call<UserInfoResponse> getUserInfo();
 
-    @POST("v1/user/login2")
-    Call<LoginResponse> login(@Body LoginRequest request);
+  @POST("v1/user/login2")
+  Call<LoginResponse> login(@Body LoginRequest request);
 }

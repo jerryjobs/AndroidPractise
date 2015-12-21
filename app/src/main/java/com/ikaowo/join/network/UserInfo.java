@@ -8,6 +8,6 @@ import java.io.Serializable;
  * Created by weibo on 15-12-2.
  */
 public class UserInfo implements Serializable {
-    @SerializedName("nickname")
-    public String nickName;
+  @SerializedName("nickname")
+  public String nickName;
 }

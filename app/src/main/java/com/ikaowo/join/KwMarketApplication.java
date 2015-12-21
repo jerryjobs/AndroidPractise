@@ -15,20 +15,20 @@ import com.ikaowo.join.network.TestInterface;
  */
 public class KwMarketApplication extends JApplication {
 
-    @Override
-    public void registerService(JContext context) {
-        context.registerService(JServiceInfo.createServiceInfo(UserService.class, new UserServiceImpl()));
-    }
+  @Override
+  public void registerService(JContext context) {
+    context.registerService(JServiceInfo.createServiceInfo(UserService.class, new UserServiceImpl()));
+  }
 
-    @Override
-    public void registerNetworkService(NetworkManager networkManager) {
-        networkManager.registerService(TestInterface.class);
-        networkManager.registerService(QiniuInterface.class);
-        networkManager.registerService(BrandInterface.class);
-    }
+  @Override
+  public void registerNetworkService(NetworkManager networkManager) {
+    networkManager.registerService(TestInterface.class);
+    networkManager.registerService(QiniuInterface.class);
+    networkManager.registerService(BrandInterface.class);
+  }
 
-    @Override
-    public String getBaseUrl() {
-        return "http://mars.test.ikaowo.com/";
-    }
+  @Override
+  public String getBaseUrl() {
+    return "http://mars.test.ikaowo.com/";
+  }
 }
