@@ -99,6 +99,10 @@ public class UserServiceImpl extends UserService {
     });
   }
 
+  @Override
+  public boolean isLogined() {
+    return sharedPreferenceHelper.isLogined();
+  }
 
   @Override
   public void onCreate() {

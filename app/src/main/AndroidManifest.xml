@@ -40,6 +40,10 @@
 
         <activity android:name=".modules.user.activity.BrandListActivity"
             android:windowSoftInputMode = "adjustPan"/>
+
+        <activity android:name=".modules.home.activity.AddPromotionActivity"
+             android:label="@string/title_activity_add_promotion"/>
+
         <!-- Umeng Config -->
         <service
             android:name="com.umeng.update.net.DownloadingService"

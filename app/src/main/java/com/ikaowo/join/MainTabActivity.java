@@ -64,11 +64,20 @@ public class MainTabActivity extends TabActivity {
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    userService.goToSignin(this);
 
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
+
+    switch(id) {
+      case R.id.action_add:
+        if (userService.isLogined()) {
+
+        } else {
+          userService.goToSignin(this);
+        }
+        break;
+
+      case R.id.action_search:
+
+        break;
     }
 
     return super.onOptionsItemSelected(item);

@@ -24,4 +24,6 @@ public abstract class UserService extends JCommonService {
   public abstract void doLogin(Context context, String userName, String password);
 
   public abstract void resetPasswd(Context context, String userName, String vCode, String password);
+
+  public abstract boolean isLogined();
 }

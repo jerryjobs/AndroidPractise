@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">JOIN</string>
-    <string name="action_search">Settings</string>
-    <string name="action_add">Settings</string>
+    <string name="action_search">搜索</string>
+    <string name="action_add">添加</string>
     <string name="title_activity_view_image">ViewImageActivity</string>
     <string name="title_activity_main_tab">JOIN</string>
     <string name="title_activity_add_brand">添加品牌</string>
@@ -27,5 +27,6 @@
     <string name="verify_code_time_remaining">获取验证码(%1$d)</string>
     <string name="login_suc">登录成功</string>
     <string name="reset_passwd_suc">密码修改成功，请重新登录</string>
+    <string name="title_activity_add_promotion">添加活动</string>
 
 </resources>
