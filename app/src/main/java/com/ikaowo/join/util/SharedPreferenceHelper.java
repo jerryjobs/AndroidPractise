@@ -39,6 +39,7 @@ public class SharedPreferenceHelper {
       SharedPreferences sp = context.getSharedPreferences(USER_INFO, Context.MODE_PRIVATE);
       SharedPreferences.Editor userEditor = sp.edit();
       userEditor.putString(USER, gson.toJson(data));
+      userEditor.commit();
     } catch (Exception e) {
       JLog.d("SharePreference", e.getMessage());
     }

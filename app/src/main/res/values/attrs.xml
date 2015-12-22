@@ -7,5 +7,7 @@
     <declare-styleable name="CustomEditTextView">
         <attr name="show_split" format="boolean"></attr>
         <attr name="bottom_line_color" format="boolean"></attr>
+        <attr name="title_text_color" format="color"></attr>
+        <attr name="title_text" format="string"></attr>
     </declare-styleable>
 </resources>

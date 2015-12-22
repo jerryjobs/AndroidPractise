@@ -8,7 +8,7 @@ import com.common.framework.core.JCommonService;
 /**
  * Created by weibo on 15-12-22.
  */
-public abstract class ActivityService extends JCommonService {
+public abstract class PromptionService extends JCommonService {
 
-  protected abstract void goToAddPromotionActivity(Context context);
+  public abstract void goToAddPromotionActivity(Context context);
 }

@@ -72,7 +72,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     setSupportActionBar(toolbar);
 
     setupEditText();
-    setOptionMenu();
+    setupOptionMenu();
     displayHomeAsIndicator(R.drawable.nav_ic_close_white);
 
   }
@@ -124,7 +124,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     brandLicenceTv.addRightView(brandLicenceIv, 0);
   }
 
-  private void setOptionMenu() {
+  private void setupOptionMenu() {
     menuResId = R.menu.menu_add_submit;
     invalidateOptionsMenu();
   }

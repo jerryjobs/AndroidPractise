@@ -28,5 +28,11 @@
     <string name="login_suc">登录成功</string>
     <string name="reset_passwd_suc">密码修改成功，请重新登录</string>
     <string name="title_activity_add_promotion">添加活动</string>
+    <string name="promotion_content_hint">填写活动描述，比如举办时间、已有资源等，让更多组织能报名合作...</string>
+    <string name="promotion_title_hint">输入活动名称(15字以内)</string>
+    <string name="promotion_time">举办时间</string>
+    <string name="promption_address">举办地点</string>
+    <string name="promption_end">报名截止</string>
+    <string name="promption_notes">报名须知</string>
 
 </resources>

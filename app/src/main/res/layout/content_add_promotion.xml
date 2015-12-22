@@ -1,19 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".modules.user.activity.AddBrandActivity"
-    tools:showIn="@layout/activity_add_promotion">
 
-    <FrameLayout
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@android:color/white"
+             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+             tools:context=".modules.user.activity.AddBrandActivity"
+             tools:showIn="@layout/activity_add_promotion">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@color/c2">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/add_promption_bg_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="@color/c6">
+            <RelativeLayout
+                android:id="@+id/add_promption_bg_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_add_promption_bg">
 
-</LinearLayout>
+                <ImageView
+                    android:id="@+id/add_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/newbuilt_ic_addbanner"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/add_icon"
+                    android:textColor="@color/c2"
+                    android:textSize="11sp"
+                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="添加封面图片 \n 尺寸800*450像素，大小不超过300K"/>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/promption_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/newbuilt_ic_title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12dp"/>
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/promption_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/promotion_title_hint"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="12dp"
+                android:textSize="13sp"
+                android:lines="1"
+                android:textColor="@color/c4"
+                android:textColorHint="@color/c2"
+                android:background="@null"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@color/c5"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/promption_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="@string/promotion_content_hint"
+                android:textSize="13sp"
+                android:gravity="left"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/c4"
+                android:lineSpacingMultiplier="1.2"
+                android:textColorHint="@color/c2"
+                android:background="@null"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/c2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="right"
+                android:text="0/140"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/c5"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"/>
+
+        <com.ikaowo.join.common.widget.draggridview.DragGridView
+            android:id="@+id/promption_imgs_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:gravity="center"
+            android:horizontalSpacing="10dip"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dip" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/c6"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp">
+
+            <com.ikaowo.join.modules.user.widget.CustomEditTextView
+                android:id="@+id/promption_time"
+                app:title_text="@string/promotion_time"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"/>
+
+            <com.ikaowo.join.modules.user.widget.CustomEditTextView
+                android:id="@+id/promption_address"
+                app:title_text="@string/promption_address"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"/>
+
+            <com.ikaowo.join.modules.user.widget.CustomEditTextView
+                android:id="@+id/promption_end_date"
+                android:layout_width="match_parent"
+                app:title_text="@string/promption_end"
+                app:show_split="false"
+                android:layout_height="44dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/c6"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="16dp">
+            <com.ikaowo.join.modules.user.widget.CustomEditTextView
+                android:id="@+id/promption_notes"
+                android:layout_width="match_parent"
+                app:title_text="@string/promption_notes"
+                android:layout_height="44dp"/>
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/promption_notes_content"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:hint="根据您的需求，比如: \n 需要活动场地"
+                android:textSize="14sp"
+                android:gravity="left"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/c4"
+                android:lineSpacingMultiplier="1.2"
+                android:textColorHint="@color/c2"
+                android:background="@null"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

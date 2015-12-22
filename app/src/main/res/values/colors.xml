@@ -13,12 +13,13 @@
     <!-- 标题类型,大号字体，粗字　-->
     <color name="c3">#333</color>
     <!-- 正文字体-->
-    <color name="c7">#454a4c</color>
+    <color name="c4">#454a4c</color>
     <!-- 分隔线-->
-    <color name="c4">#d4d8d9</color>
+    <color name="c5">#d4d8d9</color>
     <!-- 浅灰色背景-->
-    <color name="c5">#f0f4f5</color>
-    <color name="c6">#461ba7e1</color>
+    <color name="c6">#f0f4f5</color>
+    <!-- 主色调30%透明度-->
+    <color name="c7">#461ba7e1</color>
 
     <!--btn以及一些标识 -->
     <color name="c8">#f8ba18</color>

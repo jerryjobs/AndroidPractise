@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
+import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.home.HomeSys;
@@ -20,12 +21,14 @@ import java.util.Map;
 public class MainTabActivity extends TabActivity {
 
   private UserService userService;
+  private PromptionService promptionService;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
 //        notificatonStyle = NotificatonStyle.Badge;
     super.onCreate(savedInstanceState);
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+    promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
     toolbar.setTitle(getResources().getString(R.string.app_name));
 //        getNotificationCount();
 
@@ -69,7 +72,7 @@ public class MainTabActivity extends TabActivity {
     switch(id) {
       case R.id.action_add:
         if (userService.isLogined()) {
-
+          promptionService.goToAddPromotionActivity(this);
         } else {
           userService.goToSignin(this);
         }

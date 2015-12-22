@@ -16,7 +16,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/c4" />
+        android:background="@color/c5" />
 
     <!-- 这里的swipeRefreshLayout跟AlphaSlideBar不能共存，不然事件会冲突 -->
     <FrameLayout

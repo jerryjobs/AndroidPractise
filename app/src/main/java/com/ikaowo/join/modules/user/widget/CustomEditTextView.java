@@ -43,6 +43,12 @@ public class CustomEditTextView extends LinearLayout {
     TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomEditTextView);
     boolean showSplit = typedArray.getBoolean(R.styleable.CustomEditTextView_show_split, true);
     splitView.setVisibility(showSplit ? VISIBLE : INVISIBLE);
+
+    int color = typedArray.getColor(R.styleable.CustomEditTextView_title_text_color, ContextCompat.getColor(context, R.color.c3));
+    titleView.setTextColor(color);
+
+    String title = typedArray.getString(R.styleable.CustomEditTextView_title_text);
+    titleView.setText(title);
   }
 
   private void init() {

@@ -43,13 +43,13 @@ public class AlphaSlideBar extends View {
     int singleHeight = height / alphas.length;
 
     for (int i = 0; i < alphas.length; i++) {
-      paint.setColor(ContextCompat.getColor(getContext(), R.color.c7));
+      paint.setColor(ContextCompat.getColor(getContext(), R.color.c4));
       // paint.setColor(Color.WHITE);
       paint.setAntiAlias(true);
       paint.setTextSize(30);
       // 选中的状态
       if (i == choosedPos) {
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.c7));
+        paint.setColor(ContextCompat.getColor(getContext(), R.color.c4));
         paint.setFakeBoldText(true);
       }
       // x坐标等于中间-字符串宽度的一半.

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 图片 -->
+    <RelativeLayout
+        android:id="@+id/expertsys_thumb_img_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#eeeeee"
+        android:padding="1dp">
+
+        <ImageView
+            android:id="@+id/expertsys_thumb_img"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:scaleType="fitXY" />
+    </RelativeLayout>
+
+    <!-- 删除 -->
+    <RelativeLayout
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignRight="@id/expertsys_thumb_img_layout"
+        android:layout_alignTop="@id/expertsys_thumb_img_layout"
+        android:background="#30000000">
+
+        <ImageView
+            android:id="@+id/expertsys_thumb_delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/widget_drage_gridview_delete" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

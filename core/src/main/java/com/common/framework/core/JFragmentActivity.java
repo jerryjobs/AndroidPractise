@@ -14,8 +14,9 @@ import android.view.inputmethod.InputMethodManager;
  */
 public abstract class JFragmentActivity extends AppCompatActivity {
 
+    public JDialogHelper dialogHelper;
+
     protected Toolbar toolbar;
-    protected JDialogHelper dialogHelper;
     protected int menuResId;
 
     @Override
