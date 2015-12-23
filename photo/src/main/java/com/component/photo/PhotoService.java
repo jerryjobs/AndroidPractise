@@ -118,8 +118,8 @@ public class PhotoService {
         }
     }
 
-    public void onUploadPic(int requestCode, int resultCode, final String key, String token,
-                            Intent data, final UploadFinishInterface uploadFinishInterface) {
+    public void onUploadPic(final String imgServer, int requestCode, int resultCode, final String key, String token,
+                            Intent data, final UploadFinishListener uploadFinishListener) {
 
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
@@ -143,9 +143,9 @@ public class PhotoService {
                         @Override
                         public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
                             if (responseInfo.isOK()) {
-                                uploadFinishInterface.onImageLoadFinish(key, imgUri);
+                                uploadFinishListener.onUpLoadImageFinish(imgServer + key, imgUri);
                             } else {
-                                uploadFinishInterface.onImageLoadFailed();
+                                uploadFinishListener.onUpLoadImageFailed();
                             }
                         }
                     }, null);
@@ -168,9 +168,9 @@ public class PhotoService {
         context.startActivity(intent);
     }
 
-    public interface UploadFinishInterface {
+    public interface UploadFinishListener {
 
-        void onImageLoadFinish(String fileName, Uri imgUri);
-        void onImageLoadFailed();
+        void onUpLoadImageFinish(String imgUrl, Uri imgUri);
+        void onUpLoadImageFailed();
     }
 }

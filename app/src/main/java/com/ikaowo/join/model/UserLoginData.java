@@ -17,6 +17,9 @@ public class UserLoginData implements Serializable {
   @SerializedName("u_nickname")
   public String nickName;
 
+  @SerializedName("u_company")
+  public int companyId;
+
   @SerializedName("u_pos")
   public String title;
 

@@ -17,6 +17,7 @@
 
         <item name="editTextStyle">@style/Base.V7.Widget.AppCompat.EditText</item>
         <item name="editTextBackground">@drawable/abc_edit_text_material</item>
+
     </style>
 
     <style name="AppTheme.FullScreen" parent="AppTheme">

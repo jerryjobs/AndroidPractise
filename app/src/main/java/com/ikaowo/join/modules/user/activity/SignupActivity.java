@@ -35,15 +35,11 @@ import com.ikaowo.join.model.response.TokenResponse;
 import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
-import com.ikaowo.join.network.KwMarketNetworkCallback;
-import com.ikaowo.join.network.QiniuInterface;
 import com.ikaowo.join.network.UserInterface;
+import com.ikaowo.join.util.QiniuUploadHelper;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 import com.ikaowo.join.util.VerifyCodeHelper;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,7 +51,7 @@ import retrofit.Call;
  * Created by weibo on 15-12-11.
  */
 public class SignupActivity extends BaseEventBusActivity
-        implements TextWatcher, PhotoService.UploadFinishInterface, DeletableEditTextView.TextChangeListener {
+        implements TextWatcher, PhotoService.UploadFinishListener, DeletableEditTextView.TextChangeListener {
   @Bind(R.id.brand_name)
   CustomEditTextView brandNameTv;
   @Bind(R.id.user_name)
@@ -79,7 +75,6 @@ public class SignupActivity extends BaseEventBusActivity
   private ImageView userCardIv;
 
   private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
-  private NetworkManager networkManager = JApplication.getNetworkManager();
   private InputFiledHelper inputHelper = new InputFiledHelper();
   private PhotoService photoService = new PhotoService(SignupActivity.this);
   private VerifyCodeHelper verifyCodeHelper;
@@ -91,9 +86,9 @@ public class SignupActivity extends BaseEventBusActivity
   private String phone;
   private String verifyCode;
   private String password;
-  private String imageServerUrl;
   private Uri imageUri;
   private Brand choosedBrand;
+  private QiniuUploadHelper qiniuUploadHelper;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +96,7 @@ public class SignupActivity extends BaseEventBusActivity
     setContentView(R.layout.activity_signup);
     ButterKnife.bind(this);
 
+    qiniuUploadHelper = new QiniuUploadHelper();
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -150,8 +146,8 @@ public class SignupActivity extends BaseEventBusActivity
       public void onClick(View v) {
         if (imageUri != null) {
           photoService.viewPhoto(SignupActivity.this, imageUri);
-        } else if (!TextUtils.isEmpty(imageServerUrl)) {
-          photoService.viewPhoto(SignupActivity.this, imageServerUrl);
+        } else if (!TextUtils.isEmpty(userCardUrl)) {
+          photoService.viewPhoto(SignupActivity.this, userCardUrl);
         } else {
           photoService.takePhoto(SignupActivity.this, toolbar, null, true);;
         }
@@ -255,20 +251,25 @@ public class SignupActivity extends BaseEventBusActivity
 
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    QiniuInterface qiniuNetworkService = networkManager.getServiceByClass(QiniuInterface.class);
-    Map<String, String> map = new HashMap<>();
-    map.put("u_id", "0");
-    map.put("file_type", "icon");
-    Call<TokenResponse> call = qiniuNetworkService.getQiniuToken(map);
-    call.enqueue(new KwMarketNetworkCallback<TokenResponse>() {
-      @Override
-      public void onSuccess(final TokenResponse tokenResponse) {
-        imageServerUrl = tokenResponse.url;
-        photoService.onUploadPic(requestCode, resultCode,
-                tokenResponse.key, tokenResponse.token, data, SignupActivity.this);
-      }
-    });
+    qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
+
+
+  @Override
+  public void onUpLoadImageFinish(String url, Uri imgUri) {
+    int width = JApplication.getJContext().dip2px(48);
+    imageUri = imgUri;
+    Picasso.with(this)
+            .load(imgUri).centerCrop().resize(width, width).into(userCardIv);
+    userCardUrl = url;
+    invalidateOptionsMenu();
+  }
+
+  @Override
+  public void onUpLoadImageFailed() {
+
+  }
+
 
   @Override
   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -294,21 +295,6 @@ public class SignupActivity extends BaseEventBusActivity
         getVerifyBtn.setEnabled(false);
       }
     }
-  }
-
-  @Override
-  public void onImageLoadFinish(String fileName, Uri imgUri) {
-    int width = JApplication.getJContext().dip2px(48);
-    imageUri = imgUri;
-    Picasso.with(this)
-            .load(imgUri).centerCrop().resize(width, width).into(userCardIv);
-    userCardUrl = imageServerUrl + fileName;
-    invalidateOptionsMenu();
-  }
-
-  @Override
-  public void onImageLoadFailed() {
-
   }
 
   @Override

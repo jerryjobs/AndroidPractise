@@ -105,6 +105,16 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
+  public int getUserCompanyId() {
+    return sharedPreferenceHelper.getUserCompanyId();
+  }
+
+  @Override
+  public int getUserId() {
+    return sharedPreferenceHelper.getUserId();
+  }
+
+  @Override
   public void onCreate() {
 
   }

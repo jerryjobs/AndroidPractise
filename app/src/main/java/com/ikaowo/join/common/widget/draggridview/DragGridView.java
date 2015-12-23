@@ -425,9 +425,9 @@ public class DragGridView extends GridView {
         /**
          * 当item交换位置的时候回调的方法，我们只需要在该方法中实现数据的交换即可
          *
-         * @param form 开始的position
+         * @param from 开始的position
          * @param to   拖拽到的position
          */
-        public void onChange(int form, int to);
+        public void onChange(int from, int to);
     }
 }

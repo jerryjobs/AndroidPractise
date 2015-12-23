@@ -52,7 +52,10 @@
 
             <ImageView
                 android:id="@+id/promption_bg"
+                android:visibility="gone"
+                android:src="@drawable/brand_icon_default"
                 android:layout_width="match_parent"
+                android:scaleType="centerCrop"
                 android:layout_height="match_parent"/>
         </FrameLayout>
         <LinearLayout
@@ -108,13 +111,13 @@
                 android:background="@null"/>
 
             <TextView
+                android:id="@+id/content_remaing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/c2"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_gravity="right"
-                android:text="0/140"/>
+                android:layout_gravity="right"/>
 
 
         </LinearLayout>
@@ -134,7 +137,7 @@
             android:gravity="center"
             android:horizontalSpacing="10dip"
             android:listSelector="@android:color/transparent"
-            android:numColumns="4"
+            android:numColumns="2"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:paddingTop="10dp"

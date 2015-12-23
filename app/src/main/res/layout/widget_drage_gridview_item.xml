@@ -28,7 +28,7 @@
         android:background="#30000000">
 
         <ImageView
-            android:id="@+id/expertsys_thumb_delete"
+            android:id="@+id/widget_draggrid_delete_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"

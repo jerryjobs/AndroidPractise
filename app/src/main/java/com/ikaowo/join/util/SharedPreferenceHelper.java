@@ -78,4 +78,12 @@ public class SharedPreferenceHelper {
     }
     return user.uId;
   }
+
+  public int getUserCompanyId() {
+    UserLoginData user = getUser();
+    if (user == null) {
+      return 0;
+    }
+    return user.companyId;
+  }
 }

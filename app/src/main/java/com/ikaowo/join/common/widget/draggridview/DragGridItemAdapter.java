@@ -24,7 +24,7 @@ import butterknife.OnClick;
 /**
  * Created by weibo on 15-12-22.
  */
-public class DrawGridItemAdapter extends BaseAdapter {
+public class DragGridItemAdapter extends BaseAdapter {
 
   private ItemImageObj item = null;
   private Context context;
@@ -34,9 +34,9 @@ public class DrawGridItemAdapter extends BaseAdapter {
   private GridViewItemDeleteListener deleteListener;
   private PhotoService photoService;
 
-  public DrawGridItemAdapter(Context context, List<ItemImageObj> items, int maxCount) {
+  public DragGridItemAdapter(Context context, List<ItemImageObj> items, int maxCount) {
     this.context = context;
-    this.thumbList.addAll(items);
+    this.thumbList = items;
     this.width  = JApplication.getJContext().getScreenWidth() / 4;
     this.maxCount = maxCount;
     this.photoService = new PhotoService(context);
@@ -76,13 +76,13 @@ public class DrawGridItemAdapter extends BaseAdapter {
     item = thumbList.get(position);
 
     switch (type) {
-      //增加类型
+      //增加
       case ItemImageObj.TYPE_ADD:
 
         convertView = LayoutInflater.from(context)
                 .inflate(R.layout.widget_drage_gridview_add, null);
-        convertView.setTag(addHolder);
         addHolder = new AddHolderView(convertView);
+        convertView.setTag(addHolder);
         break;
 
       //普通类型
@@ -114,7 +114,7 @@ public class DrawGridItemAdapter extends BaseAdapter {
    */
   class NormalHolderView {
     //删除和图片
-    @Bind(R.id.expertsys_thumb_delete)
+    @Bind(R.id.widget_draggrid_delete_icon)
     ImageView deleteImg;
     @Bind(R.id.expertsys_thumb_img)
     ImageView thumbImg;
@@ -125,8 +125,8 @@ public class DrawGridItemAdapter extends BaseAdapter {
       ButterKnife.bind(this, view);
     }
 
-    @OnClick(R.id.expertsys_thumb_delete)
-    public void deleteThumb(final View view) {
+    @OnClick(R.id.widget_draggrid_delete_icon)
+    public void deleteImg(final View deleteIconView) {
 
       View.OnClickListener listeners[] = new View.OnClickListener[]{
         new View.OnClickListener() {
@@ -139,7 +139,7 @@ public class DrawGridItemAdapter extends BaseAdapter {
         new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            int pos = (int) view.getTag();
+            int pos = (int) deleteIconView.getTag();
             thumbList.remove(pos);
             if (thumbList.size() == maxCount - 1
                     && thumbList.get(thumbList.size() - 1).type != ItemImageObj.TYPE_ADD) {
@@ -149,6 +149,7 @@ public class DrawGridItemAdapter extends BaseAdapter {
               }
             }
             notifyDataSetChanged();
+            dialog.dismiss();
           }
         }
       };
@@ -182,6 +183,7 @@ public class DrawGridItemAdapter extends BaseAdapter {
 
     @OnClick(R.id.expertsys_add_thumb)
     public void addThumb(View view) {
+      ((JFragmentActivity)context).hideInput(context, view);
       photoService.takePhoto(context, view, null, true);
     }
   }

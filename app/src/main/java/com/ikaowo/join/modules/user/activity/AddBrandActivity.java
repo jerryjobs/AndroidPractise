@@ -22,26 +22,20 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.AddBrandCallback;
 import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.model.Brand;
-import com.ikaowo.join.model.response.TokenResponse;
 import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
-import com.ikaowo.join.network.KwMarketNetworkCallback;
-import com.ikaowo.join.network.QiniuInterface;
+import com.ikaowo.join.util.QiniuUploadHelper;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-16.
  */
-public class AddBrandActivity extends BaseActivity implements PhotoService.UploadFinishInterface {
+public class AddBrandActivity extends BaseActivity implements PhotoService.UploadFinishListener {
   @Bind(R.id.brand_icon)
   ImageView brandIconIv;
   @Bind(R.id.brand_name)
@@ -50,7 +44,6 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
   CustomEditTextView brandLicenceTv;
 
   private PhotoService photoService = new PhotoService(AddBrandActivity.this);
-  private NetworkManager networkManager = JApplication.getNetworkManager();
   private InputFiledHelper inputHelper = new InputFiledHelper();
 
   private ImageView brandLicenceIv;
@@ -60,7 +53,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
   private String brandName;
   private int width, height;
   private ImageView targetIv;
-  private String imageServerUrl;
+  private QiniuUploadHelper qiniuUploadHelper;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +61,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     setContentView(R.layout.activity_add_branch);
     ButterKnife.bind(this);
 
+    qiniuUploadHelper = new QiniuUploadHelper();
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -182,29 +176,17 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
 
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    QiniuInterface qiniuNetworkService = networkManager.getServiceByClass(QiniuInterface.class);
-    Map<String, String> map = new HashMap<>();
-    map.put("u_id", "0");
-    map.put("file_type", "icon");
-    Call<TokenResponse> call = qiniuNetworkService.getQiniuToken(map);
-    call.enqueue(new KwMarketNetworkCallback<TokenResponse>() {
-      @Override
-      public void onSuccess(final TokenResponse tokenResponse) {
-        imageServerUrl = tokenResponse.url;
-        photoService.onUploadPic(requestCode, resultCode,
-                tokenResponse.key, tokenResponse.token, data, AddBrandActivity.this);
-      }
-    });
+    qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
 
   @Override
-  public void onImageLoadFinish(String fileName, Uri imgUri) {
+  public void onUpLoadImageFinish(String url, Uri imgUri) {
     if (clickPos != null) {
       invalidateOptionsMenu();
       switch (clickPos) {
         case BRAND_LICENCE:
           targetIv = brandLicenceIv;
-          brandLicenceIv.setTag(imageServerUrl + fileName);
+          brandLicenceIv.setTag(url);
           width = JApplication.getJContext().dip2px(48);
           height = JApplication.getJContext().dip2px(48);
           licenceImgUri = imgUri;
@@ -212,7 +194,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
 
         case BRAND_ICON:
           targetIv = brandIconIv;
-          brandIconIv.setTag(imageServerUrl + fileName);
+          brandIconIv.setTag(url);
           width = JApplication.getJContext().dip2px(100);
           height = JApplication.getJContext().dip2px(75);
           iconImgUri = imgUri;
@@ -225,7 +207,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
   }
 
   @Override
-  public void onImageLoadFailed() {
+  public void onUpLoadImageFailed() {
     Log.e(getTag(), "failed");
   }
 
