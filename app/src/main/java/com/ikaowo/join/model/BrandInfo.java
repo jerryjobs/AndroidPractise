@@ -1,9 +1,5 @@
 package com.ikaowo.join.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
-
 /**
  * Created by weibo on 15-12-17.
  */

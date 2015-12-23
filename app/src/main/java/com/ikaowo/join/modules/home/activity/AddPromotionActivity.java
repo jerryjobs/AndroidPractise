@@ -11,10 +11,8 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,8 +30,8 @@ import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
-import com.ikaowo.join.common.widget.draggridview.DragGridView;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
+import com.ikaowo.join.common.widget.draggridview.DragGridView;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.PromptionRequest;
@@ -55,8 +53,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.Call;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by weibo on 15-12-22.

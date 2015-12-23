@@ -6,7 +6,6 @@ import android.view.MenuItem;
 
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.BaseEventBusFragmentActivity;
-import com.ikaowo.join.BaseFragmentActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.ClosePageCallback;

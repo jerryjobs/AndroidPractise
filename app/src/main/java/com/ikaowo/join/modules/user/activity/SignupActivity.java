@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
-import com.common.framework.network.NetworkManager;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
@@ -31,7 +30,6 @@ import com.ikaowo.join.model.Brand;
 import com.ikaowo.join.model.BrandInfo;
 import com.ikaowo.join.model.request.SignupRequest;
 import com.ikaowo.join.model.response.SignupResponse;
-import com.ikaowo.join.model.response.TokenResponse;
 import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;

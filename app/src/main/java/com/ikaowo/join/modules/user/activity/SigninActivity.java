@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
-import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;

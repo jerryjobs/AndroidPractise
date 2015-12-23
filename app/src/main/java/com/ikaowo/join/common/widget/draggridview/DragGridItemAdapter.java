@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JFragmentActivity;
 import com.component.photo.PhotoService;

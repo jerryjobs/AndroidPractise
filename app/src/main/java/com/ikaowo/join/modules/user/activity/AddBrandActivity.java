@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.common.framework.core.JApplication;
-import com.common.framework.network.NetworkManager;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;

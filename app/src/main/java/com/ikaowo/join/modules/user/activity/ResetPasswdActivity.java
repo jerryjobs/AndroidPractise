@@ -6,25 +6,19 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
-import com.common.framework.network.NetworkCallback;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
-import com.ikaowo.join.model.base.BaseResponse;
-import com.ikaowo.join.model.request.ResetPasswdRequest;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
-import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.VerifyCodeHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-17.

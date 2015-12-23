@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
-import com.common.framework.core.R;
 import com.common.framework.core.JFragmentActivity;
+import com.common.framework.core.R;
 
 import java.util.ArrayList;
 import java.util.List;
