@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JFragment;
 import com.ikaowo.join.R;
+import com.ikaowo.join.modules.home.fragment.PromptionListFragment;
 
 /**
  * Created by weibo on 15-12-8.
@@ -18,7 +19,7 @@ public class HomeSys extends BaseSys {
 
   @Override
   protected JFragment createFragment() {
-    return new HomeFragment();
+    return new PromptionListFragment();
   }
 
   @Override

@@ -42,7 +42,7 @@
         <activity android:name=".modules.user.activity.BrandListActivity"
             android:windowSoftInputMode = "adjustPan"/>
 
-        <activity android:name=".modules.home.activity.AddPromotionActivity"
+        <activity android:name=".modules.home.activity.AddPromptionActivity"
              android:windowSoftInputMode="stateHidden"
              android:label="@string/title_activity_add_promotion"/>
 

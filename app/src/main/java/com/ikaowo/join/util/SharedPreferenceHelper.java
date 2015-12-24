@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ikaowo.join.model.UserLoginData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by weibo on 15-12-21.
  */
@@ -19,6 +22,8 @@ public class SharedPreferenceHelper {
 
   private final String USER_INFO = "user_info";
   private final String USER = "user";
+  private final String HISTORY = "history";
+  private final String SEARCH_HISTORY = "search_history";
 
   private Gson gson;
   private Context context;
@@ -34,6 +39,9 @@ public class SharedPreferenceHelper {
     return instance;
   }
 
+  /**
+   * user releated
+   */
   public void saveUser(UserLoginData data) {
     try {
       SharedPreferences sp = context.getSharedPreferences(USER_INFO, Context.MODE_PRIVATE);
@@ -86,4 +94,63 @@ public class SharedPreferenceHelper {
     }
     return user.companyId;
   }
+
+  /*
+   * search history related.
+   */
+  public void clearSearcHistory(Context context) {
+    SharedPreferences sp = context.getSharedPreferences(HISTORY, 0);
+    SharedPreferences.Editor edit = sp.edit();
+    edit.remove(SEARCH_HISTORY);
+    edit.commit();
+  }
+
+  public List<String> getSearchHistory(Context context) {
+    SharedPreferences sp = context.getSharedPreferences(HISTORY, 0);
+    String history = sp.getString(SEARCH_HISTORY, "");
+    if (!TextUtils.isEmpty(history)) {
+      List<String> historyList = null;
+      try {
+        historyList = new GsonBuilder().create().fromJson(history, List.class);
+      } catch (Exception e) {
+
+      }
+      return historyList;
+    }
+    return null;
+  }
+
+  public void removeHistory(Context context, String history) {
+    SharedPreferences sp = context.getSharedPreferences(HISTORY, 0);
+    SharedPreferences.Editor edit = sp.edit();
+    List<String> historyList= getSearchHistory(context);
+    if (historyList == null || historyList.size() == 0) {
+      return;
+    } else {
+      historyList.remove(history);
+      String s = new GsonBuilder().create().toJson(historyList);
+      edit.putString(SEARCH_HISTORY, s);
+      edit.commit();
+    }
+  }
+
+  public void saveSearchHistory(Context context, String s) {
+    SharedPreferences sp = context.getSharedPreferences(HISTORY, 0);
+    SharedPreferences.Editor edit = sp.edit();
+    List<String> historyList = getSearchHistory(context);
+    if (historyList == null ) {
+      historyList = new ArrayList<>();
+      historyList.add(s);
+    } else {
+      historyList.remove(s);
+      if (historyList.size() >= 15) {
+        historyList.remove(0);
+      }
+      historyList.add(s);
+    }
+    String historyListStr = new GsonBuilder().create().toJson(historyList);
+    edit.putString(SEARCH_HISTORY, historyListStr);
+    edit.commit();
+  }
+
 }

@@ -58,7 +58,7 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-22.
  */
-public class AddPromotionActivity extends BaseActivity
+public class AddPromptionActivity extends BaseActivity
         implements DragGridItemAdapter.GridViewItemDeleteListener,
         PhotoService.UploadFinishListener,
         DragGridView.OnChanageListener, TextWatcher{
@@ -246,8 +246,8 @@ public class AddPromotionActivity extends BaseActivity
     PromptionRequest request = new PromptionRequest();
     request.aci_name = promptionTitle;
     request.aci_date = promptionTime;
-    request.aci_comment = promptionContent;
-    request.aci_summary = promptNotes;
+    request.aci_content = promptionContent;
+    request.aci_notice = promptNotes;
     request.aci_company_id = userService.getUserCompanyId();
     request.aci_icon = promptionBg;
     request.end_date = promptionEndDate;
@@ -297,7 +297,7 @@ public class AddPromotionActivity extends BaseActivity
 
   @Override
   protected String getTag() {
-    return "AddPromotionActivity";
+    return "AddPromptionActivity";
   }
 
   @Override

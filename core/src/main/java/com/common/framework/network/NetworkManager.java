@@ -2,6 +2,8 @@ package com.common.framework.network;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -34,6 +36,7 @@ public class NetworkManager {
     private OkHttpClient okHttpClient;
     private Retrofit retrofit;
     private Map<Class, Object> serviceMap = new HashMap<>();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
 
     public NetworkManager(Context context, String baseUrl) {
         okHttpClient = getUnSafeOkHttpClient();
@@ -68,7 +71,7 @@ public class NetworkManager {
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 
