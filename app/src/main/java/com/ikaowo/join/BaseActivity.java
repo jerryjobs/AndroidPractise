@@ -34,7 +34,7 @@ public abstract class BaseActivity extends JFragmentActivity {
     }
     ab.setDisplayHomeAsUpEnabled(true);
 
-    if (toolbar != null) {
+    if (toolbar != null && drawable > 0) {
       toolbar.setNavigationIcon(drawable);
     }
   }

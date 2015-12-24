@@ -98,8 +98,7 @@ public class SignupActivity extends BaseEventBusActivity
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    ActionBar ab = getSupportActionBar();
-    ab.setDisplayHomeAsUpEnabled(true);
+    displayHomeAsIndicator(0);
 
     setupView();
     setupOptionMenu();

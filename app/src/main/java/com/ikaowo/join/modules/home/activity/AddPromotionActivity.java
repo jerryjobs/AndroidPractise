@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -136,6 +137,8 @@ public class AddPromotionActivity extends BaseActivity
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitle(getString(R.string.title_activity_add_promotion));
     setSupportActionBar(toolbar);
+
+    displayHomeAsIndicator(0);
 
     setupView();
     setupOptionMenu();

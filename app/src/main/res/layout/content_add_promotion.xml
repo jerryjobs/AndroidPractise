@@ -137,7 +137,7 @@
             android:gravity="center"
             android:horizontalSpacing="10dip"
             android:listSelector="@android:color/transparent"
-            android:numColumns="2"
+            android:numColumns="4"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:paddingTop="10dp"
