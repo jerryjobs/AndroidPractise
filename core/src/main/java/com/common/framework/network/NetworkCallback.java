@@ -2,6 +2,7 @@ package com.common.framework.network;
 
 import com.common.framework.model.JErrorReponse;
 import com.common.framework.util.JToast;
+import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
@@ -16,6 +17,8 @@ import retrofit.Retrofit;
  * Created by weibo on 15-12-2.
  */
 public abstract class NetworkCallback<T> implements Callback<T> {
+
+    private RecyclerViewHelper.Action action;
 
     @Override
     public void onResponse(Response<T> response, Retrofit retrofit) {
@@ -45,6 +48,14 @@ public abstract class NetworkCallback<T> implements Callback<T> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setAction(RecyclerViewHelper.Action action) {
+        this.action = action;
+    }
+
+    public RecyclerViewHelper.Action getAction() {
+        return this.action;
     }
 
     public abstract void onSuccess(T t);

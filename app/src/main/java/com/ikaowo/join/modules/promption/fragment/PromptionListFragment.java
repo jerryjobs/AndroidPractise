@@ -1,5 +1,6 @@
 package com.ikaowo.join.modules.promption.fragment;
 
+import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.model.request.PromptionListRequest;
 import com.ikaowo.join.model.response.PromptionListResposne;
 import retrofit.Call;

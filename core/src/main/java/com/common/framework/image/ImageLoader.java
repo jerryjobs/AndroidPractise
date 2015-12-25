@@ -1,7 +1,9 @@
 package com.common.framework.image;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -43,11 +45,12 @@ public class ImageLoader {
     private void load(Context context, ImageView imageView, String url, int targetWidth,
                       int targetHeight, int mode, Target target, int defaultImg) {
         String imgUrl = url + getModeUrl(mode, targetWidth, targetHeight);
+        Log.e("ImageLoader", "the imgUrl:" + imgUrl);
         if (!TextUtils.isEmpty(imgUrl)) {
             if (target != null) {
-                Picasso.with(context).load(url).placeholder(defaultImg).into(target);
+                Picasso.with(context).load(url).config(Bitmap.Config.RGB_565).placeholder(defaultImg).into(target);
             } else {
-                Picasso.with(context).load(url).placeholder(defaultImg).into(imageView);
+                Picasso.with(context).load(url).config(Bitmap.Config.RGB_565).placeholder(defaultImg).into(imageView);
             }
         }
     }

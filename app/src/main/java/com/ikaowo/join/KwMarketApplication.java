@@ -6,8 +6,10 @@ import com.common.framework.model.JServiceInfo;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.common.service.WebViewService;
 import com.ikaowo.join.modules.promption.service.PromptionServiceImpl;
 import com.ikaowo.join.modules.user.service.UserServiceImpl;
+import com.ikaowo.join.modules.webview.service.WebViewServiceImpl;
 import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.network.QiniuInterface;
@@ -24,6 +26,7 @@ public class KwMarketApplication extends JApplication {
   public void registerService(JContext context) {
     context.registerService(JServiceInfo.createServiceInfo(UserService.class, new UserServiceImpl()));
     context.registerService(JServiceInfo.createServiceInfo(PromptionService.class, new PromptionServiceImpl()));
+    context.registerService(JServiceInfo.createServiceInfo(WebViewService.class, new WebViewServiceImpl()));
   }
 
   @Override

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,12 @@ import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.common.framework.widget.listview.RecyclerViewHelperInterface;
 import com.common.framework.widget.listview.ScrollMoreRecyclerView;
 import com.ikaowo.join.BaseFragment;
+import com.ikaowo.join.BuildConfig;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.common.service.WebViewService;
 import com.ikaowo.join.model.Promption;
+import com.ikaowo.join.model.response.BrandListResponse;
 import com.ikaowo.join.model.response.PromptionListResposne;
 import com.ikaowo.join.network.PromptionInterface;
 
@@ -47,7 +52,8 @@ public abstract class BasePromptionFragment extends BaseFragment {
 
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
-
+  private WebViewService webViewService;
+  private UserService userService;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +61,9 @@ public abstract class BasePromptionFragment extends BaseFragment {
     recyclerViewHelper = new RecyclerViewHelper<>();
     imageLoader = JApplication.getImageLoader();
     promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
+
+    webViewService = JApplication.getJContext().getServiceByInterface(WebViewService.class);
+    userService = JApplication.getJContext().getServiceByInterface(UserService.class);
 
     targetImgBgWidth
             = JApplication.getJContext().getScreenWidth() - 2 * JApplication.getJContext().dip2px(12);
@@ -100,6 +109,32 @@ public abstract class BasePromptionFragment extends BaseFragment {
       @Override
       public void performItemClick(int position) {
 
+        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+        if (adapter == null) {
+          return;
+        }
+
+        List objList = ((JAdapter<BrandListResponse>) adapter).getObjList();
+        if (objList == null) {
+          return;
+        }
+
+        Promption promption = (Promption)objList.get(position);
+        String url = BuildConfig.PROMPTION_URL + promption.id;
+
+        if (promption.companyId > 0) {
+          url += "?companyid=" + promption.companyId;
+        }
+        if (TextUtils.isEmpty(promption.background)) {
+          if (url.indexOf("?") > 0) {
+            url += "&iconurl=" + promption.background;
+          } else {
+            url += "?iconurl=" + promption.background;
+          }
+        }
+        WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
+        webViewRequest.url = url;
+        webViewService.openWebView(getActivity(), webViewRequest);
       }
     };
     recyclerViewHelper.setHelperInterface(recyclerViewHelperImpl);

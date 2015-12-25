@@ -1,7 +1,6 @@
 package com.ikaowo.join.modules.promption.activity;
 
 import android.app.SearchManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
@@ -10,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 

@@ -98,7 +98,7 @@ public class RecyclerViewHelper<T extends JResponse, P> {
                     }
                     recyclerView.enableLoadMore(((cp * ps) + helperInterface.getList(t).size()) < t.getTotals());
                     onFinishLoadData();
-                    if (!action.equals(Action.LOADMORE)) {
+                    if (!((NetworkCallback)callback).getAction().equals(Action.LOADMORE)) {
                         adapter.setPostList(helperInterface.getList(t));
                     } else {
                         adapter.appendPostList(helperInterface.getList(t));
@@ -117,7 +117,7 @@ public class RecyclerViewHelper<T extends JResponse, P> {
             pe = 0;
             cp = 0;
         }
-
+        ((NetworkCallback)callback).setAction(action);
         helperInterface.sendRequest(callback, cp, ps);
     }
 
