@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.home.fragment;
+package com.ikaowo.join.modules.promption.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +21,6 @@ import com.common.framework.widget.listview.ScrollMoreRecyclerView;
 import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.R;
 import com.ikaowo.join.model.Promption;
-import com.ikaowo.join.model.request.PromptionListRequest;
 import com.ikaowo.join.model.response.PromptionListResposne;
 import com.ikaowo.join.network.PromptionInterface;
 
@@ -29,10 +28,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Call;
 import retrofit.Callback;
 
 /**
+ * 这个basefragment现在由tab里面的推广列表以及推广搜索结果页面公用。
+ * TODO 后期如果搜索结果页面发生变化，那么需要把这个页面跟搜索结果页面剥离
  * Created by weibo on 15-12-8.
  */
 public abstract class BasePromptionFragment extends BaseFragment {
@@ -47,6 +47,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
 
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
+
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
       @Override
       public void sendRequest(Callback callback, int cp, int ps) {
 
-        sendRequest(callback, cp, ps);
+        sendHttpRequest(callback, cp, ps);
       }
 
       @Override
@@ -105,7 +106,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
     recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
   }
 
-  protected abstract void sendRequest(Callback call, int cp, int ps);
+  protected abstract void sendHttpRequest(Callback call, int cp, int ps);
 
   @Override
   public String getPageName() {

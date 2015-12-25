@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.home.fragment;
+package com.ikaowo.join.modules.promption.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 
 import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.R;
-import com.ikaowo.join.modules.home.activity.SearchActivity;
-import com.ikaowo.join.modules.home.widget.SearchHistory;
+import com.ikaowo.join.modules.promption.activity.SearchPromptionActivity;
+import com.ikaowo.join.modules.promption.widget.SearchHistory;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 import com.umeng.analytics.MobclickAgent;
 
@@ -104,7 +104,7 @@ public class SearchHistoryFragment extends BaseFragment {
                 searchHistory.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((SearchActivity)getActivity()).setSearchQuery(searchHistory.getText());
+                        ((SearchPromptionActivity)getActivity()).setSearchQuery(searchHistory.getText());
                     }
                 });
                 mContanerView.addView(historyView);

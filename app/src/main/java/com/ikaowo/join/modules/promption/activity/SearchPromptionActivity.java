@@ -1,31 +1,36 @@
-package com.ikaowo.join.modules.home.activity;
+package com.ikaowo.join.modules.promption.activity;
 
 import android.app.SearchManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import com.ikaowo.join.BaseFragmentActivity;
 import com.ikaowo.join.R;
-import com.ikaowo.join.modules.home.fragment.SearchHistoryFragment;
-import com.ikaowo.join.modules.home.fragment.SearchPromptionFragment;
+import com.ikaowo.join.modules.promption.fragment.SearchHistoryFragment;
+import com.ikaowo.join.modules.promption.fragment.SearchPromptionFragment;
 import com.ikaowo.join.util.SharedPreferenceHelper;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by weibo on 15-12-24.
  */
-public class SearchActivity extends BaseFragmentActivity {
+public class SearchPromptionActivity extends BaseFragmentActivity {
 
   private MenuItem mSearchItem;
   private SearchView searchView;
   private SearchPromptionFragment searchResultFragment;
   private SearchHistoryFragment searchHistoryFragment;
-  private String searchKey;
-  private final String KEYWORDS = "keywords";
   private SharedPreferenceHelper sharedPreferenceHelper;
 
   @Override
@@ -36,11 +41,12 @@ public class SearchActivity extends BaseFragmentActivity {
     searchResultFragment = new SearchPromptionFragment();
     searchHistoryFragment = new SearchHistoryFragment();
 
-    if (TextUtils.isEmpty(searchKey)) {
-      updateFragment(R.id.homesys_frament_container, searchHistoryFragment);
-    } else {
-      updateFragment(R.id.homesys_frament_container, searchResultFragment);
-    }
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    updateFragment(R.id.frament_container, searchResultFragment);
+    updateFragment(R.id.frament_container, searchHistoryFragment);
 
     sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
     setupOptionMenu();
@@ -61,6 +67,23 @@ public class SearchActivity extends BaseFragmentActivity {
     searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
     final SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
     searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+    /*
+     * setup the search with white cursor.
+     */
+    // final int textViewID = searchView.getContext().getResources().getIdentifier("android:id/search_src_text",null, null);
+    final AutoCompleteTextView searchTextView = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+
+    try {
+      Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+      mCursorDrawableRes.setAccessible(true);
+      mCursorDrawableRes.set(searchTextView, R.drawable.cursor); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    // end setting the search view.
+
     mSearchItem = menu.findItem(R.id.action_search);
 
     MenuItemCompat.collapseActionView(mSearchItem);
@@ -72,7 +95,7 @@ public class SearchActivity extends BaseFragmentActivity {
 
       @Override
       public boolean onMenuItemActionCollapse(MenuItem item) {
-        hideInput(SearchActivity.this, toolbar);
+        hideInput(SearchPromptionActivity.this, toolbar);
         finish();
         return false;
       }
@@ -85,21 +108,13 @@ public class SearchActivity extends BaseFragmentActivity {
         new Handler().postDelayed(new Runnable() {
           @Override
           public void run() {
-            sharedPreferenceHelper.saveSearchHistory(SearchActivity.this, s);
+            sharedPreferenceHelper.saveSearchHistory(SearchPromptionActivity.this, s);
             if (searchResultFragment != null) {
-              if (TextUtils.isEmpty(searchKey)) {
-                searchKey = s;
-                Bundle bundle = new Bundle();
-                bundle.putString(KEYWORDS, s);
-                searchResultFragment.getArguments().putString(KEYWORDS, s);
-                updateFragment(R.id.homesys_frament_container, searchHistoryFragment);
-              } else {
-                updateFragment(R.id.homesys_frament_container, searchResultFragment);
-                searchResultFragment.search(s);
-              }
+              updateFragment(R.id.frament_container, searchResultFragment);
+              searchResultFragment.search(s);
             }
             searchView.clearFocus();
-            hideInput(SearchActivity.this, searchView);
+            hideInput(SearchPromptionActivity.this, searchView);
           }
         }, 200);
 
@@ -109,18 +124,15 @@ public class SearchActivity extends BaseFragmentActivity {
       @Override
       public boolean onQueryTextChange(String s) {
         if (TextUtils.isEmpty(s)) {
-          updateFragment(R.id.homesys_frament_container, searchHistoryFragment);
+          updateFragment(R.id.frament_container, searchHistoryFragment);
         }
         return false;
       }
     });
 
     //mSearchView.setFocusable(true);
-    searchView.setQuery(searchKey, false);
+    searchView.setQuery("", false);
     searchView.setQueryHint("搜索行业、智客姓名");
-    if (!TextUtils.isEmpty(searchKey)) {
-      searchView.clearFocus();
-    }
 
     return true;
   }
@@ -131,6 +143,6 @@ public class SearchActivity extends BaseFragmentActivity {
 
   @Override
   protected String getTag() {
-    return "SearchActivity";
+    return "SearchPromptionActivity";
   }
 }

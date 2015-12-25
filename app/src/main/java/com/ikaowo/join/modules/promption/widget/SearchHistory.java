@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.home.widget;
+package com.ikaowo.join.modules.promption.widget;
 
 import android.content.Context;
 import android.view.LayoutInflater;

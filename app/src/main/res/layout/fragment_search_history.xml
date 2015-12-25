@@ -20,14 +20,14 @@
             android:layout_width="wrap_content"
             android:minWidth="120dp"
             android:layout_height="30dp"
-            android:textColor="@drawable/kw_search_history_clear_btn_selector"
+            android:textColor="@drawable/clear_history_txt"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textStyle="bold"
             android:singleLine="true"
-            android:background="@drawable/kw_search_btn_shape"
+            android:background="@drawable/clear_hisotry_btn"
             android:text="清除历史纪录"/>
 
     </LinearLayout>

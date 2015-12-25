@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.home.activity;
+package com.ikaowo.join.modules.promption.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;

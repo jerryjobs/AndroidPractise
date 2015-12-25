@@ -11,4 +11,6 @@ import com.common.framework.core.JCommonService;
 public abstract class PromptionService extends JCommonService {
 
   public abstract void goToAddPromotionActivity(Context context);
+
+  public abstract void searchPromptionActivity(Context context);
 }

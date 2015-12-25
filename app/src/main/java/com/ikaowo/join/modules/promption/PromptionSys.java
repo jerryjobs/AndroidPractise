@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.home;
+package com.ikaowo.join.modules.promption;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -6,14 +6,14 @@ import android.view.ViewGroup;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JFragment;
 import com.ikaowo.join.R;
-import com.ikaowo.join.modules.home.fragment.PromptionListFragment;
+import com.ikaowo.join.modules.promption.fragment.PromptionListFragment;
 
 /**
  * Created by weibo on 15-12-8.
  */
-public class HomeSys extends BaseSys {
+public class PromptionSys extends BaseSys {
 
-  public HomeSys(Context context, ViewGroup tabContainer, TabListener listener) {
+  public PromptionSys(Context context, ViewGroup tabContainer, TabListener listener) {
     super(context, tabContainer, listener);
   }
 
@@ -39,7 +39,7 @@ public class HomeSys extends BaseSys {
 
   @Override
   public String getTag() {
-    return "HomeSys";
+    return "PromptionSys";
   }
 
   @Override

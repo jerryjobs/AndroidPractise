@@ -1,4 +1,6 @@
-package com.ikaowo.join.modules.home.fragment;
+package com.ikaowo.join.modules.promption.fragment;
+
+import android.text.TextUtils;
 
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.model.request.SearchRequest;
@@ -14,7 +16,11 @@ public class SearchPromptionFragment extends BasePromptionFragment {
 
   private String value;
   @Override
-  protected void sendRequest(Callback callback, int cp, int ps) {
+  protected void sendHttpRequest(Callback callback, int cp, int ps) {
+    //如果没有搜索关键词，则不搜索
+    if (TextUtils.isEmpty(value)) {
+      return;
+    }
     SearchRequest request = new SearchRequest();
     request.value = this.value;
     request.cp = cp;

@@ -9,7 +9,7 @@ import com.common.framework.core.JApplication;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.brand.BrandSys;
-import com.ikaowo.join.modules.home.HomeSys;
+import com.ikaowo.join.modules.promption.PromptionSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
 
@@ -42,7 +42,7 @@ public class MainTabActivity extends TabActivity {
   @Override
   protected List<BaseSys> getTabPages() {
     List<BaseSys> tabList = new ArrayList<>();
-    BaseSys homeTab = new HomeSys(this, tabContainerLayout, this);
+    BaseSys homeTab = new PromptionSys(this, tabContainerLayout, this);
     tabList.add(homeTab);
     homeTab.setTabTitleTxtColor(R.color.tab_title);
 
@@ -79,7 +79,7 @@ public class MainTabActivity extends TabActivity {
         break;
 
       case R.id.action_search:
-
+        promptionService.searchPromptionActivity(this);
         break;
     }
 
