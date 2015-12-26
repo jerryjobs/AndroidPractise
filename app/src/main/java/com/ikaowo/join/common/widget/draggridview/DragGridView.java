@@ -113,7 +113,7 @@ public class DragGridView extends GridView {
         @Override
         public void run() {
             //最后一个不能拖动
-            if (isSwapLastItem() || mDragPosition != getAdapter().getCount() - 1) {
+            if (isSwapLastItem() || mDragPosition > 0 && mDragPosition != getAdapter().getCount() - 1) {
                 Log.e("DragGridViww", "the dragposition:" + mDragPosition);
                 isDrag = true; //设置可以拖拽
                 mVibrator.vibrate(50); //震动一下

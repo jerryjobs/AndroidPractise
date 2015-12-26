@@ -13,6 +13,7 @@ public class PromptionRequest extends BaseRequest {
   public String aci_date;
   public String aci_content;
   public String aci_notice;
+  public String aci_address;
   public int aci_company_id; //活动发起方公司.
   public String aci_icon; //活动icon.
   public String end_date;

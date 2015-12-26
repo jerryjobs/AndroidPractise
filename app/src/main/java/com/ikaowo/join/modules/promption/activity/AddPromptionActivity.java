@@ -250,6 +250,7 @@ public class AddPromptionActivity extends BaseActivity
     request.aci_company_id = userService.getUserCompanyId();
     request.aci_icon = promptionBg;
     request.end_date = promptionEndDate;
+    request.aci_address = promptionAddress;
     request.aci_tumblrs = list;
 
     PromptionInterface promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
