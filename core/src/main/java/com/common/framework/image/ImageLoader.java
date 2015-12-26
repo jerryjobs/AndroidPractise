@@ -48,9 +48,9 @@ public class ImageLoader {
         Log.e("ImageLoader", "the imgUrl:" + imgUrl);
         if (!TextUtils.isEmpty(imgUrl)) {
             if (target != null) {
-                Picasso.with(context).load(url).config(Bitmap.Config.RGB_565).placeholder(defaultImg).into(target);
+                Picasso.with(context).load(url).resize(targetWidth, targetHeight).centerCrop().config(Bitmap.Config.RGB_565).placeholder(defaultImg).into(target);
             } else {
-                Picasso.with(context).load(url).config(Bitmap.Config.RGB_565).placeholder(defaultImg).into(imageView);
+                Picasso.with(context).load(url).resize(targetWidth, targetHeight).centerCrop().config(Bitmap.Config.RGB_565).placeholder(defaultImg).into(imageView);
             }
         }
     }
