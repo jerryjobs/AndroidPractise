@@ -39,6 +39,7 @@ import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
+import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.DateTimeHelper;
 import com.ikaowo.join.util.QiniuUploadHelper;
 import com.squareup.picasso.Picasso;
@@ -255,7 +256,7 @@ public class AddPromptionActivity extends BaseActivity
 
     PromptionInterface promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
     Call<BaseResponse> call = promptionInterface.postPromption(request.getMap());
-    call.enqueue(new KwMarketNetworkCallback<BaseResponse>() {
+    JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
       @Override
       public void onSuccess(BaseResponse baseResponse) {
         JToast.toastShort("推广发布成功");

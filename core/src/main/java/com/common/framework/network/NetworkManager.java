@@ -2,6 +2,7 @@ package com.common.framework.network;
 
 import android.content.Context;
 
+import com.common.framework.core.JFragmentActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
@@ -24,6 +25,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -131,7 +133,26 @@ public class NetworkManager {
         }
     }
 
+    public void async(Context context, String progressStr, Call call, NetworkCallback networkCallback) {
+        boolean avaliableShowProgress = (context != null && context instanceof JFragmentActivity);
+        if (avaliableShowProgress) {
+            ((JFragmentActivity) context).dialogHelper.showProgressDialog(progressStr);
+        }
+        if (call == null || networkCallback == null) {
+            throw new RuntimeException("call or callback incomplete!");
+        }
+        call.enqueue(networkCallback);
+    }
+
+    public void async(Call call, NetworkCallback networkCallback) {
+        if (call == null || networkCallback == null) {
+            throw new RuntimeException("call or callback incomplete!");
+        }
+        call.enqueue(networkCallback);
+    }
+
     protected static String getUserAgent() {
         return "";
     }
+
 }

@@ -31,7 +31,7 @@ public class QiniuUploadHelper {
     map.put("u_id", "0");
     map.put("file_type", "icon");
     Call<TokenResponse> call = qiniuNetworkService.getQiniuToken(map);
-    call.enqueue(new KwMarketNetworkCallback<TokenResponse>() {
+    networkManager.async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback<TokenResponse>(context) {
       @Override
       public void onSuccess(final TokenResponse tokenResponse) {
         imageServerUrl = tokenResponse.url;

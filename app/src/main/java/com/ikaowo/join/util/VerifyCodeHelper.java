@@ -61,7 +61,7 @@ public class VerifyCodeHelper {
         request.phone = phoneEt.getText().toString().trim();
         Call<BaseResponse> call = verifyCodeInterface.sendVerifyCodeRequest(request);
         getVerifyBtn.setEnabled(false);
-        call.enqueue(new NetworkCallback<BaseResponse>() {
+        call.enqueue(new NetworkCallback<BaseResponse>(context) {
           @Override
           public void onSuccess(BaseResponse baseResponse) {
             if (baseResponse.status != 200) {

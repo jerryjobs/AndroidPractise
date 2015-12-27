@@ -21,6 +21,7 @@ import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JFragmentActivity;
 import com.common.framework.model.JResponse;
+import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.common.framework.widget.listview.RecyclerViewHelperInterface;
 import com.common.framework.widget.listview.ScrollMoreRecyclerView;
@@ -148,7 +149,7 @@ public class BrandListFragment extends BaseFragment
   private void setupRecyclerView(final ScrollMoreRecyclerView recyclerView, final boolean search,
                                  final RecyclerViewHelper<BrandListResponse, Brand> recyclerViewHelper) {
 
-    recyclerViewHelper.init(recyclerView, new BrandListAdapter(recyclerViewHelper), swipeRefreshLayout);
+    recyclerViewHelper.init(getActivity(), recyclerView, new BrandListAdapter(recyclerViewHelper), swipeRefreshLayout);
     recyclerViewHelper.initEmptyView(0, "暂无品牌信息");
     recyclerViewHelper.supportLoadMore(search);
 
@@ -192,7 +193,7 @@ public class BrandListFragment extends BaseFragment
       }
 
       @Override
-      public void sendRequest(Callback<BrandListResponse> callback, int cp, int ps) {
+      public void sendRequest(NetworkCallback<BrandListResponse> callback, int cp, int ps) {
         BrandInterface brandNetworkService = JApplication.getNetworkManager()
                 .getServiceByClass(BrandInterface.class);
 

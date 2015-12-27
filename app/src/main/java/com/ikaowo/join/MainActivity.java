@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity {
         request.password = "123123";
         Call<LoginResponse> call = testNetworkService.login(request);
 
-        call.enqueue(new KwMarketNetworkCallback<LoginResponse>() {
+        call.enqueue(new KwMarketNetworkCallback<LoginResponse>(MainActivity.this) {
 
           @Override
           public void onSuccess(LoginResponse loginResponse) {

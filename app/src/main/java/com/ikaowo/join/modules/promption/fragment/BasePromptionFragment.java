@@ -16,6 +16,7 @@ import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.common.framework.model.JResponse;
+import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.common.framework.widget.listview.RecyclerViewHelperInterface;
 import com.common.framework.widget.listview.ScrollMoreRecyclerView;
@@ -82,7 +83,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
   }
 
   private void setupRecyclerView() {
-    recyclerViewHelper.init(recyclerView, new PromptionListAdapter(recyclerViewHelper), swipeRefreshLayout);
+    recyclerViewHelper.init(getActivity(), recyclerView, new PromptionListAdapter(recyclerViewHelper), swipeRefreshLayout);
     recyclerViewHelper.initEmptyView(0, "暂无推广信息");
     recyclerViewHelper.supportLoadMore(true);
 
@@ -101,7 +102,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
       }
 
       @Override
-      public void sendRequest(Callback callback, int cp, int ps) {
+      public void sendRequest(NetworkCallback callback, int cp, int ps) {
 
         sendHttpRequest(callback, cp, ps);
       }
@@ -141,7 +142,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
     recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
   }
 
-  protected abstract void sendHttpRequest(Callback call, int cp, int ps);
+  protected abstract void sendHttpRequest(NetworkCallback call, int cp, int ps);
 
   @Override
   public String getPageName() {

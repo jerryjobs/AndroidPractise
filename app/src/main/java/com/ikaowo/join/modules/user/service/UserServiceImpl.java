@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JFragmentActivity;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.R;
@@ -18,7 +19,9 @@ import com.ikaowo.join.modules.user.activity.BrandListActivity;
 import com.ikaowo.join.modules.user.activity.ResetPasswdActivity;
 import com.ikaowo.join.modules.user.activity.SigninActivity;
 import com.ikaowo.join.modules.user.activity.SignupActivity;
+import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
+import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 
 import retrofit.Call;
@@ -68,15 +71,17 @@ public class UserServiceImpl extends UserService {
     LoginRequest request = new LoginRequest();
     request.username = userName;
     request.password = password;
-    Call<SignupResponse> call = userNetworkService.signin(request);
-    call.enqueue(new NetworkCallback<SignupResponse>() {
+    JApplication.getNetworkManager().async(context, Constant.LOGINING,
+            userNetworkService.signin(request),
+            new NetworkCallback<SignupResponse>(context) {
       @Override
       public void onSuccess(SignupResponse signupResponse) {
         sharedPreferenceHelper.saveUser(signupResponse.data);
-        ((Activity)context).finish();
+        ((Activity) context).finish();
         JToast.toastShort(context.getString(R.string.login_suc));
       }
     });
+
   }
 
   @Override
@@ -90,9 +95,9 @@ public class UserServiceImpl extends UserService {
     request.password = password;
 
     Call<BaseResponse> call = userNetworkService.resetPasswd(request);
-    call.enqueue(new NetworkCallback<BaseResponse>() {
+    JApplication.getNetworkManager().async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback(context) {
       @Override
-      public void onSuccess(BaseResponse baseResponse) {
+      public void onSuccess(Object o) {
         ((Activity)context).finish();
         JToast.toastShort(context.getString(R.string.reset_passwd_suc));
       }

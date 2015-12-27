@@ -1,5 +1,7 @@
 package com.ikaowo.join.network;
 
+import android.content.Context;
+
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.model.base.BaseResponse;
@@ -16,6 +18,10 @@ import retrofit.Retrofit;
  * Created by weibo on 15-12-2.
  */
 public abstract class KwMarketNetworkCallback<T> extends NetworkCallback<T> {
+
+  public KwMarketNetworkCallback(Context context) {
+    super(context);
+  }
 
   @Override
   public void onFailed(Response response, Retrofit retrofit) {

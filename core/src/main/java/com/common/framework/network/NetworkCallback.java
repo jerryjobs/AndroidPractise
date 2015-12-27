@@ -1,5 +1,9 @@
 package com.common.framework.network;
 
+import android.content.Context;
+import android.os.Handler;
+
+import com.common.framework.core.JFragmentActivity;
 import com.common.framework.model.JErrorReponse;
 import com.common.framework.util.JToast;
 import com.common.framework.widget.listview.RecyclerViewHelper;
@@ -20,8 +24,15 @@ public abstract class NetworkCallback<T> implements Callback<T> {
 
     private RecyclerViewHelper.Action action;
 
+    private Context context;
+
+    public NetworkCallback(Context context) {
+        this.context = context;
+    }
+
     @Override
     public void onResponse(Response<T> response, Retrofit retrofit) {
+        onNetworkRequestFinished();
         if (response.isSuccess()) {
             onSuccess(response.body());
         } else {
@@ -31,7 +42,7 @@ public abstract class NetworkCallback<T> implements Callback<T> {
 
     @Override
     public void onFailure(Throwable t) {
-
+        onNetworkRequestFinished();
     }
 
     //根据对应的项目，对错误做一些处理，在1.x版本，有一个errorhandler,
@@ -59,5 +70,17 @@ public abstract class NetworkCallback<T> implements Callback<T> {
     }
 
     public abstract void onSuccess(T t);
+
+    private void onNetworkRequestFinished() {
+        if (context != null && context instanceof JFragmentActivity) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((JFragmentActivity) context).dialogHelper.dismissProgressDialog();
+                }
+            }, 500);
+
+        }
+    }
 
 }

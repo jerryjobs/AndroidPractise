@@ -222,7 +222,7 @@ public class SignupActivity extends BaseEventBusActivity
     request.vcode = verifyCode;
     request.password = password;
     Call<SignupResponse> call = userNetworkService.signup(request);
-    call.enqueue(new NetworkCallback<SignupResponse>() {
+    call.enqueue(new NetworkCallback<SignupResponse>(SignupActivity.this) {
       @Override
       public void onSuccess(SignupResponse signupResponse) {
 

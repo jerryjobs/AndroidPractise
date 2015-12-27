@@ -1,5 +1,6 @@
 package com.common.framework.widget.listview;
 
+import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -31,7 +32,8 @@ public class RecyclerViewHelper<T extends JResponse, P> {
     private SwipeRefreshLayout swipeRefreshLayout;
     private GetDataListener listener;
     private JAdapter<P> adapter;
-    private Callback<T> callback;
+    private NetworkCallback<T> callback;
+    private Context context;
 
 
     public enum Action {
@@ -39,8 +41,9 @@ public class RecyclerViewHelper<T extends JResponse, P> {
     }
 
     //step #1
-    public void init(final ScrollMoreRecyclerView recyclerView,
+    public void init(Context context, final ScrollMoreRecyclerView recyclerView,
                      JAdapter adapter, SwipeRefreshLayout swipeRefreshLayout) {
+        this.context = context;
         this.recyclerView = recyclerView;
         this.adapter = adapter;
         this.recyclerView.setAdapter(adapter);
@@ -89,7 +92,7 @@ public class RecyclerViewHelper<T extends JResponse, P> {
             return;
         }
         if (callback == null ) {
-            callback = new NetworkCallback<T>() {
+            callback = new NetworkCallback<T>(context) {
                 @Override
                 public void onSuccess(T t) {
                     listener.onStop();
