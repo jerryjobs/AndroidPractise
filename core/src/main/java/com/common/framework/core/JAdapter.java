@@ -11,51 +11,51 @@ import java.util.List;
  */
 public class JAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    protected static final int EMPTYVIEW = 0;
-    protected static final int NORMALVIEW = 1;
-    protected List<T> objList = new ArrayList<>();
+  protected static final int EMPTYVIEW = 0;
+  protected static final int NORMALVIEW = 1;
+  protected List<T> objList = new ArrayList<>();
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+  @Override
+  public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    return null;
+  }
+
+  @Override
+  public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    if (objList.size() > 0) {
+      return NORMALVIEW;
+    } else {
+      return EMPTYVIEW;
     }
+  }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+  public void addPostToListFirst(List<T> list) {
+    notifyDataSetChanged();
+  }
 
-    }
+  public void setPostList(List<T> list) {
+    objList.clear();
+    objList.addAll(list);
+    notifyDataSetChanged();
+  }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (objList.size() > 0) {
-            return NORMALVIEW;
-        } else {
-            return EMPTYVIEW;
-        }
-    }
+  public void appendPostList(List<T> list) {
+    objList.addAll(list);
+    notifyDataSetChanged();
+  }
 
-    public void addPostToListFirst(List<T> list) {
-        notifyDataSetChanged();
-    }
+  @Override
+  public int getItemCount() {
+    return objList.size();
+  }
 
-    public void setPostList(List<T> list) {
-        objList.clear();
-        objList.addAll(list);
-        notifyDataSetChanged();
-    }
-
-    public void appendPostList(List<T> list) {
-        objList.addAll(list);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemCount() {
-        return objList.size();
-    }
-
-    public List<T> getObjList() {
-        return objList;
-    }
+  public List<T> getObjList() {
+    return objList;
+  }
 
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.common.framework.core.JApplication;
-import com.common.framework.core.JFragmentActivity;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.R;
@@ -67,27 +66,27 @@ public class UserServiceImpl extends UserService {
   @Override
   public void doLogin(final Context context, String userName, String password) {
     UserInterface userNetworkService
-            = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+      = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
     LoginRequest request = new LoginRequest();
     request.username = userName;
     request.password = password;
     JApplication.getNetworkManager().async(context, Constant.LOGINING,
-            userNetworkService.signin(request),
-            new NetworkCallback<SignupResponse>(context) {
-      @Override
-      public void onSuccess(SignupResponse signupResponse) {
-        sharedPreferenceHelper.saveUser(signupResponse.data);
-        ((Activity) context).finish();
-        JToast.toastShort(context.getString(R.string.login_suc));
-      }
-    });
+      userNetworkService.signin(request),
+      new NetworkCallback<SignupResponse>(context) {
+        @Override
+        public void onSuccess(SignupResponse signupResponse) {
+          sharedPreferenceHelper.saveUser(signupResponse.data);
+          ((Activity) context).finish();
+          JToast.toastShort(context.getString(R.string.login_suc));
+        }
+      });
 
   }
 
   @Override
   public void resetPasswd(final Context context, String userName, String vCode, String password) {
     UserInterface userNetworkService
-            = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+      = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
 
     ResetPasswdRequest request = new ResetPasswdRequest();
     request.phone = userName;
@@ -98,7 +97,7 @@ public class UserServiceImpl extends UserService {
     JApplication.getNetworkManager().async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback(context) {
       @Override
       public void onSuccess(Object o) {
-        ((Activity)context).finish();
+        ((Activity) context).finish();
         JToast.toastShort(context.getString(R.string.reset_passwd_suc));
       }
     });

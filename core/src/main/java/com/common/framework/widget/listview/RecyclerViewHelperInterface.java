@@ -10,8 +10,11 @@ import java.util.List;
  */
 public interface RecyclerViewHelperInterface<T extends JResponse, P> {
 
-    boolean checkResponse(JResponse baseResponse);
-    List<P> getList(T t);
-    void sendRequest(NetworkCallback<T> callback, int cp, int ps);
-    void performItemClick(int position);
+  boolean checkResponse(JResponse baseResponse);
+
+  List<P> getList(T t);
+
+  void sendRequest(NetworkCallback<T> callback, int cp, int ps);
+
+  void performItemClick(int position);
 }

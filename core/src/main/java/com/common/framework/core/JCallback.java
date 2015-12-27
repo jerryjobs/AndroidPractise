@@ -5,6 +5,6 @@ package com.common.framework.core;
  */
 public interface JCallback<T> {
 
-    void callback(T t);
+  void callback(T t);
 
 }

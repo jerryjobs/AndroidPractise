@@ -14,65 +14,65 @@ import android.view.inputmethod.InputMethodManager;
  */
 public abstract class JFragmentActivity extends AppCompatActivity {
 
-    public JDialogHelper dialogHelper;
+  public JDialogHelper dialogHelper;
 
-    protected Toolbar toolbar;
-    protected int menuResId;
+  protected Toolbar toolbar;
+  protected int menuResId;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        dialogHelper = new JDialogHelper(this);
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    dialogHelper = new JDialogHelper(this);
+  }
+
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    if (menuResId > 0) {
+      getMenuInflater().inflate(menuResId, menu);
+      return true;
+    } else {
+      return super.onCreateOptionsMenu(menu);
     }
+  }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (menuResId > 0) {
-            getMenuInflater().inflate(menuResId, menu);
-            return true;
-        } else {
-            return super.onCreateOptionsMenu(menu);
-        }
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        break;
     }
+    return true;
+  }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
+  protected abstract String getTag();
+
+  public void hideInput(Context context, View view) {
+    /**
+     * solve:
+     * Attempt to invoke virtual method 'android.os.IBinder android.view.View.getWindowToken()'
+     * on a null object reference
+     */
+    if (view != null) {
+      InputMethodManager inputMethodManager =
+        (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+      inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+  }
 
-    protected abstract String getTag();
+  @Override
+  protected void onResume() {
+    super.onResume();
+  }
 
-    public void hideInput(Context context, View view) {
-        /**
-         * solve:
-         * Attempt to invoke virtual method 'android.os.IBinder android.view.View.getWindowToken()'
-         * on a null object reference
-         */
-        if(view!=null){
-            InputMethodManager inputMethodManager =
-                    (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
+  @Override
+  protected void onPause() {
+    super.onPause();
+  }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+  }
 }

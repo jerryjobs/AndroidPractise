@@ -59,52 +59,40 @@ import retrofit.Call;
  * Created by weibo on 15-12-22.
  */
 public class AddPromptionActivity extends BaseActivity
-        implements DragGridItemAdapter.GridViewItemDeleteListener,
-        PhotoService.UploadFinishListener,
-        DragGridView.OnChanageListener, TextWatcher{
+  implements DragGridItemAdapter.GridViewItemDeleteListener,
+  PhotoService.UploadFinishListener,
+  DragGridView.OnChanageListener, TextWatcher {
 
+  private final int MAX_COUNT = 6;
+  private final int MAX_CONTENT_LENGTH = 140;
   @Bind(R.id.add_promption_bg_container)
   FrameLayout promptionBgContainer;
-
   @Bind(R.id.promption_bg)
   ImageView promptionBgImg;
-
   @Bind(R.id.promption_title)
   AppCompatEditText promptTitleEt;
-
   @Bind(R.id.promption_content)
   AppCompatEditText promptContentEt;
-
   @Bind(R.id.content_remaing)
   TextView contentRemainingTv;
-
   @Bind(R.id.add_promption_bg_btn)
   RelativeLayout addPromptionBgBtn;
-
   @Bind(R.id.promption_imgs_container)
   DragGridView promptionImgsContainer;
-
   @Bind(R.id.promption_time)
   CustomEditTextView promptionTimeTv;
-
   @Bind(R.id.promption_address)
   CustomEditTextView promptionAddressTv;
-
   @Bind(R.id.promption_end_date)
   CustomEditTextView endDateEt;
-
   @Bind(R.id.promption_notes_content)
   AppCompatEditText noteEt;
-
   private TextView endDateTv;
   private EditText timeInputEt;
   private EditText addInputEt;
   private EditText endTimeEt;
-
   private int targetImgBgWidth, targetImgBgHeight;
   private DragGridItemAdapter itemAdapter;
-  private final int MAX_COUNT = 6;
-  private final int MAX_CONTENT_LENGTH = 140;
   private QiniuUploadHelper qiniuUploadHelper;
   private InputFiledHelper inputHelper;
   private DateTimeHelper dateTimeHelper;
@@ -163,8 +151,8 @@ public class AddPromptionActivity extends BaseActivity
 
     contentRemainingTv.setText(getString(R.string.content_remaing, 0, MAX_CONTENT_LENGTH));
     promptContentEt.setFilters(new InputFilter[]{
-            new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
-      });
+      new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
+    });
     promptContentEt.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -224,7 +212,7 @@ public class AddPromptionActivity extends BaseActivity
     boolean noticeInputed = !TextUtils.isEmpty(promptNotes);
 
     menu.getItem(0).setEnabled(bgSelected && titleInputed
-            && contentInputed && timeInputed && addressInputed && endTimeInputed && noticeInputed);
+      && contentInputed && timeInputed && addressInputed && endTimeInputed && noticeInputed);
     return true;
   }
 
@@ -281,16 +269,16 @@ public class AddPromptionActivity extends BaseActivity
   public void selectEndDate() {
     Map<Integer, Integer> timeValue = dateTimeHelper.getDateValue(endDate);
     DatePickerDialog datePicker = new DatePickerDialog(this,
-            android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-            new DatePickerDialog.OnDateSetListener() {
-      @Override
-      public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        endDateTv.setText(dateTimeHelper.getFormatedDate(year, monthOfYear, dayOfMonth));
-        endDate = dateTimeHelper.getFormatedTime(year, monthOfYear, dayOfMonth);
-      }
-    }, timeValue.get(Calendar.YEAR),
-       timeValue.get(Calendar.MONTH),
-       timeValue.get(Calendar.DAY_OF_MONTH));
+      android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+      new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+          endDateTv.setText(dateTimeHelper.getFormatedDate(year, monthOfYear, dayOfMonth));
+          endDate = dateTimeHelper.getFormatedTime(year, monthOfYear, dayOfMonth);
+        }
+      }, timeValue.get(Calendar.YEAR),
+      timeValue.get(Calendar.MONTH),
+      timeValue.get(Calendar.DAY_OF_MONTH));
 
     datePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     datePicker.show();
@@ -314,13 +302,13 @@ public class AddPromptionActivity extends BaseActivity
       if (imgUri != null) {
         promptionBg = imgUrl;
         Picasso.with(this)
-                .load(imgUri).centerCrop().resize(targetImgBgWidth, targetImgBgHeight)
-                .into(promptionBgImg);
+          .load(imgUri).centerCrop().resize(targetImgBgWidth, targetImgBgHeight)
+          .into(promptionBgImg);
 
       } else if (!TextUtils.isEmpty(imgUrl)) {
         promptionBg = imgUrl;
         JApplication.getImageLoader().loadImage(
-                promptionBgImg, imgUrl, targetImgBgWidth, targetImgBgHeight, R.drawable.brand_icon_default);
+          promptionBgImg, imgUrl, targetImgBgWidth, targetImgBgHeight, R.drawable.brand_icon_default);
       }
       invalidateOptionsMenu();
       clickedPos = null;

@@ -9,9 +9,9 @@ import com.common.framework.core.JApplication;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.brand.BrandSys;
-import com.ikaowo.join.modules.promption.PromptionSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
+import com.ikaowo.join.modules.promption.PromptionSys;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,8 +68,7 @@ public class MainTabActivity extends TabActivity {
     int id = item.getItemId();
 
 
-
-    switch(id) {
+    switch (id) {
       case R.id.action_add:
         if (userService.isLogined()) {
           promptionService.goToAddPromotionActivity(this);

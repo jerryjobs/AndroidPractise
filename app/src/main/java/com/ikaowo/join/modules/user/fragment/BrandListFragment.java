@@ -42,13 +42,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import retrofit.Call;
-import retrofit.Callback;
 
 /**
  * Created by weibo on 15-12-18.
  */
 public class BrandListFragment extends BaseFragment
-        implements AlphaSlideBar.OnTouchingLetterChangedListener {
+  implements AlphaSlideBar.OnTouchingLetterChangedListener {
 
   @Bind(R.id.indicator)
   TextView indicatorTv;
@@ -99,7 +98,7 @@ public class BrandListFragment extends BaseFragment
 
   private void setupView() {
     final AutoCompleteTextView searchText
-            = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+      = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
 
     searchText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
     setupSearchView(searchView);
@@ -121,7 +120,7 @@ public class BrandListFragment extends BaseFragment
           @Override
           public void run() {
             searchRecyclerViewHelper.sendRequestAndProcess(
-                    RecyclerViewHelper.Action.REFRESH);
+              RecyclerViewHelper.Action.REFRESH);
             searchView.clearFocus();
             ((JFragmentActivity) getActivity()).hideInput(getActivity(), searchView);
           }
@@ -159,8 +158,8 @@ public class BrandListFragment extends BaseFragment
       @Override
       public boolean checkResponse(JResponse baseResponse) {
         return baseResponse != null &&
-                ((baseResponse instanceof BrandListResponse)
-                        && (((BrandListResponse) baseResponse).data) != null);
+          ((baseResponse instanceof BrandListResponse)
+            && (((BrandListResponse) baseResponse).data) != null);
       }
 
       @Override
@@ -180,7 +179,7 @@ public class BrandListFragment extends BaseFragment
             default:
               firstLetter = brandList.get(i).company_py;
               boolean showSection = (!firstLetter
-                      .equalsIgnoreCase(brandList.get(i - 1).company_py));
+                .equalsIgnoreCase(brandList.get(i - 1).company_py));
               brandList.get(i).showSection = showSection;
               brandList.get(i - 1).hideSplit = showSection;
               if (showSection) {
@@ -195,7 +194,7 @@ public class BrandListFragment extends BaseFragment
       @Override
       public void sendRequest(NetworkCallback<BrandListResponse> callback, int cp, int ps) {
         BrandInterface brandNetworkService = JApplication.getNetworkManager()
-                .getServiceByClass(BrandInterface.class);
+          .getServiceByClass(BrandInterface.class);
 
         Call<BrandListResponse> call;
         if (search) {
@@ -293,14 +292,14 @@ public class BrandListFragment extends BaseFragment
           }
 
           viewHodler.sectionSplitView.setVisibility(
-                  brand.hideSplit ? View.INVISIBLE : View.VISIBLE);
+            brand.hideSplit ? View.INVISIBLE : View.VISIBLE);
 
           JApplication.getImageLoader().loadImage(
-                  viewHodler.iconIv,
-                  brand.brand_logo,
-                  JApplication.getJContext().dip2px(64),
-                  JApplication.getJContext().dip2px(48),
-                  R.drawable.brand_icon_default);
+            viewHodler.iconIv,
+            brand.brand_logo,
+            JApplication.getJContext().dip2px(64),
+            JApplication.getJContext().dip2px(48),
+            R.drawable.brand_icon_default);
         }
       }
     }

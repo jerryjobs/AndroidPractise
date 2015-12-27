@@ -36,7 +36,7 @@ public class QiniuUploadHelper {
       public void onSuccess(final TokenResponse tokenResponse) {
         imageServerUrl = tokenResponse.url;
         photoService.onUploadPic(imageServerUrl, requestCode, resultCode,
-                tokenResponse.key, tokenResponse.token, data, listener);
+          tokenResponse.key, tokenResponse.token, data, listener);
       }
     });
   }

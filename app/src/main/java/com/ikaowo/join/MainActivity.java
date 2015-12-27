@@ -136,23 +136,23 @@ public class MainActivity extends BaseActivity {
       @Override
       public void onClick(View v) {
         dialog = dialogHelper.createDialog(MainActivity.this, "信息",
-                "对了上次有邻居说了解怎么去政府抗议，我觉得这个事情也可以计划起来了，" +
-                        "总觉得周六去了也没法马上起到很好的效果，多半得几条路一起走",
-                new String[]{"Cancel", "OK"}, new View.OnClickListener[]{
-                        new View.OnClickListener() {
-                          @Override
-                          public void onClick(View v) {
-                            dialog.dismiss();
-                          }
-                        },
+          "对了上次有邻居说了解怎么去政府抗议，我觉得这个事情也可以计划起来了，" +
+            "总觉得周六去了也没法马上起到很好的效果，多半得几条路一起走",
+          new String[]{"Cancel", "OK"}, new View.OnClickListener[]{
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                dialog.dismiss();
+              }
+            },
 
-                        new View.OnClickListener() {
-                          @Override
-                          public void onClick(View v) {
-                            Log.e("weiboooo", "I will not dismiss....");
-                          }
-                        },
-                });
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                Log.e("weiboooo", "I will not dismiss....");
+              }
+            },
+          });
         dialog.show();
       }
     });

@@ -25,10 +25,10 @@ public class ResourceUtil {
     Drawable drawable = null;
     if (Build.VERSION.SDK_INT >= 21) {
       drawable = context.getResources()
-              .getDrawable(drawableRes, context.getTheme());
+        .getDrawable(drawableRes, context.getTheme());
     } else {
       drawable = context.getResources()
-              .getDrawable(drawableRes);
+        .getDrawable(drawableRes);
     }
 
     return drawable;

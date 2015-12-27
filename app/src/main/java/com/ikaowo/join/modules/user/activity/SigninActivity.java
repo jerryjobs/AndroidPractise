@@ -25,18 +25,14 @@ import butterknife.OnClick;
  */
 public class SigninActivity extends BaseEventBusActivity implements TextWatcher {
 
-  private UserService userService
-          = JApplication.getJContext().getServiceByInterface(UserService.class);
-
   @Bind(R.id.name_et)
   DeletableEditTextView nameEt;
-
   @Bind(R.id.passwod_et)
   DeletableEditTextView passwordEt;
-
   @Bind(R.id.login_tv)
   TextView loginTv;
-
+  private UserService userService
+    = JApplication.getJContext().getServiceByInterface(UserService.class);
   private String username;
   private String password;
 
@@ -87,7 +83,7 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
 
   @OnClick(R.id.login_tv)
   public void login() {
-     userService.doLogin(this, username, password);
+    userService.doLogin(this, username, password);
   }
 
   @Override
@@ -124,7 +120,7 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
     boolean passwordInputed = !(TextUtils.isEmpty(password));
     boolean enable = userNameInputed && passwordInputed;
     loginTv.setEnabled(enable);
-    if (enable){
+    if (enable) {
       loginTv.setAlpha(1f);
     } else {
       loginTv.setAlpha(0.3f);

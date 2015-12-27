@@ -35,7 +35,7 @@ public class VerifyCodeHelper {
     this.context = context;
     this.getVerifyBtn = getVerifyBtn;
     this.verifyCodeInterface
-            = JApplication.getNetworkManager().getServiceByClass(VerifyCodeInterface.class);
+      = JApplication.getNetworkManager().getServiceByClass(VerifyCodeInterface.class);
     this.phoneEt = phoneEt;
     this.countDownTimer = new CountDownTimer(60 * 1000, 1 * 1000) {
       @Override

@@ -5,13 +5,13 @@ package com.common.framework.manager;
  */
 public abstract class JAppInfoManager {
 
-    public abstract boolean isDebuggable();
+  public abstract boolean isDebuggable();
 
-    public abstract void setDebuggable(boolean debuggable);
+  public abstract void setDebuggable(boolean debuggable);
 
-    public abstract String getDeviceId();
+  public abstract String getDeviceId();
 
-    public abstract String getChannelId();
+  public abstract String getChannelId();
 
-    public abstract String getVersionName();
+  public abstract String getVersionName();
 }

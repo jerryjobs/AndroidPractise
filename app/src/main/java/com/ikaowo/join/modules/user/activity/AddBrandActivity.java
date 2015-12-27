@@ -200,7 +200,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
           break;
       }
       Picasso.with(this)
-              .load(imgUri).centerCrop().resize(width, height).into(targetIv);
+        .load(imgUri).centerCrop().resize(width, height).into(targetIv);
 
     }
   }

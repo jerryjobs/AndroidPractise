@@ -34,7 +34,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
 
 /**
  * 这个basefragment现在由tab里面的推广列表以及推广搜索结果页面公用。
@@ -43,14 +42,12 @@ import retrofit.Callback;
  */
 public abstract class BasePromptionFragment extends BaseFragment {
 
+  protected PromptionInterface promptionInterface;
+  protected RecyclerViewHelper<PromptionListResposne, Promption> recyclerViewHelper;
   @Bind(R.id.recycler_view)
   ScrollMoreRecyclerView recyclerView;
   @Bind(R.id.swipe_refresh_layout)
   SwipeRefreshLayout swipeRefreshLayout;
-
-  protected PromptionInterface promptionInterface;
-  protected RecyclerViewHelper<PromptionListResposne, Promption> recyclerViewHelper;
-
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
   private WebViewService webViewService;
@@ -67,7 +64,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
 
     targetImgBgWidth
-            = JApplication.getJContext().getScreenWidth() - 2 * JApplication.getJContext().dip2px(12);
+      = JApplication.getJContext().getScreenWidth() - 2 * JApplication.getJContext().dip2px(12);
     targetImgBgHeight = targetImgBgWidth * 9 / 16;
   }
 
@@ -91,8 +88,8 @@ public abstract class BasePromptionFragment extends BaseFragment {
       @Override
       public boolean checkResponse(JResponse baseResponse) {
         return baseResponse != null &&
-                ((baseResponse instanceof PromptionListResposne)
-                        && (((PromptionListResposne) baseResponse).data) != null);
+          ((baseResponse instanceof PromptionListResposne)
+            && (((PromptionListResposne) baseResponse).data) != null);
       }
 
       @Override
@@ -120,7 +117,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
           return;
         }
 
-        Promption promption = (Promption)objList.get(position);
+        Promption promption = (Promption) objList.get(position);
         String url = BuildConfig.PROMPTION_URL + promption.id;
 
         if (promption.companyId > 0) {
@@ -149,6 +146,12 @@ public abstract class BasePromptionFragment extends BaseFragment {
     return "Home";
   }
 
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
+  }
+
   class PromptionListAdapter extends JAdapter<Promption> {
 
     private RecyclerViewHelper helper;
@@ -174,8 +177,8 @@ public abstract class BasePromptionFragment extends BaseFragment {
         viewHolder.promptionTimeTv.setText(promption.date);
         viewHolder.promptionTitleTv.setText(promption.title);
         imageLoader.loadImage(viewHolder.promptionBgImg,
-                                promption.background, targetImgBgWidth,
-                                targetImgBgHeight, R.drawable.brand_icon_default);
+          promption.background, targetImgBgWidth,
+          targetImgBgHeight, R.drawable.brand_icon_default);
         viewHolder.promptionContentTv.setText(promption.content);
       }
     }
@@ -201,7 +204,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
       ButterKnife.bind(this, itemView);
 
       LinearLayout.LayoutParams llp =
-              (LinearLayout.LayoutParams) promptionBgImg.getLayoutParams();
+        (LinearLayout.LayoutParams) promptionBgImg.getLayoutParams();
       llp.width = targetImgBgWidth;
       llp.height = targetImgBgHeight;
 
@@ -212,11 +215,5 @@ public abstract class BasePromptionFragment extends BaseFragment {
         }
       });
     }
-  }
-
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
   }
 }

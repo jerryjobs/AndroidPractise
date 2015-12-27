@@ -16,7 +16,7 @@ import java.util.Map;
 public class DateTimeHelper {
 
   private DateFormat dateTimeFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-  private DateFormat dateFormate      = new SimpleDateFormat("yyyy-MM-dd");
+  private DateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
 
   public Map<Integer, Integer> getDateValue() {
     Calendar calendar = Calendar.getInstance();

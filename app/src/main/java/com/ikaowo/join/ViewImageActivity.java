@@ -31,8 +31,8 @@ public class ViewImageActivity extends BaseActivity {
       @Override
       public void onClick(View v) {
         JApplication.getImageLoader().loadImage(
-                imageView, "https://futurestud.io/images/books/picasso.png",
-                -1, R.mipmap.ic_launcher);
+          imageView, "https://futurestud.io/images/books/picasso.png",
+          -1, R.mipmap.ic_launcher);
       }
     });
 

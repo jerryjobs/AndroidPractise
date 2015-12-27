@@ -2,11 +2,10 @@ package com.ikaowo.join.modules.promption.fragment;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
-import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.model.request.PromptionListRequest;
 import com.ikaowo.join.model.response.PromptionListResposne;
+
 import retrofit.Call;
-import retrofit.Callback;
 
 /**
  * Created by weibo on 15-12-8.

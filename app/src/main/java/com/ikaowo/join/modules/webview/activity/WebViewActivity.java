@@ -82,7 +82,7 @@ public class WebViewActivity extends BaseActivity implements WebViewHelper.WebVi
 
     if (url.startsWith("join://")) {
       view.getContext().startActivity(
-              new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
       return true;
     } else if (url.startsWith("tel:")) {
       Intent intent = new Intent(Intent.ACTION_DIAL);

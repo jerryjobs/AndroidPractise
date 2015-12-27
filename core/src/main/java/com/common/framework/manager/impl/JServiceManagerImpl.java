@@ -12,43 +12,43 @@ import java.util.Map;
  */
 public class JServiceManagerImpl implements JServiceManager {
 
-    private static JServiceManager mServiceManager;
+  private static JServiceManager mServiceManager;
 
-    private static Map<Class<? extends JCommonService>, JCommonService> mServiceMap;
+  private static Map<Class<? extends JCommonService>, JCommonService> mServiceMap;
 
-    private JServiceManagerImpl() {
-        mServiceMap = new HashMap<Class<? extends JCommonService>, JCommonService>();
+  private JServiceManagerImpl() {
+    mServiceMap = new HashMap<Class<? extends JCommonService>, JCommonService>();
+  }
+
+  public static JServiceManager getInstance() {
+    if (mServiceManager == null) {
+      mServiceManager = new JServiceManagerImpl();
     }
 
-    public static JServiceManager getInstance() {
-        if (mServiceManager == null) {
-            mServiceManager = new JServiceManagerImpl();
-        }
+    return mServiceManager;
+  }
 
-        return mServiceManager;
+  @Override
+  public boolean registerService(JServiceInfo serviceInfo) {
+    Class<? extends JCommonService> service = serviceInfo.getServiceInterface();
+    JCommonService serviceImpl = serviceInfo.getServiceImpl();
+
+    if (service == null || serviceImpl == null) {
+      return false;
     }
 
-    @Override
-    public boolean registerService(JServiceInfo serviceInfo) {
-        Class<? extends JCommonService> service = serviceInfo.getServiceInterface();
-        JCommonService serviceImpl = serviceInfo.getServiceImpl();
+    if (!mServiceMap.containsKey(service)) {
+      mServiceMap.put(service, serviceImpl);
+      serviceImpl.onCreate();
 
-        if (service == null || serviceImpl == null) {
-            return false;
-        }
-
-        if (!mServiceMap.containsKey(service)) {
-            mServiceMap.put(service, serviceImpl);
-            serviceImpl.onCreate();
-
-            return true;
-        }
-
-        return false;
+      return true;
     }
 
-    @Override
-    public <T> T getServiceByInterface(Class<? extends JCommonService> serviceInterface) {
-        return (T) mServiceMap.get(serviceInterface);
-    }
+    return false;
+  }
+
+  @Override
+  public <T> T getServiceByInterface(Class<? extends JCommonService> serviceInterface) {
+    return (T) mServiceMap.get(serviceInterface);
+  }
 }

@@ -71,7 +71,7 @@ public class CustomEditTextView extends LinearLayout {
     }
 
     LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT);
+      ViewGroup.LayoutParams.WRAP_CONTENT);
     llp.gravity = Gravity.CENTER_VERTICAL;
     containerLayout.addView(view, llp);
   }

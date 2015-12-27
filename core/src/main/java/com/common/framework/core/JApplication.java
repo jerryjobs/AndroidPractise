@@ -12,50 +12,51 @@ import com.common.framework.network.NetworkManager;
  */
 public abstract class JApplication extends MultiDexApplication {
 
-    private static JApplication application;
-    private static JContext context;
-    private static NetworkManager networkManager;
-    private static ImageLoader imageLoader;
+  private static JApplication application;
+  private static JContext context;
+  private static NetworkManager networkManager;
+  private static ImageLoader imageLoader;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+  public static JApplication getInstance() {
+    return application;
+  }
 
-        application = this;
-        context = new JContext(this);
-        networkManager = new NetworkManager(getApplicationContext(), getBaseUrl());
-        imageLoader = new ImageLoader(getApplicationContext());
+  public static JContext getJContext() {
+    return context;
+  }
 
-        registerService(context);
-        registerNetworkService(networkManager);
-    }
+  public static NetworkManager getNetworkManager() {
+    return networkManager;
+  }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
+  public static ImageLoader getImageLoader() {
+    return imageLoader;
+  }
 
+  @Override
+  public void onCreate() {
+    super.onCreate();
 
-    public static JApplication getInstance() {
-        return application;
-    }
+    application = this;
+    context = new JContext(this);
+    networkManager = new NetworkManager(getApplicationContext(), getBaseUrl());
+    imageLoader = new ImageLoader(getApplicationContext());
 
-    public static JContext getJContext() {
-        return context;
-    }
+    registerService(context);
+    registerNetworkService(networkManager);
+  }
 
-    public static NetworkManager getNetworkManager() {
-        return networkManager;
-    }
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
+  }
 
-    public static ImageLoader getImageLoader() {
-        return imageLoader;
-    }
+  //注册app 服务
+  public abstract void registerService(JContext context);
 
-    //注册app 服务
-    public abstract void registerService(JContext context);
-    //注册app网络请求服务
-    public abstract void registerNetworkService(NetworkManager networkManager);
-    public abstract String getBaseUrl();
+  //注册app网络请求服务
+  public abstract void registerNetworkService(NetworkManager networkManager);
+
+  public abstract String getBaseUrl();
 }

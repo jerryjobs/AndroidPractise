@@ -8,7 +8,6 @@ import com.ikaowo.join.model.request.SearchRequest;
 import com.ikaowo.join.model.response.PromptionListResposne;
 
 import retrofit.Call;
-import retrofit.Callback;
 
 /**
  * Created by weibo on 15-12-24.
@@ -16,6 +15,7 @@ import retrofit.Callback;
 public class SearchPromptionFragment extends BasePromptionFragment {
 
   private String value;
+
   @Override
   protected void sendHttpRequest(NetworkCallback callback, int cp, int ps) {
     //如果没有搜索关键词，则不搜索

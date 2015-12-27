@@ -27,12 +27,13 @@ public class SharedPreferenceHelper {
 
   private Gson gson;
   private Context context;
+
   private SharedPreferenceHelper() {
     this.context = JApplication.getInstance().getApplicationContext();
     this.gson = new GsonBuilder().create();
   }
 
-  public static SharedPreferenceHelper getInstance(){
+  public static SharedPreferenceHelper getInstance() {
     if (instance == null) {
       instance = new SharedPreferenceHelper();
     }
@@ -123,7 +124,7 @@ public class SharedPreferenceHelper {
   public void removeHistory(Context context, String history) {
     SharedPreferences sp = context.getSharedPreferences(HISTORY, 0);
     SharedPreferences.Editor edit = sp.edit();
-    List<String> historyList= getSearchHistory(context);
+    List<String> historyList = getSearchHistory(context);
     if (historyList == null || historyList.size() == 0) {
       return;
     } else {
@@ -138,7 +139,7 @@ public class SharedPreferenceHelper {
     SharedPreferences sp = context.getSharedPreferences(HISTORY, 0);
     SharedPreferences.Editor edit = sp.edit();
     List<String> historyList = getSearchHistory(context);
-    if (historyList == null ) {
+    if (historyList == null) {
       historyList = new ArrayList<>();
       historyList.add(s);
     } else {

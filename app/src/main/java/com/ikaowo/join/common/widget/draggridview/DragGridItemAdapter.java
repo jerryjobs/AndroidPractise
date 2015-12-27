@@ -36,7 +36,7 @@ public class DragGridItemAdapter extends BaseAdapter {
   public DragGridItemAdapter(Context context, List<ItemImageObj> items, int maxCount) {
     this.context = context;
     this.thumbList = items;
-    this.width  = JApplication.getJContext().getScreenWidth() / 4;
+    this.width = JApplication.getJContext().getScreenWidth() / 4;
     this.maxCount = maxCount;
     this.photoService = new PhotoService(context);
   }
@@ -79,7 +79,7 @@ public class DragGridItemAdapter extends BaseAdapter {
       case ItemImageObj.TYPE_ADD:
 
         convertView = LayoutInflater.from(context)
-                .inflate(R.layout.widget_drage_gridview_add, null);
+          .inflate(R.layout.widget_drage_gridview_add, null);
         addHolder = new AddHolderView(convertView);
         convertView.setTag(addHolder);
         break;
@@ -87,7 +87,7 @@ public class DragGridItemAdapter extends BaseAdapter {
       //普通类型
       case ItemImageObj.TYPE_NORMAL:
         convertView = LayoutInflater.from(context)
-                .inflate(R.layout.widget_drage_gridview_item, null);
+          .inflate(R.layout.widget_drage_gridview_item, null);
 
         convertView.setTag(normalHolder);
         normalHolder = new NormalHolderView(convertView);
@@ -97,13 +97,23 @@ public class DragGridItemAdapter extends BaseAdapter {
 
     if (normalHolder != null) {
       JApplication.getImageLoader().loadImage(
-              normalHolder.thumbImg, item.thumbImg, width, width, R.drawable.brand_icon_default);
+        normalHolder.thumbImg, item.thumbImg, width, width, R.drawable.brand_icon_default);
     }
     return convertView;
   }
 
   public void setDeleteListener(GridViewItemDeleteListener listener) {
     this.deleteListener = listener;
+  }
+
+  void addAddItem(List<ItemImageObj> items) {
+    ItemImageObj thumb = new ItemImageObj();
+    thumb.type = ItemImageObj.TYPE_ADD;
+    items.add(thumb);
+  }
+
+  public interface GridViewItemDeleteListener {
+    void setGridViewLastItemSwaple(boolean swaple);
   }
 
   /**
@@ -141,7 +151,7 @@ public class DragGridItemAdapter extends BaseAdapter {
             int pos = (int) deleteIconView.getTag();
             thumbList.remove(pos);
             if (thumbList.size() == maxCount - 1
-                    && thumbList.get(thumbList.size() - 1).type != ItemImageObj.TYPE_ADD) {
+              && thumbList.get(thumbList.size() - 1).type != ItemImageObj.TYPE_ADD) {
               addAddItem(thumbList);
               if (deleteListener != null) {
                 deleteListener.setGridViewLastItemSwaple(false);
@@ -154,19 +164,13 @@ public class DragGridItemAdapter extends BaseAdapter {
       };
 
       if (context instanceof JFragmentActivity) {
-        dialog = ((JFragmentActivity)context).dialogHelper.createDialog(context,
+        dialog = ((JFragmentActivity) context).dialogHelper.createDialog(context,
           "提示",
           "确认删除么？",
           new String[]{"取消", "确定"}, listeners);
         dialog.show();
       }
     }
-  }
-
-  void addAddItem(List<ItemImageObj> items) {
-    ItemImageObj thumb = new ItemImageObj();
-    thumb.type = ItemImageObj.TYPE_ADD;
-    items.add(thumb);
   }
 
   /**
@@ -182,12 +186,8 @@ public class DragGridItemAdapter extends BaseAdapter {
 
     @OnClick(R.id.expertsys_add_thumb)
     public void addThumb(View view) {
-      ((JFragmentActivity)context).hideInput(context, view);
+      ((JFragmentActivity) context).hideInput(context, view);
       photoService.takePhoto(context, view, null, true);
     }
-  }
-
-  public interface GridViewItemDeleteListener {
-    void setGridViewLastItemSwaple(boolean swaple);
   }
 }

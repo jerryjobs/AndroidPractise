@@ -8,9 +8,9 @@ import com.common.framework.core.JCommonService;
  * Created by weibo on 7/5/15.
  */
 public abstract class WebViewService extends JCommonService {
-    public abstract void openWebView(Context context, WebViewRequest request);
+  public abstract void openWebView(Context context, WebViewRequest request);
 
-    public static class WebViewRequest {
-        public String url;
-    }
+  public static class WebViewRequest {
+    public String url;
+  }
 }

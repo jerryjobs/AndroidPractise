@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -49,7 +48,7 @@ import retrofit.Call;
  * Created by weibo on 15-12-11.
  */
 public class SignupActivity extends BaseEventBusActivity
-        implements TextWatcher, PhotoService.UploadFinishListener, DeletableEditTextView.TextChangeListener {
+  implements TextWatcher, PhotoService.UploadFinishListener, DeletableEditTextView.TextChangeListener {
   @Bind(R.id.brand_name)
   CustomEditTextView brandNameTv;
   @Bind(R.id.user_name)
@@ -146,7 +145,8 @@ public class SignupActivity extends BaseEventBusActivity
         } else if (!TextUtils.isEmpty(userCardUrl)) {
           photoService.viewPhoto(SignupActivity.this, userCardUrl);
         } else {
-          photoService.takePhoto(SignupActivity.this, toolbar, null, true);;
+          photoService.takePhoto(SignupActivity.this, toolbar, null, true);
+          ;
         }
       }
     });
@@ -175,7 +175,7 @@ public class SignupActivity extends BaseEventBusActivity
     userName = userNameEt.getText().toString().trim();
     userTitle = userTitleEt.getText().toString().trim();
     phone = phoneEt.getText().toString().trim();
-    password  = passwordEt.getText().toString().trim();
+    password = passwordEt.getText().toString().trim();
     verifyCode = verifyCodeEt.getText().toString().trim();
     password = passwordEt.getText().toString().trim();
 
@@ -187,8 +187,8 @@ public class SignupActivity extends BaseEventBusActivity
     boolean verifyInputed = !TextUtils.isEmpty(verifyCode);
     boolean passwordInputed = !TextUtils.isEmpty(password) && password.length() >= 6;
     menu.getItem(0).setEnabled(brandNameInputed && userNameInputed && userTitleInputed
-            && userCardInputed && userPhoneInputed
-            && userPaswdInputed && verifyInputed && passwordInputed);
+      && userCardInputed && userPhoneInputed
+      && userPaswdInputed && verifyInputed && passwordInputed);
     return true;
   }
 
@@ -204,7 +204,7 @@ public class SignupActivity extends BaseEventBusActivity
 
   private void submit() {
     UserInterface userNetworkService
-            = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+      = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
     SignupRequest request = new SignupRequest();
     if (choosedBrand.company_id > 0) {
       request.company_id = choosedBrand.company_id;
@@ -257,7 +257,7 @@ public class SignupActivity extends BaseEventBusActivity
     int width = JApplication.getJContext().dip2px(48);
     imageUri = imgUri;
     Picasso.with(this)
-            .load(imgUri).centerCrop().resize(width, width).into(userCardIv);
+      .load(imgUri).centerCrop().resize(width, width).into(userCardIv);
     userCardUrl = url;
     invalidateOptionsMenu();
   }
