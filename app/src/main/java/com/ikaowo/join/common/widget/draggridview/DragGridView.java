@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -14,10 +15,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 
 /**
  * @author xiaanming
@@ -105,6 +108,10 @@ public class DragGridView extends GridView {
     private boolean swapLastItem;
     //    是否允许拖动
     private boolean enableSwap = true;
+
+    private int maxCountInLine = 4; //default is 4;
+    private int columnHeight;
+    private int lines;
 
     private Handler mHandler = new Handler();
     //用来处理是否为长按的Runnable
@@ -305,6 +312,25 @@ public class DragGridView extends GridView {
     }
 
     @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //当childview的个数发生变化的时候，自动将这个view的高度画大，否则页面将无法完全显示。
+        //同理，如果删除子view删除的时候，也要将view的高度缩小
+        ListAdapter adapter = getAdapter();
+        lines = (double)adapter.getCount() / maxCountInLine > 1 ? (adapter.getCount() / maxCountInLine + 1) : 1;
+        if (columnHeight == 0) {
+            if (adapter != null) {
+                columnHeight = getHeight() / lines;
+            }
+        }
+        if (getHeight() != columnHeight * lines) {
+            ViewGroup.LayoutParams vlp = getLayoutParams();
+            vlp.height = columnHeight * lines;
+            setLayoutParams(vlp);
+        }
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
 
@@ -417,6 +443,10 @@ public class DragGridView extends GridView {
 
     public void setEnableSwap(boolean enableSwap) {
         this.enableSwap = enableSwap;
+    }
+
+    public void setMaxCountInLine(int count) {
+        this.maxCountInLine = count;
     }
 
     /**
