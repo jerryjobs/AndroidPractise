@@ -32,8 +32,10 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.AlphaSlideBar;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
 import com.ikaowo.join.model.Brand;
+import com.ikaowo.join.model.request.SearchRequest;
 import com.ikaowo.join.model.response.BrandListResponse;
 import com.ikaowo.join.network.BrandInterface;
+import com.ikaowo.join.util.Constant;
 
 import java.util.HashMap;
 import java.util.List;
@@ -201,7 +203,12 @@ public class BrandListFragment extends BaseFragment
 
         Call<BrandListResponse> call;
         if (search) {
-          call = brandNetworkService.searchBrand("2", queryStr, cp, ps);
+          SearchRequest request = new SearchRequest();
+          request.type = Constant.SEARCH_TYPE_BRAND;
+          request.value = queryStr;
+          request.cp = cp;
+          request.ps = ps;
+          call = brandNetworkService.searchBrand(request.getMap());
         } else {
           call = brandNetworkService.getBrandList();
         }

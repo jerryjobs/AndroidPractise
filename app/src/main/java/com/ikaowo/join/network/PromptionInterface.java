@@ -29,4 +29,6 @@ public interface PromptionInterface {
   @GET("social/Detailinfo/3/{brand_id}/{cp}/{ps}")
   Call<PromptionListResposne> getJoinedPromptionList(@Path("brand_id") int brandId, @Path("cp") int cp, @Path("ps") int ps);
 
+  @GET("search")
+  Call<PromptionListResposne> searchPromptionList(@QueryMap Map map);
 }
