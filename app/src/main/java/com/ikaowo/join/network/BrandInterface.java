@@ -1,6 +1,8 @@
 package com.ikaowo.join.network;
 
 import com.ikaowo.join.model.response.BrandListResponse;
+import com.ikaowo.join.model.response.BrandResponse;
+import com.ikaowo.join.model.response.UserListResponse;
 
 import retrofit.Call;
 import retrofit.http.GET;
@@ -15,4 +17,12 @@ public interface BrandInterface {
 
   @GET("search/{type}/{query}/{cp}/{ps}")
   Call<BrandListResponse> searchBrand(@Path("type") String type, @Path("query") String query, @Path("cp") int cp, @Path("ps") int ps);
+
+  //获取平牌（公司）成员列表
+  @GET("public/companyDetail/{company_id}")
+  Call<UserListResponse> getBrandMember(@Path("company_id") int companyId);
+
+  @GET("public/company/{brand_id}")
+  Call<BrandResponse> getBrandInfo(@Path("brand_id") int brandId);
+
 }

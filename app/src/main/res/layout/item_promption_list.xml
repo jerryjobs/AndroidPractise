@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:layout_gravity="center_vertical"
-                android:textColor="#999"
+                android:textColor="@color/c9"
                 android:layout_marginLeft="6dp"/>
 
             <ImageView
@@ -89,7 +89,7 @@
         android:maxLines="2"
         android:lineSpacingMultiplier="1.3"
         android:ellipsize="end"
-        android:textColor="#666"
+        android:textColor="@color/c10"
         android:text="韩娱制造”在中国的火爆并不是单一偶发性的事件，而是“韩娱”庞大工业化，商业化体系和产业链多年经营的必然成果。“韩娱”从业人员累积的方法论，和如制造业一样精细化运营的产业体系，保证了他们能源源不断地推出下一部风靡全球的韩剧、下一位引起全球粉丝尖叫的k—pop偶像、下一个引起全球竞价购买的综艺节目。"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"

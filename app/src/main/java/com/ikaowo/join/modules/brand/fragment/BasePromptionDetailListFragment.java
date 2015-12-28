@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.promption.fragment;
+package com.ikaowo.join.modules.brand.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,25 +25,27 @@ import com.ikaowo.join.BuildConfig;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.service.WebViewService;
+import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.response.BrandListResponse;
 import com.ikaowo.join.model.response.PromptionListResposne;
 import com.ikaowo.join.network.PromptionInterface;
+import com.ikaowo.join.util.Constant;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
- * 这个basefragment现在由tab里面的推广列表以及推广搜索结果页面公用。
- * TODO 后期如果搜索结果页面发生变化，那么需要把这个页面跟搜索结果页面剥离
- * Created by weibo on 15-12-8.
+ * Created by weibo on 15-12-28.
  */
-public abstract class BasePromptionFragment extends BaseFragment {
-
+public abstract class BasePromptionDetailListFragment extends BaseFragment {
   protected PromptionInterface promptionInterface;
   protected RecyclerViewHelper<PromptionListResposne, Promption> recyclerViewHelper;
+  protected int brandId;
+
   @Bind(R.id.recycler_view)
   ScrollMoreRecyclerView recyclerView;
   @Bind(R.id.swipe_refresh_layout)
@@ -64,8 +66,13 @@ public abstract class BasePromptionFragment extends BaseFragment {
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
 
     targetImgBgWidth
-      = JApplication.getJContext().getScreenWidth() - 2 * JApplication.getJContext().dip2px(12);
+            = JApplication.getJContext().dip2px(120);
     targetImgBgHeight = targetImgBgWidth * 9 / 16;
+
+    Bundle bundle = getArguments();
+    if (bundle != null) {
+      brandId = bundle.getInt(Constant.BRAND_ID, 0);
+    }
   }
 
   @Nullable
@@ -87,9 +94,21 @@ public abstract class BasePromptionFragment extends BaseFragment {
     RecyclerViewHelperInterface recyclerViewHelperImpl = new RecyclerViewHelperInterface<PromptionListResposne, Promption>() {
       @Override
       public boolean checkResponse(JResponse baseResponse) {
-        return baseResponse != null &&
-          ((baseResponse instanceof PromptionListResposne)
-            && (((PromptionListResposne) baseResponse).data) != null);
+        boolean result = baseResponse != null &&
+                ((baseResponse instanceof PromptionListResposne)
+                        && (((PromptionListResposne) baseResponse).data) != null);
+        if (result) {
+          final GetListCountCallback.MapObj map = new GetListCountCallback.MapObj();
+          map.index = getIndex();
+          map.count = baseResponse.getTotals();
+          EventBus.getDefault().post(new GetListCountCallback() {
+            @Override
+            public MapObj getCountMap() {
+              return map;
+            }
+          });
+        }
+        return result;
       }
 
       @Override
@@ -100,7 +119,6 @@ public abstract class BasePromptionFragment extends BaseFragment {
 
       @Override
       public void sendRequest(NetworkCallback callback, int cp, int ps) {
-
         sendHttpRequest(callback, cp, ps);
       }
 
@@ -140,11 +158,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
   }
 
   protected abstract void sendHttpRequest(NetworkCallback call, int cp, int ps);
-
-  @Override
-  public String getPageName() {
-    return "Home";
-  }
+  protected abstract int getIndex();
 
   @Override
   public void onDestroyView() {
@@ -162,7 +176,7 @@ public abstract class BasePromptionFragment extends BaseFragment {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_promption_list, null);
+      View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_promption_detail_list, null);
       RecyclerView.ViewHolder viewHolder = new PromptionListViewHolder(view, helper);
       return viewHolder;
     }
@@ -172,39 +186,37 @@ public abstract class BasePromptionFragment extends BaseFragment {
       if (holder instanceof PromptionListViewHolder) {
         PromptionListViewHolder viewHolder = (PromptionListViewHolder) holder;
         Promption promption = objList.get(position);
-        viewHolder.companyNameTv.setText(promption.companyName);
-        viewHolder.promptionAddressTv.setText(promption.address);
-        viewHolder.promptionTimeTv.setText(promption.date);
+
+        imageLoader.loadImage(viewHolder.promptionIconIv,
+                promption.background, targetImgBgWidth,
+                targetImgBgHeight, R.drawable.brand_icon_default);
         viewHolder.promptionTitleTv.setText(promption.title);
-        imageLoader.loadImage(viewHolder.promptionBgImg,
-          promption.background, targetImgBgWidth,
-          targetImgBgHeight, R.drawable.brand_icon_default);
-        viewHolder.promptionContentTv.setText(promption.content);
+        viewHolder.promptionBrandNameTv.setText(promption.companyName);
+        viewHolder.promptionEndDateTv.setText(promption.endDate);
       }
     }
   }
 
   class PromptionListViewHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.company_name)
-    TextView companyNameTv;
-    @Bind(R.id.promption_address)
-    TextView promptionAddressTv;
-    @Bind(R.id.promption_time)
-    TextView promptionTimeTv;
-    @Bind(R.id.promption_bg)
-    ImageView promptionBgImg;
+    @Bind(R.id.promption_icon)
+    ImageView promptionIconIv;
+
     @Bind(R.id.promption_title)
     TextView promptionTitleTv;
-    @Bind(R.id.promption_content)
-    TextView promptionContentTv;
+
+    @Bind(R.id.brand_name)
+    TextView promptionBrandNameTv;
+
+    @Bind(R.id.end_date)
+    TextView promptionEndDateTv;
 
     public PromptionListViewHolder(View itemView, final RecyclerViewHelper recyclerViewHelper) {
       super(itemView);
       ButterKnife.bind(this, itemView);
 
       LinearLayout.LayoutParams llp =
-        (LinearLayout.LayoutParams) promptionBgImg.getLayoutParams();
+              (LinearLayout.LayoutParams) promptionIconIv.getLayoutParams();
       llp.width = targetImgBgWidth;
       llp.height = targetImgBgHeight;
 

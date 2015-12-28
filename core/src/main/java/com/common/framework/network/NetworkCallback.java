@@ -56,7 +56,7 @@ public abstract class NetworkCallback<T> implements Callback<T> {
         JToast.toastLong(error.msg);
       }
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

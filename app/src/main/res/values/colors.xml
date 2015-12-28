@@ -24,4 +24,7 @@
     <!--btn以及一些标识 -->
     <color name="c8">#f8ba18</color>
 
+    <color name="c9">#999</color>
+    <color name="c10">#666</color>
+
 </resources>

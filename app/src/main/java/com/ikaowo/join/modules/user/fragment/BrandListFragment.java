@@ -27,6 +27,7 @@ import com.common.framework.widget.listview.RecyclerViewHelperInterface;
 import com.common.framework.widget.listview.ScrollMoreRecyclerView;
 import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.AlphaSlideBar;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
@@ -68,6 +69,7 @@ public class BrandListFragment extends BaseFragment
   private RecyclerViewHelper<BrandListResponse, Brand> searchRecyclerViewHelper;
   private String queryStr;
   private boolean choose; //是否为选择操作
+  private BrandService brandService;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class BrandListFragment extends BaseFragment
     recyclerViewHelper = new RecyclerViewHelper<>();
     searchRecyclerViewHelper = new RecyclerViewHelper<>();
     choose = getArguments() == null ? false : getArguments().getBoolean(UserService.CHOOSE, false);
+    brandService = JApplication.getJContext().getServiceByInterface(BrandService.class);
   }
 
   @Nullable
@@ -207,27 +210,29 @@ public class BrandListFragment extends BaseFragment
 
       @Override
       public void performItemClick(final int position) {
+
+        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+        if (adapter == null) {
+          return;
+        }
+
+        final List objList = ((JAdapter<BrandListResponse>) adapter).getObjList();
+        if (objList == null) {
+          return;
+        }
+
+        final Brand brand = (Brand) objList.get(position);
         if (choose) {
           EventBus.getDefault().post(new ChooseBrandCallback() {
 
             @Override
             public Brand getChoosedBrand() {
-              RecyclerView.Adapter adapter = recyclerView.getAdapter();
-              if (adapter == null) {
-                return null;
-              }
-
-              List objList = ((JAdapter<BrandListResponse>) adapter).getObjList();
-              if (objList == null) {
-                return null;
-              }
-
-              return (Brand) objList.get(position);
+              return brand;
             }
           });
           getActivity().finish();
         } else { // view company detail
-
+          brandService.viewBrandDetail(getActivity(), brand.company_id);
         }
       }
     };

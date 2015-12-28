@@ -49,6 +49,9 @@
         <activity android:name=".modules.promption.activity.SearchPromptionActivity"
                   android:label="@string/title_activity_add_promotion"/>
 
+        <activity android:name=".modules.brand.activity.BrandDetailActivity"
+                  android:label="@string/title_activity_brand_detail" />
+
         <activity android:name=".modules.webview.activity.WebViewActivity" />
 
         <!-- Umeng Config -->

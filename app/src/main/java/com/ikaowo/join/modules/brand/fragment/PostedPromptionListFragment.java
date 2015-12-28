@@ -1,4 +1,4 @@
-package com.ikaowo.join.modules.promption.fragment;
+package com.ikaowo.join.modules.brand.fragment;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
@@ -8,14 +8,19 @@ import com.ikaowo.join.model.response.PromptionListResposne;
 import retrofit.Call;
 
 /**
- * Created by weibo on 15-12-8.
+ * Created by weibo on 15-12-28.
  */
-public class PromptionListFragment extends BasePromptionFragment {
+public class PostedPromptionListFragment extends BasePromptionDetailListFragment {
+
+  @Override
+  public String getPageName() {
+    return "PostedPromptionListFragment";
+  }
 
   @Override
   protected void sendHttpRequest(NetworkCallback callback, int cp, int ps) {
     PromptionListRequest request = new PromptionListRequest();
-    request.company_id = -1;
+    request.company_id = brandId;
     request.cp = cp;
     request.ps = ps;
     Call<PromptionListResposne> call = promptionInterface.getPromptionList(request.getMap());
@@ -23,7 +28,7 @@ public class PromptionListFragment extends BasePromptionFragment {
   }
 
   @Override
-  public String getPageName() {
-    return "PromptionListFragment";
+  protected int getIndex() {
+    return 1;
   }
 }

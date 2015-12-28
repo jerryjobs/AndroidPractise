@@ -34,4 +34,9 @@ public class SearchPromptionFragment extends BasePromptionFragment {
     this.value = search;
     recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
   }
+
+  @Override
+  public String getPageName() {
+    return "SearchPromptionFragment";
+  }
 }
