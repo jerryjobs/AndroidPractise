@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +13,7 @@ import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.model.UserLoginData;
@@ -37,7 +37,7 @@ public class MineFragment extends BaseFragment {
   @Bind(R.id.promption)
   RelativeLayout promptionLayout;
 
-  @Bind(R.id.company)
+  @Bind(R.id.brand_info)
   RelativeLayout companyLayout;
 
   @Bind(R.id.abount)
@@ -45,6 +45,7 @@ public class MineFragment extends BaseFragment {
 
   private UserService userService;
   private MineService mineService;
+  private BrandService brandService;
   private ImageLoader imageLoader;
   private int targetImgWidth, targetImgHeight;
 
@@ -53,6 +54,7 @@ public class MineFragment extends BaseFragment {
     super.onCreate(savedInstanceState);
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     mineService = JApplication.getJContext().getServiceByInterface(MineService.class);
+    brandService = JApplication.getJContext().getServiceByInterface(BrandService.class);
     imageLoader = JApplication.getImageLoader();
 
     targetImgWidth = targetImgHeight = JApplication.getJContext().dip2px(64);
@@ -76,8 +78,8 @@ public class MineFragment extends BaseFragment {
   }
 
   private void setupView() {
-    setupItem(promptionLayout, R.drawable.mine_ic_activity, "我的活动");
-    setupItem(companyLayout, R.drawable.mine_ic_mybrand, "我的公司");
+    setupItem(promptionLayout, R.drawable.mine_ic_activity, "我的推广");
+    setupItem(companyLayout, R.drawable.mine_ic_mybrand, "我的品牌");
     setupItem(aboutLayout, R.drawable.mine_ic_about, "关于我们");
   }
 
@@ -93,6 +95,16 @@ public class MineFragment extends BaseFragment {
   @OnClick(R.id.user_info)
   public void viewUserInfo() {
     mineService.viewUserInfo(getActivity());
+  }
+
+  @OnClick(R.id.promption)
+  public void viewMyPromption() {
+    mineService.viewMyPromption(getActivity());
+  }
+
+  @OnClick(R.id.brand_info)
+  public void viewBrandInfo() {
+    brandService.viewBrandDetail(getActivity(), userService.getUserCompanyId());
   }
 
   @Override

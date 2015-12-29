@@ -18,7 +18,8 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.model.Brand;
 import com.ikaowo.join.model.response.BrandResponse;
-import com.ikaowo.join.modules.brand.adapter.TabLayoutAdapter;
+import com.ikaowo.join.common.adapter.TabLayoutAdapter;
+import com.ikaowo.join.modules.brand.adapter.BrandPromptionTabLayoutAdapter;
 import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.util.Constant;
@@ -106,7 +107,7 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
     titlesArray[2] = getString(R.string.tab_title_member, 0);
 
     viewpager.setOffscreenPageLimit(3);
-    viewpager.setAdapter(new TabLayoutAdapter(getSupportFragmentManager(), brandId, titlesArray));
+    viewpager.setAdapter(new BrandPromptionTabLayoutAdapter(getSupportFragmentManager(), titlesArray, brandId));
     slidingTabs.setupWithViewPager(viewpager);
   }
 
@@ -151,7 +152,6 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
         slidingTabs.getTabAt(map.index).setText(title);
       }
     }
-
   }
 
   @Override

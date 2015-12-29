@@ -29,12 +29,12 @@ public class BrandSys extends BaseSys {
 
   @Override
   protected String getTabTitle() {
-    return "公司";
+    return context.getString(R.string.title_brand);
   }
 
   @Override
   protected String getActionBarTitle() {
-    return context.getResources().getString(R.string.app_name);
+    return context.getResources().getString(R.string.title_brand);
   }
 
   @Override
@@ -42,8 +42,4 @@ public class BrandSys extends BaseSys {
     return "BrandSys";
   }
 
-  @Override
-  public int getMenu() {
-    return R.menu.menu_company;
-  }
 }

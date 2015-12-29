@@ -84,6 +84,9 @@
         <activity android:name=".modules.mine.activity.UpdatePasswordActivity"
                   android:label="@string/title_activity_update_password" />
 
+        <activity android:name=".modules.mine.activity.MyPromptionActivity"
+                  android:label="@string/title_activity_mine_promption" />
+
         <activity android:name=".modules.webview.activity.WebViewActivity" />
 
         <!-- Umeng Config -->

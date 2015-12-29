@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.modules.mine.activity.MineActivity;
+import com.ikaowo.join.modules.mine.activity.MyPromptionActivity;
 import com.ikaowo.join.modules.mine.activity.UpdatePasswordActivity;
 
 /**
@@ -21,6 +22,12 @@ public class MineServiceImpl extends MineService {
   @Override
   public void updatePassword(Context context) {
     Intent intent = new Intent(context, UpdatePasswordActivity.class);
+    JApplication.getJContext().startActivity(context, intent);
+  }
+
+  @Override
+  public void viewMyPromption(Context context) {
+    Intent intent = new Intent(context, MyPromptionActivity.class);
     JApplication.getJContext().startActivity(context, intent);
   }
 

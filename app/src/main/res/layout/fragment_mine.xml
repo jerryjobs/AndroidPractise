@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/c5"/>
-        <include android:id="@+id/company" layout="@layout/widget_mine_item" />
+        <include android:id="@+id/brand_info" layout="@layout/widget_mine_item" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

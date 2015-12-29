@@ -29,12 +29,12 @@ public class PromptionSys extends BaseSys {
 
   @Override
   protected String getTabTitle() {
-    return "首页";
+    return context.getString(R.string.title_promption);
   }
 
   @Override
   protected String getActionBarTitle() {
-    return context.getResources().getString(R.string.app_name);
+    return context.getResources().getString(R.string.title_promption);
   }
 
   @Override

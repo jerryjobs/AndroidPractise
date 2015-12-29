@@ -28,12 +28,12 @@ public class MessageSys extends BaseSys {
 
   @Override
   protected String getTabTitle() {
-    return "消息";
+    return context.getString(R.string.title_message);
   }
 
   @Override
   protected String getActionBarTitle() {
-    return context.getResources().getString(R.string.app_name);
+    return context.getResources().getString(R.string.title_message);
   }
 
   @Override

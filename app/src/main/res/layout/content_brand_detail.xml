@@ -6,9 +6,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               tools:context="com.ikaowo.join.MainActivity"
-              tools:showIn="@layout/activity_brand_detail"
+              tools:showIn="@layout/activity_my_promption"
               app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
 
 
     <android.support.v4.view.ViewPager

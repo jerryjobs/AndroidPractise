@@ -10,4 +10,5 @@ import com.common.framework.core.JCommonService;
 public abstract class MineService extends JCommonService {
   public abstract void viewUserInfo(Context context);
   public abstract void updatePassword(Context context);
+  public abstract void viewMyPromption(Context context);
 }

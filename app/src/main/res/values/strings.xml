@@ -12,6 +12,7 @@
     <string name="title_activity_joined_list">合作伙伴</string>
     <string name="title_ativity_mine">个人信息</string>
     <string name="title_activity_update_password">修改密码</string>
+    <string name="title_activity_mine_promption">我的推广</string>
 
     <string name="brand_name">品牌名称</string>
     <string name="input_hint">请输入</string>
@@ -42,4 +43,8 @@
     <string name="tab_title_posted_promption">发起的(%1$d)</string>
     <string name="tab_title_join_promption">参加的(%1$d)</string>
     <string name="tab_title_member">成员(%1$d)</string>
+    <string name="title_promption">推广</string>
+    <string name="title_brand">品牌</string>
+    <string name="title_message">消息</string>
+    <string name="title_mine">我</string>
 </resources>

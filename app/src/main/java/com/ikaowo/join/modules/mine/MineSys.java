@@ -29,12 +29,12 @@ public class MineSys extends BaseSys {
 
   @Override
   protected String getTabTitle() {
-    return "我";
+    return context.getString(R.string.title_mine);
   }
 
   @Override
   protected String getActionBarTitle() {
-    return context.getResources().getString(R.string.app_name);
+    return context.getResources().getString(R.string.title_mine);
   }
 
   @Override
