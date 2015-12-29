@@ -8,6 +8,7 @@ import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 public class MainTabActivity extends TabActivity {
 
@@ -31,7 +34,7 @@ public class MainTabActivity extends TabActivity {
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
     toolbar.setTitle(getResources().getString(R.string.app_name));
 //        getNotificationCount();
-
+    EventBus.getDefault().register(this);
   }
 
   @Override
@@ -105,5 +108,19 @@ public class MainTabActivity extends TabActivity {
         tab.showNotification(notificatonStyle, count);
       }
     }
+  }
+
+  public void onEvent(ClickTabCallback callback) {
+    int pos = callback.getClickedSys();
+    BaseSys baseSys = tabbarList.get(pos);
+    if (baseSys != null) {
+      onClicked(baseSys);
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    EventBus.getDefault().unregister(this);
   }
 }

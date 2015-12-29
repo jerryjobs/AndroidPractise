@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ import com.ikaowo.join.modules.brand.adapter.TabLayoutAdapter;
 import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.util.Constant;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,7 +64,31 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
 
-    brandId = getIntent().getExtras().getInt(Constant.BRAND_ID, 0);
+    try {
+      List<String> pathSegments = getIntent().getData().getPathSegments();
+      if (pathSegments != null && pathSegments.size() > 0) {
+        brandId = Integer.valueOf(pathSegments.get(pathSegments.size() - 1));
+      }
+    } catch (Exception e) {
+
+    }
+    if (brandId <= 0) {
+      Bundle bundle = getIntent().getExtras();
+      if (bundle != null) {
+        brandId = bundle.getInt(Constant.BRAND_ID, 0);
+      }
+    }
+
+    if (brandId <= 0) {
+      dialogHelper.createDialog(this, "注意", "品牌信息不正确，请返回重试", new String[] {"确定"}, new View.OnClickListener[] {
+              new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  finish();
+                }
+              }
+      }).show();
+    }
 
     targetWidth = JApplication.getJContext().dip2px(120);
     targetHeight = JApplication.getJContext().dip2px(90);

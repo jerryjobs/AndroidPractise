@@ -10,6 +10,8 @@
     <string name="title_activity_add_promotion">添加活动</string>
     <string name="title_activity_brand_detail">品牌主页</string>
     <string name="title_activity_joined_list">合作伙伴</string>
+    <string name="title_ativity_mine">个人信息</string>
+    <string name="title_activity_update_password">修改密码</string>
 
     <string name="brand_name">品牌名称</string>
     <string name="input_hint">请输入</string>

@@ -11,21 +11,31 @@ public class UserLoginData implements Serializable {
   @SerializedName("u_id")
   public int uId;
 
-  @SerializedName("u_username")
+  @SerializedName("username")
   public String userName;
 
-  @SerializedName("u_nickname")
+  public String icon;
+
+  @SerializedName("nickname")
   public String nickName;
 
-  @SerializedName("u_company")
+  @SerializedName("company")
   public int companyId;
 
   @SerializedName("u_pos")
   public String title;
 
+  public String phone;
+
   @SerializedName("sta")
-  public String status;
+  public String state;
+
+  @SerializedName("company_sta")
+  public String companyState;
 
   @SerializedName("wx")
   public String wxId;
+
+  @SerializedName("company_info")
+  public Brand brandInfo;
 }

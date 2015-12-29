@@ -5,10 +5,12 @@ import com.common.framework.core.JContext;
 import com.common.framework.model.JServiceInfo;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.common.service.BrandService;
+import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.service.WebViewService;
 import com.ikaowo.join.modules.brand.service.BrandServiceImpl;
+import com.ikaowo.join.modules.mine.service.MineServiceImpl;
 import com.ikaowo.join.modules.promption.service.PromptionServiceImpl;
 import com.ikaowo.join.modules.user.service.UserServiceImpl;
 import com.ikaowo.join.modules.webview.service.WebViewServiceImpl;
@@ -30,6 +32,7 @@ public class KwMarketApplication extends JApplication {
     context.registerService(JServiceInfo.createServiceInfo(PromptionService.class, new PromptionServiceImpl()));
     context.registerService(JServiceInfo.createServiceInfo(WebViewService.class, new WebViewServiceImpl()));
     context.registerService(JServiceInfo.createServiceInfo(BrandService.class, new BrandServiceImpl()));
+    context.registerService(JServiceInfo.createServiceInfo(MineService.class, new MineServiceImpl()));
   }
 
   @Override

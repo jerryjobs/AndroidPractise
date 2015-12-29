@@ -4,8 +4,10 @@ import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.LoginRequest;
 import com.ikaowo.join.model.request.ResetPasswdRequest;
 import com.ikaowo.join.model.request.SignupRequest;
+import com.ikaowo.join.model.request.UpdatePasswordRequest;
 import com.ikaowo.join.model.response.SignupResponse;
 
+import butterknife.Bind;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.POST;
@@ -21,6 +23,11 @@ public interface UserInterface {
   @POST("user/signup")
   Call<SignupResponse> signup(@Body SignupRequest request);
 
+  //忘记密码重置
   @PUT("user/fgpw")
   Call<BaseResponse> resetPasswd(@Body ResetPasswdRequest request);
+
+  //修改
+  @PUT("user/password")
+  Call<BaseResponse> updatePasswd(@Body UpdatePasswordRequest request);
 }

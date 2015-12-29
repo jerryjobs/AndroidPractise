@@ -87,6 +87,7 @@ public class AddPromptionActivity extends BaseActivity
   CustomEditTextView endDateEt;
   @Bind(R.id.promption_notes_content)
   AppCompatEditText noteEt;
+
   private TextView endDateTv;
   private EditText timeInputEt;
   private EditText addInputEt;

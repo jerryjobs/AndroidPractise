@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JFragment;
 import com.ikaowo.join.R;
+import com.ikaowo.join.modules.mine.fragment.MineFragment;
 
 /**
  * Created by weibo on 15-12-8.
@@ -41,8 +42,4 @@ public class MineSys extends BaseSys {
     return "MineSys";
   }
 
-  @Override
-  public int getMenu() {
-    return R.menu.menu_me;
-  }
 }

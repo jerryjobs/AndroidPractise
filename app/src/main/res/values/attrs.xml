@@ -10,4 +10,13 @@
         <attr name="title_text_color" format="color"></attr>
         <attr name="title_text" format="string"></attr>
     </declare-styleable>
+
+    <declare-styleable name="MineItemWidget">
+        <attr name="item_title" format="string"></attr>
+        <attr name="type" format="string"></attr>
+        <attr name="icon_width" format="dimension"></attr>
+        <attr name="icon_height" format="dimension"></attr>
+        <attr name="item_icon" format="reference"></attr>
+        <attr name="icon_margin" format="dimension"></attr>
+    </declare-styleable>
 </resources>

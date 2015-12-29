@@ -3,12 +3,16 @@ package com.ikaowo.join.modules.user.service;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.ClickTabCallback;
+import com.ikaowo.join.eventbus.ClosePageCallback;
+import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.LoginRequest;
 import com.ikaowo.join.model.request.ResetPasswdRequest;
@@ -23,6 +27,7 @@ import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -113,9 +118,47 @@ public class UserServiceImpl extends UserService {
     return sharedPreferenceHelper.getUserCompanyId();
   }
 
+  public UserLoginData getUser() {
+    return sharedPreferenceHelper.getUser();
+  }
+
   @Override
   public int getUserId() {
     return sharedPreferenceHelper.getUserId();
+  }
+
+  @Override
+  public void logout(final Context context) {
+    sharedPreferenceHelper.clearUser();
+
+    JToast.toastShort("退出登录成功...");
+    new Handler().postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        //将MineActivity 页面关闭
+        EventBus.getDefault().post(new ClosePageCallback() {
+          @Override
+          public boolean close() {
+            return true;
+          }
+        });
+      }
+    }, 600);
+
+    EventBus.getDefault().post(new ClickTabCallback() {
+      @Override
+      public int getClickedSys() {
+        return 0;
+      }
+    });
+
+    new Handler().postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        //将MineActivity 页面关闭
+        goToSignin(context);
+      }
+    }, 500);
   }
 
   @Override

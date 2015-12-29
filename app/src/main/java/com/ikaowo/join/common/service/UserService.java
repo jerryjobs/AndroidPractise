@@ -3,6 +3,7 @@ package com.ikaowo.join.common.service;
 import android.content.Context;
 
 import com.common.framework.core.JCommonService;
+import com.ikaowo.join.model.UserLoginData;
 
 /**
  * Created by weibo on 15-12-17.
@@ -27,7 +28,11 @@ public abstract class UserService extends JCommonService {
 
   public abstract boolean isLogined();
 
+  public abstract UserLoginData getUser();
+
   public abstract int getUserCompanyId();
 
   public abstract int getUserId();
+
+  public abstract void logout(Context context);
 }

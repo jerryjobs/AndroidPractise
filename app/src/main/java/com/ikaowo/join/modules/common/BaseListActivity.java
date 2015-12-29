@@ -90,7 +90,7 @@ public abstract class BaseListActivity<T extends BaseListResponse, P> extends JF
 
   protected abstract boolean isSupportLoadMore();
 
-  protected abstract void sendHttpRequest(NetworkCallback call, int cp, int ps);
+  protected abstract void sendHttpRequest(NetworkCallback callback, int cp, int ps);
 
   protected abstract void performCustomItemClick(P p);
 

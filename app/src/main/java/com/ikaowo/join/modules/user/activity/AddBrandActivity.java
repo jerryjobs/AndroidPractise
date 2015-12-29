@@ -64,13 +64,13 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    setupEditText();
+    setupView();
     setupOptionMenu();
     displayHomeAsIndicator(R.drawable.nav_ic_close_white);
 
   }
 
-  private void setupEditText() {
+  private void setupView() {
     brandNameTv.setTitle(getString(R.string.brand_name));
     brandNameEt = inputHelper.getEditText(this, R.string.input_hint, new TextWatcher() {
       @Override

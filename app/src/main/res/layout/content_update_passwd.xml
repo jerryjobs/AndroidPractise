@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".modules.mine.activity.UpdatePasswordActivity"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    tools:showIn="@layout/activity_update_passwd">
+
+    <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+        android:id="@+id/old_password"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="14sp"
+        android:hint="原先密码"/>
+
+
+    <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+        android:id="@+id/new_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="14sp"
+        android:hint="新密码"/>
+</LinearLayout>

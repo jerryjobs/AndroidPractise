@@ -96,6 +96,7 @@ public class SharedPreferenceHelper {
     return user.companyId;
   }
 
+
   /*
    * search history related.
    */
