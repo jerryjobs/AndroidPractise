@@ -2,7 +2,6 @@ package com.ikaowo.join.modules.brand.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,24 +14,17 @@ import android.widget.TextView;
 import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
-import com.common.framework.model.JResponse;
-import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
-import com.common.framework.widget.listview.RecyclerViewHelperInterface;
-import com.common.framework.widget.listview.ScrollMoreRecyclerView;
-import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.BuildConfig;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.service.WebViewService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.model.Promption;
-import com.ikaowo.join.model.response.BrandListResponse;
-import com.ikaowo.join.model.response.PromptionListResposne;
+import com.ikaowo.join.model.base.BaseListResponse;
+import com.ikaowo.join.modules.common.BaseListFragment;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,15 +33,11 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by weibo on 15-12-28.
  */
-public abstract class BasePromptionDetailListFragment extends BaseFragment {
+public abstract class BasePromptionDetailListFragment extends BaseListFragment<BaseListResponse<Promption>, Promption> {
+
   protected PromptionInterface promptionInterface;
-  protected RecyclerViewHelper<PromptionListResposne, Promption> recyclerViewHelper;
   protected int brandId;
 
-  @Bind(R.id.recycler_view)
-  ScrollMoreRecyclerView recyclerView;
-  @Bind(R.id.swipe_refresh_layout)
-  SwipeRefreshLayout swipeRefreshLayout;
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
   private WebViewService webViewService;
@@ -58,7 +46,6 @@ public abstract class BasePromptionDetailListFragment extends BaseFragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    recyclerViewHelper = new RecyclerViewHelper<>();
     imageLoader = JApplication.getImageLoader();
     promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
 
@@ -75,96 +62,52 @@ public abstract class BasePromptionDetailListFragment extends BaseFragment {
     }
   }
 
-  @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_promption, null, false);
-    ButterKnife.bind(this, view);
-
-    setupRecyclerView();
-
-    return view;
+  protected boolean isSupportLoadMore() {
+    return true;
   }
-
-  private void setupRecyclerView() {
-    recyclerViewHelper.init(getActivity(), recyclerView, new PromptionListAdapter(recyclerViewHelper), swipeRefreshLayout);
-    recyclerViewHelper.initEmptyView(0, "暂无推广信息");
-    recyclerViewHelper.supportLoadMore(true);
-
-    RecyclerViewHelperInterface recyclerViewHelperImpl = new RecyclerViewHelperInterface<PromptionListResposne, Promption>() {
-      @Override
-      public boolean checkResponse(JResponse baseResponse) {
-        boolean result = baseResponse != null &&
-                ((baseResponse instanceof PromptionListResposne)
-                        && (((PromptionListResposne) baseResponse).data) != null);
-        if (result) {
-          final GetListCountCallback.MapObj map = new GetListCountCallback.MapObj();
-          map.index = getIndex();
-          map.count = baseResponse.getTotals();
-          EventBus.getDefault().post(new GetListCountCallback() {
-            @Override
-            public MapObj getCountMap() {
-              return map;
-            }
-          });
-        }
-        return result;
-      }
-
-      @Override
-      public List<Promption> getList(PromptionListResposne jResponse) {
-        List<Promption> list = jResponse.data;
-        return list;
-      }
-
-      @Override
-      public void sendRequest(NetworkCallback callback, int cp, int ps) {
-        sendHttpRequest(callback, cp, ps);
-      }
-
-      @Override
-      public void performItemClick(int position) {
-
-        RecyclerView.Adapter adapter = recyclerView.getAdapter();
-        if (adapter == null) {
-          return;
-        }
-
-        List objList = ((JAdapter<BrandListResponse>) adapter).getObjList();
-        if (objList == null) {
-          return;
-        }
-
-        Promption promption = (Promption) objList.get(position);
-        String url = BuildConfig.PROMPTION_URL + promption.id;
-
-        if (promption.companyId > 0) {
-          url += "?companyid=" + promption.companyId;
-        }
-        if (TextUtils.isEmpty(promption.background)) {
-          if (url.indexOf("?") > 0) {
-            url += "&iconurl=" + promption.background;
-          } else {
-            url += "?iconurl=" + promption.background;
-          }
-        }
-        WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
-        webViewRequest.url = url;
-        webViewService.openWebView(getActivity(), webViewRequest);
-      }
-    };
-    recyclerViewHelper.setHelperInterface(recyclerViewHelperImpl);
-    recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
-  }
-
-  protected abstract void sendHttpRequest(NetworkCallback call, int cp, int ps);
-  protected abstract int getIndex();
 
   @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
+  protected void performCustomItemClick(Promption promption) {
+    String url = BuildConfig.PROMPTION_URL + promption.id;
+
+    if (promption.companyId > 0) {
+      url += "?companyid=" + promption.companyId;
+    }
+    if (TextUtils.isEmpty(promption.background)) {
+      if (url.indexOf("?") > 0) {
+        url += "&iconurl=" + promption.background;
+      } else {
+        url += "?iconurl=" + promption.background;
+      }
+    }
+    WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
+    webViewRequest.url = url;
+    webViewService.openWebView(getActivity(), webViewRequest);
   }
+
+  protected void doAfterGetData(BaseListResponse<Promption> response) {
+    final GetListCountCallback.MapObj map = new GetListCountCallback.MapObj();
+    map.index = getIndex();
+    map.count = response.getTotals();
+    EventBus.getDefault().post(new GetListCountCallback() {
+      @Override
+      public MapObj getCountMap() {
+        return map;
+      }
+    });
+  }
+
+  @Override
+  protected JAdapter<Promption> getAdapter(RecyclerViewHelper<BaseListResponse<Promption>, Promption> recyclerViewHelper) {
+    return new PromptionListAdapter(recyclerViewHelper);
+  }
+
+  @Override
+  protected String getEmptyHint() {
+    return "暂无推广信息";
+  }
+
 
   class PromptionListAdapter extends JAdapter<Promption> {
 
@@ -228,4 +171,6 @@ public abstract class BasePromptionDetailListFragment extends BaseFragment {
       });
     }
   }
+
+  protected abstract int getIndex();
 }

@@ -4,8 +4,9 @@ import android.text.TextUtils;
 
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
+import com.ikaowo.join.model.Promption;
+import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.request.SearchRequest;
-import com.ikaowo.join.model.response.PromptionListResposne;
 import com.ikaowo.join.util.Constant;
 
 import retrofit.Call;
@@ -28,7 +29,7 @@ public class SearchPromptionFragment extends BasePromptionFragment {
     request.cp = cp;
     request.ps = ps;
     request.type = Constant.SEARCH_TYPE_PROMPTION;
-    Call<PromptionListResposne> call = promptionInterface.searchPromptionList(request.getMap());
+    Call<BaseListResponse<Promption>> call = promptionInterface.searchPromptionList(request.getMap());
     call.enqueue(callback);
   }
 

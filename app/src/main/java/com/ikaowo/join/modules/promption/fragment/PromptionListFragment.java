@@ -2,8 +2,9 @@ package com.ikaowo.join.modules.promption.fragment;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
+import com.ikaowo.join.model.Promption;
+import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.request.PromptionListRequest;
-import com.ikaowo.join.model.response.PromptionListResposne;
 
 import retrofit.Call;
 
@@ -18,7 +19,7 @@ public class PromptionListFragment extends BasePromptionFragment {
     request.company_id = -1;
     request.cp = cp;
     request.ps = ps;
-    Call<PromptionListResposne> call = promptionInterface.getPromptionList(request.getMap());
+    Call<BaseListResponse<Promption>> call = promptionInterface.getPromptionList(request.getMap());
     JApplication.getNetworkManager().async(call, callback);
   }
 

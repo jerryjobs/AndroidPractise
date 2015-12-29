@@ -104,6 +104,7 @@ public class RecyclerViewHelper<T extends JResponse, P> {
 
         @Override
         public void onFailure(Throwable t) {
+          t.printStackTrace();
           super.onFailure(t);
           listener.onStop();
         }

@@ -3,41 +3,26 @@ package com.ikaowo.join.modules.brand.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
-import com.common.framework.model.JResponse;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
-import com.common.framework.widget.listview.RecyclerViewHelperInterface;
-import com.common.framework.widget.listview.ScrollMoreRecyclerView;
-import com.ikaowo.join.BaseFragment;
-import com.ikaowo.join.BuildConfig;
 import com.ikaowo.join.R;
-import com.ikaowo.join.common.service.UserService;
-import com.ikaowo.join.common.service.WebViewService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
-import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.User;
-import com.ikaowo.join.model.response.BrandListResponse;
-import com.ikaowo.join.model.response.PromptionListResposne;
-import com.ikaowo.join.model.response.UserListResponse;
+import com.ikaowo.join.model.base.BaseListResponse;
+import com.ikaowo.join.modules.common.BaseListFragment;
 import com.ikaowo.join.network.BrandInterface;
-import com.ikaowo.join.network.PromptionInterface;
-import com.ikaowo.join.network.UserInfo;
 import com.ikaowo.join.util.Constant;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,14 +32,8 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-28.
  */
-public class PromptionMemberListFragment extends BaseFragment {
+public class PromptionMemberListFragment extends BaseListFragment<BaseListResponse<User>, User> {
 
-  @Bind(R.id.recycler_view)
-  ScrollMoreRecyclerView recyclerView;
-  @Bind(R.id.swipe_refresh_layout)
-  SwipeRefreshLayout swipeRefreshLayout;
-
-  private RecyclerViewHelper<PromptionListResposne, Promption> recyclerViewHelper;
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
   private int brandId;
@@ -76,60 +55,48 @@ public class PromptionMemberListFragment extends BaseFragment {
     }
   }
 
-  @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_promption, null, false);
-    ButterKnife.bind(this, view);
-
-    setupRecyclerView();
-    return view;
+  protected boolean isSupportLoadMore() {
+    return false;
   }
 
-  private void setupRecyclerView() {
-    recyclerViewHelper.init(getActivity(), recyclerView, new PromptionMemberAdapter(recyclerViewHelper), swipeRefreshLayout);
-    recyclerViewHelper.initEmptyView(0, "暂无成员信息");
-    recyclerViewHelper.supportLoadMore(true);
-
-    RecyclerViewHelperInterface recyclerViewHelperImpl = new RecyclerViewHelperInterface<UserListResponse, User>() {
+  @Override
+  protected void doAfterGetData(BaseListResponse<User> userBaseListResponse) {
+    final GetListCountCallback.MapObj map = new GetListCountCallback.MapObj();
+    map.index = 2;
+    map.count = userBaseListResponse.getTotals();
+    EventBus.getDefault().post(new GetListCountCallback() {
       @Override
-      public boolean checkResponse(JResponse baseResponse) {
-        boolean result = baseResponse != null &&
-                ((baseResponse instanceof UserListResponse)
-                        && (((UserListResponse) baseResponse).data) != null);
-        if (result) {
-          final GetListCountCallback.MapObj map = new GetListCountCallback.MapObj();
-          map.index = 2;
-          map.count = baseResponse.getTotals();
-          EventBus.getDefault().post(new GetListCountCallback() {
-            @Override
-            public MapObj getCountMap() {
-              return map;
-            }
-          });
-        }
-        return result;
+      public MapObj getCountMap() {
+        return map;
       }
+    });
+  }
 
-      @Override
-      public List<User> getList(UserListResponse jResponse) {
-        List<User> list = jResponse.data;
-        return list;
-      }
+  @Override
+  protected void sendHttpRequest(NetworkCallback callback, int cp, int ps) {
+    Call<BaseListResponse<User>> call = brandInterface.getBrandMember(brandId);
+    JApplication.getNetworkManager().async(call, callback);
+  }
 
-      @Override
-      public void sendRequest(NetworkCallback callback, int cp, int ps) {
-        Call<UserListResponse> call =brandInterface.getBrandMember(brandId);
-        JApplication.getNetworkManager().async(call, callback);
-      }
+  @Override
+  protected void performCustomItemClick(User user) {
 
-      @Override
-      public void performItemClick(int position) {
-        // do nothing
-      }
-    };
-    recyclerViewHelper.setHelperInterface(recyclerViewHelperImpl);
-    recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
+  }
+
+  @Override
+  protected JAdapter<User> getAdapter(RecyclerViewHelper<BaseListResponse<User>, User> recyclerViewHelper) {
+    return new PromptionMemberAdapter(recyclerViewHelper);
+  }
+
+  @Override
+  protected String getEmptyHint() {
+    return "暂无成员信息";
+  }
+
+  @Override
+  public String getPageName() {
+    return "PromptionMemberListFragment";
   }
 
   class PromptionMemberAdapter extends JAdapter<User> {
@@ -192,16 +159,5 @@ public class PromptionMemberListFragment extends BaseFragment {
         }
       });
     }
-  }
-
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
-  }
-
-  @Override
-  public String getPageName() {
-    return "PromptionMemberListFragment";
   }
 }

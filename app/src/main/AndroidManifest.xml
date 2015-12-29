@@ -52,6 +52,9 @@
         <activity android:name=".modules.brand.activity.BrandDetailActivity"
                   android:label="@string/title_activity_brand_detail" />
 
+        <activity android:name=".modules.promption.activity.JoinedListActivity"
+                  android:label="@string/title_activity_joined_list" />
+
         <activity android:name=".modules.webview.activity.WebViewActivity" />
 
         <!-- Umeng Config -->

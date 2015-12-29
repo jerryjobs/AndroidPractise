@@ -1,7 +1,8 @@
 package com.ikaowo.join.network;
 
+import com.ikaowo.join.model.Promption;
+import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.base.BaseResponse;
-import com.ikaowo.join.model.response.PromptionListResposne;
 
 import java.util.Map;
 
@@ -23,12 +24,12 @@ public interface PromptionInterface {
 
   //公司发布的活动列表&首页推荐列表
   @GET("social/info")
-  Call<PromptionListResposne> getPromptionList(@QueryMap Map map);
+  Call<BaseListResponse<Promption>> getPromptionList(@QueryMap Map map);
 
   //公司参加过的活动列表
   @GET("social/Detailinfo/3/{brand_id}/{cp}/{ps}")
-  Call<PromptionListResposne> getJoinedPromptionList(@Path("brand_id") int brandId, @Path("cp") int cp, @Path("ps") int ps);
+  Call<BaseListResponse<Promption>> getJoinedPromptionList(@Path("brand_id") int brandId, @Path("cp") int cp, @Path("ps") int ps);
 
   @GET("search")
-  Call<PromptionListResposne> searchPromptionList(@QueryMap Map map);
+  Call<BaseListResponse<Promption>> searchPromptionList(@QueryMap Map map);
 }

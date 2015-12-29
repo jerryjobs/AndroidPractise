@@ -32,8 +32,8 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.AlphaSlideBar;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
 import com.ikaowo.join.model.Brand;
+import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.request.SearchRequest;
-import com.ikaowo.join.model.response.BrandListResponse;
 import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.util.Constant;
 
@@ -67,8 +67,8 @@ public class BrandListFragment extends BaseFragment
 
   private Map<String, Integer> map = new HashMap<>();
   private String firstLetter = null;
-  private RecyclerViewHelper<BrandListResponse, Brand> recyclerViewHelper;
-  private RecyclerViewHelper<BrandListResponse, Brand> searchRecyclerViewHelper;
+  private RecyclerViewHelper<BaseListResponse<Brand>, Brand> recyclerViewHelper;
+  private RecyclerViewHelper<BaseListResponse<Brand>, Brand> searchRecyclerViewHelper;
   private String queryStr;
   private boolean choose; //是否为选择操作
   private BrandService brandService;
@@ -151,24 +151,24 @@ public class BrandListFragment extends BaseFragment
    * @param search       是否为搜索页面的recyclerview
    */
   private void setupRecyclerView(final ScrollMoreRecyclerView recyclerView, final boolean search,
-                                 final RecyclerViewHelper<BrandListResponse, Brand> recyclerViewHelper) {
+                                 final RecyclerViewHelper<BaseListResponse<Brand>, Brand> recyclerViewHelper) {
 
     recyclerViewHelper.init(getActivity(), recyclerView, new BrandListAdapter(recyclerViewHelper), swipeRefreshLayout);
     recyclerViewHelper.initEmptyView(0, "暂无品牌信息");
     recyclerViewHelper.supportLoadMore(search);
 
-    RecyclerViewHelperInterface recyclerViewHelperImpl = new RecyclerViewHelperInterface<BrandListResponse, Brand>() {
+    RecyclerViewHelperInterface recyclerViewHelperImpl = new RecyclerViewHelperInterface<BaseListResponse<Brand>, Brand>() {
 
 
       @Override
       public boolean checkResponse(JResponse baseResponse) {
         return baseResponse != null &&
-          ((baseResponse instanceof BrandListResponse)
-            && (((BrandListResponse) baseResponse).data) != null);
+                ((baseResponse instanceof BaseListResponse)
+                        && (((BaseListResponse) baseResponse).data) != null);
       }
 
       @Override
-      public List<Brand> getList(BrandListResponse brandListResponse) {
+      public List<Brand> getList(BaseListResponse<Brand> brandListResponse) {
         List<Brand> brandList = brandListResponse.data;
         int length = brandList.size();
         if (search) {
@@ -197,11 +197,11 @@ public class BrandListFragment extends BaseFragment
       }
 
       @Override
-      public void sendRequest(NetworkCallback<BrandListResponse> callback, int cp, int ps) {
+      public void sendRequest(NetworkCallback<BaseListResponse<Brand>> callback, int cp, int ps) {
         BrandInterface brandNetworkService = JApplication.getNetworkManager()
           .getServiceByClass(BrandInterface.class);
 
-        Call<BrandListResponse> call;
+        Call<BaseListResponse<Brand>> call;
         if (search) {
           SearchRequest request = new SearchRequest();
           request.type = Constant.SEARCH_TYPE_BRAND;
@@ -212,7 +212,7 @@ public class BrandListFragment extends BaseFragment
         } else {
           call = brandNetworkService.getBrandList();
         }
-        call.enqueue(callback);
+        JApplication.getNetworkManager().async(call, callback);
       }
 
       @Override
@@ -223,7 +223,7 @@ public class BrandListFragment extends BaseFragment
           return;
         }
 
-        final List objList = ((JAdapter<BrandListResponse>) adapter).getObjList();
+        final List objList = ((JAdapter<BaseListResponse<Brand>>) adapter).getObjList();
         if (objList == null) {
           return;
         }

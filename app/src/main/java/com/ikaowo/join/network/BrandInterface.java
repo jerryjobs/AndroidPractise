@@ -1,8 +1,9 @@
 package com.ikaowo.join.network;
 
-import com.ikaowo.join.model.response.BrandListResponse;
+import com.ikaowo.join.model.Brand;
+import com.ikaowo.join.model.User;
+import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.response.BrandResponse;
-import com.ikaowo.join.model.response.UserListResponse;
 
 import java.util.Map;
 
@@ -16,14 +17,14 @@ import retrofit.http.QueryMap;
  */
 public interface BrandInterface {
   @GET("public/companys")
-  Call<BrandListResponse> getBrandList();
+  Call<BaseListResponse<Brand>> getBrandList();
 
   @GET("search")
-  Call<BrandListResponse> searchBrand(@QueryMap Map map);
+  Call<BaseListResponse<Brand>> searchBrand(@QueryMap Map map);
 
   //获取平牌（公司）成员列表
   @GET("public/companyDetail/{company_id}")
-  Call<UserListResponse> getBrandMember(@Path("company_id") int companyId);
+  Call<BaseListResponse<User>> getBrandMember(@Path("company_id") int companyId);
 
   @GET("public/company/{brand_id}")
   Call<BrandResponse> getBrandInfo(@Path("brand_id") int brandId);
