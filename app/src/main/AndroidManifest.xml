@@ -28,7 +28,18 @@
         </activity>
 
         <activity android:name=".modules.user.activity.SigninActivity"
-            android:theme="@style/AppTheme.FullScreen"/>
+            android:theme="@style/AppTheme.FullScreen">
+            <intent-filter>
+                <data
+                    android:host="activity"
+                    android:scheme="join"
+                    android:pathPattern="/login"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".modules.user.activity.AddBrandActivity"
             android:label="@string/title_activity_add_brand"/>
@@ -97,6 +108,9 @@
 
         <activity android:name=".modules.mine.activity.MyPromptionActivity"
                   android:label="@string/title_activity_mine_promption" />
+
+        <activity android:name=".modules.promption.activity.JoinDetailActivity"
+                  android:label="@string/title_activity_join_detail"/>
 
         <activity android:name=".modules.webview.activity.WebViewActivity" />
 

@@ -16,6 +16,8 @@ import com.common.framework.network.NetworkCallback;
 import com.common.framework.network.NetworkManager;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.PromptionService;
+import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.model.JoinedUser;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListActivity;
@@ -37,6 +39,8 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
   private NetworkManager networkManager;
   private ImageLoader imageLoader;
   private int targetWidth, targetHeight;
+  private PromptionService promptionService;
+  private UserService userService;
 
   private int promptionId;
   @Override
@@ -52,19 +56,13 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     }
 
     if (promptionId <= 0) {
-      dialogHelper.createDialog(this, "注意", "推广信息不正确，请返回重试", new String[] {"确定"}, new View.OnClickListener[] {
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            finish();
-          }
-        }
-      }).show();
+      showConfirmDialog("注意", "推广活动信息不正确，请返回重试");
     }
 
     super.onCreate(savedInstanceState);
 
     imageLoader = JApplication.getImageLoader();
+    promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitle(R.string.title_activity_joined_list);
     setSupportActionBar(toolbar);
@@ -92,7 +90,10 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
 
   @Override
   protected void performCustomItemClick(JoinedUser user) {
-
+    if (userService == null) {
+      userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+    }
+    promptionService.viewJoinDetail(this, userService.getUserCompanyId(), user.promption_id);
   }
 
   @Override

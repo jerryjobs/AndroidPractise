@@ -5,6 +5,7 @@ import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.JoinRequest;
+import com.ikaowo.join.model.response.JoinInfoResponse;
 
 import java.util.Map;
 
@@ -40,4 +41,7 @@ public interface PromptionInterface {
 
   @GET("social/Detailinfo/1/{promption_id}/{cp}/{ps}")
   Call<BaseListResponse<JoinedUser>> getJoinedList(@Path("promption_id") int promptionId, @Path("cp") int cp, @Path("ps") int ps);
+
+  @GET("social/JoininfoComplex")
+  Call<JoinInfoResponse> getJoinInfo(@QueryMap Map map);
 }

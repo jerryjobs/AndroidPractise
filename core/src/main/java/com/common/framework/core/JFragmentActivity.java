@@ -25,6 +25,16 @@ public abstract class JFragmentActivity extends AppCompatActivity {
     dialogHelper = new JDialogHelper(this);
   }
 
+  protected void showConfirmDialog(String title, String content) {
+    dialogHelper.createDialog(this, title, content, new String[] {"确定"}, new View.OnClickListener[] {
+      new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          finish();
+        }
+      }
+    }).show();
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

@@ -10,6 +10,7 @@ public class Constant {
 
   public static final String BRAND_ID = "brand_id";
   public static final String PROMPTION_ID = "promption_id";
+  public static final String USER_ID = "user_id";
 
   public static final int SEARCH_TYPE_PROMPTION = 1;
   public static final int SEARCH_TYPE_BRAND = 2;
