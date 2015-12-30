@@ -3,7 +3,9 @@ package com.ikaowo.join.modules.promption.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -67,6 +69,13 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_join);
     ButterKnife.bind(this);
+
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    toolbar.setTitle(R.string.title_activity_join);
+
+    ActionBar ab = getSupportActionBar();
+    ab.setDisplayHomeAsUpEnabled(true);
 
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
@@ -133,6 +142,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     menuResId = R.menu.menu_add_submit;
     invalidateOptionsMenu();
   }
+
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {

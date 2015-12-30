@@ -1,7 +1,7 @@
 package com.ikaowo.join.network;
 
+import com.ikaowo.join.model.JoinedUser;
 import com.ikaowo.join.model.Promption;
-import com.ikaowo.join.model.User;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.JoinRequest;
@@ -36,8 +36,8 @@ public interface PromptionInterface {
   Call<BaseListResponse<Promption>> searchPromptionList(@QueryMap Map map);
 
   @POST("social/join")
-  Call<BaseResponse> join(JoinRequest joinRequest);
+  Call<BaseResponse> join(@Body JoinRequest joinRequest);
 
-  @GET("social/Detailinfo/1/{promption_id}/cp/{ps}")
-  Call<BaseListResponse<User>> getJoinedList(@Path("promption_id") int promptionId, @Path("cp") int cp, @Path("ps") int ps);
+  @GET("social/Detailinfo/1/{promption_id}/{cp}/{ps}")
+  Call<BaseListResponse<JoinedUser>> getJoinedList(@Path("promption_id") int promptionId, @Path("cp") int cp, @Path("ps") int ps);
 }

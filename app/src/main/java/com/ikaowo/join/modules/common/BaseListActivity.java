@@ -17,6 +17,7 @@ import com.ikaowo.join.model.base.BaseListResponse;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by weibo on 15-12-29.
@@ -33,7 +34,8 @@ public abstract class BaseListActivity<T extends BaseListResponse, P> extends JF
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.common_list_layout);
+    setContentView(R.layout.activity_base_list);
+    ButterKnife.bind(this);
     setupRecyclerView();
   }
 
