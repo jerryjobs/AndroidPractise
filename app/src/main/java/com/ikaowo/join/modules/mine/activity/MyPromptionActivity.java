@@ -1,7 +1,6 @@
 package com.ikaowo.join.modules.mine.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -9,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.BaseEventBusFragmentActivity;
-import com.ikaowo.join.BaseFragmentActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.GetListCountCallback;

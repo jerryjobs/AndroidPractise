@@ -18,7 +18,6 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.model.Brand;
 import com.ikaowo.join.model.response.BrandResponse;
-import com.ikaowo.join.common.adapter.TabLayoutAdapter;
 import com.ikaowo.join.modules.brand.adapter.BrandPromptionTabLayoutAdapter;
 import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.KwMarketNetworkCallback;

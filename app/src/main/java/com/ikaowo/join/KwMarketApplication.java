@@ -1,6 +1,5 @@
 package com.ikaowo.join;
 
-import com.alibaba.mobileim.YWAPI;
 import com.alibaba.wxlib.util.SysUtil;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JContext;

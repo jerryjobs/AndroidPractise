@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.ikaowo.join.BaseEventBusFragment;
-import com.ikaowo.join.BaseEventBusFragmentActivity;
-import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.MineService;

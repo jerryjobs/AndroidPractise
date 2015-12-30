@@ -1,7 +1,6 @@
 package com.ikaowo.join.modules.promption.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import com.common.framework.network.NetworkManager;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.R;
 import com.ikaowo.join.model.JoinedUser;
-import com.ikaowo.join.model.User;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListActivity;
 import com.ikaowo.join.network.PromptionInterface;

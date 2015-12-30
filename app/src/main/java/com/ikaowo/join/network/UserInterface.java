@@ -7,7 +7,6 @@ import com.ikaowo.join.model.request.SignupRequest;
 import com.ikaowo.join.model.request.UpdatePasswordRequest;
 import com.ikaowo.join.model.response.SignupResponse;
 
-import butterknife.Bind;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.POST;

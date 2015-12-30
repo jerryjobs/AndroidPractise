@@ -21,10 +21,13 @@ import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.SignoutCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
+import com.ikaowo.join.im.helper.WxImHelper;
+import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.promption.PromptionSys;
+import com.ikaowo.join.util.MD5Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +63,10 @@ public class MainTabActivity extends TabActivity {
   private void initWxImKit() {
     imKit = LoginHelper.getInstance().getIMKit();
     if (imKit != null) {
+      if (userService.isLogined()) {
+        UserLoginData user = userService.getUser();
+        WxImHelper.getInstance().initWxService(user.wxId, MD5Util.md5(user.phone));
+      }
       conversationService = imKit.getConversationService();
       initConversationServiceAndListener();
     }

@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
-import com.alibaba.mobileim.IYWLoginService;
-import com.alibaba.mobileim.YWLoginParam;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
@@ -19,6 +17,7 @@ import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.SignoutCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
+import com.ikaowo.join.im.helper.WxImHelper;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.LoginRequest;
@@ -32,6 +31,7 @@ import com.ikaowo.join.modules.user.activity.SignupActivity;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.Constant;
+import com.ikaowo.join.util.MD5Util;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 
 import de.greenrobot.event.EventBus;
@@ -88,7 +88,9 @@ public class UserServiceImpl extends UserService {
         @Override
         public void onSuccess(SignupResponse signupResponse) {
           sharedPreferenceHelper.saveUser(signupResponse.data);
-          initWxService();
+          String userId = signupResponse.data.wxId;
+          String password = MD5Util.md5(signupResponse.data.phone + "ddl");
+          WxImHelper.getInstance().initWxService(userId, password);
           EventBus.getDefault().post(new SigninCallback() {
             @Override
             public boolean singined() {
@@ -99,33 +101,6 @@ public class UserServiceImpl extends UserService {
           JToast.toastShort(context.getString(R.string.login_suc));
         }
       });
-  }
-
-
-  private void initWxService() {
-    String userid = "testpro22";
-    String password = "taobao1234";
-
-    LoginHelper loginHelper = LoginHelper.getInstance();
-    IYWLoginService loginService = loginHelper.getIMKit().getLoginService();
-    YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
-    loginService.login(loginParam, new IWxCallback() {
-
-      @Override
-      public void onSuccess(Object... objects) {
-        Log.e("weiboooo", "login success...");
-      }
-
-      @Override
-      public void onError(int i, String s) {
-        Log.e("weiboooo", "login failed...");
-      }
-
-      @Override
-      public void onProgress(int i) {
-
-      }
-    });
   }
 
   @Override

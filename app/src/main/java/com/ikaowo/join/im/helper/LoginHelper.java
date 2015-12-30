@@ -10,7 +10,8 @@ import com.alibaba.mobileim.YWIMKit;
  */
 public class LoginHelper {
   private static LoginHelper instance = new LoginHelper();
-  private final String APP_KEY = "23015524";
+//  private final String APP_KEY = "23283999";
+  private final String APP_KEY = "23015524"; //dev
   private YWIMKit imKit;
 
   private LoginHelper() {}
