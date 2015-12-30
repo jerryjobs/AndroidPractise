@@ -88,8 +88,9 @@ public abstract class TabActivity extends JFragmentActivity implements BaseSys.T
       FragmentManager fragmentManager = getSupportFragmentManager();
       FragmentTransaction transaction = fragmentManager.beginTransaction();
       for (BaseSys t : tabbarList) {
-        if (fragmentManager.findFragmentByTag(t.getTag()) != null) {
-          transaction.hide(t.getFragment());
+        Fragment fragment = fragmentManager.findFragmentByTag(t.getTag());
+        if (fragment != null) {
+          transaction.hide(fragment);
         }
       }
       if (fragmentManager.findFragmentByTag(tabbar.getTag()) == null) {

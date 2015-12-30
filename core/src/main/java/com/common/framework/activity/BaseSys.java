@@ -1,6 +1,7 @@
 package com.common.framework.activity;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,18 @@ import com.common.framework.interceptor.JInterceptor;
  */
 public abstract class BaseSys {
   protected Context context;
+  //某些时候，tab对应的fragment被销毁，但是basesys仍然持有对应的fragment的实例，
+  //这种情况下，需要把fragment重新返回一个新的实例。一般情况下不会使用
+  //这次采用云旺IM工具的时候，因为它所提供的fragment，我们没有办法去给它做刷新
+  //因此，在用户登录或者退出的时候，需要把原先的fragment从fragmentmanager中移除，
+  //然后再次生成一个加入到其中。
+  protected boolean reseted;
+  protected Fragment fragment;
 
   private ViewGroup tabContainer;
   private TabListener listener;
   private View tab;
   private JInterceptor.Stub interceptor;
-  private JFragment fragment;
 
   public BaseSys(Context context, ViewGroup tabContainer, TabListener listener) {
     this.context = context;
@@ -45,7 +52,7 @@ public abstract class BaseSys {
     return null;
   }
 
-  protected abstract JFragment createFragment();
+  protected abstract Fragment createFragment();
 
   private void setupTabBar(ViewGroup tabContainer) {
     LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
@@ -90,12 +97,16 @@ public abstract class BaseSys {
 
   public abstract String getTag();
 
-  public JFragment getFragment() {
+  public Fragment getFragment() {
     return fragment;
   }
 
   public int getMenu() {
     return 0;
+  }
+
+  public void setReseted(boolean reseted) {
+    this.reseted = reseted;
   }
 
   private void showBadgeNotification(int count) {

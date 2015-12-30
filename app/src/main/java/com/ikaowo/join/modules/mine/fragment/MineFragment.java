@@ -11,11 +11,14 @@ import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
+import com.ikaowo.join.BaseEventBusFragment;
+import com.ikaowo.join.BaseEventBusFragmentActivity;
 import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.model.UserLoginData;
 
 import butterknife.Bind;
@@ -25,7 +28,7 @@ import butterknife.OnClick;
 /**
  * Created by weibo on 15-12-8.
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseEventBusFragment {
 
   @Bind(R.id.icon)
   ImageView iconIv;
@@ -66,15 +69,19 @@ public class MineFragment extends BaseFragment {
     View view = inflater.inflate(R.layout.fragment_mine, null, false);
     ButterKnife.bind(this, view);
 
+    setupData();
+
+    setupView();
+    return view;
+  }
+
+  private void setupData() {
     if (userService.isLogined()) {
       UserLoginData user = userService.getUser();
       imageLoader.loadImage(iconIv, user.icon, targetImgWidth, targetImgHeight, R.drawable.brand_icon_default);
       nameTitleTv.setText(user.nickName + " | " + user.title);
       brandNameTv.setText(user.brandInfo != null ? user.brandInfo.company_name : "");
     }
-
-    setupView();
-    return view;
   }
 
   private void setupView() {
@@ -105,6 +112,12 @@ public class MineFragment extends BaseFragment {
   @OnClick(R.id.brand_info)
   public void viewBrandInfo() {
     brandService.viewBrandDetail(getActivity(), userService.getUserCompanyId());
+  }
+
+  public void onEvent(SigninCallback callback) {
+    if (callback.singined()) {
+      setupData();
+    }
   }
 
   @Override

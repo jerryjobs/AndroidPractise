@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 
+import com.alibaba.mobileim.IYWLoginService;
+import com.alibaba.mobileim.YWLoginParam;
+import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.util.JToast;
@@ -12,6 +16,9 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.eventbus.ClosePageCallback;
+import com.ikaowo.join.eventbus.SigninCallback;
+import com.ikaowo.join.eventbus.SignoutCallback;
+import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.LoginRequest;
@@ -81,11 +88,44 @@ public class UserServiceImpl extends UserService {
         @Override
         public void onSuccess(SignupResponse signupResponse) {
           sharedPreferenceHelper.saveUser(signupResponse.data);
+          initWxService();
+          EventBus.getDefault().post(new SigninCallback() {
+            @Override
+            public boolean singined() {
+              return true;
+            }
+          });
           ((Activity) context).finish();
           JToast.toastShort(context.getString(R.string.login_suc));
         }
       });
+  }
 
+
+  private void initWxService() {
+    String userid = "testpro22";
+    String password = "taobao1234";
+
+    LoginHelper loginHelper = LoginHelper.getInstance();
+    IYWLoginService loginService = loginHelper.getIMKit().getLoginService();
+    YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
+    loginService.login(loginParam, new IWxCallback() {
+
+      @Override
+      public void onSuccess(Object... objects) {
+        Log.e("weiboooo", "login success...");
+      }
+
+      @Override
+      public void onError(int i, String s) {
+        Log.e("weiboooo", "login failed...");
+      }
+
+      @Override
+      public void onProgress(int i) {
+
+      }
+    });
   }
 
   @Override
@@ -130,7 +170,22 @@ public class UserServiceImpl extends UserService {
   @Override
   public void logout(final Context context) {
     sharedPreferenceHelper.clearUser();
+    LoginHelper.getInstance().getIMKit().getLoginService().logout(new IWxCallback() {
+      @Override
+      public void onSuccess(Object... objects) {
+        Log.e("IMService", "退出登录成功");
+      }
 
+      @Override
+      public void onError(int i, String s) {
+        Log.e("IMService", "退出登录失败");
+      }
+
+      @Override
+      public void onProgress(int i) {
+
+      }
+    });
     JToast.toastShort("退出登录成功...");
     new Handler().postDelayed(new Runnable() {
       @Override
@@ -139,6 +194,13 @@ public class UserServiceImpl extends UserService {
         EventBus.getDefault().post(new ClosePageCallback() {
           @Override
           public boolean close() {
+            return true;
+          }
+        });
+
+        EventBus.getDefault().post(new SignoutCallback() {
+          @Override
+          public boolean signout() {
             return true;
           }
         });

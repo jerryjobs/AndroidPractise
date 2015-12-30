@@ -1,14 +1,26 @@
 package com.ikaowo.join;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.alibaba.mobileim.YWIMKit;
+import com.alibaba.mobileim.conversation.IYWConversationService;
+import com.alibaba.mobileim.conversation.IYWConversationUnreadChangeListener;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.ClickTabCallback;
+import com.ikaowo.join.eventbus.SigninCallback;
+import com.ikaowo.join.eventbus.SignoutCallback;
+import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
@@ -26,15 +38,54 @@ public class MainTabActivity extends TabActivity {
   private UserService userService;
   private PromptionService promptionService;
 
+  private IYWConversationService conversationService;
+  private YWIMKit imKit;
+  private IYWConversationUnreadChangeListener mConversationUnreadChangeListener;
+  private Handler mHandler = new Handler(Looper.getMainLooper());
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
-//        notificatonStyle = NotificatonStyle.Badge;
+    notificatonStyle = NotificatonStyle.Badge;
     super.onCreate(savedInstanceState);
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
+
+    initWxImKit();
+
     toolbar.setTitle(getResources().getString(R.string.app_name));
 //        getNotificationCount();
     EventBus.getDefault().register(this);
+  }
+
+  private void initWxImKit() {
+    imKit = LoginHelper.getInstance().getIMKit();
+    if (imKit != null) {
+      conversationService = imKit.getConversationService();
+      initConversationServiceAndListener();
+    }
+  }
+
+  private void initConversationServiceAndListener() {
+    mConversationUnreadChangeListener = new IYWConversationUnreadChangeListener() {
+
+      @Override
+      public void onUnreadChange() {
+        mHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            LoginHelper loginHelper = LoginHelper.getInstance();
+            final YWIMKit imKit = loginHelper.getIMKit();
+            conversationService = imKit.getConversationService();
+            int unReadCount = conversationService.getAllUnreadCount();
+            if (unReadCount > 0) {
+              tabbarList.get(2).showNotification(notificatonStyle, unReadCount);
+            } else {
+              tabbarList.get(2).hideNotification();
+            }
+          }
+        });
+      }
+    };
   }
 
   @Override
@@ -116,6 +167,67 @@ public class MainTabActivity extends TabActivity {
     if (baseSys != null) {
       onClicked(baseSys);
     }
+  }
+
+  public void onEvent(SigninCallback callback) {
+    if (callback.singined()) {
+      initWxImKit();
+      updateConversationList();
+    }
+  }
+
+  public void onEvent(SignoutCallback callback) {
+    if (callback.signout()) {
+      conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
+      for (BaseSys tab: tabbarList) {
+        tab.hideNotification();
+      }
+      updateConversationList();
+    }
+  }
+
+  private void updateConversationList() {
+    //退出或者重新登录之后，将聊天列表的fragment从fragmentmanager里面移除
+    try {
+      BaseSys imTab = tabbarList.get(2);
+      if (imTab != null) {
+        imTab.setReseted(true);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(imTab.getTag());
+        if (fragment != null) {
+
+          FragmentTransaction transaction = fragmentManager.beginTransaction();
+          transaction.remove(fragment);
+          transaction.commitAllowingStateLoss();
+          Log.e(getTag(), "remove the fragment finished");
+
+          Log.e(getTag(), "the fragmetnr rmoved?" + (fragmentManager.findFragmentByTag(imTab.getTag()) == null));
+        }
+      }
+    } catch (Exception e) {
+      Log.e(getTag(), "移除聊天列表fragment失败");
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    LoginHelper loginHelper = LoginHelper.getInstance();
+    final YWIMKit imKit = loginHelper.getIMKit();
+    conversationService = imKit.getConversationService();
+    //resume时需要检查全局未读消息数并做处理，因为离开此界面时删除了全局消息监听器
+    mConversationUnreadChangeListener.onUnreadChange();
+
+    //在Tab栏增加会话未读消息变化的全局监听器
+    conversationService.addTotalUnreadChangeListener(mConversationUnreadChangeListener);
   }
 
   @Override

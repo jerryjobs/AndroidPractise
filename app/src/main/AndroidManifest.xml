@@ -71,7 +71,7 @@
                 <data
                     android:host="activity"
                     android:scheme="join"
-                    android:path="/join"/>
+                    android:pathPattern="/join/.*"/>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
