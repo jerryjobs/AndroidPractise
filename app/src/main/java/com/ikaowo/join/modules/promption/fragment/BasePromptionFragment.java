@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListFragment;
 import com.ikaowo.join.network.PromptionInterface;
+import com.ikaowo.join.util.Constant;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +37,7 @@ import butterknife.ButterKnife;
 public abstract class BasePromptionFragment extends BaseListFragment<BaseListResponse<Promption>, Promption> {
 
   protected PromptionInterface promptionInterface;
+  protected boolean showState;
 
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
@@ -113,6 +116,17 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
         viewHolder.promptionAddressTv.setText(promption.address);
         viewHolder.promptionTimeTv.setText(promption.date);
         viewHolder.promptionTitleTv.setText(promption.title);
+        if (showState) {
+          if (Constant.PROMPTION_STATE_PASS.equalsIgnoreCase(promption.state)) {
+            viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
+            viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_ing);
+          } else if (Constant.PROMPTION_STATE_OVER.equals(promption.state)) {
+            viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
+            viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_finish);
+          }
+        }else {
+          viewHolder.promptionStateIv.setVisibility(View.GONE);
+        }
         imageLoader.loadImage(viewHolder.promptionBgImg,
           promption.background, targetImgBgWidth,
           targetImgBgHeight, R.drawable.brand_icon_default);
@@ -129,6 +143,8 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
     TextView promptionAddressTv;
     @Bind(R.id.promption_time)
     TextView promptionTimeTv;
+    @Bind(R.id.state)
+    ImageView promptionStateIv;
     @Bind(R.id.promption_bg)
     ImageView promptionBgImg;
     @Bind(R.id.promption_title)
@@ -140,8 +156,8 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
       super(itemView);
       ButterKnife.bind(this, itemView);
 
-      LinearLayout.LayoutParams llp =
-        (LinearLayout.LayoutParams) promptionBgImg.getLayoutParams();
+      FrameLayout.LayoutParams llp =
+        (FrameLayout.LayoutParams) promptionBgImg.getLayoutParams();
       llp.width = targetImgBgWidth;
       llp.height = targetImgBgHeight;
 

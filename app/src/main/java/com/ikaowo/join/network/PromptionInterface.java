@@ -26,7 +26,7 @@ public interface PromptionInterface {
   Call<BaseResponse> postPromption(@Body Map request);
 
   //公司发布的活动列表&首页推荐列表
-  @GET("social/info")
+  @GET("social/infos")
   Call<BaseListResponse<Promption>> getPromptionList(@QueryMap Map map);
 
   //公司参加过的活动列表

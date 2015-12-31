@@ -15,4 +15,22 @@ public class Constant {
   public static final int SEARCH_TYPE_PROMPTION = 1;
   public static final int SEARCH_TYPE_BRAND = 2;
 
+  public static final String PROMPTION_STATE_NEW = "N";
+  public static final String PROMPTION_STATE_PASS = "T";
+  public static final String PROMPTION_STATE_FAILED = "F";
+  public static final String PROMPTION_STATE_OVER = "O";
+  public static final String PROMPTION_STATE_CANCEL = "C";
+
+  public static final String JOIN_STATE_PASS = "T";
+  public static final String JOIN_STATE_FAILED = "F";
+  public static final String JOIN_STATE_PENDING_APPROVE = "J";
+  public static final String JOIN_STATE_USER_CANCEL = "X";//用户取消
+  public static final String JOIN_STATE_CANCEL = "X";//主办方取消
+  public static final String JOIN_STATE_JOINED = "P"; //审核通过，并且参与
+  public static final String JOIN_STATE_NOT_JOINED = "q"; //审核通过，但是没有参与
+
+  public static final String AUTH_STATE_PASS = "T";
+  public static final String AUTH_STATE_FAILED = "F";
+
+
 }

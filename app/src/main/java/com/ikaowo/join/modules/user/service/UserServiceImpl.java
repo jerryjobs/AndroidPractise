@@ -145,6 +145,7 @@ public class UserServiceImpl extends UserService {
   @Override
   public void logout(final Context context) {
     sharedPreferenceHelper.clearUser();
+    JApplication.getNetworkManager().clearCookieStore();
     LoginHelper.getInstance().getIMKit().getLoginService().logout(new IWxCallback() {
       @Override
       public void onSuccess(Object... objects) {

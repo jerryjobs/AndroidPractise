@@ -59,14 +59,29 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/promption_bg"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:src="@drawable/brand_icon_default"/>
+        android:layout_marginRight="12dp">
+        <ImageView
+            android:id="@+id/promption_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/brand_icon_default" />
+
+        <ImageView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:src="@drawable/content_ic_join_ing"
+            />
+    </FrameLayout>
+
+
 
     <TextView
         android:id="@+id/promption_title"
