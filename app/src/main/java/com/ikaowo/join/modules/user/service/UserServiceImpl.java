@@ -181,7 +181,7 @@ public class UserServiceImpl extends UserService {
           }
         });
       }
-    }, 600);
+    }, 300);
 
     EventBus.getDefault().post(new ClickTabCallback() {
       @Override

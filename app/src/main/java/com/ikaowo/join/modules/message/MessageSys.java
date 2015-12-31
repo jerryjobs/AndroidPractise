@@ -70,6 +70,6 @@ public class MessageSys extends BaseSys {
 
   @Override
   public int getMenu() {
-    return R.menu.menu_msg;
+    return 0;
   }
 }

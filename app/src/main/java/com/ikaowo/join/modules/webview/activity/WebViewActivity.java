@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.util.Constant;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by weibo on 15-12-25.
  */
+
 public class WebViewActivity extends BaseActivity implements WebViewHelper.WebViewInterface {
 
   @Bind(R.id.webview)
@@ -29,8 +31,9 @@ public class WebViewActivity extends BaseActivity implements WebViewHelper.WebVi
   @Bind(R.id.webview_progress)
   ProgressBar progressBar;
 
-  private String url;
-  private WebViewHelper webViewHelper;
+  protected String url;
+  protected WebViewHelper webViewHelper;
+  protected Intent intent;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,10 @@ public class WebViewActivity extends BaseActivity implements WebViewHelper.WebVi
     setupView();
   }
 
-  private void getIntentData() {
-    Intent intent = getIntent();
+  protected void getIntentData() {
+    intent = getIntent();
     if (intent.getExtras() != null) {
-      url = intent.getStringExtra("url");
+      url = intent.getStringExtra(Constant.URL);
     }
   }
 

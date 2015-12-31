@@ -1,5 +1,6 @@
 package com.ikaowo.join.modules.brand.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.GetListCountCallback;
+import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.model.User;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListFragment;
@@ -81,7 +83,9 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
 
   @Override
   protected void performCustomItemClick(User user) {
-
+    String target = String.valueOf(user.id);
+    Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
+    startActivity(intent);
   }
 
   @Override

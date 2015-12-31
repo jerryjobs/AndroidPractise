@@ -73,16 +73,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
-                android:background="@color/c6"
+                android:background="@android:color/white"
                 app:tabIndicatorColor="@color/c1"
                 app:tabTextColor="@color/c10"
+                android:elevation="1dp"
                 app:tabSelectedTextColor="@color/c1"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-
     <include layout="@layout/content_brand_detail" />
 
 </android.support.design.widget.CoordinatorLayout>

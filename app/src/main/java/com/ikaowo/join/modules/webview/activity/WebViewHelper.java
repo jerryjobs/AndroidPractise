@@ -143,7 +143,7 @@ public class WebViewHelper {
     }
   }
 
-  private String getCompleteUrl(String url, boolean isApp) {
+  public String getCompleteUrl(String url, boolean isApp) {
     StringBuilder sb = new StringBuilder();
     if (url.indexOf("?") == -1) {
       sb.append(url).append("?isApp=" + isApp);

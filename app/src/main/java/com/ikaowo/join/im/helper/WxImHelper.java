@@ -21,9 +21,8 @@ public class WxImHelper {
   }
 
   public void initWxService(String userid, String password) {
-    userid = "testpro22";
-    password = "taobao1234";
 
+    Log.e("weiboooo", "uid:" + userid + "p:" + password);
     LoginHelper loginHelper = LoginHelper.getInstance();
     IYWLoginService loginService = loginHelper.getIMKit().getLoginService();
     YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);

@@ -29,6 +29,9 @@ public interface PromptionInterface {
   @GET("social/infos")
   Call<BaseListResponse<Promption>> getPromptionList(@QueryMap Map map);
 
+  @GET("social/info")
+  Call<BaseListResponse<Promption>> getBrandPromptionList(@QueryMap Map map);
+
   //公司参加过的活动列表
   @GET("social/Detailinfo/3/{brand_id}/{cp}/{ps}")
   Call<BaseListResponse<Promption>> getJoinedPromptionList(@Path("brand_id") int brandId, @Path("cp") int cp, @Path("ps") int ps);

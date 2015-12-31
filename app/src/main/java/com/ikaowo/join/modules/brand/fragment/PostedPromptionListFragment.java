@@ -20,7 +20,7 @@ public class PostedPromptionListFragment extends BasePromptionDetailListFragment
     request.company_id = brandId;
     request.cp = cp;
     request.ps = ps;
-    Call<BaseListResponse<Promption>> call = promptionInterface.getPromptionList(request.getMap());
+    Call<BaseListResponse<Promption>> call = promptionInterface.getBrandPromptionList(request.getMap());
     JApplication.getNetworkManager().async(call, callback);
   }
 

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.framework.core.JAdapter;
@@ -79,7 +78,33 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
     }
     WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
     webViewRequest.url = url;
-    webViewService.openWebView(getActivity(), webViewRequest);
+    int showOptionMenu = Constant.NONE;
+    boolean promptionShowEdit = Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
+            && Constant.PROMPTION_STATE_NEW.equalsIgnoreCase(promption.state);
+
+    if (userService.isLogined()) {
+      if (userService.getUserId() == promption.publishUid) {
+        if (promptionShowEdit) {
+          showOptionMenu = Constant.EDIT;
+        } else {
+          showOptionMenu = Constant.SHARE;
+        }
+      } else {
+        if (promptionShowEdit) {
+          showOptionMenu = Constant.NONE;
+        } else {
+          showOptionMenu = Constant.SHARE;
+        }
+      }
+    } else {
+      if (promptionShowEdit) { //
+        showOptionMenu = Constant.NONE;
+      } else {
+        showOptionMenu = Constant.SHARE;
+      }
+    }
+    webViewService.viewPromptionDetail(
+            getActivity(), promption.title, promption.content, promption.background, showOptionMenu, webViewRequest);
   }
 
   @Override
@@ -123,6 +148,9 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
           } else if (Constant.PROMPTION_STATE_OVER.equals(promption.state)) {
             viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
             viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_finish);
+          } else if (Constant.PROMPTION_STATE_DONE.equalsIgnoreCase(promption.state)) {
+            viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
+            viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_complete);
           }
         }else {
           viewHolder.promptionStateIv.setVisibility(View.GONE);

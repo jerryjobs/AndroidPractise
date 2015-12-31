@@ -11,6 +11,11 @@ public class Constant {
   public static final String BRAND_ID = "brand_id";
   public static final String PROMPTION_ID = "promption_id";
   public static final String USER_ID = "user_id";
+  public static final String URL = "url";
+  public static final String SHAREW_TITLE = "title";
+  public static final String SHAREW_SUMMARY ="summary";
+  public static final String SHAREW_IMG_URL = "bg_url";
+  public static final String SHOW_OPTION_MENU = "show_option_menu";
 
   public static final int SEARCH_TYPE_PROMPTION = 1;
   public static final int SEARCH_TYPE_BRAND = 2;
@@ -18,7 +23,8 @@ public class Constant {
   public static final String PROMPTION_STATE_NEW = "N";
   public static final String PROMPTION_STATE_PASS = "T";
   public static final String PROMPTION_STATE_FAILED = "F";
-  public static final String PROMPTION_STATE_OVER = "O";
+  public static final String PROMPTION_STATE_DONE = "O";
+  public static final String PROMPTION_STATE_OVER = "E";
   public static final String PROMPTION_STATE_CANCEL = "C";
 
   public static final String JOIN_STATE_PASS = "T";
@@ -32,5 +38,7 @@ public class Constant {
   public static final String AUTH_STATE_PASS = "T";
   public static final String AUTH_STATE_FAILED = "F";
 
-
+  public static Integer SHARE = 1;
+  public static int EDIT = 2;
+  public static int NONE = 3;
 }

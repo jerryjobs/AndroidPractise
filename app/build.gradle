@@ -18,7 +18,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "PROMPTION_URL", "\"http://m.test.ikaowo.com/activity/\""
+            buildConfigField "String", "PROMPTION_URL", "\"http://web.test.ikaowo.com/activity/\""
             manifestPlaceholders = [
                     'UMENG_APPKEY': '565d592e67e58eb11b000e44',
                     'CHANNEL_NAME': 'test'
@@ -26,7 +26,7 @@ android {
         }
 
         release {
-            buildConfigField "String", "PROMPTION_URL", "\"http://m.test.ikaowo.com/activity/\""
+            buildConfigField "String", "PROMPTION_URL", "\"http://web.test.ikaowo.com/activity/\""
             manifestPlaceholders = [
                     'UMENG_APPKEY': '565d592e67e58eb11b000e44',
                     'CHANNEL_NAME': 'test'

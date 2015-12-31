@@ -225,7 +225,6 @@ public class SignupActivity extends BaseEventBusActivity
     call.enqueue(new NetworkCallback<SignupResponse>(SignupActivity.this) {
       @Override
       public void onSuccess(SignupResponse signupResponse) {
-
         // save the user info into the preference.
         sharedPreferenceHelper.saveUser(signupResponse.data);
         // the the signin page

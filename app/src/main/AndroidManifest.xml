@@ -79,7 +79,7 @@
             <data
                 android:host="activity"
                 android:scheme="join"
-                android:pathPattern="/join/.*"/>
+                android:pathPattern="/join_list/.*"/>
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
@@ -93,7 +93,7 @@
                 <data
                     android:host="activity"
                     android:scheme="join"
-                    android:pathPattern="/join_list/.*"/>
+                    android:pathPattern="/join/.*"/>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -113,6 +113,8 @@
                   android:label="@string/title_activity_join_detail"/>
 
         <activity android:name=".modules.webview.activity.WebViewActivity" />
+
+        <activity android:name=".modules.webview.activity.PromptionDetailWebViewActivity" />
 
         <!-- Umeng Config -->
         <service

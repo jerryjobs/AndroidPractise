@@ -27,6 +27,7 @@ import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.promption.PromptionSys;
+import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.MD5Util;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class MainTabActivity extends TabActivity {
   private YWIMKit imKit;
   private IYWConversationUnreadChangeListener mConversationUnreadChangeListener;
   private Handler mHandler = new Handler(Looper.getMainLooper());
+  private String MD5_KEY = "ddl";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class MainTabActivity extends TabActivity {
     if (imKit != null) {
       if (userService.isLogined()) {
         UserLoginData user = userService.getUser();
-        WxImHelper.getInstance().initWxService(user.wxId, MD5Util.md5(user.phone));
+        WxImHelper.getInstance().initWxService(user.wxId, MD5Util.md5(user.phone + MD5_KEY));
       }
       conversationService = imKit.getConversationService();
       initConversationServiceAndListener();
