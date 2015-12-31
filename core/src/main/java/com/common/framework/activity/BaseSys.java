@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
-import com.common.framework.core.JFragment;
 import com.common.framework.core.R;
 import com.common.framework.interceptor.JInterceptor;
 
@@ -80,7 +79,7 @@ public abstract class BaseSys {
 
   protected abstract String getActionBarTitle();
 
-  private void performClick() {
+  protected void performClick() {
     if (listener != null) {
       listener.onClicked(this);
     }

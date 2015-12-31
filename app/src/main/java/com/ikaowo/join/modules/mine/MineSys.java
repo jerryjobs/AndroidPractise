@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.common.framework.activity.BaseSys;
+import com.common.framework.core.JApplication;
 import com.common.framework.core.JFragment;
+import com.common.framework.interceptor.JInterceptor;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.mine.fragment.MineFragment;
 
 /**
@@ -20,6 +23,20 @@ public class MineSys extends BaseSys {
   @Override
   protected JFragment createFragment() {
     return new MineFragment();
+  }
+
+  protected JInterceptor.Stub createInterceptor() {
+    return new JInterceptor.Stub() {
+      public boolean check() {
+        UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+        if (!userService.isLogined()) {
+          userService.goToSignin(context);
+        } else {
+          performClick();
+        }
+        return false;
+      }
+    };
   }
 
   @Override

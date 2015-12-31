@@ -5,7 +5,10 @@ import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 
 import com.common.framework.activity.BaseSys;
+import com.common.framework.core.JApplication;
+import com.common.framework.interceptor.JInterceptor;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.im.helper.LoginHelper;
 
 /**
@@ -21,6 +24,20 @@ public class MessageSys extends BaseSys {
   protected Fragment createFragment() {
     LoginHelper loginHelper = LoginHelper.getInstance();
     return loginHelper.getIMKit().getConversationFragment();
+  }
+
+  protected JInterceptor.Stub createInterceptor() {
+    return new JInterceptor.Stub() {
+      public boolean check() {
+        UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+        if (!userService.isLogined()) {
+          userService.goToSignin(context);
+        } else {
+          performClick();
+        }
+        return false;
+      }
+    };
   }
 
   public Fragment getFragment() {
