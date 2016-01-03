@@ -9,21 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:paddingLeft="12dp"
         android:background="@android:color/white">
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="12dp"/>
+
+        <include android:id="@+id/icon_layout" layout="@layout/widget_avatar" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_toRightOf="@id/icon"
+            android:layout_toRightOf="@id/icon_layout"
             android:layout_centerVertical="true">
             <TextView
                 android:id="@+id/name_title"

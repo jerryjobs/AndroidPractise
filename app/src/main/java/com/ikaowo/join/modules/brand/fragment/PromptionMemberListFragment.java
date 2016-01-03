@@ -3,9 +3,7 @@ package com.ikaowo.join.modules.brand.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +16,14 @@ import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.model.User;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListFragment;
 import com.ikaowo.join.network.BrandInterface;
+import com.ikaowo.join.util.AvatarHelper;
 import com.ikaowo.join.util.Constant;
 
 import butterknife.Bind;
@@ -40,6 +40,7 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
   private int targetImgBgWidth, targetImgBgHeight;
   private int brandId;
   private BrandInterface brandInterface;
+  private UserService userService;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
     recyclerViewHelper = new RecyclerViewHelper<>();
     imageLoader = JApplication.getImageLoader();
     brandInterface = JApplication.getNetworkManager().getServiceByClass(BrandInterface.class);
+    userService = JApplication.getJContext().getServiceByInterface(UserService.class);
 
     targetImgBgWidth = JApplication.getJContext().dip2px(48);
     targetImgBgHeight = JApplication.getJContext().dip2px(48);
@@ -83,9 +85,15 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
 
   @Override
   protected void performCustomItemClick(User user) {
-    String target = String.valueOf(user.id);
-    Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
-    startActivity(intent);
+    if (userService.isLogined()) {
+      if (userService.getUserId() != user.id) {
+        String target = String.valueOf(user.id);
+        Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
+        startActivity(intent);
+      }
+    } else {
+      userService.goToSignin(getActivity());
+    }
   }
 
   @Override
@@ -123,18 +131,11 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
         MemberListViewHolder memberListViewHolder = (MemberListViewHolder)holder;
         User user = objList.get(position);
 
-        if (TextUtils.isEmpty(user.userIcon)) {
-          memberListViewHolder.userIconIv.setVisibility(View.GONE);
-          memberListViewHolder.userIconTv.setVisibility(View.VISIBLE);
-          memberListViewHolder.userIconTv.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.c1));
-          memberListViewHolder.userIconTv.setText(user.nickName.substring(0, 2));
-        } else {
-          memberListViewHolder.userIconIv.setVisibility(View.VISIBLE);
-          memberListViewHolder.userIconTv.setVisibility(View.GONE);
+        AvatarHelper.getInstance().showAvatar(getContext(),
+          memberListViewHolder.userIconIv, memberListViewHolder.shortNameTv,
+          targetImgBgWidth, targetImgBgHeight,
+          user.userIcon, user.nickName);
 
-          imageLoader.loadImage(memberListViewHolder.userIconIv,
-                  user.userIcon, targetImgBgWidth, targetImgBgHeight, R.drawable.brand_icon_default);
-        }
         memberListViewHolder.nameTitleTv.setText(user.nickName + " | " + user.title);
       }
     }
@@ -142,10 +143,10 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
 
   class MemberListViewHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.user_icon_tv)
-    TextView userIconTv;
+    @Bind(R.id.short_name)
+    TextView shortNameTv;
 
-    @Bind(R.id.user_icon_iv)
+    @Bind(R.id.icon)
     ImageView userIconIv;
 
     @Bind(R.id.name_title)

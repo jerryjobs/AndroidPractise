@@ -2,6 +2,8 @@ package com.ikaowo.join.modules.mine.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.model.UserLoginData;
+import com.ikaowo.join.util.AvatarHelper;
+import com.ikaowo.join.util.Constant;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +36,8 @@ public class MineFragment extends BaseEventBusFragment {
   ImageView iconIv;
   @Bind(R.id.name_title)
   TextView nameTitleTv;
+  @Bind(R.id.short_name)
+  TextView shortNameTv;
   @Bind(R.id.brand_name)
   TextView brandNameTv;
 
@@ -76,7 +82,7 @@ public class MineFragment extends BaseEventBusFragment {
   private void setupData() {
     if (userService.isLogined()) {
       UserLoginData user = userService.getUser();
-      imageLoader.loadImage(iconIv, user.icon, targetImgWidth, targetImgHeight, R.drawable.brand_icon_default);
+      AvatarHelper.getInstance().showAvatar(getContext(), iconIv, shortNameTv, targetImgWidth, targetImgHeight, user.icon, user.nickName);
       nameTitleTv.setText(user.nickName + " | " + user.title);
       brandNameTv.setText(user.brandInfo != null ? user.brandInfo.company_name : "");
     }

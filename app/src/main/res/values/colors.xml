@@ -27,4 +27,14 @@
     <color name="c9">#999</color>
     <color name="c10">#666</color>
 
+    <color name="header_c1">#f65e8d</color>
+    <color name="header_c2">#975fea</color>
+    <color name="header_c3">#4385e9</color>
+    <color name="header_c4">#1ba7e1</color>
+    <color name="header_c5">#3bc2b5</color>
+    <color name="header_c6">#6fde75</color>
+    <color name="header_c7">#e1df1b</color>
+    <color name="header_c8">#f6af32</color>
+    <color name="header_c9">#f67c32</color>
+    <color name="header_c10">#ed5b3e</color>
 </resources>
