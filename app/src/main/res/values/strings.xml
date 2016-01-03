@@ -5,7 +5,7 @@
     <string name="title_activity_view_image">ViewImageActivity</string>
     <string name="title_activity_main_tab">JOIN</string>
     <string name="title_activity_add_brand">添加品牌</string>
-    <string name="title_activity_resetpasswd">密码重置</string>
+    <string name="title_activity_resetpasswd">重置密码</string>
     <string name="title_activity_brand_list">选择品牌</string>
     <string name="title_activity_add_promotion">添加活动</string>
     <string name="title_activity_brand_detail">品牌主页</string>
@@ -33,6 +33,7 @@
     <string name="brand_query_hint">搜索公司或产品名，搜不到可以点击右上角录入</string>
     <string name="verify_code_time_remaining">获取验证码(%1$d)</string>
     <string name="login_suc">登录成功</string>
+    <string name="signup_suc">注册成功</string>
     <string name="reset_passwd_suc">密码修改成功，请重新登录</string>
     <string name="promotion_content_hint">填写活动描述，比如举办时间、已有资源等，让更多组织能报名合作...</string>
     <string name="promotion_title_hint">输入活动名称(15字以内)</string>

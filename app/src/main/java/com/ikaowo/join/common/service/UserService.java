@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.common.framework.core.JCommonService;
 import com.ikaowo.join.model.UserLoginData;
+import com.ikaowo.join.model.response.SignupResponse;
 
 /**
  * Created by weibo on 15-12-17.
@@ -23,6 +24,8 @@ public abstract class UserService extends JCommonService {
   public abstract void chooseBrandList(Context context);
 
   public abstract void doLogin(Context context, String userName, String password);
+
+  public abstract void doAfterSignin(Context context, SignupResponse signupResponse, String suc_hint);
 
   public abstract void resetPasswd(Context context, String userName, String vCode, String password);
 

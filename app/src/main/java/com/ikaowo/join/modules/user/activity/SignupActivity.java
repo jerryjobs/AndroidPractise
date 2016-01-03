@@ -140,6 +140,7 @@ public class SignupActivity extends BaseEventBusActivity
     userCardIv.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        hideInput(SignupActivity.this, toolbar);
         if (imageUri != null) {
           photoService.viewPhoto(SignupActivity.this, imageUri);
         } else if (!TextUtils.isEmpty(userCardUrl)) {
@@ -166,6 +167,7 @@ public class SignupActivity extends BaseEventBusActivity
 
   @OnClick(R.id.user_card)
   public void takePhoto() {
+    hideInput(this, toolbar);
     photoService.takePhoto(SignupActivity.this, toolbar, null, true);
   }
 
@@ -225,17 +227,7 @@ public class SignupActivity extends BaseEventBusActivity
     call.enqueue(new NetworkCallback<SignupResponse>(SignupActivity.this) {
       @Override
       public void onSuccess(SignupResponse signupResponse) {
-        // save the user info into the preference.
-        sharedPreferenceHelper.saveUser(signupResponse.data);
-        // the the signin page
-        EventBus.getDefault().post(new ClosePageCallback() {
-          @Override
-          public boolean close() {
-            return true;
-          }
-        });
-
-        finish();
+        userService.doAfterSignin(SignupActivity.this, signupResponse, getString(R.string.signup_suc));
       }
     });
   }

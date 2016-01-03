@@ -87,21 +87,25 @@ public class UserServiceImpl extends UserService {
       new NetworkCallback<SignupResponse>(context) {
         @Override
         public void onSuccess(SignupResponse signupResponse) {
-          sharedPreferenceHelper.saveUser(signupResponse.data);
-          String userId = signupResponse.data.wxId;
-          String password = MD5Util.md5(signupResponse.data.phone + "ddl");
-          WxImHelper.getInstance().initWxService(userId, password);
-          EventBus.getDefault().post(new SigninCallback() {
-            @Override
-            public boolean singined() {
-              return true;
-            }
-          });
-          ((Activity) context).finish();
-          JToast.toastShort(context.getString(R.string.login_suc));
+
+          doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
         }
       });
   }
+
+  @Override
+  public void doAfterSignin(Context context, SignupResponse signupResponse, String suc_hint) {
+    sharedPreferenceHelper.saveUser(signupResponse.data);
+    EventBus.getDefault().post(new SigninCallback() {
+      @Override
+      public boolean singined() {
+        return true;
+      }
+    });
+    ((Activity) context).finish();
+    JToast.toastShort(suc_hint);
+  }
+
 
   @Override
   public void resetPasswd(final Context context, String userName, String vCode, String password) {

@@ -19,7 +19,6 @@
 
         <activity
             android:name="com.ikaowo.join.MainTabActivity"
-            android:label="@string/title_activity_main_tab"
             android:windowSoftInputMode = "adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
