@@ -204,6 +204,13 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
+  public void updateAvatarInfo(String avatarUrl) {
+    UserLoginData user = getUser();
+    user.icon = avatarUrl;
+    sharedPreferenceHelper.saveUser(user);
+  }
+
+  @Override
   public void onCreate() {
 
   }

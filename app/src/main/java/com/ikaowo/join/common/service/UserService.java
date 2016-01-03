@@ -38,4 +38,6 @@ public abstract class UserService extends JCommonService {
   public abstract int getUserId();
 
   public abstract void logout(Context context);
+
+  public abstract void updateAvatarInfo(String avatarUrl);
 }

@@ -18,6 +18,7 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.AvatarUpdateCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.util.AvatarHelper;
@@ -82,7 +83,10 @@ public class MineFragment extends BaseEventBusFragment {
   private void setupData() {
     if (userService.isLogined()) {
       UserLoginData user = userService.getUser();
-      AvatarHelper.getInstance().showAvatar(getContext(), iconIv, shortNameTv, targetImgWidth, targetImgHeight, user.icon, user.nickName);
+      AvatarHelper.getInstance().showAvatar(getContext(),
+        iconIv, shortNameTv,
+        targetImgWidth, targetImgHeight,
+        user.icon, user.nickName);
       nameTitleTv.setText(user.nickName + " | " + user.title);
       brandNameTv.setText(user.brandInfo != null ? user.brandInfo.company_name : "");
     }
@@ -121,6 +125,16 @@ public class MineFragment extends BaseEventBusFragment {
   public void onEvent(SigninCallback callback) {
     if (callback.singined()) {
       setupData();
+    }
+  }
+
+  public void onEvent(AvatarUpdateCallback callback) {
+    UserLoginData user = userService.getUser();
+    if (!TextUtils.isEmpty(callback.updatedAvatar())) {
+      AvatarHelper.getInstance().showAvatar(getContext(),
+        iconIv, shortNameTv,
+        targetImgWidth, targetImgHeight,
+        user.icon, user.nickName);
     }
   }
 

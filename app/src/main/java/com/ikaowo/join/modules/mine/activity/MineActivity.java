@@ -10,20 +10,30 @@ import android.widget.ImageView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
+import com.common.framework.network.NetworkManager;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusFragmentActivity;
+import com.ikaowo.join.MainActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.AvatarUpdateCallback;
 import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.model.UserLoginData;
+import com.ikaowo.join.model.base.BaseResponse;
+import com.ikaowo.join.model.request.UpdateAvatarRequest;
 import com.ikaowo.join.modules.mine.MineItemWidget;
+import com.ikaowo.join.network.KwMarketNetworkCallback;
+import com.ikaowo.join.network.UserInterface;
+import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.QiniuUploadHelper;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-29.
@@ -143,18 +153,38 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
   }
 
   @Override
-  public void onUpLoadImageFinish(String imgUrl, Uri imgUri) {
-    //TODO 修改头像api请求
-    ImageView iconIv = userIconItem.getImageView();
+  public void onUpLoadImageFinish(final String imgUrl, final Uri imgUri) {
+    final ImageView iconIv = userIconItem.getImageView();
     if (iconIv == null) {
       return;
     }
-    if (imgUri != null) {
-      Picasso.with(this)
-              .load(imgUri).centerCrop().resize(targetWidth, targetHeight).into(iconIv);
-    } else if (!TextUtils.isEmpty(imgUrl)) {
-      imageLoader.loadImage(iconIv, imgUrl, targetWidth, targetHeight, R.drawable.brand_icon_default);
-    }
+
+    NetworkManager networkManager = JApplication.getNetworkManager();
+    UserInterface userInterface = networkManager.getServiceByClass(UserInterface.class);
+    UpdateAvatarRequest request = new UpdateAvatarRequest();
+    request.icon = imgUrl;
+    Call<BaseResponse> call = userInterface.updateAvatar(request);
+    networkManager.async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
+
+      @Override
+      public void onSuccess(BaseResponse baseResponse) {
+        if (imgUri != null) {
+          Picasso.with(MineActivity.this)
+            .load(imgUri).centerCrop().resize(targetWidth, targetHeight).into(iconIv);
+        } else if (!TextUtils.isEmpty(imgUrl)) {
+          imageLoader.loadImage(iconIv, imgUrl, targetWidth, targetHeight, R.drawable.brand_icon_default);
+        }
+
+        userService.updateAvatarInfo(imgUrl);
+
+        EventBus.getDefault().post(new AvatarUpdateCallback() {
+          @Override
+          public String updatedAvatar() {
+            return imgUrl;
+          }
+        });
+      }
+    });
   }
 
   @Override

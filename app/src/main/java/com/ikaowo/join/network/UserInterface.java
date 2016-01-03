@@ -4,6 +4,7 @@ import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.LoginRequest;
 import com.ikaowo.join.model.request.ResetPasswdRequest;
 import com.ikaowo.join.model.request.SignupRequest;
+import com.ikaowo.join.model.request.UpdateAvatarRequest;
 import com.ikaowo.join.model.request.UpdatePasswordRequest;
 import com.ikaowo.join.model.response.SignupResponse;
 
@@ -29,4 +30,7 @@ public interface UserInterface {
   //修改
   @PUT("user/password")
   Call<BaseResponse> updatePasswd(@Body UpdatePasswordRequest request);
+
+  @PUT("user/user_info")
+  Call<BaseResponse> updateAvatar(@Body UpdateAvatarRequest request);
 }
