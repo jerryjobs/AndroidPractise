@@ -32,14 +32,22 @@ public abstract class TabActivity extends JFragmentActivity implements BaseSys.T
     setupTab();
   }
 
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt("clickedPos", clickedPos);
+  }
+
   /*
-   * 如果 activity被回收，需要把里面的fragment引用也要移除，不然fragment应用一直存在，
-   * 但不存活在当前activity
-   */
+     * 如果 activity被回收，需要把里面的fragment引用也要移除，不然fragment应用一直存在，
+     * 但不存活在当前activity
+     */
   private void initTabAndFragment(Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       savedInstanceState.putParcelable("android:support:fragments", null);
       clickedPos = savedInstanceState.getInt("clickedPos");
+      //FIXME: 这个地方之所以这么弄是“我”的那个tab对应的textview会被保存下来，导致之后所有的tab都显示成“我”，目前还没有找到解决方案
+      savedInstanceState.clear();
     }
   }
 
@@ -52,8 +60,7 @@ public abstract class TabActivity extends JFragmentActivity implements BaseSys.T
   }
 
   private void setupTab() {
-    tabbarList.clear();
-    tabbarList.addAll(getTabPages());
+    tabbarList = getTabPages();
     //　select the first tab as default.
     onClicked(tabbarList.get(clickedPos));
   }
@@ -67,11 +74,11 @@ public abstract class TabActivity extends JFragmentActivity implements BaseSys.T
       @Override
       public void run() {
         changeTabBar(tab);
+        changeTitle(tab.getActionBarTitle());
       }
     });
 
     changeTabPage(tab);
-    changeTitle(tab.getActionBarTitle());
   }
 
   private void changeTabBar(BaseSys tabbar) {

@@ -105,19 +105,19 @@ public class MainTabActivity extends TabActivity {
   @Override
   protected List<BaseSys> getTabPages() {
     List<BaseSys> tabList = new ArrayList<>();
-    BaseSys homeTab = new PromptionSys(this, tabContainerLayout, this);
+    PromptionSys homeTab = new PromptionSys(this, tabContainerLayout, this);
     tabList.add(homeTab);
     homeTab.setTabTitleTxtColor(R.color.tab_title);
 
-    BaseSys companyTab = new BrandSys(this, tabContainerLayout, this);
+    BrandSys companyTab = new BrandSys(this, tabContainerLayout, this);
     companyTab.setTabTitleTxtColor(R.color.tab_title);
     tabList.add(companyTab);
 
-    BaseSys msgTab = new MessageSys(this, tabContainerLayout, this);
+    MessageSys msgTab = new MessageSys(this, tabContainerLayout, this);
     msgTab.setTabTitleTxtColor(R.color.tab_title);
     tabList.add(msgTab);
 
-    BaseSys meTab = new MineSys(this, tabContainerLayout, this);
+    MineSys meTab = new MineSys(this, tabContainerLayout, this);
     meTab.setTabTitleTxtColor(R.color.tab_title);
     tabList.add(meTab);
     return tabList;
