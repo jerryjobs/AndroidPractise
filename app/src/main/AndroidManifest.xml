@@ -56,6 +56,10 @@
              android:windowSoftInputMode="stateHidden"
              android:label="@string/title_activity_add_promotion"/>
 
+        <activity android:name=".modules.promption.activity.EditPromptionActivity"
+                  android:windowSoftInputMode="stateHidden"
+                  android:label="@string/title_activity_add_promotion"/>
+
         <activity android:name=".modules.promption.activity.SearchPromptionActivity"
                   android:label="@string/title_activity_add_promotion"/>
 

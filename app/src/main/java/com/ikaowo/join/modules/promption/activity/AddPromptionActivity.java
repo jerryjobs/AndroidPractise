@@ -33,6 +33,7 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
 import com.ikaowo.join.common.widget.draggridview.DragGridView;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
+import com.ikaowo.join.eventbus.UpdatePromptionCallback;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.PromptionRequest;
 import com.ikaowo.join.modules.user.helper.InputFiledHelper;
@@ -53,6 +54,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -63,9 +65,7 @@ public class AddPromptionActivity extends BaseActivity
   PhotoService.UploadFinishListener,
   DragGridView.OnChanageListener, TextWatcher {
 
-  private final int MAX_COUNT = 6;
-  private final int MAX_CONTENT_LENGTH = 140;
-  private final int MAX_TITLE_LENGTH = 15;
+
   @Bind(R.id.add_promption_bg_container)
   FrameLayout promptionBgContainer;
   @Bind(R.id.promption_bg)
@@ -89,12 +89,26 @@ public class AddPromptionActivity extends BaseActivity
   @Bind(R.id.promption_notes_content)
   AppCompatEditText noteEt;
 
-  private TextView endDateTv;
-  private EditText timeInputEt;
-  private EditText addInputEt;
-  private EditText endTimeEt;
-  private int targetImgBgWidth, targetImgBgHeight;
-  private DragGridItemAdapter itemAdapter;
+  protected int targetImgBgWidth, targetImgBgHeight;
+  protected List<ItemImageObj> list = new ArrayList<>(); //图标icon
+  protected DragGridItemAdapter itemAdapter;
+  protected int titleResId = R.string.title_activity_add_promotion;
+
+  protected TextView endDateTv;
+  protected EditText timeInputEt;
+  protected EditText addInputEt;
+  protected int promptionId;
+
+  protected String promptionBg;
+  protected String promptionTitle;
+  protected String promptionContent;
+  protected String promptionTime;
+  protected String promptionAddress;
+  protected String promptionEndDate;
+  protected String promptNotes;
+  protected String endDate; //格式化过的时间，用来展示 格式为 2014-10-11
+  protected final int MAX_COUNT = 6;
+
   private QiniuUploadHelper qiniuUploadHelper;
   private InputFiledHelper inputHelper;
   private DateTimeHelper dateTimeHelper;
@@ -102,15 +116,8 @@ public class AddPromptionActivity extends BaseActivity
   private UserService userService;
   private ClickPos clickedPos;
 
-  private String promptionBg;
-  private String promptionTitle;
-  private String promptionContent;
-  private List<ItemImageObj> list = new ArrayList<>(); //图标icon
-  private String promptionTime;
-  private String promptionAddress;
-  private String promptionEndDate;
-  private String promptNotes;
-  private String endDate;
+  private final int MAX_CONTENT_LENGTH = 140;
+  private final int MAX_TITLE_LENGTH = 15;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -125,7 +132,7 @@ public class AddPromptionActivity extends BaseActivity
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
 
     toolbar = (Toolbar) findViewById(R.id.toolbar);
-    toolbar.setTitle(getString(R.string.title_activity_add_promotion));
+    toolbar.setTitle(getString(titleResId));
     setSupportActionBar(toolbar);
 
     displayHomeAsIndicator(0);
@@ -140,8 +147,9 @@ public class AddPromptionActivity extends BaseActivity
     targetImgBgHeight = targetImgBgWidth * 9 / 16;
     llp.width = targetImgBgWidth;
     llp.height = targetImgBgHeight;
-
-    addAddItem(list);
+    if (promptionId <= 0) {
+      addAddItem(list);
+    }
     itemAdapter = new DragGridItemAdapter(this, list, MAX_COUNT);
     itemAdapter.setDeleteListener(this);
     promptionImgsContainer.setAdapter(itemAdapter);
@@ -236,8 +244,11 @@ public class AddPromptionActivity extends BaseActivity
     return true;
   }
 
-  private void submit() {
+  protected void submit() {
     PromptionRequest request = new PromptionRequest();
+    if (promptionId > 0) {
+      request.aci_id = promptionId;
+    }
     request.aci_name = promptionTitle;
     request.aci_date = promptionTime;
     request.aci_content = promptionContent;
@@ -246,6 +257,16 @@ public class AddPromptionActivity extends BaseActivity
     request.aci_icon = promptionBg;
     request.end_date = promptionEndDate;
     request.aci_address = promptionAddress;
+
+    int addPos = -1;
+    for (int i = 0; i < list.size(); i++) {
+      if (list.get(i).type == ItemImageObj.TYPE_ADD) {
+        addPos = i;
+      }
+    }
+    if (addPos >= 0) {
+      list.remove(addPos);
+    }
     request.aci_tumblrs = list;
 
     PromptionInterface promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
@@ -253,7 +274,27 @@ public class AddPromptionActivity extends BaseActivity
     JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
       @Override
       public void onSuccess(BaseResponse baseResponse) {
-        JToast.toastShort("推广发布成功");
+        if (promptionId > 0) {
+          JToast.toastShort("推广编辑成功");
+          EventBus.getDefault().post(new UpdatePromptionCallback() {
+            @Override
+            public boolean promptionUpdated() {
+              return true;
+            }
+
+            @Override
+            public String getNewTitle() {
+              return promptionTitle;
+            }
+
+            @Override
+            public String getNewEndTime() {
+              return promptionEndDate;
+            }
+          });
+        } else {
+          JToast.toastShort("推广发布成功");
+        }
         finish();
       }
     });

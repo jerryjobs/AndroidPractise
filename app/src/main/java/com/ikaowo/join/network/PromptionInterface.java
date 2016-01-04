@@ -6,6 +6,7 @@ import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.JoinRequest;
 import com.ikaowo.join.model.response.JoinInfoResponse;
+import com.ikaowo.join.model.response.PromptionResponse;
 
 import java.util.Map;
 
@@ -28,6 +29,9 @@ public interface PromptionInterface {
   //公司发布的活动列表&首页推荐列表
   @GET("social/infos")
   Call<BaseListResponse<Promption>> getPromptionList(@QueryMap Map map);
+
+  @GET("social/infoByid/{promption_id}")
+  Call<PromptionResponse> getPromption(@Path("promption_id") int promptionId);
 
   @GET("social/info")
   Call<BaseListResponse<Promption>> getBrandPromptionList(@QueryMap Map map);

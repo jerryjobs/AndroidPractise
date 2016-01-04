@@ -43,7 +43,7 @@ public class WebViewServiceImpl extends WebViewService {
     intent.putExtra(Constant.SHAREW_IMG_URL, imgUrl);
 
     boolean promptionShowEdit = Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
-            && Constant.PROMPTION_STATE_NEW.equalsIgnoreCase(promption.state);
+            || Constant.PROMPTION_STATE_NEW.equalsIgnoreCase(promption.state);
 
     int showOptionMenu;
     if (userService.isLogined()) {
@@ -67,7 +67,7 @@ public class WebViewServiceImpl extends WebViewService {
         showOptionMenu = Constant.SHARE;
       }
     }
-
+    intent.putExtra(Constant.PROMPTION_ID, promption.id);
     intent.putExtra(Constant.SHOW_OPTION_MENU, showOptionMenu);
     JApplication.getJContext().startActivity(context, intent);
   }

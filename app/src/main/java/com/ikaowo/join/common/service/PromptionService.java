@@ -17,4 +17,6 @@ public abstract class PromptionService extends JCommonService {
   public abstract void viewJoinedUserList(Context context, int promptionId);
 
   public abstract void viewJoinDetail(Context context, int brandId, int promptionId);
+
+  public abstract void goToEditPromptionActivigty(Context context, int promptionId);
 }

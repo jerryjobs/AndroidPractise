@@ -9,6 +9,7 @@ import java.util.List;
  * Created by weibo on 15-12-23.
  */
 public class PromptionRequest extends BaseRequest {
+  public int aci_id;
   public String aci_name;
   public String aci_date;
   public String aci_content;

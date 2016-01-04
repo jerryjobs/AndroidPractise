@@ -30,8 +30,9 @@ public abstract class KwMarketNetworkCallback<T> extends NetworkCallback<T> {
     try {
       error = converter.convert(response.errorBody());
       JToast.toastShort(error.msg);
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
+      JToast.toastShort("服务器出错");
     }
   }
 }

@@ -26,7 +26,7 @@ public class ItemImageObj implements Serializable {
   @SerializedName("sq")
   public int order;
 
-  public int type = TYPE_NORMAL; // 0: add, 1:normal
+  public int type = TYPE_NORMAL; // 0: add, 2:normal //数据库对应的2表示活动的照片
 
 //    public Uri uri;
 

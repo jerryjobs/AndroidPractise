@@ -8,6 +8,7 @@
     <string name="title_activity_resetpasswd">重置密码</string>
     <string name="title_activity_brand_list">选择品牌</string>
     <string name="title_activity_add_promotion">添加活动</string>
+    <string name="title_activity_edit_promotion">修改活动</string>
     <string name="title_activity_brand_detail">品牌主页</string>
     <string name="title_activity_joined_list">合作伙伴</string>
     <string name="title_activity_join">我想合作</string>

@@ -34,6 +34,7 @@ public abstract class BaseListFragment<T extends BaseListResponse, P> extends Ba
   protected ScrollMoreRecyclerView recyclerView;
 
   protected RecyclerViewHelper<T, P> recyclerViewHelper;
+  protected int clicedPos;
 
   @Nullable
   @Override
@@ -84,6 +85,7 @@ public abstract class BaseListFragment<T extends BaseListResponse, P> extends Ba
           return;
         }
 
+        clicedPos = position;
         List objList = ((JAdapter<P>) adapter).getObjList();
         if (objList == null) {
           return;

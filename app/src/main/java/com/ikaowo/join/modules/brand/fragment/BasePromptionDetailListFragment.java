@@ -22,6 +22,7 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.service.WebViewService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
+import com.ikaowo.join.eventbus.UpdatePromptionCallback;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListFragment;
@@ -30,6 +31,7 @@ import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.DateTimeHelper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -55,6 +57,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    EventBus.getDefault().register(this);
     imageLoader = JApplication.getImageLoader();
     promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
 
@@ -114,7 +117,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
     }
     WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
     webViewRequest.url = url;
-    webViewService.openWebView(getActivity(), webViewRequest);
+    webViewService.viewPromptionDetail(getActivity(), userService, promption, webViewRequest);
   }
 
   protected void doAfterGetData(BaseListResponse<Promption> response) {
@@ -226,4 +229,23 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
   }
 
   protected abstract int getIndex();
+
+  public void onEvent(UpdatePromptionCallback callback) {
+    if (callback.promptionUpdated()) {
+      JAdapter<Promption> adapter = (JAdapter<Promption>)recyclerView.getAdapter();
+      List<Promption> list = adapter.getObjList();
+      Promption clickedPromption = null;
+      if (list != null && (clickedPromption = list.get(clicedPos)) != null) {
+        clickedPromption.title = callback.getNewTitle();
+        clickedPromption.endDate = callback.getNewEndTime();
+        adapter.notifyDataSetChanged();
+      }
+    }
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    EventBus.getDefault().unregister(this);
+  }
 }
