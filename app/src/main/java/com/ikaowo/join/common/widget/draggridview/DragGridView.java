@@ -312,22 +312,22 @@ public class DragGridView extends GridView {
   }
 
   @Override
-  protected void onDraw(Canvas canvas) {
-    super.onDraw(canvas);
-    //当childview的个数发生变化的时候，自动将这个view的高度画大，否则页面将无法完全显示。
-    //同理，如果删除子view删除的时候，也要将view的高度缩小
-    ListAdapter adapter = getAdapter();
-    lines = (double) adapter.getCount() / maxCountInLine > 1 ? (adapter.getCount() / maxCountInLine + 1) : 1;
-    if (columnHeight == 0) {
-      if (adapter != null) {
-        columnHeight = getHeight() / lines;
-      }
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    int heightSpec;
+
+    if (getLayoutParams().height == LayoutParams.WRAP_CONTENT) {
+
+      // The two leftmost bits in the height measure spec have
+      // a special meaning, hence we can't use them to describe height.
+      heightSpec = MeasureSpec.makeMeasureSpec(
+        Integer.MAX_VALUE >>2, MeasureSpec.AT_MOST);
     }
-    if (getHeight() != columnHeight * lines) {
-      ViewGroup.LayoutParams vlp = getLayoutParams();
-      vlp.height = columnHeight * lines;
-      setLayoutParams(vlp);
+    else {
+      // Any other height should be respected as is.
+      heightSpec = heightMeasureSpec;
     }
+
+    super.onMeasure(widthMeasureSpec, heightSpec);
   }
 
   @Override
