@@ -23,6 +23,7 @@ public class BrandPromptionTabLayoutAdapter extends TabLayoutAdapter {
   protected void initFragments(int brandId) {
     Bundle companyIdBundle = new Bundle();
     companyIdBundle.putInt(Constant.BRAND_ID, brandId);
+    companyIdBundle.putBoolean(Constant.SHOW_STATE, false);
     JoinedPromptionListFragment joinedPromptionListFragment = new JoinedPromptionListFragment();
     joinedPromptionListFragment.setArguments(companyIdBundle);
     PostedPromptionListFragment postedPromptionListFragment = new PostedPromptionListFragment();

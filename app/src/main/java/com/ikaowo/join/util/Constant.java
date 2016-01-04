@@ -13,6 +13,7 @@ public class Constant {
   public static final String LOGINING = "正在获取数据, 请稍后";
 
   public static final String BRAND_ID = "brand_id";
+  public static final String SHOW_STATE = "show_state";
   public static final String PROMPTION_ID = "promption_id";
   public static final String USER_ID = "user_id";
   public static final String URL = "url";
@@ -24,20 +25,20 @@ public class Constant {
   public static final int SEARCH_TYPE_PROMPTION = 1;
   public static final int SEARCH_TYPE_BRAND = 2;
 
-  public static final String PROMPTION_STATE_NEW = "N";
-  public static final String PROMPTION_STATE_PASS = "T";
-  public static final String PROMPTION_STATE_FAILED = "F";
-  public static final String PROMPTION_STATE_DONE = "O";
-  public static final String PROMPTION_STATE_OVER = "E";
-  public static final String PROMPTION_STATE_CANCEL = "C";
+  public static final String PROMPTION_STATE_NEW = "N"; //待审核
+  public static final String PROMPTION_STATE_PASS = "T"; //审核通过
+  public static final String PROMPTION_STATE_FAILED = "F"; //审核失败
+  public static final String PROMPTION_STATE_DONE = "O"; //已经完成
+  public static final String PROMPTION_STATE_OVER = "E"; //报名已结束
+  public static final String PROMPTION_STATE_CANCEL = "C";//主办方取消
 
-  public static final String JOIN_STATE_PASS = "T";
-  public static final String JOIN_STATE_FAILED = "F";
-  public static final String JOIN_STATE_PENDING_APPROVE = "J";
+  public static final String JOIN_STATE_PASS = "T"; //审核通过
+  public static final String JOIN_STATE_FAILED = "F"; //审核不通过
+  public static final String JOIN_STATE_PENDING_APPROVE = "J";//带审核
   public static final String JOIN_STATE_USER_CANCEL = "X";//用户取消
   public static final String JOIN_STATE_CANCEL = "X";//主办方取消
   public static final String JOIN_STATE_JOINED = "P"; //审核通过，并且参与
-  public static final String JOIN_STATE_NOT_JOINED = "q"; //审核通过，但是没有参与
+  public static final String JOIN_STATE_NOT_JOINED = "Q"; //审核通过，但是没有参与
 
   public static final String AUTH_STATE_PASS = "T";
   public static final String AUTH_STATE_FAILED = "F";

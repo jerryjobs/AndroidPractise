@@ -44,6 +44,8 @@
     <string name="content_remaing">%1$d/%2$d</string>
     <string name="tab_title_posted_promption">发起的(%1$d)</string>
     <string name="tab_title_join_promption">参加的(%1$d)</string>
+    <string name="tab_title_mine_posted_promption">我报名的(%1$d)</string>
+    <string name="tab_title_mine_join_promption">我发起的(%1$d)</string>
     <string name="tab_title_member">成员(%1$d)</string>
     <string name="title_promption">推广</string>
     <string name="title_brand">品牌</string>
@@ -52,4 +54,6 @@
     <string name="title_activity_join_detail">报名详情</string>
     <string name="action_share">分享</string>
     <string name="action_edit">编辑</string>
+    <string name="posted_brand_name">举办方: %1$s</string>
+    <string name="posted_join_end_date">报名截止: %1$s</string>
 </resources>

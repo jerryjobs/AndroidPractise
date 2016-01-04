@@ -17,6 +17,17 @@ public class DateTimeHelper {
 
   private DateFormat dateTimeFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private DateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
+  //2016-01-29T00:00:00.000Z
+
+  public String getTime(String timeStr) {
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    try {
+      Date date = dateFormat.parse(timeStr);
+      return dateFormate.format(date);
+    } catch(Exception e) {
+      return timeStr;
+    }
+  }
 
   public Map<Integer, Integer> getDateValue() {
     Calendar calendar = Calendar.getInstance();

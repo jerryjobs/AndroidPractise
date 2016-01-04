@@ -111,7 +111,7 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
       if (holder instanceof PromptionListViewHolder) {
         PromptionListViewHolder viewHolder = (PromptionListViewHolder) holder;
         Promption promption = objList.get(position);
-        viewHolder.companyNameTv.setText(promption.companyName);
+        viewHolder.companyNameTv.setText(promption.brandName);
         viewHolder.promptionAddressTv.setText(promption.address);
         viewHolder.promptionTimeTv.setText(promption.date);
         viewHolder.promptionTitleTv.setText(promption.title);

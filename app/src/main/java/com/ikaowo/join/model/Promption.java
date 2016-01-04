@@ -42,8 +42,8 @@ public class Promption implements Serializable {
   public String date;
   @SerializedName("aci_u_id")
   public int publishUid;
-  @SerializedName("company_name")
-  public String companyName;
+  @SerializedName("brand_name")
+  public String brandName;
   @SerializedName("aci_tumblrs")
   public List<ItemImageObj> aci_tumblrs;
 }

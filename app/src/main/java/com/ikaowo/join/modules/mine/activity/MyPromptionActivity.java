@@ -53,8 +53,8 @@ public class MyPromptionActivity extends BaseEventBusFragmentActivity {
   private void setupView() {
 
     titlesArray = new String[2];
-    titlesArray[0] = getString(R.string.tab_title_join_promption, 0);
-    titlesArray[1] = getString(R.string.tab_title_posted_promption, 0);
+    titlesArray[0] = getString(R.string.tab_title_mine_posted_promption, 0);
+    titlesArray[1] = getString(R.string.tab_title_mine_join_promption, 0);
 
     viewPager.setOffscreenPageLimit(2);
     viewPager.setAdapter(new MyPromptionTabLayoutAdapter(getSupportFragmentManager(), titlesArray, brandId));
@@ -69,11 +69,11 @@ public class MyPromptionActivity extends BaseEventBusFragmentActivity {
       if(tab != null) {
         switch (map.index) {
           case 0:
-            title = getString(R.string.tab_title_join_promption, map.count);
+            title = getString(R.string.tab_title_mine_posted_promption, map.count);
             break;
 
           case 1:
-            title = getString(R.string.tab_title_posted_promption, map.count);
+            title = getString(R.string.tab_title_mine_join_promption, map.count);
             break;
 
         }
