@@ -65,6 +65,7 @@ public class AddPromptionActivity extends BaseActivity
 
   private final int MAX_COUNT = 6;
   private final int MAX_CONTENT_LENGTH = 140;
+  private final int MAX_TITLE_LENGTH = 15;
   @Bind(R.id.add_promption_bg_container)
   FrameLayout promptionBgContainer;
   @Bind(R.id.promption_bg)
@@ -148,6 +149,10 @@ public class AddPromptionActivity extends BaseActivity
     promptionImgsContainer.setOnChangeListener(this);
 
     promptTitleEt.addTextChangedListener(this);
+    promptTitleEt.setSingleLine();
+    promptTitleEt.setFilters(new InputFilter[]{
+      new InputFilter.LengthFilter(MAX_TITLE_LENGTH)
+    });
     promptContentEt.addTextChangedListener(this);
 
     contentRemainingTv.setText(getString(R.string.content_remaing, 0, MAX_CONTENT_LENGTH));

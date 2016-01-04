@@ -76,7 +76,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="12dp"
                 android:textSize="13sp"
-                android:lines="1"
                 android:textColor="@color/c4"
                 android:textColorHint="@color/c2"
                 android:background="@null"/>

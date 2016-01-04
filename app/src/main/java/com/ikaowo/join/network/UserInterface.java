@@ -1,11 +1,13 @@
 package com.ikaowo.join.network;
 
 import com.ikaowo.join.model.base.BaseResponse;
+import com.ikaowo.join.model.request.CheckStateRequest;
 import com.ikaowo.join.model.request.LoginRequest;
 import com.ikaowo.join.model.request.ResetPasswdRequest;
 import com.ikaowo.join.model.request.SignupRequest;
 import com.ikaowo.join.model.request.UpdateAvatarRequest;
 import com.ikaowo.join.model.request.UpdatePasswordRequest;
+import com.ikaowo.join.model.response.CheckStateResponse;
 import com.ikaowo.join.model.response.SignupResponse;
 
 import retrofit.Call;
@@ -33,4 +35,7 @@ public interface UserInterface {
 
   @PUT("user/user_info")
   Call<BaseResponse> updateAvatar(@Body UpdateAvatarRequest request);
+
+  @PUT("user/session")
+  Call<CheckStateResponse> checkLatestState(@Body CheckStateRequest request);
 }

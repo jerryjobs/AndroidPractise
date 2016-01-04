@@ -78,33 +78,7 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
     }
     WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
     webViewRequest.url = url;
-    int showOptionMenu = Constant.NONE;
-    boolean promptionShowEdit = Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
-            && Constant.PROMPTION_STATE_NEW.equalsIgnoreCase(promption.state);
-
-    if (userService.isLogined()) {
-      if (userService.getUserId() == promption.publishUid) {
-        if (promptionShowEdit) {
-          showOptionMenu = Constant.EDIT;
-        } else {
-          showOptionMenu = Constant.SHARE;
-        }
-      } else {
-        if (promptionShowEdit) {
-          showOptionMenu = Constant.NONE;
-        } else {
-          showOptionMenu = Constant.SHARE;
-        }
-      }
-    } else {
-      if (promptionShowEdit) { //
-        showOptionMenu = Constant.NONE;
-      } else {
-        showOptionMenu = Constant.SHARE;
-      }
-    }
-    webViewService.viewPromptionDetail(
-            getActivity(), promption.title, promption.content, promption.background, showOptionMenu, webViewRequest);
+    webViewService.viewPromptionDetail(getActivity(), userService, promption, webViewRequest);
   }
 
   @Override

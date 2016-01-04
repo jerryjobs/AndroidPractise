@@ -15,6 +15,7 @@ import com.alibaba.mobileim.conversation.IYWConversationUnreadChangeListener;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
+import com.common.framework.util.JToast;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.ClickTabCallback;
@@ -27,7 +28,6 @@ import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.promption.PromptionSys;
-import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.MD5Util;
 
 import java.util.ArrayList;
@@ -134,7 +134,21 @@ public class MainTabActivity extends TabActivity {
     switch (id) {
       case R.id.action_add:
         if (userService.isLogined()) {
-          promptionService.goToAddPromotionActivity(this);
+          if (userService.authed()) {
+            promptionService.goToAddPromotionActivity(this);
+          } else {
+            userService.checkLatestUserState(this, new UserService.CheckStateCallback() {
+              @Override
+              public void onPassed() {
+                promptionService.goToAddPromotionActivity(MainTabActivity.this);
+              }
+
+              @Override
+              public void onFailed() {
+                JToast.toastShort("该功能需要审核通过后才能使用，请耐心等待");
+              }
+            });
+          }
         } else {
           userService.goToSignin(this);
         }

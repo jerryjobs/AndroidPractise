@@ -9,6 +9,7 @@ import android.util.Log;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
+import com.common.framework.network.NetworkManager;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
@@ -20,8 +21,10 @@ import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.im.helper.WxImHelper;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
+import com.ikaowo.join.model.request.CheckStateRequest;
 import com.ikaowo.join.model.request.LoginRequest;
 import com.ikaowo.join.model.request.ResetPasswdRequest;
+import com.ikaowo.join.model.response.CheckStateResponse;
 import com.ikaowo.join.model.response.SignupResponse;
 import com.ikaowo.join.modules.user.activity.AddBrandActivity;
 import com.ikaowo.join.modules.user.activity.BrandListActivity;
@@ -208,6 +211,43 @@ public class UserServiceImpl extends UserService {
     UserLoginData user = getUser();
     user.icon = avatarUrl;
     sharedPreferenceHelper.saveUser(user);
+  }
+
+  @Override
+  public boolean authed() {
+    UserLoginData user = getUser();
+    return Constant.AUTH_STATE_PASS.equalsIgnoreCase(user.state)
+            && Constant.AUTH_STATE_PASS.equalsIgnoreCase(user.companyState);
+  }
+
+  @Override
+  public void updateLocalUserInfo(boolean passed) {
+    UserLoginData user = getUser();
+    user.state = passed ? Constant.AUTH_STATE_PASS : Constant.AUTH_STATE_FAILED;
+    user.companyState = passed ? Constant.AUTH_STATE_PASS : Constant.AUTH_STATE_FAILED;
+
+    sharedPreferenceHelper.saveUser(user);
+  }
+
+  @Override
+  public void checkLatestUserState(Context context, final CheckStateCallback callback) {
+    NetworkManager networkManager = JApplication.getNetworkManager();
+    UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
+    CheckStateRequest request = new CheckStateRequest();
+    request.u_id = getUserId();
+    final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
+    networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
+      @Override
+      public void onSuccess(CheckStateResponse response) {
+        updateLocalUserInfo(response.data);
+        if (response.data) {
+          callback.onPassed();
+        } else {
+          callback.onFailed();
+        }
+
+      }
+    });
   }
 
   @Override

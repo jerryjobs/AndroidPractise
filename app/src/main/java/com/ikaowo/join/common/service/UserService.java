@@ -40,4 +40,15 @@ public abstract class UserService extends JCommonService {
   public abstract void logout(Context context);
 
   public abstract void updateAvatarInfo(String avatarUrl);
+
+  public abstract boolean authed();
+
+  public abstract void updateLocalUserInfo(boolean passed);
+
+  public abstract void checkLatestUserState(Context context, CheckStateCallback callback);
+
+  public interface CheckStateCallback {
+    void onPassed();
+    void onFailed();
+  }
 }
