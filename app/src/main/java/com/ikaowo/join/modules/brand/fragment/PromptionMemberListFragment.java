@@ -1,6 +1,5 @@
 package com.ikaowo.join.modules.brand.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
-import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.model.User;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListFragment;
