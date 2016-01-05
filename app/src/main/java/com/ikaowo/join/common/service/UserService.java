@@ -25,6 +25,8 @@ public abstract class UserService extends JCommonService {
 
   public abstract void doLogin(Context context, String userName, String password);
 
+  public abstract void doLogin(Context context, String userName, String password, boolean changeTab);
+
   public abstract void doAfterSignin(Context context, SignupResponse signupResponse, String suc_hint);
 
   public abstract void resetPasswd(Context context, String userName, String vCode, String password);
@@ -48,6 +50,8 @@ public abstract class UserService extends JCommonService {
   public abstract void checkLatestUserState(Context context, CheckStateCallback callback);
 
   public abstract void imChat(Context context, String targetUserWxId);
+
+  public abstract String getLoginedUserName(Context context);
 
   public interface CheckStateCallback {
     void onPassed();

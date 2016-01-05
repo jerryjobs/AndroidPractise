@@ -105,9 +105,6 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
   protected void performCustomItemClick(Promption promption) {
     String url = BuildConfig.PROMPTION_URL + promption.id;
 
-    if (promption.companyId > 0) {
-      url += "?companyid=" + promption.companyId;
-    }
     if (TextUtils.isEmpty(promption.background)) {
       if (url.indexOf("?") > 0) {
         url += "&iconurl=" + promption.background;

@@ -196,7 +196,9 @@ public class MainTabActivity extends TabActivity {
     if (callback.singined()) {
       initWxImKit();
       updateConversationList();
-      onClicked(tabbarList.get(3));
+      if (callback.changeTab()) {
+        onClicked(tabbarList.get(3));
+      }
     }
   }
 

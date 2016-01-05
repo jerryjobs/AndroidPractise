@@ -15,6 +15,7 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
+import com.ikaowo.join.util.Constant;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,16 +26,18 @@ import butterknife.OnClick;
  */
 public class SigninActivity extends BaseEventBusActivity implements TextWatcher {
 
+  private UserService userService
+          = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private String username;
+  private String password;
+  private boolean changeTab;
+
   @Bind(R.id.name_et)
   DeletableEditTextView nameEt;
   @Bind(R.id.passwod_et)
   DeletableEditTextView passwordEt;
   @Bind(R.id.login_tv)
   TextView loginTv;
-  private UserService userService
-    = JApplication.getJContext().getServiceByInterface(UserService.class);
-  private String username;
-  private String password;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,20 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
 
     displayHomeAsIndicator(R.drawable.nav_ic_close_blue);
 
+    if (getIntent().getExtras() != null) {
+      changeTab = getIntent().getExtras().getBoolean(Constant.CHANGE_TAB, false);
+    }
+
+    setLoginedUaserName();
     setupView();
+  }
+
+  private void setLoginedUaserName() {
+    String uname = userService.getLoginedUserName(this);
+    if (!TextUtils.isEmpty(uname)) {
+      nameEt.setText(uname);
+      passwordEt.requestFocus();
+    }
   }
 
   public void setupView() {
@@ -83,7 +99,7 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
 
   @OnClick(R.id.login_tv)
   public void login() {
-    userService.doLogin(this, username, password);
+    userService.doLogin(this, username, password, changeTab);
   }
 
   @Override

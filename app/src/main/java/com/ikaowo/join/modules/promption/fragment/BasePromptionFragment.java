@@ -66,9 +66,6 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
   protected void performCustomItemClick(Promption promption) {
     String url = BuildConfig.PROMPTION_URL + promption.id;
 
-    if (userService.isLogined()) {
-      url += "?companyid=" + userService.getUserCompanyId();
-    }
     if (TextUtils.isEmpty(promption.background)) {
       if (url.indexOf("?") > 0) {
         url += "&iconurl=" + promption.background;

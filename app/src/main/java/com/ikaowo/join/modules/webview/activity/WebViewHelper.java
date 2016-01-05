@@ -150,6 +150,9 @@ public class WebViewHelper {
     } else {
       sb.append(url).append("&isApp=" + isApp);
     }
+    if (userService.isLogined()) {
+      sb.append("&companyid=" + userService.getUserCompanyId());
+    }
     sb.append("&uid=")
       .append(userService.getUserId() + "")
       .append("&version=")

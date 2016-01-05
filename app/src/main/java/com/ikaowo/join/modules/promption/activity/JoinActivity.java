@@ -3,6 +3,7 @@ package com.ikaowo.join.modules.promption.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,7 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
 import com.ikaowo.join.common.widget.draggridview.DragGridView;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
+import com.ikaowo.join.eventbus.JoinedActivityCallback;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.JoinRequest;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
@@ -37,6 +39,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -198,6 +201,17 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
       @Override
       public void onSuccess(BaseResponse o) {
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            EventBus.getDefault().post(new JoinedActivityCallback() {
+              @Override
+              public boolean joined() {
+                return true;
+              }
+            });
+          }
+        }, 500);
         JToast.toastShort("参加活动成功");
         finish();
       }

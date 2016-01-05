@@ -76,7 +76,7 @@ public class ChattingUICustom extends IMChattingPageUI {
     }
     textView.setText(title);
     textView.setTextColor(Color.parseColor("#FFFFFF"));
-    textView.setTextSize(15);
+    textView.setTextSize(20);
     TextView backView = (TextView) view.findViewById(R.id.back);
     backView.setOnClickListener(new View.OnClickListener() {
       @Override

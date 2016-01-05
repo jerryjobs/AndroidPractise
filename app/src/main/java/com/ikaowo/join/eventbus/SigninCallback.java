@@ -5,4 +5,5 @@ package com.ikaowo.join.eventbus;
  */
 public interface SigninCallback {
   boolean singined();
+  boolean changeTab();
 }

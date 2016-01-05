@@ -46,10 +46,11 @@ import retrofit.Call;
 public class UserServiceImpl extends UserService {
 
   private SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
-
+  private boolean changTab = true;
   @Override
   public void goToSignin(Context context) {
     Intent intent = new Intent(context, SigninActivity.class);
+    intent.putExtra(Constant.CHANGE_TAB, true); //从这里进入的登录页面，登录完成之后，都需要进行tab切换。
     JApplication.getJContext().startActivity(context, intent);
   }
 
@@ -79,7 +80,7 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
-  public void doLogin(final Context context, String userName, String password) {
+  public void doLogin(final Context context, final String userName, String password) {
     UserInterface userNetworkService
       = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
     LoginRequest request = new LoginRequest();
@@ -91,9 +92,16 @@ public class UserServiceImpl extends UserService {
         @Override
         public void onSuccess(SignupResponse signupResponse) {
 
+          sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
           doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
         }
       });
+  }
+
+  @Override
+  public void doLogin(final Context context, String userName, String password, boolean changeTab) {
+    changTab = changeTab;
+    doLogin(context, userName, password);
   }
 
   @Override
@@ -103,6 +111,11 @@ public class UserServiceImpl extends UserService {
       @Override
       public boolean singined() {
         return true;
+      }
+
+      @Override
+      public boolean changeTab() {
+        return changTab;
       }
     });
     ((Activity) context).finish();
@@ -261,6 +274,11 @@ public class UserServiceImpl extends UserService {
     } else {
       goToSignin(context);
     }
+  }
+
+  @Override
+  public String getLoginedUserName(Context context) {
+    return sharedPreferenceHelper.getLoginedUserName(context);
   }
 
   @Override

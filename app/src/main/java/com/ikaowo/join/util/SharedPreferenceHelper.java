@@ -23,6 +23,8 @@ public class SharedPreferenceHelper {
   private final String USER_INFO = "user_info";
   private final String USER = "user";
   private final String HISTORY = "history";
+  private final String LOGIN_INFO = "login_info";
+  private final String LOGIN_INFO_NAME = "login_info_name";
   private final String SEARCH_HISTORY = "search_history";
 
   private Gson gson;
@@ -155,4 +157,15 @@ public class SharedPreferenceHelper {
     edit.commit();
   }
 
+  public void saveLoginName(Context context, String name) {
+    SharedPreferences sp = context.getSharedPreferences(LOGIN_INFO, 0);
+    SharedPreferences.Editor edit = sp.edit();
+    edit.putString(LOGIN_INFO_NAME, name);
+    edit.commit();
+  }
+
+  public String getLoginedUserName(Context context) {
+    SharedPreferences sp = context.getSharedPreferences(LOGIN_INFO, 0);
+    return sp.getString(LOGIN_INFO_NAME, "");
+  }
 }
