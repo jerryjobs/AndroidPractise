@@ -10,5 +10,6 @@ public class CustomHelper {
   public static void initCustom() {
     //消息通知栏
     AdviceBinder.bindAdvice(PointCutEnum.NOTIFICATION_POINTCUT, NotificationInitHelper.class);
+    AdviceBinder.bindAdvice(PointCutEnum.CHATTING_FRAGMENT_UI_POINTCUT, ChattingUICustom.class);
   }
 }
