@@ -1,28 +1,44 @@
 package com.ikaowo.join.modules.promption.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.BrandService;
+import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
+import com.ikaowo.join.eventbus.JoinStateUpdateCallback;
 import com.ikaowo.join.model.JoinInfo;
+import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.JoinInfoRequest;
-import com.ikaowo.join.model.request.JoinRequest;
+import com.ikaowo.join.model.request.UpdateJoinStateRequest;
 import com.ikaowo.join.model.response.JoinInfoResponse;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -32,10 +48,15 @@ public class JoinDetailActivity extends BaseActivity {
 
   private int promptionId;
   private int brandId;
+  private int u_id; //参与活动人的id
+  private String phone;
+  private String wxId;
 
   private PromptionInterface promptionInterface =
     JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
 
+  private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private BrandService brandService = JApplication.getJContext().getServiceByInterface(BrandService.class);
   private ImageLoader imageLoader = JApplication.getImageLoader();
 
   private int brandIconTargetWidth = JApplication.getJContext().dip2px(64);
@@ -48,6 +69,9 @@ public class JoinDetailActivity extends BaseActivity {
   private int tumblrHeight = JApplication.getJContext().dip2px(100);
 
   private int margin = JApplication.getJContext().dip2px(12);
+
+  @Bind(R.id.scroll_view)
+  ScrollView scrollView;
 
   @Bind(R.id.content)
   TextView contentTv;
@@ -66,6 +90,9 @@ public class JoinDetailActivity extends BaseActivity {
 
   @Bind(R.id.name_title)
   TextView nameTitleTv;
+
+  @Bind(R.id.btn_layout)
+  LinearLayout btnLayout;
 
 
 
@@ -108,24 +135,33 @@ public class JoinDetailActivity extends BaseActivity {
 
         JoinInfo joinInfo = joinInfoResponse.data;
         if (joinInfo == null) {
+          Log.e(getTag(), "the join info is empty.");
           return;
         }
+        u_id = joinInfo.userId;
+        phone = joinInfo.phone;
+        wxId = joinInfo.wx;
         contentTv.setText(joinInfo.extra);
-        List<String> tumblrs = joinInfo.tumblrs;
+        List<ItemImageObj> tumblrs = joinInfo.tumblrs;
         int tumblrsSize = tumblrs.size();
         for (int i = 0; i < tumblrsSize; i++) {
           ImageView imageView = new ImageView(JoinDetailActivity.this);
           imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-          String tumblrUrl = tumblrs.get(i);
+          String tumblrUrl = tumblrs.get(i).thumbImg;
           imageLoader.loadImage(imageView, tumblrUrl,
             tumblrWidth, tumblrWidth, R.drawable.brand_icon_default);
           LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(tumblrWidth, tumblrHeight);
-          llp.leftMargin = margin;
+          if (i == 0) {
+            llp.leftMargin = 0;
+          } else {
+            llp.leftMargin = margin / 2;
+          }
+
           llp.topMargin = margin;
           if (i == tumblrsSize - 1) {
-            llp.rightMargin = margin;
-          } else {
             llp.rightMargin = 0;
+          } else {
+            llp.rightMargin = margin / 2;
           }
           llp.bottomMargin = margin;
           tumblrsLayout.addView(imageView, llp);
@@ -137,6 +173,69 @@ public class JoinDetailActivity extends BaseActivity {
         imageLoader.loadImage(iconIv, joinInfo.userIcon,
           userIconTargetWidth, userIconTargetHeight, R.drawable.brand_icon_default);
         nameTitleTv.setText(joinInfo.nickname + " | " + joinInfo.title);
+
+        if (userService.isLogined() && userService.getUserId() == joinInfo.publishUId) {
+          btnLayout.setVisibility(View.VISIBLE);
+        } else {
+          FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+          flp.bottomMargin = 0;
+          scrollView.setLayoutParams(flp);
+        }
+      }
+    });
+  }
+
+  @OnClick(R.id.chat)
+  public void chat() {
+    userService.imChat(this, wxId);
+  }
+
+  @OnClick(R.id.call)
+  public void call() {
+    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://" + phone));
+    startActivity(intent);
+  }
+
+  @OnClick(R.id.brand_layout)
+  public void viewBrand() {
+    brandService.viewBrandDetail(this, brandId);
+  }
+
+  @OnClick(R.id.rejectBtn)
+  public void reject() {
+    sendRequest(Constant.JOIN_STATE_FAILED);
+  }
+
+  @OnClick(R.id.approveBtn)
+  public void approve() {
+    sendRequest(Constant.JOIN_STATE_PASS);
+  }
+
+  private void sendRequest(final String state) {
+    UpdateJoinStateRequest updateJoinStateRequest = new UpdateJoinStateRequest();
+    updateJoinStateRequest.aci_id = promptionId;
+    updateJoinStateRequest.u_act = state;
+    List<Integer> uIdList =new ArrayList<>();
+    uIdList.add(u_id);
+    updateJoinStateRequest.u_id = uIdList;
+    Call<BaseResponse> call = promptionInterface.updateJoinState(updateJoinStateRequest);
+    JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
+      @Override
+      public void onSuccess(BaseResponse baseResponse) {
+        EventBus.getDefault().post(new JoinStateUpdateCallback() {
+
+          @Override
+          public String newState() {
+            return state;
+          }
+        });
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            finish();
+          }
+        }, 1000);
       }
     });
   }

@@ -47,6 +47,8 @@ public abstract class UserService extends JCommonService {
 
   public abstract void checkLatestUserState(Context context, CheckStateCallback callback);
 
+  public abstract void imChat(Context context, String targetUserWxId);
+
   public interface CheckStateCallback {
     void onPassed();
     void onFailed();

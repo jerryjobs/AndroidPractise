@@ -20,4 +20,6 @@ public class User implements Serializable {
   public String title;
   @SerializedName("phone")
   public String phone;
+  @SerializedName("wx")
+  public String wx;
 }

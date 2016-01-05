@@ -183,6 +183,16 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     request.aci_id = promptionId;
     request.u_id = userService.getUserId();
     request.comment = content;
+    int addPos = -1;
+    for (int i = 0; i < list.size(); i++) {
+      if (list.get(i).type == ItemImageObj.TYPE_ADD) {
+        addPos = i;
+        break;
+      }
+    }
+    if (addPos >= 0) {
+      list.remove(addPos);
+    }
     request.aci_tumblrs = list;
     Call<BaseResponse> call = promptionInterface.join(request);
     JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {

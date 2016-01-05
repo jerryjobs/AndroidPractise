@@ -251,6 +251,19 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
+  public void imChat(Context context, String targetUserWxId) {
+    if (isLogined()) {
+      if (!getUser().wxId.equalsIgnoreCase(targetUserWxId)) {
+        String target = targetUserWxId;
+        Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
+        JApplication.getJContext().startActivity(context, intent);
+      }
+    } else {
+      goToSignin(context);
+    }
+  }
+
+  @Override
   public void onCreate() {
 
   }

@@ -13,6 +13,8 @@ public class JoinedUser implements Serializable {
   public int promption_id;
   @SerializedName("u_id")
   public int uId;
+  @SerializedName("company_id")
+  public int companyId;
   public String comment;
   public String extra;
   public String state;

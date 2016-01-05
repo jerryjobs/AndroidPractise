@@ -18,16 +18,20 @@ import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.JoinStateUpdateCallback;
 import com.ikaowo.join.model.JoinedUser;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListActivity;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -41,6 +45,8 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
   private int targetWidth, targetHeight;
   private PromptionService promptionService;
   private UserService userService;
+  private Map<String, Integer> stateColorMap = new HashMap();
+  private Map<String, String> stateDesMap = new HashMap<>();
 
   private int promptionId;
   @Override
@@ -71,6 +77,11 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     targetWidth = JApplication.getJContext().dip2px(64);
     targetHeight = JApplication.getJContext().dip2px(48);
 
+    stateColorMap.put(Constant.JOIN_STATE_JOINED, R.color.c1);
+    stateColorMap.put(Constant.JOIN_STATE_FAILED, R.color.c9);
+    stateDesMap.put(Constant.JOIN_STATE_JOINED, "已同意");
+    stateDesMap.put(Constant.JOIN_STATE_FAILED, "已拒绝");
+    EventBus.getDefault().register(this);
   }
 
   @Override
@@ -93,7 +104,7 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     if (userService == null) {
       userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     }
-    promptionService.viewJoinDetail(this, userService.getUserCompanyId(), user.promption_id);
+    promptionService.viewJoinDetail(this, user.companyId, user.promption_id);
   }
 
   @Override
@@ -109,6 +120,26 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
   @Override
   protected String getTag() {
     return "JoinedListActivity";
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    EventBus.getDefault().unregister(this);
+  }
+
+  public void onEvent(JoinStateUpdateCallback callback) {
+    JAdapter<JoinedUser> adapter = (JAdapter<JoinedUser>)recyclerView.getAdapter();
+    List<JoinedUser> list = adapter.getObjList();
+    if (list != null) {
+      JoinedUser user = list.get(clickedPos);
+      user.state = callback.newState();
+      String stateDesc = stateDesMap.get(callback.newState());
+      if (stateDesc != null) {
+        user.stateDesc = stateDesc;
+      }
+      adapter.notifyDataSetChanged();
+    }
   }
 
   class JoinedUserAdapter extends JAdapter<JoinedUser> {
@@ -132,7 +163,14 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
 //        viewHolder.brandNameTv.setText(user.);
         viewHolder.brandNameTv.setText(user.brandName);
         viewHolder.joinCommentTv.setText(user.extra);
-        viewHolder.joinedStateTv.setText(user.stateDesc);
+        if (user.state.equalsIgnoreCase(Constant.JOIN_STATE_PASS)
+          || user.state.equalsIgnoreCase(Constant.JOIN_STATE_FAILED)) {
+          viewHolder.joinedStateTv.setVisibility(View.VISIBLE);
+          viewHolder.joinedStateTv.setText(user.stateDesc);
+          viewHolder.joinedStateTv.setTextColor(stateColorMap.get(user.state));
+        } else {
+          viewHolder.joinedStateTv.setVisibility(View.GONE);
+        }
         imageLoader.loadImage(viewHolder.brandIconIv, user.brandIcon, targetWidth, targetHeight, R.drawable.brand_icon_default);
 
       }

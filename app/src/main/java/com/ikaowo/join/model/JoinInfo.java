@@ -1,6 +1,7 @@
 package com.ikaowo.join.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,11 +14,17 @@ public class JoinInfo implements Serializable {
   @SerializedName("u_id")
   public int userId;
 
+  @SerializedName("aci_u_id")
+  public int publishUId;
+
   @SerializedName("user_icon")
   public String userIcon;
 
   @SerializedName("u_pos")
   public String title;
+
+  @SerializedName("wx")
+  public String wx;
 
   public String phone;
 
@@ -37,5 +44,5 @@ public class JoinInfo implements Serializable {
   @SerializedName("aci_id")
   public int promption_id;
 
-  public List<String> tumblrs = new ArrayList<>();
+  public List<ItemImageObj> tumblrs = new ArrayList<>();
 }

@@ -5,6 +5,7 @@ import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.JoinRequest;
+import com.ikaowo.join.model.request.UpdateJoinStateRequest;
 import com.ikaowo.join.model.response.JoinInfoResponse;
 import com.ikaowo.join.model.response.PromptionResponse;
 
@@ -14,6 +15,7 @@ import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
 
@@ -51,4 +53,7 @@ public interface PromptionInterface {
 
   @GET("social/JoininfoComplex")
   Call<JoinInfoResponse> getJoinInfo(@QueryMap Map map);
+
+  @PUT("social/join")
+  Call<BaseResponse> updateJoinState(@Body UpdateJoinStateRequest request);
 }

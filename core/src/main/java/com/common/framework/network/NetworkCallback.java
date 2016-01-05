@@ -42,6 +42,7 @@ public abstract class NetworkCallback<T> implements Callback<T> {
 
   @Override
   public void onFailure(Throwable t) {
+    t.printStackTrace();
     onNetworkRequestFinished();
   }
 

@@ -85,15 +85,7 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
 
   @Override
   protected void performCustomItemClick(User user) {
-    if (userService.isLogined()) {
-      if (userService.getUserId() != user.id) {
-        String target = String.valueOf(user.id);
-        Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
-        startActivity(intent);
-      }
-    } else {
-      userService.goToSignin(getActivity());
-    }
+    userService.imChat(getActivity(), user.wx);
   }
 
   @Override

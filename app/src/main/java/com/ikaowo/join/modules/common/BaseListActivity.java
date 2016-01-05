@@ -30,6 +30,7 @@ public abstract class BaseListActivity<T extends BaseListResponse, P> extends JF
   protected ScrollMoreRecyclerView recyclerView;
 
   protected RecyclerViewHelper<T, P> recyclerViewHelper;
+  protected int clickedPos;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,8 @@ public abstract class BaseListActivity<T extends BaseListResponse, P> extends JF
         if (adapter == null) {
           return;
         }
+
+        clickedPos = position;
 
         List objList = ((JAdapter<P>) adapter).getObjList();
         if (objList == null) {
