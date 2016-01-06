@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -209,7 +208,7 @@ public class JoinDetailActivity extends BaseActivity {
 
   @OnClick(R.id.approveBtn)
   public void approve() {
-    sendRequest(Constant.JOIN_STATE_PASS);
+    sendRequest(Constant.JOIN_STATE_PASSED);
   }
 
   private void sendRequest(final String state) {

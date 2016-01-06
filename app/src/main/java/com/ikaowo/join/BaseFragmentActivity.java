@@ -1,5 +1,7 @@
 package com.ikaowo.join;
 
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +19,12 @@ import java.util.List;
  * Created by weibo on 15-12-1.
  */
 public abstract class BaseFragmentActivity extends JFragmentActivity {
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+  }
 
   public void updateFragment(int fragmentContainerId, BaseFragment fragment) {
     updateFragment(fragmentContainerId, fragment, 0, 0);

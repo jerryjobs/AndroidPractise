@@ -19,6 +19,12 @@ public class JDialogHelper {
   private ProgressDialog dialog;
   private Dialog confirmDialog;
 
+  public JDialogHelper(Context context) {
+    if (context instanceof Activity) {
+      this.activity = (Activity)context;
+    }
+  }
+
   public JDialogHelper(Activity activity) {
     this.activity = activity;
   }

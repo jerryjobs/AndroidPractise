@@ -13,7 +13,6 @@ import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkManager;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusFragmentActivity;
-import com.ikaowo.join.MainActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
@@ -66,7 +65,6 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
   private PhotoService photoService;
   private ImageLoader imageLoader;
   private QiniuUploadHelper qiniuUploadHelper;
-  private final String PASSED = "T", FAILED = "F", PROCESSING = "N";
   private Map<String, Integer> stateColorMap = new HashMap<>();
   private int targetWidth = JApplication.getJContext().dip2px(64);
   private int targetHeight = JApplication.getJContext().dip2px(64);
@@ -90,9 +88,9 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
     toolbar.setTitle(R.string.title_ativity_mine);
     setSupportActionBar(toolbar);
 
-    stateColorMap.put(PASSED, R.color.c1);
-    stateColorMap.put(PROCESSING, R.color.c1);
-    stateColorMap.put(FAILED, R.color.c11);
+    stateColorMap.put(Constant.AUTH_STATE_PASSED, R.color.c1);
+    stateColorMap.put(Constant.AUTH_STATE_PENDING_APPROVE, R.color.c1);
+    stateColorMap.put(Constant.AUTH_STATE_FAILED, R.color.c11);
 
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
@@ -102,9 +100,9 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
   private void setupDate() {
     UserLoginData user = userService.getUser();
     if (user != null) {
-      boolean authed = PASSED.equalsIgnoreCase(user.state) && PASSED.equalsIgnoreCase(user.companyState);
-      boolean failed = FAILED.equalsIgnoreCase(user.state) || FAILED.equalsIgnoreCase(user.companyState);
-      boolean processing = PROCESSING.equalsIgnoreCase(user.state) || PROCESSING.equalsIgnoreCase(user.companyState);
+      boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state) && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
+      boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state) || Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.companyState);
+      boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state) || Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.companyState);
       String state = "";
       if (authed) {
         state = "已认证";

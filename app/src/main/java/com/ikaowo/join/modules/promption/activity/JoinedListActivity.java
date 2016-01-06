@@ -163,7 +163,7 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
 //        viewHolder.brandNameTv.setText(user.);
         viewHolder.brandNameTv.setText(user.brandName);
         viewHolder.joinCommentTv.setText(user.extra);
-        if (user.state.equalsIgnoreCase(Constant.JOIN_STATE_PASS)
+        if (user.state.equalsIgnoreCase(Constant.JOIN_STATE_PASSED)
           || user.state.equalsIgnoreCase(Constant.JOIN_STATE_FAILED)) {
           viewHolder.joinedStateTv.setVisibility(View.VISIBLE);
           viewHolder.joinedStateTv.setText(user.stateDesc);

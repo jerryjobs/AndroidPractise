@@ -15,12 +15,14 @@ import com.alibaba.mobileim.conversation.IYWConversationUnreadChangeListener;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.SignoutCallback;
+import com.ikaowo.join.eventbus.WxKickedOffCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.im.helper.WxImHelper;
 import com.ikaowo.join.model.UserLoginData;
@@ -208,6 +210,17 @@ public class MainTabActivity extends TabActivity {
     if (callback.authed()) {
       userService.updateLocalUserInfo(true);
       initWxImKit();
+    }
+  }
+
+  public void onEvent(WxKickedOffCallback callback) {
+    if (callback.kickedOff()) {
+      dialogHelper.showConfirmDialog(this, "你的账号在别的设备登录，请退出重新登录", new JDialogHelper.DoAfterClickCallback() {
+        @Override
+        public void doAction() {
+          userService.logout(MainTabActivity.this);
+        }
+      });
     }
   }
 

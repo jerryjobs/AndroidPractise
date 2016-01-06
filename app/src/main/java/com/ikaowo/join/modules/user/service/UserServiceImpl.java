@@ -23,7 +23,6 @@ import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.SignoutCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
-import com.ikaowo.join.im.helper.WxImHelper;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.CheckStateRequest;
@@ -40,7 +39,6 @@ import com.ikaowo.join.modules.user.activity.SignupActivity;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.Constant;
-import com.ikaowo.join.util.MD5Util;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 
 import de.greenrobot.event.EventBus;
@@ -156,7 +154,17 @@ public class UserServiceImpl extends UserService {
 
   @Override
   public boolean isAuthed() {
-    return isLogined() && (Constant.AUTH_STATE_PASS.equalsIgnoreCase(getUser().state));
+    return isLogined() && (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(getUser().state));
+  }
+
+  @Override
+  public boolean isPendingAuthed() {
+    return isLogined() && (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(getUser().state));
+  }
+
+  @Override
+  public boolean isAuthFailed() {
+    return isLogined() && (Constant.AUTH_STATE_FAILED.equalsIgnoreCase(getUser().state));
   }
 
   @Override
@@ -240,15 +248,15 @@ public class UserServiceImpl extends UserService {
   @Override
   public boolean authed() {
     UserLoginData user = getUser();
-    return Constant.AUTH_STATE_PASS.equalsIgnoreCase(user.state)
-            && Constant.AUTH_STATE_PASS.equalsIgnoreCase(user.companyState);
+    return Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
+            && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
   }
 
   @Override
   public void updateLocalUserInfo(boolean passed) {
     UserLoginData user = getUser();
-    user.state = passed ? Constant.AUTH_STATE_PASS : Constant.AUTH_STATE_FAILED;
-    user.companyState = passed ? Constant.AUTH_STATE_PASS : Constant.AUTH_STATE_FAILED;
+    user.state = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
+    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
 
     sharedPreferenceHelper.saveUser(user);
   }
@@ -278,38 +286,44 @@ public class UserServiceImpl extends UserService {
   public void interceptorCheckUserState(final Context context, final AuthedAction authedAction) {
     if (isAuthed()) {
       authedAction.doActionAfterAuthed();
-    } else if (isLogined()) {
-      checkLatestUserState(context, new CheckStateCallback() {
-        @Override
-        public void onPassed() {
-          if (authedAction != null) {
-            authedAction.doActionAfterAuthed();
-          }
-
-          EventBus.getDefault().post(new CheckLatestStateCallback() {
-            @Override
-            public boolean authed() {
-              return true;
-            }
-          });
-        }
-
-        @Override
-        public void onFailed() {
-          new JDialogHelper((JFragmentActivity)context).showConfirmDialog(
-            context, context.getString(R.string.unauthed_hint), new JDialogHelper.DoAfterClickCallback() {
-              @Override
-              public void doAction() {
-                if (context instanceof JoinActivity) {
-                  ((JoinActivity) context).finish();
-                }
-              }
-            });
-        }
-      });
+    } else if (isAuthFailed()) {
+      checkState(context, authedAction, context.getString(R.string.auth_failed_hint));
+    } else if (isPendingAuthed()) {
+      checkState(context, authedAction, context.getString(R.string.unauthed_hint));
     } else {
       goToSignin(context);
     }
+  }
+
+  private void checkState(final Context context, final AuthedAction authedAction, final String hint) {
+    checkLatestUserState(context, new CheckStateCallback() {
+      @Override
+      public void onPassed() {
+        if (authedAction != null) {
+          authedAction.doActionAfterAuthed();
+        }
+
+        EventBus.getDefault().post(new CheckLatestStateCallback() {
+          @Override
+          public boolean authed() {
+            return true;
+          }
+        });
+      }
+
+      @Override
+      public void onFailed() {
+        new JDialogHelper((JFragmentActivity)context).showConfirmDialog(context, hint,
+                new JDialogHelper.DoAfterClickCallback() {
+            @Override
+            public void doAction() {
+              if (context instanceof JoinActivity) {
+                ((JoinActivity) context).finish();
+              }
+            }
+          });
+      }
+    });
   }
 
   @Override
@@ -340,6 +354,9 @@ public class UserServiceImpl extends UserService {
       return false;
     } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)){
       JToast.toastShort(context.getString(R.string.im_service_failed));
+      return false;
+    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
+      JToast.toastShort(context.getString(R.string.im_service_disconnected));
       return false;
     }
     return false;

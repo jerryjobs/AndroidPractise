@@ -90,7 +90,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
     stateColorMap.put(Constant.JOIN_STATE_FAILED, R.color.c11);
     stateColorMap.put(Constant.JOIN_STATE_CANCEL, R.color.c11);
     stateColorMap.put(Constant.JOIN_STATE_USER_CANCEL, R.color.c11);
-    stateColorMap.put(Constant.JOIN_STATE_PASS, R.color.c1);
+    stateColorMap.put(Constant.JOIN_STATE_PASSED, R.color.c1);
     stateColorMap.put(Constant.JOIN_STATE_PENDING_APPROVE, R.color.c1);
     stateColorMap.put(Constant.JOIN_STATE_JOINED, R.color.c1);
     stateColorMap.put(Constant.JOIN_STATE_NOT_JOINED, R.color.c1);

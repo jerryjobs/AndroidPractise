@@ -1,5 +1,7 @@
 package com.ikaowo.join;
 
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import com.common.framework.core.JFragmentActivity;
@@ -11,6 +13,12 @@ import com.umeng.analytics.MobclickAgent;
  * Created by weibo on 15-12-1.
  */
 public abstract class BaseActivity extends JFragmentActivity {
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+  }
 
   @Override
   protected void onResume() {

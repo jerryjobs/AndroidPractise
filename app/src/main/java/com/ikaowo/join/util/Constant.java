@@ -32,7 +32,7 @@ public class Constant {
   public static final String PROMPTION_STATE_OVER = "E"; //报名已结束
   public static final String PROMPTION_STATE_CANCEL = "C";//主办方取消
 
-  public static final String JOIN_STATE_PASS = "T"; //审核通过
+  public static final String JOIN_STATE_PASSED = "T"; //审核通过
   public static final String JOIN_STATE_FAILED = "F"; //审核不通过
   public static final String JOIN_STATE_PENDING_APPROVE = "J";//带审核
   public static final String JOIN_STATE_USER_CANCEL = "X";//用户取消
@@ -40,9 +40,9 @@ public class Constant {
   public static final String JOIN_STATE_JOINED = "P"; //审核通过，并且参与
   public static final String JOIN_STATE_NOT_JOINED = "Q"; //审核通过，但是没有参与
 
-  public static final String AUTH_STATE_PASS = "T";
+  public static final String AUTH_STATE_PASSED = "T";
   public static final String AUTH_STATE_FAILED = "F";
-  public static final String AUTH_STATE_PENDING = "N";
+  public static final String AUTH_STATE_PENDING_APPROVE = "N";
 
   public static final String CHANGE_TAB = "change_tab";
 

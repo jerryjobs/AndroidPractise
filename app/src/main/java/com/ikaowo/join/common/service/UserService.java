@@ -35,6 +35,10 @@ public abstract class UserService extends JCommonService {
 
   public abstract boolean isAuthed();
 
+  public abstract boolean isPendingAuthed();
+
+  public abstract boolean isAuthFailed();
+
   public abstract UserLoginData getUser();
 
   public abstract int getUserCompanyId();
