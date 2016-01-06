@@ -14,6 +14,7 @@ import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.ClosePageCallback;
+import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
 import com.ikaowo.join.util.Constant;
 
@@ -93,6 +94,12 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
 
   public void onEvent(ClosePageCallback callback) {
     if (callback.close()) {
+      finish();
+    }
+  }
+
+  public void onEvent(SigninCallback signinCallback) {
+    if (signinCallback.singined()) {
       finish();
     }
   }

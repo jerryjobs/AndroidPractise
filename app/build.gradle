@@ -16,6 +16,16 @@ android {
         versionName "1.0"
         multiDexEnabled true
     }
+
+    signingConfigs {
+        release {
+            storeFile file("join.keystore")
+            storePassword 'joinapp'
+            keyAlias "join.keystore"
+            keyPassword 'joinapp'
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField "String", "PROMPTION_URL", "\"http://web.test.ikaowo.com/activity/\""
@@ -23,6 +33,9 @@ android {
                     'UMENG_APPKEY': '565d592e67e58eb11b000e44',
                     'CHANNEL_NAME': 'test'
             ]
+
+            minifyEnabled false
+            debuggable true
         }
 
         release {
@@ -33,7 +46,18 @@ android {
             ]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
+            minifyEnabled false
         }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    dexOptions {
+        jumboMode = true
     }
 
     packagingOptions {

@@ -2,14 +2,15 @@ package com.ikaowo.join.modules.webview.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.JoinedActivityCallback;
@@ -67,7 +68,19 @@ public class WebViewActivity extends BaseEventBusActivity implements WebViewHelp
     webViewHelper.setJavascriptInterface(this);
 
     webViewHelper.setWebViewInterface(this);
-    webViewHelper.init();
+    //html5那边获取webviwe的高度和宽度的时候，有可能Webview还没有加载完成，获取的高度为0
+    webviewContainerLayout.getViewTreeObserver()
+            .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+      @Override
+      public void onGlobalLayout() {
+        webViewHelper.init();
+        if (Build.VERSION.SDK_INT >= 16) {
+          webviewContainerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        } else {
+          webviewContainerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+        }
+      }
+    });
   }
 
   @Override
