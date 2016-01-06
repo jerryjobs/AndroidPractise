@@ -33,6 +33,8 @@ public abstract class UserService extends JCommonService {
 
   public abstract boolean isLogined();
 
+  public abstract boolean isAuthed();
+
   public abstract UserLoginData getUser();
 
   public abstract int getUserCompanyId();
@@ -49,6 +51,8 @@ public abstract class UserService extends JCommonService {
 
   public abstract void checkLatestUserState(Context context, CheckStateCallback callback);
 
+  public abstract void interceptorCheckUserState(Context context, AuthedAction authedAction);
+
   public abstract void imChat(Context context, String targetUserWxId);
 
   public abstract String getLoginedUserName(Context context);
@@ -56,5 +60,9 @@ public abstract class UserService extends JCommonService {
   public interface CheckStateCallback {
     void onPassed();
     void onFailed();
+  }
+
+  public interface AuthedAction {
+    void doActionAfterAuthed();
   }
 }

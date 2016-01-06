@@ -57,4 +57,7 @@
     <string name="action_edit">编辑</string>
     <string name="posted_brand_name">举办方: %1$s</string>
     <string name="posted_join_end_date">报名截止: %1$s</string>
+    <string name="unauthed_hint">该功能需要审核通过后才能使用，请耐心等待</string>
+    <string name="im_service_failed">IM服务异常，IM功能暂时不可用，如果想使用IM功能，请退出APP重试</string>
+    <string name="im_service_logining">IM服务正在登录中，请稍后</string>
 </resources>

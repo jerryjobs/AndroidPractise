@@ -15,9 +15,9 @@ import com.alibaba.mobileim.conversation.IYWConversationUnreadChangeListener;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
-import com.common.framework.util.JToast;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.SignoutCallback;
@@ -55,7 +55,9 @@ public class MainTabActivity extends TabActivity {
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
 
-    initWxImKit();
+    if (userService.isAuthed()) {
+      initWxImKit();
+    }
 
     toolbar.setTitle(getResources().getString(R.string.app_name));
 //        getNotificationCount();
@@ -65,10 +67,8 @@ public class MainTabActivity extends TabActivity {
   private void initWxImKit() {
     imKit = LoginHelper.getInstance().getIMKit();
     if (imKit != null) {
-      if (userService.isLogined()) {
-        UserLoginData user = userService.getUser();
-        WxImHelper.getInstance().initWxService(user.wxId, MD5Util.md5(user.phone + MD5_KEY));
-      }
+      UserLoginData user = userService.getUser();
+      WxImHelper.getInstance().initWxService(this, MD5Util.md5(user.phone + MD5_KEY), user.wxId);
       conversationService = imKit.getConversationService();
       initConversationServiceAndListener();
     }
@@ -133,25 +133,14 @@ public class MainTabActivity extends TabActivity {
 
     switch (id) {
       case R.id.action_add:
-        if (userService.isLogined()) {
-          if (userService.authed()) {
-            promptionService.goToAddPromotionActivity(this);
-          } else {
-            userService.checkLatestUserState(this, new UserService.CheckStateCallback() {
-              @Override
-              public void onPassed() {
-                promptionService.goToAddPromotionActivity(MainTabActivity.this);
-              }
 
-              @Override
-              public void onFailed() {
-                JToast.toastShort("该功能需要审核通过后才能使用，请耐心等待");
-              }
-            });
+        userService.interceptorCheckUserState(this, new UserService.AuthedAction() {
+          @Override
+          public void doActionAfterAuthed() {
+            initWxImKit();
+            promptionService.goToAddPromotionActivity(MainTabActivity.this);
           }
-        } else {
-          userService.goToSignin(this);
-        }
+        });
         break;
 
       case R.id.action_search:
@@ -194,8 +183,11 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(SigninCallback callback) {
     if (callback.singined()) {
-      initWxImKit();
-      updateConversationList();
+      if (userService.isAuthed()) {
+        initWxImKit();
+        updateConversationList();
+      }
+
       if (callback.changeTab()) {
         onClicked(tabbarList.get(3));
       }
@@ -209,6 +201,13 @@ public class MainTabActivity extends TabActivity {
         tab.hideNotification();
       }
       updateConversationList();
+    }
+  }
+
+  public void onEvent(CheckLatestStateCallback callback) {
+    if (callback.authed()) {
+      userService.updateLocalUserInfo(true);
+      initWxImKit();
     }
   }
 
@@ -239,7 +238,9 @@ public class MainTabActivity extends TabActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
+    if (conversationService != null) {
+      conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
+    }
   }
 
   @Override
@@ -248,12 +249,16 @@ public class MainTabActivity extends TabActivity {
 
     LoginHelper loginHelper = LoginHelper.getInstance();
     final YWIMKit imKit = loginHelper.getIMKit();
-    conversationService = imKit.getConversationService();
-    //resume时需要检查全局未读消息数并做处理，因为离开此界面时删除了全局消息监听器
-    mConversationUnreadChangeListener.onUnreadChange();
+    if (imKit != null && mConversationUnreadChangeListener != null) {
+      conversationService = imKit.getConversationService();
+      //resume时需要检查全局未读消息数并做处理，因为离开此界面时删除了全局消息监听器
+      mConversationUnreadChangeListener.onUnreadChange();
 
-    //在Tab栏增加会话未读消息变化的全局监听器
-    conversationService.addTotalUnreadChangeListener(mConversationUnreadChangeListener);
+      //在Tab栏增加会话未读消息变化的全局监听器
+      if (conversationService != null) {
+        conversationService.addTotalUnreadChangeListener(mConversationUnreadChangeListener);
+      }
+    }
   }
 
   @Override

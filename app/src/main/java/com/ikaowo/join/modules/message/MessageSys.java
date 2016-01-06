@@ -6,10 +6,15 @@ import android.view.ViewGroup;
 
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
+import com.common.framework.core.JFragmentActivity;
 import com.common.framework.interceptor.JInterceptor;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by weibo on 15-12-8.
@@ -30,11 +35,12 @@ public class MessageSys extends BaseSys {
     return new JInterceptor.Stub() {
       public boolean check() {
         UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
-        if (!userService.isLogined()) {
-          userService.goToSignin(context);
-        } else {
-          performClick();
-        }
+        userService.interceptorCheckUserState(context, new UserService.AuthedAction() {
+          @Override
+          public void doActionAfterAuthed() {
+            performClick();
+          }
+        });
         return false;
       }
     };

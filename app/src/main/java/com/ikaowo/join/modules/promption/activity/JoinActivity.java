@@ -81,6 +81,17 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     ab.setDisplayHomeAsUpEnabled(true);
 
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+    userService.interceptorCheckUserState(this, new UserService.AuthedAction() {
+      @Override
+      public void doActionAfterAuthed() {
+        doActionIfAuthed();
+      }
+    });
+    setupOptionMenu();
+  }
+
+  private void doActionIfAuthed() {
+
     promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
     qiniuUploadHelper = new QiniuUploadHelper();
 
@@ -107,7 +118,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     }
 
     setupView();
-    setupOptionMenu();
+
     addAddItem(list);
   }
 

@@ -6,13 +6,18 @@ import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
+import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
+import com.alibaba.mobileim.login.YWLoginState;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
+import com.common.framework.core.JFragmentActivity;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.network.NetworkManager;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
@@ -26,6 +31,7 @@ import com.ikaowo.join.model.request.LoginRequest;
 import com.ikaowo.join.model.request.ResetPasswdRequest;
 import com.ikaowo.join.model.response.CheckStateResponse;
 import com.ikaowo.join.model.response.SignupResponse;
+import com.ikaowo.join.modules.promption.activity.JoinActivity;
 import com.ikaowo.join.modules.user.activity.AddBrandActivity;
 import com.ikaowo.join.modules.user.activity.BrandListActivity;
 import com.ikaowo.join.modules.user.activity.ResetPasswdActivity;
@@ -149,6 +155,11 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
+  public boolean isAuthed() {
+    return isLogined() && (Constant.AUTH_STATE_PASS.equalsIgnoreCase(getUser().state));
+  }
+
+  @Override
   public int getUserCompanyId() {
     return sharedPreferenceHelper.getUserCompanyId();
   }
@@ -264,22 +275,82 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
-  public void imChat(Context context, String targetUserWxId) {
-    if (isLogined()) {
-      if (!getUser().wxId.equalsIgnoreCase(targetUserWxId)) {
-        String target = targetUserWxId;
-        Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
-        JApplication.getJContext().startActivity(context, intent);
-      }
+  public void interceptorCheckUserState(final Context context, final AuthedAction authedAction) {
+    if (isAuthed()) {
+      authedAction.doActionAfterAuthed();
+    } else if (isLogined()) {
+      checkLatestUserState(context, new CheckStateCallback() {
+        @Override
+        public void onPassed() {
+          if (authedAction != null) {
+            authedAction.doActionAfterAuthed();
+          }
+
+          EventBus.getDefault().post(new CheckLatestStateCallback() {
+            @Override
+            public boolean authed() {
+              return true;
+            }
+          });
+        }
+
+        @Override
+        public void onFailed() {
+          new JDialogHelper((JFragmentActivity)context).showConfirmDialog(
+            context, context.getString(R.string.unauthed_hint), new JDialogHelper.DoAfterClickCallback() {
+              @Override
+              public void doAction() {
+                if (context instanceof JoinActivity) {
+                  ((JoinActivity) context).finish();
+                }
+              }
+            });
+        }
+      });
     } else {
       goToSignin(context);
     }
   }
 
   @Override
+  public void imChat(final Context context, final String targetUserWxId) {
+    interceptorCheckUserState(context, new AuthedAction() {
+      @Override
+      public void doActionAfterAuthed() {
+        String target = targetUserWxId;
+        if (loginSuccessed(context)) {
+          Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
+          JApplication.getJContext().startActivity(context, intent);
+        }
+      }
+    });
+  }
+
+  private boolean loginSuccessed(Context context) {
+    LoginHelper loginHelper = LoginHelper.getInstance();
+    YWIMKit imKit = loginHelper.getIMKit();
+    if (imKit == null) {
+      return false;
+    }
+
+    if (imKit.getIMCore().getLoginState().equals(YWLoginState.success)) {
+      return true;
+    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.idle)){
+      JToast.toastShort(context.getString(R.string.im_service_logining));
+      return false;
+    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)){
+      JToast.toastShort(context.getString(R.string.im_service_failed));
+      return false;
+    }
+    return false;
+  }
+
+  @Override
   public String getLoginedUserName(Context context) {
     return sharedPreferenceHelper.getLoginedUserName(context);
   }
+
+
 
   @Override
   public void onCreate() {

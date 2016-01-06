@@ -42,6 +42,7 @@ public class Constant {
 
   public static final String AUTH_STATE_PASS = "T";
   public static final String AUTH_STATE_FAILED = "F";
+  public static final String AUTH_STATE_PENDING = "N";
 
   public static final String CHANGE_TAB = "change_tab";
 

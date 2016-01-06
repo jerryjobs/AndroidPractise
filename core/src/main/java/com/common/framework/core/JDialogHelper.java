@@ -17,6 +17,7 @@ import android.widget.TextView;
 public class JDialogHelper {
   private Activity activity;
   private ProgressDialog dialog;
+  private Dialog confirmDialog;
 
   public JDialogHelper(Activity activity) {
     this.activity = activity;
@@ -47,6 +48,30 @@ public class JDialogHelper {
         }
       }
     });
+  }
+
+
+
+  public void showConfirmDialog(final Context context, final String msg, final DoAfterClickCallback callback) {
+    confirmDialog  = createDialog(context, "注意", msg, new String[] {"确定"},
+            new View.OnClickListener[] {
+                    new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                        if (confirmDialog != null && confirmDialog.isShowing()) {
+                          confirmDialog.dismiss();
+                          if(callback != null) {
+                            callback.doAction();
+                          }
+                        }
+                      }
+                    }
+            });
+    confirmDialog.show();
+  }
+
+  public void showConfirmDialog(final Context context, final String msg) {
+    showConfirmDialog(context, msg, null);
   }
 
   public void dismissProgressDialog() {
@@ -186,4 +211,7 @@ public class JDialogHelper {
     return titleView;
   }
 
+  public interface DoAfterClickCallback {
+    void doAction();
+  }
 }
