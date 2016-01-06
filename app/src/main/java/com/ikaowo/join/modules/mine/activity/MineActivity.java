@@ -29,6 +29,9 @@ import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.QiniuUploadHelper;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -64,6 +67,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
   private ImageLoader imageLoader;
   private QiniuUploadHelper qiniuUploadHelper;
   private final String PASSED = "T", FAILED = "F", PROCESSING = "N";
+  private Map<String, Integer> stateColorMap = new HashMap<>();
   private int targetWidth = JApplication.getJContext().dip2px(64);
   private int targetHeight = JApplication.getJContext().dip2px(64);
 
@@ -86,6 +90,10 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
     toolbar.setTitle(R.string.title_ativity_mine);
     setSupportActionBar(toolbar);
 
+    stateColorMap.put(PASSED, R.color.c1);
+    stateColorMap.put(PROCESSING, R.color.c1);
+    stateColorMap.put(FAILED, R.color.c11);
+
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
     setupDate();
@@ -96,7 +104,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
     if (user != null) {
       boolean authed = PASSED.equalsIgnoreCase(user.state) && PASSED.equalsIgnoreCase(user.companyState);
       boolean failed = FAILED.equalsIgnoreCase(user.state) || FAILED.equalsIgnoreCase(user.companyState);
-      boolean processing = PROCESSING.endsWith(user.state) && PROCESSING.equalsIgnoreCase(user.companyState);
+      boolean processing = PROCESSING.equalsIgnoreCase(user.state) || PROCESSING.equalsIgnoreCase(user.companyState);
       String state = "";
       if (authed) {
         state = "已认证";
@@ -106,7 +114,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
         state = "认证中";
       }
       authStateItem.setText(state);
-
+      authStateItem.setTextColor(stateColorMap.get(user.state));
       ImageView imageView = userIconItem.getImageView();
       if (userIconItem.getImageView() != null) {
 

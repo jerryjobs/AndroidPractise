@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -91,6 +92,10 @@ public class MineItemWidget extends LinearLayout {
     if (rightTv != null) {
       rightTv.setText(text);
     }
+  }
+
+  public void setTextColor(int color) {
+    rightTv.setTextColor(ContextCompat.getColor(context, color));
   }
 
   public ImageView getImageView() {
