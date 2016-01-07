@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkManager;
+import com.component.photo.FullImageView;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusFragmentActivity;
 import com.ikaowo.join.R;
@@ -69,6 +70,8 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
   private int targetWidth = JApplication.getJContext().dip2px(64);
   private int targetHeight = JApplication.getJContext().dip2px(64);
 
+  private FullImageView imageView;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -113,9 +116,9 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
       }
       authStateItem.setText(state);
       authStateItem.setTextColor(stateColorMap.get(user.state));
-      ImageView imageView = userIconItem.getImageView();
-      if (userIconItem.getImageView() != null) {
-
+      imageView = userIconItem.getImageView();
+      if (imageView != null) {
+        imageView.setImgUrl(user.icon);
         imageLoader.loadImage(imageView, user.icon, targetWidth, targetHeight, R.drawable.brand_icon_default);
       }
 
@@ -160,11 +163,11 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
 
   @Override
   public void onUpLoadImageFinish(final String imgUrl, final Uri imgUri) {
-    final ImageView iconIv = userIconItem.getImageView();
-    if (iconIv == null) {
+    if (imageView == null) {
       return;
     }
-
+    imageView.setImgUrl(imgUrl);
+    imageView.setImgUri(imgUri);
     NetworkManager networkManager = JApplication.getNetworkManager();
     UserInterface userInterface = networkManager.getServiceByClass(UserInterface.class);
     UpdateAvatarRequest request = new UpdateAvatarRequest();
@@ -176,9 +179,9 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
       public void onSuccess(BaseResponse baseResponse) {
         if (imgUri != null) {
           Picasso.with(MineActivity.this)
-            .load(imgUri).centerCrop().resize(targetWidth, targetHeight).into(iconIv);
+            .load(imgUri).centerCrop().resize(targetWidth, targetHeight).into(imageView);
         } else if (!TextUtils.isEmpty(imgUrl)) {
-          imageLoader.loadImage(iconIv, imgUrl, targetWidth, targetHeight, R.drawable.brand_icon_default);
+          imageLoader.loadImage(imageView, imgUrl, targetWidth, targetHeight, R.drawable.brand_icon_default);
         }
 
         userService.updateAvatarInfo(imgUrl);

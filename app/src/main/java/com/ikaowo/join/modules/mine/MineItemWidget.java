@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.component.photo.FullImageView;
 import com.ikaowo.join.R;
 
 /**
@@ -23,7 +24,7 @@ public class MineItemWidget extends LinearLayout {
 
   private Context context;
   private TextView rightTv;
-  private ImageView imageView;
+  private FullImageView imageView;
 
   public MineItemWidget(Context context, @Nullable AttributeSet attrs) {
     super(context, attrs, 0);
@@ -50,7 +51,7 @@ public class MineItemWidget extends LinearLayout {
     int iconMargin = typedArray.getDimensionPixelSize(R.styleable.MineItemWidget_icon_margin, 0);
 
     if ("icon".equals(type)) {
-      imageView = new ImageView(context);
+      imageView = new FullImageView(context);
       RelativeLayout.LayoutParams rlp;
       if (width > 0 && height > 0) {
         rlp = new RelativeLayout.LayoutParams(width, height);
@@ -98,7 +99,7 @@ public class MineItemWidget extends LinearLayout {
     rightTv.setTextColor(ContextCompat.getColor(context, color));
   }
 
-  public ImageView getImageView() {
+  public FullImageView getImageView() {
     return imageView;
   }
 }

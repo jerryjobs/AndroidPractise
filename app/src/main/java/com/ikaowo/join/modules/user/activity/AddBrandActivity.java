@@ -101,7 +101,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
           photoService.viewPhoto(AddBrandActivity.this, licenceImgUri);
         } else {
           clickPos = ClickPos.BRAND_LICENCE;
-          photoService.takePhoto(AddBrandActivity.this, toolbar, null, true);
+          photoService.takePhotoAnySize(AddBrandActivity.this, toolbar);
         }
       }
     });
@@ -111,7 +111,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
       public void onClick(View v) {
         hideInput(AddBrandActivity.this, toolbar);
         clickPos = ClickPos.BRAND_LICENCE;
-        photoService.takePhoto(AddBrandActivity.this, toolbar, null, true);
+        photoService.takePhotoAnySize(AddBrandActivity.this, toolbar);
       }
     });
     brandLicenceTv.addRightView(brandLicenceIv, 0);

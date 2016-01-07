@@ -146,7 +146,7 @@ public class SignupActivity extends BaseEventBusActivity
         } else if (!TextUtils.isEmpty(userCardUrl)) {
           photoService.viewPhoto(SignupActivity.this, userCardUrl);
         } else {
-          photoService.takePhoto(SignupActivity.this, toolbar, null, true);
+          photoService.takePhotoAnySize(SignupActivity.this, toolbar);
           ;
         }
       }
@@ -168,7 +168,7 @@ public class SignupActivity extends BaseEventBusActivity
   @OnClick(R.id.user_card)
   public void takePhoto() {
     hideInput(this, toolbar);
-    photoService.takePhoto(SignupActivity.this, toolbar, null, true);
+    photoService.takePhotoAnySize(SignupActivity.this, toolbar);
   }
 
   @Override

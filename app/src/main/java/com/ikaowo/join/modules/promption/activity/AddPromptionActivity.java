@@ -150,7 +150,7 @@ public class AddPromptionActivity extends BaseActivity
     if (promptionId <= 0) {
       addAddItem(list);
     }
-    itemAdapter = new DragGridItemAdapter(this, list, MAX_COUNT);
+    itemAdapter = new DragGridItemAdapter(this, list, MAX_COUNT, true);
     itemAdapter.setDeleteListener(this);
     promptionImgsContainer.setAdapter(itemAdapter);
     promptionImgsContainer.setSwapLastItem(false);
@@ -363,6 +363,7 @@ public class AddPromptionActivity extends BaseActivity
       int imgSize = list.size();
       ItemImageObj item = new ItemImageObj();
       item.thumbImg = imgUrl;
+      item.uri = imgUri;
 
       if (imgSize == MAX_COUNT) {
         if (list.get(imgSize - 1).type != ItemImageObj.TYPE_ADD) {

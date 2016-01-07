@@ -183,9 +183,7 @@ public class JoinDetailActivity extends BaseActivity {
             approveBtn.setVisibility(View.VISIBLE);
             rejectBtn.setVisibility(View.GONE);
           } else if (Constant.JOIN_STATE_PASSED.equalsIgnoreCase(joinInfo.state)) {
-            btnLayout.setVisibility(View.VISIBLE);
-            approveBtn.setVisibility(View.GONE);
-            rejectBtn.setVisibility(View.VISIBLE);
+            btnLayout.setVisibility(View.GONE);
           } else if (Constant.JOIN_STATE_PENDING_APPROVE.equalsIgnoreCase(joinInfo.state)) {
             btnLayout.setVisibility(View.VISIBLE);
           } else {

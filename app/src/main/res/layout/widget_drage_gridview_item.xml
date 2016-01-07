@@ -12,7 +12,7 @@
         android:background="#eeeeee"
         android:padding="1dp">
 
-        <ImageView
+        <com.component.photo.FullImageView
             android:id="@+id/expertsys_thumb_img"
             android:layout_width="72dp"
             android:layout_height="72dp"

@@ -88,6 +88,10 @@ public class PhotoService {
     takePhoto(context, attachView, fragment, true, 1, 1);
   }
 
+  public void takePhotoAnySize(Context context, View attachView) { //
+    takePhoto(context, attachView, null, false, 0, 0);
+  }
+
   public void takePhoto(View attachView, final Fragment fragment,
                         View contentView, Button takeBtn, Button pickBtn, Button cancelBtn) {
     takePhoto(attachView, fragment, contentView, takeBtn, pickBtn, cancelBtn, true, 1, 1);
@@ -97,10 +101,12 @@ public class PhotoService {
   private void startPhoto(boolean selecteSystemPic, Fragment fragment, boolean aspectCrop, int aspectX, int aspectY) {
     Intent intent = new Intent(context, TakePhotoActivity.class);
     intent.putExtra(PhotoUtil.ASPECT_KEY, aspectCrop);
-    Bundle bundle = new Bundle();
-    bundle.putInt(PhotoUtil.ASPECTX, aspectX);
-    bundle.putInt(PhotoUtil.ASPECTY, aspectY);
-    intent.putExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME, bundle);
+    if (aspectX > 0 && aspectY > 0) {
+      Bundle bundle = new Bundle();
+      bundle.putInt(PhotoUtil.ASPECTX, aspectX);
+      bundle.putInt(PhotoUtil.ASPECTY, aspectY);
+      intent.putExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME, bundle);
+    }
     if (selecteSystemPic) {
       intent.putExtra(PhotoUtil.PHOTO_ACTION, true);
       if (fragment != null) {

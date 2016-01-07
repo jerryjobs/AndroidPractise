@@ -1,5 +1,7 @@
 package com.ikaowo.join.common.widget.draggridview;
 
+import android.net.Uri;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -28,7 +30,7 @@ public class ItemImageObj implements Serializable {
 
   public int type = TYPE_NORMAL; // 0: add, 2:normal //数据库对应的2表示活动的照片
 
-//    public Uri uri;
+    public Uri uri;
 
 
   @Override

@@ -145,7 +145,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
       }
     });
 
-    itemAdapter = new DragGridItemAdapter(this, list, MAX_COUNT);
+    itemAdapter = new DragGridItemAdapter(this, list, MAX_COUNT, true);
     itemAdapter.setDeleteListener(this);
     dragGridView.setAdapter(itemAdapter);
     dragGridView.setSwapLastItem(false);

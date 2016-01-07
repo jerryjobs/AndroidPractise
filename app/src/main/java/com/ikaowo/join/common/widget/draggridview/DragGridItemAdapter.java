@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JFragmentActivity;
+import com.component.photo.FullImageView;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.R;
 
@@ -32,6 +33,7 @@ public class DragGridItemAdapter extends BaseAdapter {
   private int maxCount;
   private GridViewItemDeleteListener deleteListener;
   private PhotoService photoService;
+  private boolean anySize = false;
 
   public DragGridItemAdapter(Context context, List<ItemImageObj> items, int maxCount) {
     this.context = context;
@@ -39,6 +41,11 @@ public class DragGridItemAdapter extends BaseAdapter {
     this.width = JApplication.getJContext().getScreenWidth() / 4;
     this.maxCount = maxCount;
     this.photoService = new PhotoService(context);
+  }
+
+  public DragGridItemAdapter(Context context, List<ItemImageObj> items, int maxCount, boolean anySize) {
+    this(context, items, maxCount);
+    this.anySize = anySize;
   }
 
   @Override
@@ -96,6 +103,8 @@ public class DragGridItemAdapter extends BaseAdapter {
     }
 
     if (normalHolder != null) {
+      normalHolder.thumbImg.setImgUri(item.uri);
+      normalHolder.thumbImg.setImgUrl(item.thumbImg);
       JApplication.getImageLoader().loadImage(
         normalHolder.thumbImg, item.thumbImg, width, width, R.drawable.brand_icon_default);
     }
@@ -126,7 +135,7 @@ public class DragGridItemAdapter extends BaseAdapter {
     @Bind(R.id.widget_draggrid_delete_icon)
     ImageView deleteImg;
     @Bind(R.id.expertsys_thumb_img)
-    ImageView thumbImg;
+    FullImageView thumbImg;
 
     private Dialog dialog;
 
@@ -187,7 +196,11 @@ public class DragGridItemAdapter extends BaseAdapter {
     @OnClick(R.id.expertsys_add_thumb)
     public void addThumb(View view) {
       ((JFragmentActivity) context).hideInput(context, view);
-      photoService.takePhoto(context, view, null, true);
+      if (anySize) {
+        photoService.takePhotoAnySize(context, view);
+      } else {
+        photoService.takePhoto(context, view, null);
+      }
     }
   }
 }
