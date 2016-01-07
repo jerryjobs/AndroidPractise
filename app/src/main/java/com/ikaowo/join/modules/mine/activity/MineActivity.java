@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
@@ -25,8 +27,10 @@ import com.ikaowo.join.model.request.UpdateAvatarRequest;
 import com.ikaowo.join.modules.mine.MineItemWidget;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
+import com.ikaowo.join.util.AvatarHelper;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.QiniuUploadHelper;
+import com.ikaowo.join.util.SharedPreferenceHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -71,6 +75,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
   private int targetHeight = JApplication.getJContext().dip2px(64);
 
   private FullImageView imageView;
+  private TextView shortNameTv;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -103,23 +108,51 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
   private void setupDate() {
     UserLoginData user = userService.getUser();
     if (user != null) {
-      boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state) && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
-      boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state) || Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.companyState);
-      boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state) || Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.companyState);
+      boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
+              && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
+      boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state)
+              || Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.companyState);
+      boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state)
+              || Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.companyState);
+
+      Map<String, String> stateDescMap = SharedPreferenceHelper.getInstance().getEnumValue(this);
       String state = "";
-      if (authed) {
-        state = "已认证";
-      } else if (failed) {
-        state = "认证失败";
-      } else if (processing) {
-        state = "认证中";
+      if (stateDescMap != null) {
+        if (authed) {
+          state = stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_PASSED);
+        } else if (failed) {
+          state = stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_FAILED);
+        } else if (processing) {
+          state = stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_PENDING_APPROVE);
+        }
+
+      } else {
+        if (authed) {
+          state = "已认证";
+        } else if (failed) {
+          state = "认证失败";
+        } else if (processing) {
+          state = "认证中";
+        }
       }
+
+
       authStateItem.setText(state);
       authStateItem.setTextColor(stateColorMap.get(user.state));
       imageView = userIconItem.getImageView();
+      shortNameTv = userIconItem.getShortNameTv();
+      if (shortNameTv != null) {
+        shortNameTv.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            photoService.takePhoto(MineActivity.this, toolbar, null);
+          }
+        });
+      }
       if (imageView != null) {
         imageView.setImgUrl(user.icon);
-        imageLoader.loadImage(imageView, user.icon, targetWidth, targetHeight, R.drawable.brand_icon_default);
+        AvatarHelper.getInstance().showAvatar(MineActivity.this, imageView, userIconItem.getShortNameTv(),
+                targetWidth, targetHeight, user.icon, user.nickName);
       }
 
       userNameItem.setText(user.nickName);
@@ -177,6 +210,10 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
 
       @Override
       public void onSuccess(BaseResponse baseResponse) {
+
+        if (shortNameTv != null) {
+          shortNameTv.setVisibility(View.GONE);
+        }
         if (imgUri != null) {
           Picasso.with(MineActivity.this)
             .load(imgUri).centerCrop().resize(targetWidth, targetHeight).into(imageView);

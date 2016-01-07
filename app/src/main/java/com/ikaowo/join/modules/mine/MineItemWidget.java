@@ -7,9 +7,9 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +25,7 @@ public class MineItemWidget extends LinearLayout {
   private Context context;
   private TextView rightTv;
   private FullImageView imageView;
+  private TextView shortNameTv;
 
   public MineItemWidget(Context context, @Nullable AttributeSet attrs) {
     super(context, attrs, 0);
@@ -52,6 +53,9 @@ public class MineItemWidget extends LinearLayout {
 
     if ("icon".equals(type)) {
       imageView = new FullImageView(context);
+      shortNameTv = new TextView(context);
+      shortNameTv.setGravity(Gravity.CENTER);
+      shortNameTv.setVisibility(GONE);
       RelativeLayout.LayoutParams rlp;
       if (width > 0 && height > 0) {
         rlp = new RelativeLayout.LayoutParams(width, height);
@@ -62,10 +66,11 @@ public class MineItemWidget extends LinearLayout {
 
       rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
       rlp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-      if (iconMargin > 0) {
-        rlp.setMargins(iconMargin, iconMargin, 0, iconMargin);
-      }
+//      if (iconMargin > 0) {
+//        rlp.setMargins(iconMargin, iconMargin, 0, iconMargin);
+//      }
       relativeLayout.addView(imageView, rlp);
+      relativeLayout.addView(shortNameTv, rlp);
 
       if (iconDrawable != null) {
         if (Build.VERSION.SDK_INT <= 15) {
@@ -101,5 +106,9 @@ public class MineItemWidget extends LinearLayout {
 
   public FullImageView getImageView() {
     return imageView;
+  }
+
+  public TextView getShortNameTv() {
+    return shortNameTv;
   }
 }

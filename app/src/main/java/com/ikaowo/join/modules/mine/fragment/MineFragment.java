@@ -83,10 +83,8 @@ public class MineFragment extends BaseEventBusFragment {
   private void setupData() {
     if (userService.isLogined()) {
       UserLoginData user = userService.getUser();
-      AvatarHelper.getInstance().showAvatar(getContext(),
-        iconIv, shortNameTv,
-        targetImgWidth, targetImgHeight,
-        user.icon, user.nickName);
+      AvatarHelper.getInstance().showAvatar(getContext(), iconIv, shortNameTv,
+                targetImgWidth, targetImgHeight, user.icon, user.nickName);
       nameTitleTv.setText(user.nickName + " | " + user.title);
       brandNameTv.setText(user.brandInfo != null ? user.brandInfo.company_name : "");
     }

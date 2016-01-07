@@ -261,26 +261,6 @@ public class UserServiceImpl extends UserService {
     sharedPreferenceHelper.saveUser(user);
   }
 
-  @Override
-  public void checkLatestUserState(Context context, final CheckStateCallback callback) {
-    NetworkManager networkManager = JApplication.getNetworkManager();
-    UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
-    CheckStateRequest request = new CheckStateRequest();
-    request.u_id = getUserId();
-    final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
-    networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
-      @Override
-      public void onSuccess(CheckStateResponse response) {
-        updateLocalUserInfo(response.data);
-        if (response.data) {
-          callback.onPassed();
-        } else {
-          callback.onFailed();
-        }
-
-      }
-    });
-  }
 
   @Override
   public void interceptorCheckUserState(final Context context, final AuthedAction authedAction) {
@@ -322,6 +302,27 @@ public class UserServiceImpl extends UserService {
               }
             }
           });
+      }
+    });
+  }
+
+
+  private void checkLatestUserState(Context context, final CheckStateCallback callback) {
+    NetworkManager networkManager = JApplication.getNetworkManager();
+    UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
+    CheckStateRequest request = new CheckStateRequest();
+    request.u_id = getUserId();
+    final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
+    networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
+      @Override
+      public void onSuccess(CheckStateResponse response) {
+        updateLocalUserInfo(response.data);
+        if (response.data) {
+          callback.onPassed();
+        } else {
+          callback.onFailed();
+        }
+
       }
     });
   }

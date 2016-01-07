@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="44dp"
-              android:paddingLeft="12dp"
-              android:paddingRight="12dp"
+              android:layout_height="wrap_content"
+              android:padding="12dp"
               android:background="?android:attr/selectableItemBackground">
     <TextView
         android:id="@+id/desc"
@@ -15,5 +14,6 @@
         android:text="认证状态"
         android:layout_centerVertical="true"
         android:paddingRight="6dp"/>
+
 
 </RelativeLayout>
