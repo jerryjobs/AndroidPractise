@@ -12,7 +12,7 @@ public class User implements Serializable {
   public int id;
   @SerializedName("u_username")
   public String userName;
-  @SerializedName("u_icon")
+  @SerializedName("icon")
   public String userIcon;
   @SerializedName("u_nickname")
   public String nickName;

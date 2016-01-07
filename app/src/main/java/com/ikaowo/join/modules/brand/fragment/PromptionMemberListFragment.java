@@ -147,7 +147,7 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
       super(itemView);
       ButterKnife.bind(this, itemView);
 
-      itemView.setOnClickListener(new View.OnClickListener() {
+      itemView.findViewById(R.id.chat_icon).setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
           recyclerViewHelper.getRecyclerHelperImpl().performItemClick(getLayoutPosition());

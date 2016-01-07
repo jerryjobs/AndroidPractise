@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <include layout="@layout/widget_avatar" />
+        <include android:id="@+id/avatar_layout" layout="@layout/widget_avatar" />
         <TextView
             android:id="@+id/name_title"
             android:layout_width="match_parent"
@@ -21,8 +21,14 @@
             android:layout_marginRight="16dp" />
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:id="@+id/chat_icon"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:minHeight="24dp"
+            android:minWidth="24dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="8dp"
             android:src="@drawable/content_ic_applicant_chat"/>

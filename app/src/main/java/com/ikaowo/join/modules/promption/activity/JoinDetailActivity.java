@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
+import com.component.photo.FullImageView;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.BrandService;
@@ -29,6 +30,7 @@ import com.ikaowo.join.model.request.UpdateJoinStateRequest;
 import com.ikaowo.join.model.response.JoinInfoResponse;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
+import com.ikaowo.join.util.AvatarHelper;
 import com.ikaowo.join.util.Constant;
 
 import java.util.ArrayList;
@@ -58,11 +60,11 @@ public class JoinDetailActivity extends BaseActivity {
   private BrandService brandService = JApplication.getJContext().getServiceByInterface(BrandService.class);
   private ImageLoader imageLoader = JApplication.getImageLoader();
 
-  private int brandIconTargetWidth = JApplication.getJContext().dip2px(64);
-  private int brandIconTargetHeight = JApplication.getJContext().dip2px(48);
+  private int brandIconTargetWidth = JApplication.getJContext().dip2px(48);
+  private int brandIconTargetHeight = JApplication.getJContext().dip2px(36);
 
-  private int userIconTargetWidth =  JApplication.getJContext().dip2px(64);
-  private int userIconTargetHeight =  JApplication.getJContext().dip2px(64);
+  private int userIconTargetWidth =  JApplication.getJContext().dip2px(48);
+  private int userIconTargetHeight =  JApplication.getJContext().dip2px(48);
 
   private int tumblrWidth = JApplication.getJContext().dip2px(100);
   private int tumblrHeight = JApplication.getJContext().dip2px(100);
@@ -78,14 +80,20 @@ public class JoinDetailActivity extends BaseActivity {
   @Bind(R.id.tumblrs_layout)
   LinearLayout tumblrsLayout;
 
+  @Bind(R.id.avatar_layout)
+  FrameLayout avatarLayout;
+
   @Bind(R.id.brand_logo)
   ImageView brandLogo;
 
   @Bind(R.id.brand_name)
   TextView brandName;
 
-  @Bind(R.id.user_icon)
+  @Bind(R.id.icon)
   ImageView iconIv;
+
+  @Bind(R.id.short_name)
+  TextView shortNameTv;
 
   @Bind(R.id.name_title)
   TextView nameTitleTv;
@@ -148,9 +156,10 @@ public class JoinDetailActivity extends BaseActivity {
         List<ItemImageObj> tumblrs = joinInfo.tumblrs;
         int tumblrsSize = tumblrs.size();
         for (int i = 0; i < tumblrsSize; i++) {
-          ImageView imageView = new ImageView(JoinDetailActivity.this);
+          FullImageView imageView = new FullImageView(JoinDetailActivity.this);
           imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
           String tumblrUrl = tumblrs.get(i).thumbImg;
+          imageView.setImgUrl(tumblrUrl);
           imageLoader.loadImage(imageView, tumblrUrl,
             tumblrWidth, tumblrWidth, R.drawable.brand_icon_default);
           LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(tumblrWidth, tumblrHeight);
@@ -173,8 +182,15 @@ public class JoinDetailActivity extends BaseActivity {
           brandIconTargetWidth, brandIconTargetHeight, R.drawable.brand_icon_default);
         brandName.setText(joinInfo.brandName);
 
-        imageLoader.loadImage(iconIv, joinInfo.userIcon,
-          userIconTargetWidth, userIconTargetHeight, R.drawable.brand_icon_default);
+        LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) avatarLayout.getLayoutParams();
+        llp.width = userIconTargetWidth;
+        llp.height = userIconTargetHeight;
+        llp.leftMargin = JApplication.getJContext().dip2px(12);
+
+        AvatarHelper.getInstance().showAvatar(JoinDetailActivity.this, iconIv, shortNameTv,
+                userIconTargetWidth, userIconTargetHeight,
+                joinInfo.userIcon, joinInfo.nickname);
+
         nameTitleTv.setText(joinInfo.nickname + " | " + joinInfo.title);
 
         if (userService.isLogined() && userService.getUserId() == joinInfo.publishUId) {
