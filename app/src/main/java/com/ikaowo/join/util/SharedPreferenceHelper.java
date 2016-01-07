@@ -11,7 +11,9 @@ import com.google.gson.GsonBuilder;
 import com.ikaowo.join.model.UserLoginData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by weibo on 15-12-21.
@@ -24,8 +26,11 @@ public class SharedPreferenceHelper {
   private final String USER = "user";
   private final String HISTORY = "history";
   private final String LOGIN_INFO = "login_info";
+  private final String COMMON = "common_info";
+
   private final String LOGIN_INFO_NAME = "login_info_name";
   private final String SEARCH_HISTORY = "search_history";
+  private final String COMMON_ENUM = "common_info_enum";
 
   private Gson gson;
   private Context context;
@@ -167,5 +172,29 @@ public class SharedPreferenceHelper {
   public String getLoginedUserName(Context context) {
     SharedPreferences sp = context.getSharedPreferences(LOGIN_INFO, 0);
     return sp.getString(LOGIN_INFO_NAME, "");
+  }
+
+  public void saveEnumValue(Context context, Map<String, String> enumMap) {
+    SharedPreferences sp = context.getSharedPreferences(COMMON, 0);
+    SharedPreferences.Editor edit = sp.edit();
+    Gson gson = new GsonBuilder().create();
+    edit.putString(COMMON_ENUM, gson.toJson(enumMap));
+    edit.commit();
+  }
+
+  public Map<String, String> getEnumValue(Context context) {
+    SharedPreferences sp = context.getSharedPreferences(COMMON, 0);
+    String enumStr = sp.getString(COMMON_ENUM, "");
+    if (TextUtils.isEmpty(enumStr)) {
+      return  new HashMap<>();
+    }
+
+    Gson gson = new GsonBuilder().create();
+    try {
+      Map<String, String> map = gson.fromJson(enumStr, Map.class);
+      return map;
+    } catch (Exception e) {
+      return  new HashMap<>();
+    }
   }
 }

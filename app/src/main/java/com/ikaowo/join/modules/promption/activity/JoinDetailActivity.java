@@ -93,7 +93,11 @@ public class JoinDetailActivity extends BaseActivity {
   @Bind(R.id.btn_layout)
   LinearLayout btnLayout;
 
+  @Bind(R.id.rejectBtn)
+  TextView rejectBtn;
 
+  @Bind(R.id.approveBtn)
+  TextView approveBtn;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -174,7 +178,20 @@ public class JoinDetailActivity extends BaseActivity {
         nameTitleTv.setText(joinInfo.nickname + " | " + joinInfo.title);
 
         if (userService.isLogined() && userService.getUserId() == joinInfo.publishUId) {
-          btnLayout.setVisibility(View.VISIBLE);
+          if (Constant.JOIN_STATE_FAILED.equalsIgnoreCase(joinInfo.state)) {
+            btnLayout.setVisibility(View.VISIBLE);
+            approveBtn.setVisibility(View.VISIBLE);
+            rejectBtn.setVisibility(View.GONE);
+          } else if (Constant.JOIN_STATE_PASSED.equalsIgnoreCase(joinInfo.state)) {
+            btnLayout.setVisibility(View.VISIBLE);
+            approveBtn.setVisibility(View.GONE);
+            rejectBtn.setVisibility(View.VISIBLE);
+          } else if (Constant.JOIN_STATE_PENDING_APPROVE.equalsIgnoreCase(joinInfo.state)) {
+            btnLayout.setVisibility(View.VISIBLE);
+          } else {
+            btnLayout.setVisibility(View.GONE);
+          }
+
         } else {
           FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

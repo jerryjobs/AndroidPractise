@@ -1,6 +1,7 @@
 package com.ikaowo.join.modules.promption.activity;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -24,10 +25,12 @@ import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.modules.common.BaseListActivity;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
+import com.ikaowo.join.util.SharedPreferenceHelper;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,9 +49,11 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
   private PromptionService promptionService;
   private UserService userService;
   private Map<String, Integer> stateColorMap = new HashMap();
-  private Map<String, String> stateDesMap = new HashMap<>();
+  private Set<String> visibleStateSet;
 
   private int promptionId;
+  private Map<String, String> stateDescMap;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     try {
@@ -77,11 +82,16 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     targetWidth = JApplication.getJContext().dip2px(64);
     targetHeight = JApplication.getJContext().dip2px(48);
 
-    stateColorMap.put(Constant.JOIN_STATE_JOINED, R.color.c1);
+    stateColorMap.put(Constant.JOIN_STATE_PASSED, R.color.c1);
+    stateColorMap.put(Constant.JOIN_STATE_JOINED, R.color.c8);
+    stateColorMap.put(Constant.JOIN_STATE_FAILED, R.color.c1);
     stateColorMap.put(Constant.JOIN_STATE_FAILED, R.color.c9);
-    stateDesMap.put(Constant.JOIN_STATE_JOINED, "已同意");
-    stateDesMap.put(Constant.JOIN_STATE_FAILED, "已拒绝");
+    stateColorMap.put(Constant.JOIN_STATE_NOT_JOINED, R.color.c9);
+    visibleStateSet = stateColorMap.keySet();
     EventBus.getDefault().register(this);
+
+    stateDescMap = SharedPreferenceHelper.getInstance().getEnumValue(this);
+
   }
 
   @Override
@@ -134,7 +144,7 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     if (list != null) {
       JoinedUser user = list.get(clickedPos);
       user.state = callback.newState();
-      String stateDesc = stateDesMap.get(callback.newState());
+      String stateDesc = stateDescMap.get(Constant.JOIN_STATE_PREFIX + user.state);
       if (stateDesc != null) {
         user.stateDesc = stateDesc;
       }
@@ -163,16 +173,14 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
 //        viewHolder.brandNameTv.setText(user.);
         viewHolder.brandNameTv.setText(user.brandName);
         viewHolder.joinCommentTv.setText(user.extra);
-        if (user.state.equalsIgnoreCase(Constant.JOIN_STATE_PASSED)
-          || user.state.equalsIgnoreCase(Constant.JOIN_STATE_FAILED)) {
+        if (visibleStateSet.contains(user.state)) {
           viewHolder.joinedStateTv.setVisibility(View.VISIBLE);
           viewHolder.joinedStateTv.setText(user.stateDesc);
-          viewHolder.joinedStateTv.setTextColor(stateColorMap.get(user.state));
+          viewHolder.joinedStateTv.setBackgroundColor(ContextCompat.getColor(JoinedListActivity.this, stateColorMap.get(user.state)));
         } else {
           viewHolder.joinedStateTv.setVisibility(View.GONE);
         }
         imageLoader.loadImage(viewHolder.brandIconIv, user.brandIcon, targetWidth, targetHeight, R.drawable.brand_icon_default);
-
       }
       super.onBindViewHolder(holder, position);
     }

@@ -34,7 +34,7 @@ public class Constant {
 
   public static final String JOIN_STATE_PASSED = "T"; //审核通过
   public static final String JOIN_STATE_FAILED = "F"; //审核不通过
-  public static final String JOIN_STATE_PENDING_APPROVE = "J";//带审核
+  public static final String JOIN_STATE_PENDING_APPROVE = "J";//待审核
   public static final String JOIN_STATE_USER_CANCEL = "X";//用户取消
   public static final String JOIN_STATE_CANCEL = "X";//主办方取消
   public static final String JOIN_STATE_JOINED = "P"; //审核通过，并且参与
@@ -45,6 +45,10 @@ public class Constant {
   public static final String AUTH_STATE_PENDING_APPROVE = "N";
 
   public static final String CHANGE_TAB = "change_tab";
+
+  public static final String USER_STATE_PREFIX = "user_state";
+  public static final String JOIN_STATE_PREFIX = "join_state";
+  public static final String PROMPTION_STATE_PREFIX = "activity_state";
 
   public static Integer SHARE = 1;
   public static int EDIT = 2;

@@ -17,6 +17,7 @@ import com.ikaowo.join.modules.promption.service.PromptionServiceImpl;
 import com.ikaowo.join.modules.user.service.UserServiceImpl;
 import com.ikaowo.join.modules.webview.service.WebViewServiceImpl;
 import com.ikaowo.join.network.BrandInterface;
+import com.ikaowo.join.network.CommonInterface;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.network.QiniuInterface;
 import com.ikaowo.join.network.TestInterface;
@@ -59,6 +60,7 @@ public class KwMarketApplication extends JApplication {
     networkManager.registerService(VerifyCodeInterface.class);
     networkManager.registerService(UserInterface.class);
     networkManager.registerService(PromptionInterface.class);
+    networkManager.registerService(CommonInterface.class);
   }
 
   @Override

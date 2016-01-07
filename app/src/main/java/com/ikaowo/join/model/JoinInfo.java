@@ -38,6 +38,8 @@ public class JoinInfo implements Serializable {
 
   public String extra; //加入说明
 
+  public String state;
+
   @SerializedName("company_id")
   public int brandId;
 

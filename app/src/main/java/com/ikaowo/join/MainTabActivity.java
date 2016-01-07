@@ -25,12 +25,17 @@ import com.ikaowo.join.eventbus.SignoutCallback;
 import com.ikaowo.join.eventbus.WxKickedOffCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.im.helper.WxImHelper;
+import com.ikaowo.join.model.EnumData;
 import com.ikaowo.join.model.UserLoginData;
+import com.ikaowo.join.model.response.EnumDataResponse;
 import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.promption.PromptionSys;
+import com.ikaowo.join.network.CommonInterface;
+import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.util.MD5Util;
+import com.ikaowo.join.util.SharedPreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.greenrobot.event.EventBus;
+import retrofit.Call;
 
 public class MainTabActivity extends TabActivity {
 
@@ -64,6 +70,30 @@ public class MainTabActivity extends TabActivity {
     toolbar.setTitle(getResources().getString(R.string.app_name));
 //        getNotificationCount();
     EventBus.getDefault().register(this);
+    getEnumData();
+
+  }
+
+  private void getEnumData() {
+    CommonInterface commonInterface = JApplication.getNetworkManager().getServiceByClass(CommonInterface.class);
+    Call<EnumDataResponse> call = commonInterface.getSystemStateEnum();
+    JApplication.getNetworkManager().async(call, new KwMarketNetworkCallback<EnumDataResponse>(this) {
+      @Override
+      public void onSuccess(EnumDataResponse response) {
+        List<EnumData> enumDataList = null;
+        if (response == null || (enumDataList = response.data) == null) {
+          return;
+        }
+
+        Map<String, String> enumMap = new HashMap<String, String>();
+        for (EnumData data : enumDataList) {
+          enumMap.put(data.type + data.key, data.value);
+        }
+
+        SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
+        sharedPreferenceHelper.saveEnumValue(MainTabActivity.this, enumMap);
+      }
+    });
   }
 
   private void initWxImKit() {
