@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -34,6 +35,7 @@ import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.promption.PromptionSys;
 import com.ikaowo.join.network.CommonInterface;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
+import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.MD5Util;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 
@@ -237,9 +239,11 @@ public class MainTabActivity extends TabActivity {
   }
 
   public void onEvent(CheckLatestStateCallback callback) {
-    if (callback.authed()) {
-      userService.updateLocalUserInfo(true);
-      initWxImKit();
+    if (!TextUtils.isEmpty(callback.getLatestState())) {
+      userService.updateLocalUserInfo(callback.getLatestState());
+      if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(callback.getLatestState())) {
+        initWxImKit();
+      }
     }
   }
 

@@ -16,7 +16,7 @@ public abstract class BaseEventBusFragmentActivity extends BaseFragmentActivity 
 
   @Override
   protected void onDestroy() {
-    super.onDestroy();
     EventBus.getDefault().unregister(this);
+    super.onDestroy();
   }
 }

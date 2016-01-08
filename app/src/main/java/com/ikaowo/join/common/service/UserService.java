@@ -51,7 +51,7 @@ public abstract class UserService extends JCommonService {
 
   public abstract boolean authed();
 
-  public abstract void updateLocalUserInfo(boolean passed);
+  public abstract void updateLocalUserInfo(String state);
 
   public abstract void interceptorCheckUserState(Context context, AuthedAction authedAction);
 
@@ -60,6 +60,7 @@ public abstract class UserService extends JCommonService {
   public abstract String getLoginedUserName(Context context);
 
   public interface CheckStateCallback {
+    void onProcessing();
     void onPassed();
     void onFailed();
   }

@@ -18,7 +18,7 @@ public abstract class BaseEventBusFragment extends BaseFragment {
 
   @Override
   public void onDestroyView() {
-    super.onDestroyView();
     EventBus.getDefault().unregister(this);
+    super.onDestroyView();
   }
 }

@@ -13,20 +13,29 @@ import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
+import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.BaseEventBusFragment;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.AvatarUpdateCallback;
+import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.model.UserLoginData;
+import com.ikaowo.join.model.request.CheckStateRequest;
+import com.ikaowo.join.model.response.CheckStateResponse;
+import com.ikaowo.join.network.CommonInterface;
+import com.ikaowo.join.network.KwMarketNetworkCallback;
+import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.AvatarHelper;
 import com.ikaowo.join.util.Constant;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-8.
@@ -107,7 +116,26 @@ public class MineFragment extends BaseEventBusFragment {
 
   @OnClick(R.id.user_info)
   public void viewUserInfo() {
-    mineService.viewUserInfo(getActivity());
+    NetworkManager networkManager = JApplication.getNetworkManager();
+    UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
+    CheckStateRequest request = new CheckStateRequest();
+    request.u_id = userService.getUserId();
+    Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
+    networkManager.async(getActivity(), Constant.DATAGETTING, call, new KwMarketNetworkCallback<CheckStateResponse>(getActivity()) {
+      @Override
+      public void onSuccess(final CheckStateResponse stateResponse) {
+        if (stateResponse != null && !TextUtils.isEmpty(stateResponse.data)) {
+          EventBus.getDefault().post(new CheckLatestStateCallback() {
+
+            @Override
+            public String getLatestState() {
+              return stateResponse.data;
+            }
+          });
+        }
+        mineService.viewUserInfo(getActivity());
+      }
+    });
   }
 
   @OnClick(R.id.promption)

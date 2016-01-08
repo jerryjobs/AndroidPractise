@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
+import com.alibaba.mobileim.channel.util.StrictWrapper;
 import com.alibaba.mobileim.login.YWLoginState;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
@@ -253,10 +255,10 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
-  public void updateLocalUserInfo(boolean passed) {
+  public void updateLocalUserInfo(String state) {
     UserLoginData user = getUser();
-    user.state = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
-    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
+    user.state = state;
+//    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
 
     sharedPreferenceHelper.saveUser(user);
   }
@@ -267,34 +269,42 @@ public class UserServiceImpl extends UserService {
     if (isAuthed()) {
       authedAction.doActionAfterAuthed();
     } else if (isAuthFailed()) {
-      checkState(context, authedAction, context.getString(R.string.auth_failed_hint));
+      checkState(context, authedAction);
     } else if (isPendingAuthed()) {
-      checkState(context, authedAction, context.getString(R.string.unauthed_hint));
+      checkState(context, authedAction);
     } else {
       goToSignin(context);
     }
   }
 
-  private void checkState(final Context context, final AuthedAction authedAction, final String hint) {
+  private void checkState(final Context context, final AuthedAction authedAction) {
     checkLatestUserState(context, new CheckStateCallback() {
+      @Override
+      public void onProcessing() {
+        new JDialogHelper((JFragmentActivity)context).showConfirmDialog(context,
+          context.getString(R.string.unauthed_hint),
+          new JDialogHelper.DoAfterClickCallback() {
+            @Override
+            public void doAction() {
+              if (context instanceof JoinActivity) {
+                ((JoinActivity) context).finish();
+              }
+            }
+          });
+      }
+
       @Override
       public void onPassed() {
         if (authedAction != null) {
           authedAction.doActionAfterAuthed();
         }
-
-        EventBus.getDefault().post(new CheckLatestStateCallback() {
-          @Override
-          public boolean authed() {
-            return true;
-          }
-        });
       }
 
       @Override
       public void onFailed() {
-        new JDialogHelper((JFragmentActivity)context).showConfirmDialog(context, hint,
-                new JDialogHelper.DoAfterClickCallback() {
+        new JDialogHelper((JFragmentActivity)context).showConfirmDialog(context,
+          context.getString(R.string.auth_failed_hint),
+          new JDialogHelper.DoAfterClickCallback() {
             @Override
             public void doAction() {
               if (context instanceof JoinActivity) {
@@ -315,10 +325,23 @@ public class UserServiceImpl extends UserService {
     final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
     networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
       @Override
-      public void onSuccess(CheckStateResponse response) {
+      public void onSuccess(final CheckStateResponse response) {
+        if (response == null || TextUtils.isEmpty(response.data)) {
+          return ;
+        }
         updateLocalUserInfo(response.data);
-        if (response.data) {
+
+        EventBus.getDefault().post(new CheckLatestStateCallback() {
+          @Override
+          public String getLatestState() {
+            return response.data;
+          }
+        });
+
+        if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(response.data)) {
           callback.onPassed();
+        } else if (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(response.data)) {
+          callback.onProcessing();
         } else {
           callback.onFailed();
         }
