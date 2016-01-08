@@ -30,6 +30,7 @@ import com.ikaowo.join.network.VerifyCodeInterface;
 public class KwMarketApplication extends JApplication {
   @Override
   public void onCreate() {
+    super.onCreate();
     //Application.onCreate中，首先执行这部分代码, 因为，如果在":TCMSSevice"进程中，无需进行openIM和app业务的初始化，以节省内存
     //todo 特别注意:这段代码不能封装到其他方法中，必须在onCreate顶层代码中!
     //以下代码固定在此处，不要改动
@@ -39,7 +40,6 @@ public class KwMarketApplication extends JApplication {
     }
     //以上代码固定在这个位置，不要改动
     InitHelper.initYWSDK(this);
-    super.onCreate();
   }
 
   @Override

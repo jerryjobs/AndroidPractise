@@ -119,6 +119,18 @@
 
         <activity android:name=".modules.webview.activity.PromptionDetailWebViewActivity" />
 
+        <activity android:name=".modules.promption.activity.CompletePromptionActivity" >
+            <intent-filter>
+                <data
+                    android:host="activity"
+                    android:scheme="join"
+                    android:pathPattern="/close/.*"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
         <!-- Umeng Config -->
         <service
             android:name="com.umeng.update.net.DownloadingService"

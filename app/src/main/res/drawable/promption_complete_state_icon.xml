@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Non focused states -->
+    <item android:drawable="@drawable/content_ic_checkbox" android:state_focused="false" android:state_selected="false" />
+    <item android:drawable="@drawable/content_ic_checkbox_sel" android:state_focused="false" android:state_selected="true" />
+
+    <!-- Focused states -->
+    <item android:drawable="@drawable/content_ic_checkbox" android:state_focused="true" android:state_selected="true" />
+    <item android:drawable="@drawable/content_ic_checkbox" android:state_focused="true" android:state_selected="false" />
+
+    <!-- Pressed -->
+    <item android:drawable="@drawable/content_ic_checkbox" />
+
+</selector>

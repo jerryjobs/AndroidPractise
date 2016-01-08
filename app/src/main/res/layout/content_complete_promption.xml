@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c6"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ikaowo.join.modules.promption.activity.CompletePromptionActivity"
+    tools:showIn="@layout/activity_complete_promption"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="@android:color/white"
+        android:text="请确认本次推广的合作伙伴"/>
+
+    <ViewStub
+        android:id="@+id/approved_user_container_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/subTree"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
+            android:text="本次推广媒体报道"/>
+
+        <com.ikaowo.join.modules.promption.widget.MediaItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.ikaowo.join.modules.promption.widget.MediaItem>
+
+        <com.ikaowo.join.modules.promption.widget.MediaItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.ikaowo.join.modules.promption.widget.MediaItem>
+
+        <com.ikaowo.join.modules.promption.widget.MediaItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.ikaowo.join.modules.promption.widget.MediaItem>
+    </LinearLayout>
+</LinearLayout>
+

@@ -56,4 +56,7 @@ public interface PromptionInterface {
 
   @PUT("social/join")
   Call<BaseResponse> updateJoinState(@Body UpdateJoinStateRequest request);
+
+  @GET("social/complete/Detailinfo")
+  Call<BaseListResponse<JoinedUser>> getApprovedList(@QueryMap Map map);
 }
