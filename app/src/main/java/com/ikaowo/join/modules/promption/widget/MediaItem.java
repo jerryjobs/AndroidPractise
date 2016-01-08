@@ -27,6 +27,6 @@ public class MediaItem extends LinearLayout {
 
   private void init() {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
-    layoutInflater.inflate(R.layout.content_complete_promption, this);
+    layoutInflater.inflate(R.layout.widget_media_item, this);
   }
 }
