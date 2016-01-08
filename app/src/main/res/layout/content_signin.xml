@@ -34,7 +34,7 @@
         android:layout_height="50dp" />
 
     <com.ikaowo.join.modules.user.widget.DeletableEditTextView
-        android:id="@+id/passwod_et"
+        android:id="@+id/password"
         android:hint="@string/password"
         app:bottom_line_color="@color/c1"
         android:layout_marginTop="20dp"

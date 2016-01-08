@@ -13,9 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:orientation="vertical">
         <com.ikaowo.join.modules.user.widget.CustomEditTextView
             android:id="@+id/brand_name"
             android:layout_width="match_parent"
@@ -44,51 +44,10 @@
         android:layout_height="16dp"
         android:background="@color/c6"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ViewStub
+        android:id="@+id/phone_viewstub"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <com.ikaowo.join.modules.user.widget.DeletableEditTextView
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="14sp"
-            android:maxLength="11"
-            android:inputType="number"
-            android:hint="@string/phone"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.ikaowo.join.modules.user.widget.DeletableEditTextView
-                android:id="@+id/verify_code"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:show_delete_icon="false"
-                android:textSize="14sp"
-                android:hint="@string/verify_code"/>
-
-            <TextView
-                android:id="@+id/verify_btn"
-                android:layout_width="90dp"
-                android:layout_height="32dp"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@color/verify_code"
-                android:background="@drawable/shape_verify_code"
-                android:layout_gravity="right|center_vertical"
-                android:enabled="false"
-                android:layout_marginBottom="6dp"
-                android:text="@string/get_verify_code"/>
-        </FrameLayout>
-
-        <com.ikaowo.join.modules.user.widget.DeletableEditTextView
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="14sp"
-            android:hint="@string/password"/>
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout="@layout/view_phone_related"/>
 </LinearLayout>

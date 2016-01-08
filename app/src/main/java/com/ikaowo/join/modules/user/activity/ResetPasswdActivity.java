@@ -35,7 +35,7 @@ public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
   @Bind(R.id.verify_code)
   DeletableEditTextView verifyCodeEt;
 
-  @Bind(R.id.passwod_et)
+  @Bind(R.id.password)
   DeletableEditTextView passwordEt;
 
   private VerifyCodeHelper verifyCodeHelper;
