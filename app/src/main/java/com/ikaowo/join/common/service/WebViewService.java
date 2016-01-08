@@ -5,8 +5,6 @@ import android.content.Context;
 import com.common.framework.core.JCommonService;
 import com.ikaowo.join.model.Promption;
 
-import java.io.Serializable;
-
 /**
  * Created by weibo on 7/5/15.
  */

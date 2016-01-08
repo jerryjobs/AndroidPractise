@@ -32,7 +32,7 @@ import retrofit.Call;
 public class UpdatePasswordActivity extends BaseFragmentActivity implements DeletableEditTextView.TextChangeListener {
 
   @Bind(R.id.new_password)
-  DeletableEditTextView  newPasswordEt;
+  DeletableEditTextView newPasswordEt;
 
   @Bind(R.id.old_password)
   DeletableEditTextView oldPasswordEt;
@@ -81,7 +81,7 @@ public class UpdatePasswordActivity extends BaseFragmentActivity implements Dele
     boolean oldPassworldInputed = !TextUtils.isEmpty(oldPassword = oldPasswordEt.getText().toString().trim());
     boolean newPasswordInputed = !TextUtils.isEmpty(newPassowrd = newPasswordEt.getText().toString().trim());
     boolean passwordEquals = newPasswordInputed && oldPassworldInputed;
-    boolean passwordAtLast6 = newPassowrd.length() >=6;
+    boolean passwordAtLast6 = newPassowrd.length() >= 6;
     menu.getItem(0).setEnabled(passwordEquals && passwordAtLast6);
     return true;
   }

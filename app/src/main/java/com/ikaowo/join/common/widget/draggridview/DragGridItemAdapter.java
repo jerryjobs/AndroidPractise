@@ -65,7 +65,7 @@ public class DragGridItemAdapter extends BaseAdapter {
 
   @Override
   public int getItemViewType(int position) {
-    return thumbList.get(position).type == 0? ItemImageObj.TYPE_ADD : ItemImageObj.TYPE_NORMAL;
+    return thumbList.get(position).type == 0 ? ItemImageObj.TYPE_ADD : ItemImageObj.TYPE_NORMAL;
   }
 
   @Override

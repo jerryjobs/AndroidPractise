@@ -27,18 +27,17 @@ import butterknife.OnClick;
  */
 public class SigninActivity extends BaseEventBusActivity implements TextWatcher {
 
-  private UserService userService
-          = JApplication.getJContext().getServiceByInterface(UserService.class);
-  private String username;
-  private String password;
-  private boolean changeTab;
-
   @Bind(R.id.name_et)
   DeletableEditTextView nameEt;
   @Bind(R.id.password)
   DeletableEditTextView passwordEt;
   @Bind(R.id.login_tv)
   TextView loginTv;
+  private UserService userService
+    = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private String username;
+  private String password;
+  private boolean changeTab;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

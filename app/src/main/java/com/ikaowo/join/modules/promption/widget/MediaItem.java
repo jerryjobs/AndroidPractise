@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +19,7 @@ public class MediaItem extends LinearLayout {
 
   private AppCompatEditText editText;
   private TextView titleTv;
+
   public MediaItem(Context context) {
     super(context);
     this.context = context;
@@ -40,7 +40,7 @@ public class MediaItem extends LinearLayout {
   private void init() {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     layoutInflater.inflate(R.layout.widget_media_item, this);
-    editText = (AppCompatEditText)findViewById(R.id.media_url);
+    editText = (AppCompatEditText) findViewById(R.id.media_url);
     editText.setSingleLine(true);
     titleTv = (TextView) findViewById(R.id.title);
 

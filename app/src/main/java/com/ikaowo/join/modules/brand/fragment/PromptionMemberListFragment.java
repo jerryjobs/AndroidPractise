@@ -118,7 +118,7 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
       if (holder instanceof MemberListViewHolder) {
-        MemberListViewHolder memberListViewHolder = (MemberListViewHolder)holder;
+        MemberListViewHolder memberListViewHolder = (MemberListViewHolder) holder;
         User user = objList.get(position);
 
         AvatarHelper.getInstance().showAvatar(getContext(),

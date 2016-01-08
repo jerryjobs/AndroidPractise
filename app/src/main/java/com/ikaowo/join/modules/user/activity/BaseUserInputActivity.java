@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
-import com.common.framework.network.NetworkCallback;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
@@ -26,13 +24,9 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.AddBrandCallback;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
 import com.ikaowo.join.model.Brand;
-import com.ikaowo.join.model.BrandInfo;
-import com.ikaowo.join.model.request.SignupRequest;
-import com.ikaowo.join.model.response.SignupResponse;
 import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
-import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.QiniuUploadHelper;
 import com.ikaowo.join.util.VerifyCodeHelper;
 import com.squareup.picasso.Picasso;
@@ -40,7 +34,6 @@ import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-11.
@@ -190,6 +183,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
       && userTitleInputed && userCardInputed && userPhoneInputed;
 
   }
+
   protected abstract void submit();
 
   @Override

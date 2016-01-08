@@ -9,7 +9,7 @@ import com.alibaba.mobileim.YWAPI;
  */
 public class InitHelper {
 
-  public static void initYWSDK(Application application){
+  public static void initYWSDK(Application application) {
     //TODO 注意：--------------------------------------
     //  以下步骤调用顺序有严格要求，请按照示例的步骤（todo step）
     // 的顺序调用！

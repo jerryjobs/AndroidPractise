@@ -14,6 +14,7 @@ import com.ikaowo.join.util.Constant;
  */
 public class BrandPromptionTabLayoutAdapter extends TabLayoutAdapter {
   protected int brandId;
+
   public BrandPromptionTabLayoutAdapter(FragmentManager fm, String[] tabTitles, int brandId) {
     super(fm, tabTitles, brandId);
     this.brandId = brandId;

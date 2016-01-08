@@ -18,7 +18,7 @@ public class Constant {
   public static final String USER_ID = "user_id";
   public static final String URL = "url";
   public static final String SHAREW_TITLE = "title";
-  public static final String SHAREW_SUMMARY ="summary";
+  public static final String SHAREW_SUMMARY = "summary";
   public static final String SHAREW_IMG_URL = "bg_url";
   public static final String SHOW_OPTION_MENU = "show_option_menu";
 
@@ -49,11 +49,6 @@ public class Constant {
   public static final String USER_STATE_PREFIX = "user_state";
   public static final String JOIN_STATE_PREFIX = "join_state";
   public static final String PROMPTION_STATE_PREFIX = "activity_state";
-
-  public static Integer SHARE = 1;
-  public static int EDIT = 2;
-  public static int NONE = 3;
-
   public static final int[] HEADER_COLOR_ARRAY = new int[]{
     R.color.header_c1,
     R.color.header_c2,
@@ -66,6 +61,9 @@ public class Constant {
     R.color.header_c9,
     R.color.header_c10
   };
+  public static Integer SHARE = 1;
+  public static int EDIT = 2;
+  public static int NONE = 3;
 
   public static int getRandomColor() {
     Random random = new Random(System.currentTimeMillis());

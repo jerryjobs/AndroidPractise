@@ -57,13 +57,13 @@ public class CompleteJoinItem extends LinearLayout {
       return;
     }
 
-    final ImageView iconIv = (ImageView)inflated.findViewById(R.id.state_icon);
+    final ImageView iconIv = (ImageView) inflated.findViewById(R.id.state_icon);
     ImageView brandIv = (ImageView) inflated.findViewById(R.id.brand_icon);
     TextView brandTv = (TextView) inflated.findViewById(R.id.brand_name);
 
     ImageLoader imageLoader = JApplication.getImageLoader();
     imageLoader.loadImage(brandIv, joinedUser.brandIcon,
-            JApplication.getJContext().dip2px(40), JApplication.getJContext().dip2px(30), R.drawable.brand_icon_default);
+      JApplication.getJContext().dip2px(40), JApplication.getJContext().dip2px(30), R.drawable.brand_icon_default);
     brandTv.setText(joinedUser.brandName);
     inflated.setOnClickListener(new OnClickListener() {
       @Override

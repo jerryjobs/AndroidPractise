@@ -57,8 +57,8 @@ public abstract class BaseListFragment<T extends BaseListResponse, P> extends Ba
       @Override
       public boolean checkResponse(JResponse baseResponse) {
         boolean result = baseResponse != null &&
-                ((baseResponse instanceof BaseListResponse)
-                        && (((BaseListResponse) baseResponse).data) != null);
+          ((baseResponse instanceof BaseListResponse)
+            && (((BaseListResponse) baseResponse).data) != null);
 
         if (result) {
           doAfterGetData((T) baseResponse);

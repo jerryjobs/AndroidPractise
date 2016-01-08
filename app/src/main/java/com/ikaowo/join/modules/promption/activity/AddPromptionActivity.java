@@ -66,6 +66,25 @@ public class AddPromptionActivity extends BaseActivity
   DragGridView.OnChanageListener, TextWatcher {
 
 
+  protected final int MAX_COUNT = 6;
+  private final int MAX_CONTENT_LENGTH = 140;
+  private final int MAX_TITLE_LENGTH = 15;
+  protected int targetImgBgWidth, targetImgBgHeight;
+  protected List<ItemImageObj> list = new ArrayList<>(); //图标icon
+  protected DragGridItemAdapter itemAdapter;
+  protected int titleResId = R.string.title_activity_add_promotion;
+  protected TextView endDateTv;
+  protected EditText timeInputEt;
+  protected EditText addInputEt;
+  protected int promptionId;
+  protected String promptionBg;
+  protected String promptionTitle;
+  protected String promptionContent;
+  protected String promptionTime;
+  protected String promptionAddress;
+  protected String promptionEndDate;
+  protected String promptNotes;
+  protected String endDate; //格式化过的时间，用来展示 格式为 2014-10-11
   @Bind(R.id.add_promption_bg_container)
   FrameLayout promptionBgContainer;
   @Bind(R.id.promption_bg)
@@ -88,36 +107,12 @@ public class AddPromptionActivity extends BaseActivity
   CustomEditTextView endDateEt;
   @Bind(R.id.promption_notes_content)
   AppCompatEditText noteEt;
-
-  protected int targetImgBgWidth, targetImgBgHeight;
-  protected List<ItemImageObj> list = new ArrayList<>(); //图标icon
-  protected DragGridItemAdapter itemAdapter;
-  protected int titleResId = R.string.title_activity_add_promotion;
-
-  protected TextView endDateTv;
-  protected EditText timeInputEt;
-  protected EditText addInputEt;
-  protected int promptionId;
-
-  protected String promptionBg;
-  protected String promptionTitle;
-  protected String promptionContent;
-  protected String promptionTime;
-  protected String promptionAddress;
-  protected String promptionEndDate;
-  protected String promptNotes;
-  protected String endDate; //格式化过的时间，用来展示 格式为 2014-10-11
-  protected final int MAX_COUNT = 6;
-
   private QiniuUploadHelper qiniuUploadHelper;
   private InputFiledHelper inputHelper;
   private DateTimeHelper dateTimeHelper;
   private PhotoService photoService;
   private UserService userService;
   private ClickPos clickedPos;
-
-  private final int MAX_CONTENT_LENGTH = 140;
-  private final int MAX_TITLE_LENGTH = 15;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

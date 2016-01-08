@@ -26,7 +26,7 @@ public class MyPromptionActivity extends BaseEventBusFragmentActivity {
   @Bind(R.id.viewpager)
   ViewPager viewPager;
 
-  private String[] titlesArray ;
+  private String[] titlesArray;
   private UserService userService;
   private int brandId;
 
@@ -66,7 +66,7 @@ public class MyPromptionActivity extends BaseEventBusFragmentActivity {
     String title = null;
     if (map != null) {
       TabLayout.Tab tab = tabLayout.getTabAt(map.index);
-      if(tab != null) {
+      if (tab != null) {
         switch (map.index) {
           case 0:
             title = getString(R.string.tab_title_mine_posted_promption, map.count);

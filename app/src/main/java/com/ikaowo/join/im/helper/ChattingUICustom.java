@@ -47,7 +47,7 @@ public class ChattingUICustom extends IMChattingPageUI {
     String title = null;
     if (conversation.getConversationType() == YWConversationType.P2P) {
       YWP2PConversationBody conversationBody = (YWP2PConversationBody) conversation
-              .getConversationBody();
+        .getConversationBody();
       if (!TextUtils.isEmpty(conversationBody.getContact().getShowName())) {
         title = conversationBody.getContact().getShowName();
       } else {
@@ -90,12 +90,12 @@ public class ChattingUICustom extends IMChattingPageUI {
 
   /**
    * 是否需要圆角矩形的头像
-   * @return
-   *      true:需要圆角矩形
-   *      <br>
-   *      false:不需要圆角矩形，默认为圆形
-   *      <br>
-   *      注：如果返回true，则需要使用{@link #getRoundRectRadius()}给出圆角的设置半径，否则无圆角效果
+   *
+   * @return true:需要圆角矩形
+   * <br>
+   * false:不需要圆角矩形，默认为圆形
+   * <br>
+   * 注：如果返回true，则需要使用{@link #getRoundRectRadius()}给出圆角的设置半径，否则无圆角效果
    */
   @Override
   public boolean isNeedRoundRectHead() {
@@ -104,8 +104,8 @@ public class ChattingUICustom extends IMChattingPageUI {
 
   /**
    * 返回设置圆角矩形的圆角半径大小
-   * @return
-   *      0:如果{@link #isNeedRoundRectHead()}返回true，此处返回0则表示头像显示为直角正方形
+   *
+   * @return 0:如果{@link #isNeedRoundRectHead()}返回true，此处返回0则表示头像显示为直角正方形
    */
   @Override
   public int getRoundRectRadius() {

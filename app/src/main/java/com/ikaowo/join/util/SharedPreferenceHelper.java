@@ -186,7 +186,7 @@ public class SharedPreferenceHelper {
     SharedPreferences sp = context.getSharedPreferences(COMMON, 0);
     String enumStr = sp.getString(COMMON_ENUM, "");
     if (TextUtils.isEmpty(enumStr)) {
-      return  new HashMap<>();
+      return new HashMap<>();
     }
 
     Gson gson = new GsonBuilder().create();
@@ -194,7 +194,7 @@ public class SharedPreferenceHelper {
       Map<String, String> map = gson.fromJson(enumStr, Map.class);
       return map;
     } catch (Exception e) {
-      return  new HashMap<>();
+      return new HashMap<>();
     }
   }
 }

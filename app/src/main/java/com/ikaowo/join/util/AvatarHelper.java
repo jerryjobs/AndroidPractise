@@ -18,7 +18,8 @@ public class AvatarHelper {
 
   private static AvatarHelper instance;
 
-  private AvatarHelper() {}
+  private AvatarHelper() {
+  }
 
   public static AvatarHelper getInstance() {
     if (instance == null) {
@@ -29,7 +30,7 @@ public class AvatarHelper {
   }
 
   public void showAvatar(Context context, ImageView iconIv, TextView shortNameTv, int width, int height, String avatarIconUrl, String userName) {
-      ImageLoader imageLoader = JApplication.getImageLoader();
+    ImageLoader imageLoader = JApplication.getImageLoader();
     if (TextUtils.isEmpty(avatarIconUrl)) {
       iconIv.setImageResource(0);
       iconIv.setBackgroundColor(ContextCompat.getColor(context, Constant.getRandomColor()));

@@ -7,7 +7,8 @@ public class CharacterHelper {
 
   private static CharacterHelper instance;
 
-  private CharacterHelper() {}
+  private CharacterHelper() {
+  }
 
   public static CharacterHelper getInstance() {
     if (instance == null) {

@@ -18,12 +18,13 @@ import de.greenrobot.event.EventBus;
 public class LoginHelper {
   private static LoginHelper instance = new LoginHelper();
   private final String APP_KEY = "23283999";
-//  private final String APP_KEY = "23015524"; //demo
+  //  private final String APP_KEY = "23015524"; //demo
   private YWIMKit imKit;
   private Context context;
   private YWConnectionListenerImpl mYWConnectionListenerImpl = new YWConnectionListenerImpl();
 
-  private LoginHelper() {}
+  private LoginHelper() {
+  }
 
   public static LoginHelper getInstance() {
     return instance;
@@ -47,6 +48,10 @@ public class LoginHelper {
     YWIMCore imCore = imKit.getIMCore();
     imCore.removeConnectionListener(mYWConnectionListenerImpl);
     imCore.addConnectionListener(mYWConnectionListenerImpl);
+  }
+
+  public YWIMKit getIMKit() {
+    return imKit;
   }
 
   private class YWConnectionListenerImpl implements IYWConnectionListener {
@@ -75,9 +80,5 @@ public class LoginHelper {
         });
       }
     }
-  }
-
-  public YWIMKit getIMKit() {
-    return imKit;
   }
 }

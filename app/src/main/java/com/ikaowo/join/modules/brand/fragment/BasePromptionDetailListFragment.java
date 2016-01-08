@@ -46,7 +46,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
   protected PromptionInterface promptionInterface;
   protected int brandId;
   protected boolean showState;
-
+  LinearLayout.LayoutParams tmpLlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, JApplication.getJContext().dip2px(36));
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
   private WebViewService webViewService;
@@ -65,7 +65,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
 
     targetImgBgWidth
-            = JApplication.getJContext().dip2px(120);
+      = JApplication.getJContext().dip2px(120);
     targetImgBgHeight = targetImgBgWidth * 9 / 16;
 
     Bundle bundle = getArguments();
@@ -139,6 +139,26 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
     return "暂无推广信息";
   }
 
+  protected abstract int getIndex();
+
+  public void onEvent(UpdatePromptionCallback callback) {
+    if (callback.promptionUpdated()) {
+      JAdapter<Promption> adapter = (JAdapter<Promption>) recyclerView.getAdapter();
+      List<Promption> list = adapter.getObjList();
+      Promption clickedPromption = null;
+      if (list != null && (clickedPromption = list.get(clicedPos)) != null) {
+        clickedPromption.title = callback.getNewTitle();
+        clickedPromption.endDate = callback.getNewEndTime();
+        adapter.notifyDataSetChanged();
+      }
+    }
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    EventBus.getDefault().unregister(this);
+  }
 
   class PromptionListAdapter extends JAdapter<Promption> {
 
@@ -162,8 +182,8 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
         Promption promption = objList.get(position);
 
         imageLoader.loadImage(viewHolder.promptionIconIv,
-                promption.background, targetImgBgWidth,
-                targetImgBgHeight, R.drawable.brand_icon_default);
+          promption.background, targetImgBgWidth,
+          targetImgBgHeight, R.drawable.brand_icon_default);
         viewHolder.promptionTitleTv.setText(promption.title);
         viewHolder.promptionBrandNameTv.setText(getString(R.string.posted_brand_name, promption.brandName));
         viewHolder.promptionEndDateTv.setText(getString(R.string.posted_join_end_date, dateTimeHelper.getTime(promption.endDate)));
@@ -175,7 +195,6 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
     }
   }
 
-  LinearLayout.LayoutParams tmpLlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, JApplication.getJContext().dip2px(36));
   class PromptionListViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.item_contaienr)
@@ -193,7 +212,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
     @Bind(R.id.end_date)
     TextView promptionEndDateTv;
 
-    TextView textView ;
+    TextView textView;
 
     public PromptionListViewHolder(View itemView, final RecyclerViewHelper recyclerViewHelper) {
       super(itemView);
@@ -201,7 +220,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
 
 
       LinearLayout.LayoutParams llp =
-              (LinearLayout.LayoutParams) promptionIconIv.getLayoutParams();
+        (LinearLayout.LayoutParams) promptionIconIv.getLayoutParams();
 
       llp.width = targetImgBgWidth;
       llp.height = targetImgBgHeight;
@@ -223,26 +242,5 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
         }
       });
     }
-  }
-
-  protected abstract int getIndex();
-
-  public void onEvent(UpdatePromptionCallback callback) {
-    if (callback.promptionUpdated()) {
-      JAdapter<Promption> adapter = (JAdapter<Promption>)recyclerView.getAdapter();
-      List<Promption> list = adapter.getObjList();
-      Promption clickedPromption = null;
-      if (list != null && (clickedPromption = list.get(clicedPos)) != null) {
-        clickedPromption.title = callback.getNewTitle();
-        clickedPromption.endDate = callback.getNewEndTime();
-        adapter.notifyDataSetChanged();
-      }
-    }
-  }
-
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    EventBus.getDefault().unregister(this);
   }
 }

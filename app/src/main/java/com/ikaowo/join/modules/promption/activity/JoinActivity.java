@@ -46,18 +46,16 @@ import retrofit.Call;
  * Created by weibo on 15-12-29.
  */
 public class JoinActivity extends BaseFragmentActivity implements PhotoService.UploadFinishListener,
-        DragGridItemAdapter.GridViewItemDeleteListener, DragGridView.OnChanageListener{
+  DragGridItemAdapter.GridViewItemDeleteListener, DragGridView.OnChanageListener {
 
+  private final int MAX_COUNT = 6;
+  private final int MAX_CONTENT_LENGTH = 140;
   @Bind(R.id.promption_content)
   AppCompatEditText promptContentEt;
   @Bind(R.id.content_remaing)
   TextView contentRemainingTv;
   @Bind(R.id.promption_imgs_container)
   DragGridView dragGridView;
-
-  private final int MAX_COUNT = 6;
-  private final int MAX_CONTENT_LENGTH = 140;
-
   private int promptionId = -1;
   private String content;
   private List<ItemImageObj> list = new ArrayList<>(); //图标icon
@@ -107,13 +105,13 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     }
 
     if (promptionId < 0) {
-      dialogHelper.createDialog(this, "注意", "推广信息不正确，请返回重试", new String[] {"确定"}, new View.OnClickListener[] {
-              new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  finish();
-                }
-              }
+      dialogHelper.createDialog(this, "注意", "推广信息不正确，请返回重试", new String[]{"确定"}, new View.OnClickListener[]{
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            finish();
+          }
+        }
       }).show();
     }
 
@@ -125,7 +123,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
   private void setupView() {
     contentRemainingTv.setText(getString(R.string.content_remaing, 0, MAX_CONTENT_LENGTH));
     promptContentEt.setFilters(new InputFilter[]{
-            new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
+      new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
     });
     promptContentEt.addTextChangedListener(new TextWatcher() {
       @Override
@@ -162,7 +160,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
   public boolean onPrepareOptionsMenu(Menu menu) {
     content = promptContentEt.getText().toString().trim();
     boolean enable = !TextUtils.isEmpty(content)
-            && content.length() <= MAX_CONTENT_LENGTH  && userService.isLogined();
+      && content.length() <= MAX_CONTENT_LENGTH && userService.isLogined();
     menu.getItem(0).setEnabled(enable);
     return true;
   }

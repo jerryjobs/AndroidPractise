@@ -16,6 +16,7 @@ import com.ikaowo.join.R;
 public class WxImHelper {
 
   private static WxImHelper instance = new WxImHelper();
+
   private WxImHelper() {
 
   }

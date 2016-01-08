@@ -31,7 +31,7 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
     super.getIntentData();
 
     if (intent.getExtras() != null) {
-      title= intent.getStringExtra(Constant.SHAREW_TITLE);
+      title = intent.getStringExtra(Constant.SHAREW_TITLE);
       content = intent.getStringExtra(Constant.SHAREW_SUMMARY);
       promptionBgUrl = intent.getStringExtra(Constant.SHAREW_IMG_URL);
       showOptionMenu = intent.getIntExtra(Constant.SHOW_OPTION_MENU, 0);

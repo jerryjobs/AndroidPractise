@@ -2,7 +2,6 @@ package com.ikaowo.join.modules.mine.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.request.CheckStateRequest;
 import com.ikaowo.join.model.response.CheckStateResponse;
-import com.ikaowo.join.network.CommonInterface;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.AvatarHelper;
@@ -93,7 +91,7 @@ public class MineFragment extends BaseEventBusFragment {
     if (userService.isLogined()) {
       UserLoginData user = userService.getUser();
       AvatarHelper.getInstance().showAvatar(getContext(), iconIv, shortNameTv,
-                targetImgWidth, targetImgHeight, user.icon, user.nickName);
+        targetImgWidth, targetImgHeight, user.icon, user.nickName);
       nameTitleTv.setText(user.nickName + " | " + user.title);
       brandNameTv.setText(user.brandInfo != null ? user.brandInfo.company_name : "");
     }
@@ -106,7 +104,7 @@ public class MineFragment extends BaseEventBusFragment {
   }
 
   private void setupItem(View parentView, int iconId, String desc) {
-    ImageView imageView = (ImageView)parentView.findViewById(R.id.icon);
+    ImageView imageView = (ImageView) parentView.findViewById(R.id.icon);
     promptionLayout.findViewById(R.id.desc);
     imageView.setImageResource(iconId);
 

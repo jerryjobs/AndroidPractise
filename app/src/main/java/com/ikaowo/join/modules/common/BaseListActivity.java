@@ -51,8 +51,8 @@ public abstract class BaseListActivity<T extends BaseListResponse, P> extends JF
       @Override
       public boolean checkResponse(JResponse baseResponse) {
         boolean result = baseResponse != null &&
-                ((baseResponse instanceof BaseListResponse)
-                        && (((T) baseResponse).data) != null);
+          ((baseResponse instanceof BaseListResponse)
+            && (((T) baseResponse).data) != null);
         if (result) {
           doAfterGetData();
         }

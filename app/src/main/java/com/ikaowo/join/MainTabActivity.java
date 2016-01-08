@@ -230,10 +230,10 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(SignoutCallback callback) {
     if (callback.signout()) {
-      if (conversationService !=  null) {
+      if (conversationService != null) {
         conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
       }
-      for (BaseSys tab: tabbarList) {
+      for (BaseSys tab : tabbarList) {
         tab.hideNotification();
       }
       updateConversationList();

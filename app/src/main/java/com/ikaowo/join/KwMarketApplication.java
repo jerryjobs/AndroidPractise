@@ -35,7 +35,7 @@ public class KwMarketApplication extends JApplication {
     //todo 特别注意:这段代码不能封装到其他方法中，必须在onCreate顶层代码中!
     //以下代码固定在此处，不要改动
     SysUtil.setApplication(this);
-    if(SysUtil.isTCMSServiceProcess(this)){
+    if (SysUtil.isTCMSServiceProcess(this)) {
       return;  //todo 特别注意：此处return是退出onCreate函数，因此不能封装到其他任何方法中!
     }
     //以上代码固定在这个位置，不要改动

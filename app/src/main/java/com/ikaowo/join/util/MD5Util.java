@@ -12,7 +12,7 @@ public class MD5Util {
     try {
       // Create MD5 Hash
       MessageDigest digest = java.security.MessageDigest
-              .getInstance("MD5");
+        .getInstance("MD5");
       digest.update(s.getBytes());
       byte messageDigest[] = digest.digest();
 
@@ -31,7 +31,8 @@ public class MD5Util {
     }
     return "";
   }
-  public static void main(String[]args) {
+
+  public static void main(String[] args) {
     String s = "13735574400ddl";
     System.out.print(md5(s));
   }

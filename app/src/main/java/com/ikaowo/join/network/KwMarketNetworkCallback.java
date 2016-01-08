@@ -10,7 +10,6 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.squareup.okhttp.ResponseBody;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 import retrofit.Converter;
@@ -22,6 +21,7 @@ import retrofit.Retrofit;
  */
 public abstract class KwMarketNetworkCallback<T> extends NetworkCallback<T> {
   private Context context;
+
   public KwMarketNetworkCallback(Context context) {
     super(context);
     this.context = context;

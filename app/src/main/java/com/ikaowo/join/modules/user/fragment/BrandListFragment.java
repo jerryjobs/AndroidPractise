@@ -163,8 +163,8 @@ public class BrandListFragment extends BaseFragment
       @Override
       public boolean checkResponse(JResponse baseResponse) {
         return baseResponse != null &&
-                ((baseResponse instanceof BaseListResponse)
-                        && (((BaseListResponse) baseResponse).data) != null);
+          ((baseResponse instanceof BaseListResponse)
+            && (((BaseListResponse) baseResponse).data) != null);
       }
 
       @Override

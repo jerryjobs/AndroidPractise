@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.framework.core.JApplication;
@@ -109,11 +108,11 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
     UserLoginData user = userService.getUser();
     if (user != null) {
       boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
-              && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
+        && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
       boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state)
-              || Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.companyState);
+        || Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.companyState);
       boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state)
-              || Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.companyState);
+        || Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.companyState);
 
       Map<String, String> stateDescMap = SharedPreferenceHelper.getInstance().getEnumValue(this);
       String state = "";
@@ -152,7 +151,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
       if (imageView != null) {
         imageView.setImgUrl(user.icon);
         AvatarHelper.getInstance().showAvatar(MineActivity.this, imageView, userIconItem.getShortNameTv(),
-                targetWidth, targetHeight, user.icon, user.nickName);
+          targetWidth, targetHeight, user.icon, user.nickName);
       }
 
       userNameItem.setText(user.nickName);
@@ -191,7 +190,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    qiniuUploadHelper.uploadImg(this,  requestCode, resultCode, data, this);
+    qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
 
   @Override

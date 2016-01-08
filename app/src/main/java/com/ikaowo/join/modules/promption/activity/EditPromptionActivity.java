@@ -6,15 +6,12 @@ import android.view.View;
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.R;
-import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.response.PromptionResponse;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.DateTimeHelper;
-
-import java.util.List;
 
 import retrofit.Call;
 
@@ -25,6 +22,7 @@ public class EditPromptionActivity extends AddPromptionActivity {
 
 
   private NetworkManager networkManager;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     titleResId = R.string.title_activity_edit_promotion;
@@ -59,7 +57,7 @@ public class EditPromptionActivity extends AddPromptionActivity {
         endDate = new DateTimeHelper().getTime(promptionEndDate);
 
         JApplication.getImageLoader().loadImage(
-                promptionBgImg, promptionBg, targetImgBgWidth, targetImgBgHeight, R.drawable.brand_icon_default);
+          promptionBgImg, promptionBg, targetImgBgWidth, targetImgBgHeight, R.drawable.brand_icon_default);
         promptTitleEt.setText(promptionTitle);
         promptContentEt.setText(promptionContent);
 

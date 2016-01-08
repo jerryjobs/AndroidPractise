@@ -61,7 +61,7 @@ public class MineItemWidget extends LinearLayout {
         rlp = new RelativeLayout.LayoutParams(width, height);
       } else {
         rlp = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
       }
 
       rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
@@ -82,7 +82,7 @@ public class MineItemWidget extends LinearLayout {
     } else if ("text".equals(type)) {
       rightTv = new TextView(context);
       RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
       rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
       rlp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
       relativeLayout.addView(rightTv, rlp);

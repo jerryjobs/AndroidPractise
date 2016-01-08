@@ -48,7 +48,7 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
   ViewPager viewpager;
 
   private int brandId;
-  private String[] titlesArray ;
+  private String[] titlesArray;
   private int targetHeight, targetWidth;
 
   @Override
@@ -80,13 +80,13 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
     }
 
     if (brandId <= 0) {
-      dialogHelper.createDialog(this, "注意", "品牌信息不正确，请返回重试", new String[] {"确定"}, new View.OnClickListener[] {
-              new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  finish();
-                }
-              }
+      dialogHelper.createDialog(this, "注意", "品牌信息不正确，请返回重试", new String[]{"确定"}, new View.OnClickListener[]{
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            finish();
+          }
+        }
       }).show();
     }
 
@@ -134,7 +134,7 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
     String title = null;
     if (map != null) {
       TabLayout.Tab tab = slidingTabs.getTabAt(map.index);
-      if(tab != null) {
+      if (tab != null) {
         switch (map.index) {
           case 0:
             title = getString(R.string.tab_title_join_promption, map.count);

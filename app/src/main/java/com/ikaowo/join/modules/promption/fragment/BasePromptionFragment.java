@@ -123,7 +123,7 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
             viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
             viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_complete);
           }
-        }else {
+        } else {
           viewHolder.promptionStateIv.setVisibility(View.GONE);
         }
         imageLoader.loadImage(viewHolder.promptionBgImg,

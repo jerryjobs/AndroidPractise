@@ -139,7 +139,7 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
   }
 
   public void onEvent(JoinStateUpdateCallback callback) {
-    JAdapter<JoinedUser> adapter = (JAdapter<JoinedUser>)recyclerView.getAdapter();
+    JAdapter<JoinedUser> adapter = (JAdapter<JoinedUser>) recyclerView.getAdapter();
     List<JoinedUser> list = adapter.getObjList();
     if (list != null) {
       JoinedUser user = list.get(clickedPos);
@@ -154,6 +154,7 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
 
   class JoinedUserAdapter extends JAdapter<JoinedUser> {
     private RecyclerViewHelper<BaseListResponse<JoinedUser>, JoinedUser> recyclerViewHelper;
+
     public JoinedUserAdapter(RecyclerViewHelper helper) {
       this.recyclerViewHelper = helper;
     }
@@ -168,7 +169,7 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
       if (holder instanceof JoinedUserViewHolder) {
-        JoinedUserViewHolder viewHolder = (JoinedUserViewHolder)holder;
+        JoinedUserViewHolder viewHolder = (JoinedUserViewHolder) holder;
         JoinedUser user = objList.get(position);
 //        viewHolder.brandNameTv.setText(user.);
         viewHolder.brandNameTv.setText(user.brandName);

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -182,7 +181,7 @@ public class CompletePromptionActivity extends BaseActivity {
     request.u_id = idSets;
     try {
       StringBuilder sb = getMediarUrlStr(URLEncoder.encode(mediaUrl1.getValue(), "utf-8"),
-              URLEncoder.encode(mediaUrl1.getValue(), "utf-8"), URLEncoder.encode(mediaUrl1.getValue(), "utf-8"));
+        URLEncoder.encode(mediaUrl1.getValue(), "utf-8"), URLEncoder.encode(mediaUrl1.getValue(), "utf-8"));
       if (sb.length() > 0) {
         request.media_link = sb.toString();
       }
@@ -210,9 +209,9 @@ public class CompletePromptionActivity extends BaseActivity {
         }, 300);
       }
     });
-   }
+  }
 
-  private StringBuilder getMediarUrlStr(String ... urls) {
+  private StringBuilder getMediarUrlStr(String... urls) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < urls.length; i++) {
       if (TextUtils.isEmpty(urls[i])) {

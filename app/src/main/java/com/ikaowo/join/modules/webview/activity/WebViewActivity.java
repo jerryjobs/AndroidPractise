@@ -27,18 +27,15 @@ import butterknife.ButterKnife;
 
 public class WebViewActivity extends BaseEventBusActivity implements WebViewHelper.WebViewInterface {
 
-  @Bind(R.id.webview)
-  WebView webView;
-
-  @Bind(R.id.webview_container_layout)
-  ViewGroup webviewContainerLayout;
-
-  @Bind(R.id.webview_progress)
-  ProgressBar progressBar;
-
   protected String url;
   protected WebViewHelper webViewHelper;
   protected Intent intent;
+  @Bind(R.id.webview)
+  WebView webView;
+  @Bind(R.id.webview_container_layout)
+  ViewGroup webviewContainerLayout;
+  @Bind(R.id.webview_progress)
+  ProgressBar progressBar;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -71,17 +68,17 @@ public class WebViewActivity extends BaseEventBusActivity implements WebViewHelp
     webViewHelper.setWebViewInterface(this);
     //html5那边获取webviwe的高度和宽度的时候，有可能Webview还没有加载完成，获取的高度为0
     webviewContainerLayout.getViewTreeObserver()
-            .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-      @Override
-      public void onGlobalLayout() {
-        webViewHelper.init();
-        if (Build.VERSION.SDK_INT >= 16) {
-          webviewContainerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-        } else {
-          webviewContainerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+      .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+          webViewHelper.init();
+          if (Build.VERSION.SDK_INT >= 16) {
+            webviewContainerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+          } else {
+            webviewContainerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+          }
         }
-      }
-    });
+      });
   }
 
   @Override

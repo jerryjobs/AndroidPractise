@@ -21,6 +21,15 @@ public class NotificationInitHelper extends IMNotification {
     super(pointcut);
   }
 
+  public static void init() {
+    YWIMKit imKit = LoginHelper.getInstance().getIMKit();
+
+    if (imKit != null) {
+      needSound = true;
+      needVibrator = true;
+    }
+  }
+
   public void setNeedQuiet(boolean needQuiet) {
     this.needQuiet = needQuiet;
   }
@@ -33,20 +42,12 @@ public class NotificationInitHelper extends IMNotification {
     this.needVibrator = needVibrator;
   }
 
-  public static void init() {
-    YWIMKit imKit = LoginHelper.getInstance().getIMKit();
-
-    if (imKit != null) {
-      needSound = true;
-      needVibrator = true;
-    }
-  }
-
   /**
    * 是否开启免打扰模式，若开启免打扰模式则收到新消息时不发送通知栏提醒，只在会话列表页面显示未读数
    * 若开启免打扰模式，则声音提醒和震动提醒会失效，即收到消息时不会有震动和提示音
+   *
    * @param conversation 会话id
-   * @param message 收到的消息
+   * @param message      收到的消息
    * @return true:开启， false：不开启
    */
   @Override
@@ -59,8 +60,9 @@ public class NotificationInitHelper extends IMNotification {
 
   /**
    * 收到通知栏消息时是否震动提醒，该设置在没有开启免打扰模式的情况下才有效
+   *
    * @param conversation 会话id
-   * @param message 收到的消息
+   * @param message      收到的消息
    * @return true：震动，false：不震动
    */
   @Override
@@ -74,8 +76,9 @@ public class NotificationInitHelper extends IMNotification {
 
   /**
    * 收到通知栏消息时是否有声音提醒，该设置在没有开启免打扰模式的情况下才有效
+   *
    * @param conversation 会话id
-   * @param message 收到的消息
+   * @param message      收到的消息
    * @return true：有提示音，false：没有提示音
    */
   @Override
@@ -88,6 +91,7 @@ public class NotificationInitHelper extends IMNotification {
 
   /**
    * 收到消息时，自定义消息通知栏的提示文案
+   *
    * @param conversation
    * @param message
    * @param totalUnReadCount
@@ -101,14 +105,11 @@ public class NotificationInitHelper extends IMNotification {
 
   /**
    * 收到消息时的自定义通知栏点击Intent
-   * @param conversation
-   *          收到消息的会话
-   * @param message
-   *          收到的消息
-   * @param totalUnReadCount
-   *          会话中消息未读数
-   * @return
-   *          如果返回null，则使用全局自定义Intent
+   *
+   * @param conversation     收到消息的会话
+   * @param message          收到的消息
+   * @param totalUnReadCount 会话中消息未读数
+   * @return 如果返回null，则使用全局自定义Intent
    */
   public Intent getCustomNotificationIntent(YWConversation conversation, YWMessage message, int totalUnReadCount) {
     //以下仅为示例代码，需要Intent开发者根据不同目的自己实现
@@ -123,6 +124,7 @@ public class NotificationInitHelper extends IMNotification {
 
   /**
    * 获取通知栏图标Icon
+   *
    * @return ResId
    */
   @Override
@@ -132,6 +134,7 @@ public class NotificationInitHelper extends IMNotification {
 
   /**
    * 获取通知栏显示Title
+   *
    * @return
    */
   @Override

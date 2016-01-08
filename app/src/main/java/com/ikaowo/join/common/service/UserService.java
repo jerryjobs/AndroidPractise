@@ -61,7 +61,9 @@ public abstract class UserService extends JCommonService {
 
   public interface CheckStateCallback {
     void onProcessing();
+
     void onPassed();
+
     void onFailed();
   }
 

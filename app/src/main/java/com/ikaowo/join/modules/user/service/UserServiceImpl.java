@@ -9,7 +9,6 @@ import android.util.Log;
 
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
-import com.alibaba.mobileim.channel.util.StrictWrapper;
 import com.alibaba.mobileim.login.YWLoginState;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
@@ -53,6 +52,7 @@ public class UserServiceImpl extends UserService {
 
   private SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
   private boolean changTab = true;
+
   @Override
   public void goToSignin(Context context) {
     Intent intent = new Intent(context, SigninActivity.class);
@@ -251,7 +251,7 @@ public class UserServiceImpl extends UserService {
   public boolean authed() {
     UserLoginData user = getUser();
     return Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
-            && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
+      && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
   }
 
   @Override
@@ -281,7 +281,7 @@ public class UserServiceImpl extends UserService {
     checkLatestUserState(context, new CheckStateCallback() {
       @Override
       public void onProcessing() {
-        new JDialogHelper((JFragmentActivity)context).showConfirmDialog(context,
+        new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
           context.getString(R.string.unauthed_hint),
           new JDialogHelper.DoAfterClickCallback() {
             @Override
@@ -302,7 +302,7 @@ public class UserServiceImpl extends UserService {
 
       @Override
       public void onFailed() {
-        new JDialogHelper((JFragmentActivity)context).showConfirmDialog(context,
+        new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
           context.getString(R.string.auth_failed_hint),
           new JDialogHelper.DoAfterClickCallback() {
             @Override
@@ -327,7 +327,7 @@ public class UserServiceImpl extends UserService {
       @Override
       public void onSuccess(final CheckStateResponse response) {
         if (response == null || TextUtils.isEmpty(response.data)) {
-          return ;
+          return;
         }
         updateLocalUserInfo(response.data);
 
@@ -373,10 +373,10 @@ public class UserServiceImpl extends UserService {
 
     if (imKit.getIMCore().getLoginState().equals(YWLoginState.success)) {
       return true;
-    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.idle)){
+    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.idle)) {
       JToast.toastShort(context.getString(R.string.im_service_logining));
       return false;
-    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)){
+    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
       JToast.toastShort(context.getString(R.string.im_service_failed));
       return false;
     } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
@@ -390,7 +390,6 @@ public class UserServiceImpl extends UserService {
   public String getLoginedUserName(Context context) {
     return sharedPreferenceHelper.getLoginedUserName(context);
   }
-
 
 
   @Override

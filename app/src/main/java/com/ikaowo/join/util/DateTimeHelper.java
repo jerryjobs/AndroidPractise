@@ -24,7 +24,7 @@ public class DateTimeHelper {
     try {
       Date date = dateFormat.parse(timeStr);
       return dateFormate.format(date);
-    } catch(Exception e) {
+    } catch (Exception e) {
       return timeStr;
     }
   }

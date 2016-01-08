@@ -5,6 +5,8 @@ package com.ikaowo.join.eventbus;
  */
 public interface UpdatePromptionCallback {
   boolean promptionUpdated();
+
   String getNewTitle();
+
   String getNewEndTime();
 }
