@@ -16,6 +16,7 @@ import retrofit.Callback;
 import retrofit.Converter;
 import retrofit.Response;
 import retrofit.Retrofit;
+import retrofit.http.HTTP;
 
 /**
  * Created by weibo on 15-12-2.
@@ -51,6 +52,7 @@ public abstract class NetworkCallback<T> implements Callback<T> {
   public void onFailed(Response response, Retrofit retrofit) {
     Converter<ResponseBody, JErrorReponse> errorConverter
       = retrofit.responseConverter(JErrorReponse.class, new Annotation[0]);
+
     try {
       JErrorReponse error = errorConverter.convert(response.errorBody());
       if (error != null) {
