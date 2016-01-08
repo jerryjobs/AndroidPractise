@@ -4,6 +4,7 @@ import com.ikaowo.join.model.JoinedUser;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.base.BaseResponse;
+import com.ikaowo.join.model.request.CompletePromptionRequest;
 import com.ikaowo.join.model.request.JoinRequest;
 import com.ikaowo.join.model.request.UpdateJoinStateRequest;
 import com.ikaowo.join.model.response.JoinInfoResponse;
@@ -59,4 +60,7 @@ public interface PromptionInterface {
 
   @GET("social/complete/Detailinfo")
   Call<BaseListResponse<JoinedUser>> getApprovedList(@QueryMap Map map);
+
+  @PUT("social/complete")
+  Call<BaseResponse> completePromption(@Body CompletePromptionRequest request);
 }

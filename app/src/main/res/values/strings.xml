@@ -62,4 +62,5 @@
     <string name="im_service_failed">IM服务异常，IM功能暂时不可用，如果想使用IM功能，请退出APP重试</string>
     <string name="im_service_disconnected">IM服务已经断开，如果想使用IM功能，请退出账户重新登录</string>
     <string name="im_service_logining">IM服务正在登录中，请稍后</string>
+    <string name="title_activity_complete_promption">完成活动</string>
 </resources>

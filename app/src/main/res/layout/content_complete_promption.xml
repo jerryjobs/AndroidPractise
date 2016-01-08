@@ -40,16 +40,22 @@
             android:text="本次推广媒体报道"/>
 
         <com.ikaowo.join.modules.promption.widget.MediaItem
+            android:id="@+id/media_url_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></com.ikaowo.join.modules.promption.widget.MediaItem>
+            android:layout_height="wrap_content"
+            app:media_title="媒体１"></com.ikaowo.join.modules.promption.widget.MediaItem>
 
         <com.ikaowo.join.modules.promption.widget.MediaItem
+            android:id="@+id/media_url_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></com.ikaowo.join.modules.promption.widget.MediaItem>
+            android:layout_height="wrap_content"
+            app:media_title="媒体2"></com.ikaowo.join.modules.promption.widget.MediaItem>
 
         <com.ikaowo.join.modules.promption.widget.MediaItem
+            android:id="@+id/media_url_3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></com.ikaowo.join.modules.promption.widget.MediaItem>
+            android:layout_height="wrap_content"
+            app:media_title="媒体2"></com.ikaowo.join.modules.promption.widget.MediaItem>
     </LinearLayout>
 </LinearLayout>
 

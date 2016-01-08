@@ -68,10 +68,10 @@ public class CompleteJoinItem extends LinearLayout {
     inflated.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (itemClickInterface != null) {
-          itemClickInterface.itemClicked(joinedUser.id, iconIv.isSelected());
-        }
         iconIv.setSelected(!iconIv.isSelected());
+        if (itemClickInterface != null) {
+          itemClickInterface.itemClicked(joinedUser.uId, iconIv.isSelected());
+        }
       }
     });
   }

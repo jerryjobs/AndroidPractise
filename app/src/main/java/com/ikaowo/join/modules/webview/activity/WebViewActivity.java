@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.JoinedActivityCallback;
+import com.ikaowo.join.eventbus.RefreshWebViewCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.util.Constant;
 
@@ -125,6 +126,12 @@ public class WebViewActivity extends BaseEventBusActivity implements WebViewHelp
     if (callback.joined()) {
       url = webViewHelper.getCompleteUrl(url, true);
       webView.loadUrl(url);
+    }
+  }
+
+  public void onEvent(RefreshWebViewCallback callback) {
+    if (callback.refreshWebView()) {
+      webView.reload();
     }
   }
 

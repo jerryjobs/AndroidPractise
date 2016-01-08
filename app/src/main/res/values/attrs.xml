@@ -19,4 +19,9 @@
         <attr name="item_icon" format="reference"></attr>
         <attr name="icon_margin" format="dimension"></attr>
     </declare-styleable>
+
+    <declare-styleable name="MediaItem">
+        <attr name="media_title" format="string"></attr>
+        <attr name="content_color" format="color" />
+    </declare-styleable>
 </resources>
