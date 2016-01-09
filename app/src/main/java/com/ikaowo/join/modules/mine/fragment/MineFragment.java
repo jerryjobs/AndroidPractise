@@ -21,6 +21,7 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.AvatarUpdateCallback;
 import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
+import com.ikaowo.join.eventbus.UpdatedataCallback;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.request.CheckStateRequest;
 import com.ikaowo.join.model.response.CheckStateResponse;
@@ -148,6 +149,12 @@ public class MineFragment extends BaseEventBusFragment {
 
   public void onEvent(SigninCallback callback) {
     if (callback.singined()) {
+      setupData();
+    }
+  }
+
+  public void onEvent(UpdatedataCallback callback) {
+    if (callback.update()) {
       setupData();
     }
   }

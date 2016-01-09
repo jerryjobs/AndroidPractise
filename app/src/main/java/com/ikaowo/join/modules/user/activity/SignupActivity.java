@@ -21,6 +21,8 @@ import retrofit.Call;
 public class SignupActivity extends BaseUserInputActivity {
   @Override
   protected void setupView() {
+    divider.setVisibility(View.VISIBLE);
+
     View view = phoneViewStub.inflate();
     phoneViewStub.setVisibility(View.VISIBLE);
     phoneViewHoder = new PhoneViewHolder(view);

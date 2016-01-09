@@ -1,11 +1,13 @@
 package com.ikaowo.join.modules.promption.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.widget.ErrorHintLayout;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.response.PromptionResponse;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
@@ -19,7 +21,6 @@ import retrofit.Call;
  * Created by weibo on 16-1-4.
  */
 public class EditPromptionActivity extends AddPromptionActivity {
-
 
   private NetworkManager networkManager;
 
@@ -42,6 +43,11 @@ public class EditPromptionActivity extends AddPromptionActivity {
         if (response == null || (promption = response.data) == null) {
           finish();
         }
+        if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state) && !TextUtils.isEmpty(promption.comment)) {
+          ErrorHintLayout errorHintLayout = new ErrorHintLayout(EditPromptionActivity.this);
+          errorHintLayout.setText(promption.comment);
+          containerLayout.addView(errorHintLayout, 0);
+        }
         addPromptionBgBtn.setVisibility(View.GONE);
         promptionBgImg.setVisibility(View.VISIBLE);
 
@@ -54,6 +60,7 @@ public class EditPromptionActivity extends AddPromptionActivity {
         promptionEndDate = promption.endDate;
         promptNotes = promption.note;
         promptionEndDate = promption.endDate;
+        state = promption.state;
         endDate = new DateTimeHelper().getTime(promptionEndDate);
 
         JApplication.getImageLoader().loadImage(

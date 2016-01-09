@@ -35,6 +35,7 @@
     <string name="verify_code_time_remaining">%1$d(S)</string>
     <string name="login_suc">登录成功</string>
     <string name="signup_suc">注册成功</string>
+    <string name="resubmit_suc">重新提交成功</string>
     <string name="reset_passwd_suc">密码修改成功，请重新登录</string>
     <string name="promotion_content_hint">填写活动描述，比如举办时间、已有资源等，让更多组织能报名合作...</string>
     <string name="promotion_title_hint">输入活动名称(15字以内)</string>
@@ -63,4 +64,5 @@
     <string name="im_service_disconnected">IM服务已经断开，如果想使用IM功能，请退出账户重新登录</string>
     <string name="im_service_logining">IM服务正在登录中，请稍后</string>
     <string name="title_activity_complete_promption">完成活动</string>
+    <string name="title_activity_resubmit">重新认证</string>
 </resources>

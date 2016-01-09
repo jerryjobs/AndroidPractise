@@ -29,6 +29,7 @@ import com.ikaowo.join.modules.common.BaseListFragment;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.DateTimeHelper;
+import com.ikaowo.join.util.SharedPreferenceHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +54,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
   private UserService userService;
   private DateTimeHelper dateTimeHelper = new DateTimeHelper();
   private Map<String, Integer> stateColorMap = new HashMap();
+  private Map<String, String> map;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +99,12 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
   }
 
   @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    map = SharedPreferenceHelper.getInstance().getEnumValue(getActivity());
+  }
+
+  @Override
   protected boolean isSupportLoadMore() {
     return true;
   }
@@ -114,7 +122,7 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
     }
     WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
     webViewRequest.url = url;
-    webViewService.viewPromptionDetail(getActivity(), userService, promption, webViewRequest);
+    webViewService.viewPromptionDetail(getActivity(), userService, promption.id, webViewRequest);
   }
 
   protected void doAfterGetData(BaseListResponse<Promption> response) {
@@ -149,6 +157,8 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
       if (list != null && (clickedPromption = list.get(clicedPos)) != null) {
         clickedPromption.title = callback.getNewTitle();
         clickedPromption.endDate = callback.getNewEndTime();
+        clickedPromption.state = callback.getNewState();
+        clickedPromption.background = callback.getNewBg();
         adapter.notifyDataSetChanged();
       }
     }
@@ -188,7 +198,12 @@ public abstract class BasePromptionDetailListFragment extends BaseListFragment<B
         viewHolder.promptionBrandNameTv.setText(getString(R.string.posted_brand_name, promption.brandName));
         viewHolder.promptionEndDateTv.setText(getString(R.string.posted_join_end_date, dateTimeHelper.getTime(promption.endDate)));
         if (viewHolder.textView != null) {
-          viewHolder.textView.setText(promption.stateDesc);
+          if (map == null) {
+            viewHolder.textView.setText(promption.stateDesc);
+          } else {
+            viewHolder.textView.setText(map.get(Constant.PROMPTION_STATE_PREFIX + promption.state));
+          }
+
           viewHolder.textView.setTextColor(ContextCompat.getColor(getActivity(), stateColorMap.get(promption.state)));
         }
       }

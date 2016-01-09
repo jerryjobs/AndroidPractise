@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,7 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
 import com.ikaowo.join.common.widget.draggridview.DragGridView;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
+import com.ikaowo.join.eventbus.RefreshWebViewCallback;
 import com.ikaowo.join.eventbus.UpdatePromptionCallback;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.PromptionRequest;
@@ -85,6 +87,10 @@ public class AddPromptionActivity extends BaseActivity
   protected String promptionEndDate;
   protected String promptNotes;
   protected String endDate; //格式化过的时间，用来展示 格式为 2014-10-11
+  protected String state;
+
+  @Bind(R.id.container)
+  LinearLayout containerLayout;
   @Bind(R.id.add_promption_bg_container)
   FrameLayout promptionBgContainer;
   @Bind(R.id.promption_bg)
@@ -270,7 +276,7 @@ public class AddPromptionActivity extends BaseActivity
       @Override
       public void onSuccess(BaseResponse baseResponse) {
         if (promptionId > 0) {
-          JToast.toastShort("推广编辑成功");
+          JToast.toastShort("推广修改成功");
           EventBus.getDefault().post(new UpdatePromptionCallback() {
             @Override
             public boolean promptionUpdated() {
@@ -283,14 +289,40 @@ public class AddPromptionActivity extends BaseActivity
             }
 
             @Override
+            public String getNewBg() {
+              return promptionBg;
+            }
+
+            @Override
             public String getNewEndTime() {
               return promptionEndDate;
+            }
+
+            @Override
+            public String getNewState() {
+              if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(state)) {
+                state = Constant.PROMPTION_STATE_NEW;
+              }
+              return state;
+            }
+          });
+
+          EventBus.getDefault().post(new RefreshWebViewCallback() {
+            @Override
+            public boolean refreshWebView() {
+              return true;
             }
           });
         } else {
           JToast.toastShort("推广发布成功");
         }
-        finish();
+        new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            finish();
+          }
+        }, 500);
+
       }
     });
   }
@@ -300,7 +332,7 @@ public class AddPromptionActivity extends BaseActivity
     qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
 
-  @OnClick(R.id.add_promption_bg_btn)
+  @OnClick({R.id.add_promption_bg_btn, R.id.promption_bg})
   public void addBg() {
     hideInput(this, toolbar);
     clickedPos = ClickPos.PROMPTION_BG;

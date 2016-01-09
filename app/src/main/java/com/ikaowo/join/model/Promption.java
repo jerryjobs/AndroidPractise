@@ -46,4 +46,6 @@ public class Promption implements Serializable {
   public String brandName;
   @SerializedName("aci_tumblrs")
   public List<ItemImageObj> aci_tumblrs;
+  @SerializedName("aci_comment")
+  public String comment;
 }

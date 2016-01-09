@@ -9,4 +9,8 @@ public interface UpdatePromptionCallback {
   String getNewTitle();
 
   String getNewEndTime();
+
+  String getNewState();
+
+  String getNewBg();
 }

@@ -1,8 +1,10 @@
 package com.ikaowo.join.modules.mine.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -75,6 +77,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
 
   private FullImageView imageView;
   private TextView shortNameTv;
+  private Dialog dialog = null;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
       finish();
       return;
     }
+
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitle(R.string.title_ativity_mine);
     setSupportActionBar(toolbar);
@@ -159,6 +163,32 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
       userTitleItem.setText(user.title);
       userPhoneItem.setText(user.phone);
 
+      if (failed) {
+        new Handler().post(new Runnable() {
+          @Override
+          public void run() {
+            dialog = dialogHelper.createDialog(MineActivity.this,
+              "认证未通过", "认证没有通过，可以修改重新认证",
+              new String[]{"取消", "前往修改"},
+              new View.OnClickListener[]{
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    dialog.dismiss();
+                  }
+                },
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    userService.reSubmitInfo(MineActivity.this);
+                    dialog.dismiss();
+                  }
+                }
+              });
+            dialog.show();
+          }
+        });
+      }
     }
   }
 

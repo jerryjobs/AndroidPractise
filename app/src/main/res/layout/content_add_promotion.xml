@@ -10,6 +10,7 @@
              tools:context=".modules.user.activity.AddBrandActivity"
              tools:showIn="@layout/activity_add_promotion">
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

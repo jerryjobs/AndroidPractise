@@ -29,6 +29,8 @@ public abstract class UserService extends JCommonService {
 
   public abstract void doAfterSignin(Context context, SignupResponse signupResponse, String suc_hint);
 
+  public abstract void doAfterResubmit(Context context, UserLoginData userLoginData, String suc_hint);
+
   public abstract void resetPasswd(Context context, String userName, String vCode, String password);
 
   public abstract boolean isLogined();
@@ -58,6 +60,8 @@ public abstract class UserService extends JCommonService {
   public abstract void imChat(Context context, String targetUserWxId);
 
   public abstract String getLoginedUserName(Context context);
+
+  public abstract void reSubmitInfo(Context context);
 
   public interface CheckStateCallback {
     void onProcessing();

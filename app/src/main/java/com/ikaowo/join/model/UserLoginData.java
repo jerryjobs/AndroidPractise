@@ -22,6 +22,9 @@ public class UserLoginData implements Serializable {
   @SerializedName("u_company")
   public int companyId;
 
+  @SerializedName("tumblr_icon")
+  public String cardUrl;
+
   @SerializedName("u_pos")
   public String title;
 

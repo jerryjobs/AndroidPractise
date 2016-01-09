@@ -45,7 +45,7 @@ public class PromptionServiceImpl extends PromptionService {
   }
 
   @Override
-  public void goToEditPromptionActivigty(Context context, int promptionId) {
+  public void goToEditPromptionActivity(Context context, int promptionId) {
     Intent intent = new Intent(context, EditPromptionActivity.class);
     intent.putExtra(Constant.PROMPTION_ID, promptionId);
     JApplication.getJContext().startActivity(context, intent);

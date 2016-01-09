@@ -23,6 +23,7 @@ import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.eventbus.ClosePageCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.SignoutCallback;
+import com.ikaowo.join.eventbus.UpdatedataCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
@@ -34,6 +35,7 @@ import com.ikaowo.join.model.response.SignupResponse;
 import com.ikaowo.join.modules.promption.activity.JoinActivity;
 import com.ikaowo.join.modules.user.activity.AddBrandActivity;
 import com.ikaowo.join.modules.user.activity.BrandListActivity;
+import com.ikaowo.join.modules.user.activity.ReSubmitInfoActivity;
 import com.ikaowo.join.modules.user.activity.ResetPasswdActivity;
 import com.ikaowo.join.modules.user.activity.SigninActivity;
 import com.ikaowo.join.modules.user.activity.SignupActivity;
@@ -128,6 +130,26 @@ public class UserServiceImpl extends UserService {
     JToast.toastShort(suc_hint);
   }
 
+  @Override
+  public void doAfterResubmit(Context context, UserLoginData userLoginData, String suc_hint) {
+    sharedPreferenceHelper.saveUser(userLoginData);
+    EventBus.getDefault().post(new ClosePageCallback() {
+      @Override
+      public boolean close() {
+        return true;
+      }
+    });
+
+    EventBus.getDefault().post(new UpdatedataCallback() {
+      @Override
+      public boolean update() {
+        return true;
+      }
+    });
+
+    ((Activity) context).finish();
+    JToast.toastShort(suc_hint);
+  }
 
   @Override
   public void resetPasswd(final Context context, String userName, String vCode, String password) {
@@ -389,6 +411,12 @@ public class UserServiceImpl extends UserService {
   @Override
   public String getLoginedUserName(Context context) {
     return sharedPreferenceHelper.getLoginedUserName(context);
+  }
+
+  @Override
+  public void reSubmitInfo(Context context) {
+    Intent intent = new Intent(context, ReSubmitInfoActivity.class);
+    JApplication.getJContext().startActivity(context, intent);
   }
 
 

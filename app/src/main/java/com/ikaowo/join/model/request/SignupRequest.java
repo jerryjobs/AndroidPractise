@@ -7,6 +7,7 @@ import com.ikaowo.join.model.base.BaseRequest;
  * Created by weibo on 15-12-21.
  */
 public class SignupRequest extends BaseRequest {
+  public int u_id;
   public String phone;
   public String nickname;
   public String password;

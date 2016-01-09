@@ -75,7 +75,7 @@ public abstract class BasePromptionFragment extends BaseListFragment<BaseListRes
     }
     WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
     webViewRequest.url = url;
-    webViewService.viewPromptionDetail(getActivity(), userService, promption, webViewRequest);
+    webViewService.viewPromptionDetail(getActivity(), userService, promption.id, webViewRequest);
   }
 
   @Override

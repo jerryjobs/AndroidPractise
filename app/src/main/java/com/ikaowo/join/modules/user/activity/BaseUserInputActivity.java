@@ -47,6 +47,8 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
   protected VerifyCodeHelper verifyCodeHelper;
   protected QiniuUploadHelper qiniuUploadHelper;
 
+  @Bind(R.id.divider)
+  View divider;
   @Bind(R.id.brand_name)
   CustomEditTextView brandNameTv;
   @Bind(R.id.user_name)
@@ -74,6 +76,8 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
   String password;
   Uri imageUri;
   Brand choosedBrand;
+
+  int width = JApplication.getJContext().dip2px(48);
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -176,11 +180,9 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     boolean userNameInputed = !TextUtils.isEmpty(userName);
     boolean userTitleInputed = !TextUtils.isEmpty(userTitle);
     boolean userCardInputed = !TextUtils.isEmpty(userCardUrl);
-    boolean userPhoneInputed = !TextUtils.isEmpty(phone);
 
 
-    return brandNameInputed && userNameInputed
-      && userTitleInputed && userCardInputed && userPhoneInputed;
+    return brandNameInputed && userNameInputed && userTitleInputed && userCardInputed;
 
   }
 
@@ -194,7 +196,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
 
   @Override
   public void onUpLoadImageFinish(String url, Uri imgUri) {
-    int width = JApplication.getJContext().dip2px(48);
+
     imageUri = imgUri;
     Picasso.with(this)
       .load(imgUri).centerCrop().resize(width, width).into(userCardIv);

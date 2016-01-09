@@ -46,6 +46,9 @@
         <activity android:name=".modules.user.activity.SignupActivity"
             android:label="@string/title_activity_signup" />
 
+        <activity android:name=".modules.user.activity.ReSubmitInfoActivity"
+                  android:label="@string/title_activity_resubmit" />
+
         <activity android:name=".modules.user.activity.ResetPasswdActivity"
             android:label="@string/title_activity_resetpasswd" />
 

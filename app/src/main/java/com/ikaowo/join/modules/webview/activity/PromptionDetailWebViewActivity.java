@@ -1,13 +1,23 @@
 package com.ikaowo.join.modules.webview.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.umeng.UmengShareService;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.PromptionService;
+import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.model.Promption;
+import com.ikaowo.join.model.response.PromptionResponse;
+import com.ikaowo.join.network.KwMarketNetworkCallback;
+import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
+
+import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-31.
@@ -19,6 +29,8 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
   private int promptionId;
   private int showOptionMenu;
   private PromptionService promptionService;
+  private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private Dialog dialog;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -28,22 +40,88 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
 
   @Override
   protected void getIntentData() {
+    if (getIntent().getExtras() == null) {
+      return;
+    }
     super.getIntentData();
+    promptionId = intent.getIntExtra(Constant.PROMPTION_ID, 0);
 
-    if (intent.getExtras() != null) {
-      title = intent.getStringExtra(Constant.SHAREW_TITLE);
-      content = intent.getStringExtra(Constant.SHAREW_SUMMARY);
-      promptionBgUrl = intent.getStringExtra(Constant.SHAREW_IMG_URL);
-      showOptionMenu = intent.getIntExtra(Constant.SHOW_OPTION_MENU, 0);
-      promptionId = intent.getIntExtra(Constant.PROMPTION_ID, 0);
-    }
+    PromptionInterface promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
+    Call<PromptionResponse> call = promptionInterface.getPromption(promptionId);
+    JApplication.getNetworkManager().async(call, new KwMarketNetworkCallback<PromptionResponse>(this) {
 
-    if (showOptionMenu == Constant.SHARE) {
-      menuResId = R.menu.menu_promption_detail_share;
-    } else if (showOptionMenu == Constant.EDIT) {
-      menuResId = R.menu.menu_promption_detail_edit;
-    }
-    invalidateOptionsMenu();
+      @Override
+      public void onSuccess(PromptionResponse promptionResponse) {
+        Promption promption = null;
+        if (promptionResponse == null || (promption = promptionResponse.data) == null) {
+          return;
+        }
+
+        title = promption.title;
+        content = promption.content;
+        promptionBgUrl = promption.background;
+
+        boolean promptionShowEdit = Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
+          || Constant.PROMPTION_STATE_NEW.equalsIgnoreCase(promption.state);
+        if (userService.isLogined()) {
+          if (userService.getUserId() == promption.publishUid) {
+            if (promptionShowEdit) {
+              showOptionMenu = Constant.EDIT;
+            } else {
+              showOptionMenu = Constant.SHARE;
+            }
+          } else {
+            if (promptionShowEdit) {
+              showOptionMenu = Constant.NONE;
+            } else {
+              showOptionMenu = Constant.SHARE;
+            }
+          }
+        } else {
+          if (promptionShowEdit) { //
+            showOptionMenu = Constant.NONE;
+          } else {
+            showOptionMenu = Constant.SHARE;
+          }
+        }
+
+        if (showOptionMenu == Constant.SHARE) {
+          menuResId = R.menu.menu_promption_detail_share;
+        } else if (showOptionMenu == Constant.EDIT) {
+          menuResId = R.menu.menu_promption_detail_edit;
+        }
+        invalidateOptionsMenu();
+
+        if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)) {
+          new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+              dialog = dialogHelper.createDialog(PromptionDetailWebViewActivity.this,
+                "认证未通过", "认证没有通过，可以修改重新认证",
+                new String[]{"取消", "前往修改"},
+                new View.OnClickListener[]{
+                  new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                      dialog.dismiss();
+                    }
+                  },
+                  new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                      promptionService.goToEditPromptionActivity(PromptionDetailWebViewActivity.this, promptionId);
+                      dialog.dismiss();
+                    }
+                  }
+                });
+              dialog.show();
+            }
+          });
+        }
+      }
+    });
+
+
   }
 
   @Override
@@ -51,7 +129,7 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
     int id = item.getItemId();
     switch (id) {
       case R.id.action_edit:
-        promptionService.goToEditPromptionActivigty(this, promptionId);
+        promptionService.goToEditPromptionActivity(this, promptionId);
         break;
 
       case R.id.action_share:
