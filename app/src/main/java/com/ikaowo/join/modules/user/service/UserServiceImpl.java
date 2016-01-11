@@ -25,6 +25,7 @@ import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.SignoutCallback;
 import com.ikaowo.join.eventbus.UpdatedataCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
+import com.ikaowo.join.model.UserLatestState;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.model.request.CheckStateRequest;
@@ -277,9 +278,10 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
-  public void updateLocalUserInfo(String state) {
+  public void updateLocalUserInfo(UserLatestState state) {
     UserLoginData user = getUser();
-    user.state = state;
+    user.state = state.sta;
+    user.comment = state.comment;
 //    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
 
     sharedPreferenceHelper.saveUser(user);
@@ -348,21 +350,21 @@ public class UserServiceImpl extends UserService {
     networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
       @Override
       public void onSuccess(final CheckStateResponse response) {
-        if (response == null || TextUtils.isEmpty(response.data)) {
+        if (response == null || response.data != null) {
           return;
         }
         updateLocalUserInfo(response.data);
 
         EventBus.getDefault().post(new CheckLatestStateCallback() {
           @Override
-          public String getLatestState() {
+          public UserLatestState getLatestState() {
             return response.data;
           }
         });
 
-        if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(response.data)) {
+        if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(response.data.sta)) {
           callback.onPassed();
-        } else if (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(response.data)) {
+        } else if (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(response.data.sta)) {
           callback.onProcessing();
         } else {
           callback.onFailed();

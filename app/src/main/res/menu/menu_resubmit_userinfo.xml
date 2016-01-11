@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ikaowo.join.MainActivity">
+    <item
+        android:id="@+id/resubmit"
+        android:orderInCategory="100"
+        android:title="重新认证"
+        app:showAsAction="always" />
+</menu>

@@ -13,6 +13,7 @@ import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.request.SignupRequest;
 import com.ikaowo.join.model.response.SignupResponse;
 import com.ikaowo.join.network.UserInterface;
+import com.ikaowo.join.util.Constant;
 
 import butterknife.Bind;
 import retrofit.Call;
@@ -29,19 +30,23 @@ public class ReSubmitInfoActivity extends BaseUserInputActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    ErrorHintLayout errHintLayout = new ErrorHintLayout(this);
-    errHintLayout.setText("这里是错误提示，后台暂时没有返回，所以不显示");
-    containerLayout.addView(errHintLayout, 0);
-
     user = userService.getUser();
+    if (user.state.equalsIgnoreCase(Constant.AUTH_STATE_FAILED) && !TextUtils.isEmpty(user.comment)) {
+      ErrorHintLayout errHintLayout = new ErrorHintLayout(this);
+      errHintLayout.setText(user.comment);
+      containerLayout.addView(errHintLayout, 0);
+    }
+
+
     brandNameEt.setText(user.brandInfo.brand_name);
     userNameEt.setText(user.nickName);
     userTitleEt.setText(user.title);
     choosedBrand = user.brandInfo;
-    if (TextUtils.isEmpty(user.cardUrl)) {
+    userCardUrl = user.cardUrl;
+    if (TextUtils.isEmpty(userCardUrl)) {
       userCardIv.setImageResource(R.drawable.register_uppic);
     } else {
-      JApplication.getImageLoader().loadImage(userCardIv, user.cardUrl, width, width, R.drawable.brand_icon_default);
+      JApplication.getImageLoader().loadImage(userCardIv, userCardUrl, width, width, R.drawable.brand_icon_default);
     }
   }
 

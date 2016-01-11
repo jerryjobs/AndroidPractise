@@ -27,6 +27,7 @@ import com.ikaowo.join.eventbus.WxKickedOffCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.im.helper.WxImHelper;
 import com.ikaowo.join.model.EnumData;
+import com.ikaowo.join.model.UserLatestState;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.response.EnumDataResponse;
 import com.ikaowo.join.modules.brand.BrandSys;
@@ -241,9 +242,10 @@ public class MainTabActivity extends TabActivity {
   }
 
   public void onEvent(CheckLatestStateCallback callback) {
-    if (!TextUtils.isEmpty(callback.getLatestState())) {
+    UserLatestState state = null;
+    if ((state = callback.getLatestState())!= null) {
       userService.updateLocalUserInfo(callback.getLatestState());
-      if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(callback.getLatestState())) {
+      if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(state.sta)) {
         initWxImKit();
       }
     }

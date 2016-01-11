@@ -22,6 +22,7 @@ import com.ikaowo.join.eventbus.AvatarUpdateCallback;
 import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.eventbus.UpdatedataCallback;
+import com.ikaowo.join.model.UserLatestState;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.request.CheckStateRequest;
 import com.ikaowo.join.model.response.CheckStateResponse;
@@ -123,11 +124,12 @@ public class MineFragment extends BaseEventBusFragment {
     networkManager.async(getActivity(), Constant.DATAGETTING, call, new KwMarketNetworkCallback<CheckStateResponse>(getActivity()) {
       @Override
       public void onSuccess(final CheckStateResponse stateResponse) {
-        if (stateResponse != null && !TextUtils.isEmpty(stateResponse.data)) {
+        if (stateResponse != null && stateResponse.data != null) {
+          userService.updateLocalUserInfo(stateResponse.data);
           EventBus.getDefault().post(new CheckLatestStateCallback() {
 
             @Override
-            public String getLatestState() {
+            public UserLatestState getLatestState() {
               return stateResponse.data;
             }
           });

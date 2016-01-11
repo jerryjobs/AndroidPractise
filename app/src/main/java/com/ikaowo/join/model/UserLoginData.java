@@ -22,7 +22,7 @@ public class UserLoginData implements Serializable {
   @SerializedName("u_company")
   public int companyId;
 
-  @SerializedName("tumblr_icon")
+  @SerializedName("card")
   public String cardUrl;
 
   @SerializedName("u_pos")
@@ -41,4 +41,6 @@ public class UserLoginData implements Serializable {
 
   @SerializedName("company_info")
   public Brand brandInfo;
+
+  public String comment;
 }

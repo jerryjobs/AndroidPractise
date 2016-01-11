@@ -3,6 +3,7 @@ package com.ikaowo.join.common.service;
 import android.content.Context;
 
 import com.common.framework.core.JCommonService;
+import com.ikaowo.join.model.UserLatestState;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.response.SignupResponse;
 
@@ -53,7 +54,7 @@ public abstract class UserService extends JCommonService {
 
   public abstract boolean authed();
 
-  public abstract void updateLocalUserInfo(String state);
+  public abstract void updateLocalUserInfo(UserLatestState state);
 
   public abstract void interceptorCheckUserState(Context context, AuthedAction authedAction);
 

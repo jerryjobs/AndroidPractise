@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,7 +48,8 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-29.
  */
-public class MineActivity extends BaseEventBusFragmentActivity implements PhotoService.UploadFinishListener {
+public class MineActivity extends BaseEventBusFragmentActivity
+        implements PhotoService.UploadFinishListener {
 
   @Bind(R.id.auth_state)
   MineItemWidget authStateItem;
@@ -106,6 +109,7 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
     setupDate();
+    setupOptionMenu();
   }
 
   private void setupDate() {
@@ -192,6 +196,33 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
     }
   }
 
+  private void setupOptionMenu() {
+    menuResId = R.menu.menu_resubmit_userinfo;
+    invalidateOptionsMenu();
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    if (userService.isAuthFailed()) {
+      menu.getItem(0).setVisible(true);
+    } else {
+      menu.getItem(0).setVisible(false);
+    }
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.resubmit:
+        userService.reSubmitInfo(MineActivity.this);
+        break;
+      default:
+        super.onOptionsItemSelected(item);
+    }
+    return true;
+  }
+
   @OnClick(R.id.user_icon)
   public void updateIcon() {
     photoService.takePhoto(this, toolbar, null);
@@ -216,6 +247,11 @@ public class MineActivity extends BaseEventBusFragmentActivity implements PhotoS
     if (callback.close()) {
       finish();
     }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    return super.onCreateOptionsMenu(menu);
   }
 
   @Override
