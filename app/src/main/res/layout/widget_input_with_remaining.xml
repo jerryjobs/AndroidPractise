@@ -55,6 +55,6 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="5dip" />
+        android:verticalSpacing="10dip" />
 
 </LinearLayout>

@@ -57,7 +57,7 @@ public class ErrorHintLayout extends LinearLayout {
 
     addView(errHintLayout);
 
-    new AnimatorWrapper().startTranslationAnimation(this, 2000);
+    new AnimatorWrapper().startTranslationAnimation(this, 10000);
   }
 
   public void setText(String text) {

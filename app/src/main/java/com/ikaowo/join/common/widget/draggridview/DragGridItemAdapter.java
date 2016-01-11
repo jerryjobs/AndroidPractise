@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JFragmentActivity;
@@ -38,7 +39,7 @@ public class DragGridItemAdapter extends BaseAdapter {
   public DragGridItemAdapter(Context context, List<ItemImageObj> items, int maxCount) {
     this.context = context;
     this.thumbList = items;
-    this.width = JApplication.getJContext().getScreenWidth() / 4;
+    this.width = (JApplication.getJContext().getScreenWidth() - JApplication.getJContext().dip2px(30) - JApplication.getJContext().dip2px(24) ) / 4;
     this.maxCount = maxCount;
     this.photoService = new PhotoService(context);
   }
@@ -102,6 +103,8 @@ public class DragGridItemAdapter extends BaseAdapter {
         break;
     }
 
+    RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(width, width);
+    convertView.setLayoutParams(rlp);
     if (normalHolder != null) {
       normalHolder.thumbImg.setImgUri(item.uri);
       normalHolder.thumbImg.setImgUrl(item.thumbImg);
