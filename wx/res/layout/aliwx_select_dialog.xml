@@ -30,5 +30,6 @@
     android:layout_height="fill_parent"
     android:cacheColorHint="@null"
     android:divider="@color/aliwx_common_line_color"
-	android:dividerHeight="1px"
-    android:scrollbars="vertical" />
+    android:dividerHeight="1px"
+    android:scrollbars="vertical"
+    />

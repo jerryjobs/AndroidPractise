@@ -1,7 +1,6 @@
 package com.ikaowo.join.util;
 
 import com.ikaowo.join.R;
-
 import java.util.Random;
 
 /**
@@ -49,17 +48,9 @@ public class Constant {
   public static final String USER_STATE_PREFIX = "user_state";
   public static final String JOIN_STATE_PREFIX = "join_state";
   public static final String PROMPTION_STATE_PREFIX = "activity_state";
-  public static final int[] HEADER_COLOR_ARRAY = new int[]{
-    R.color.header_c1,
-    R.color.header_c2,
-    R.color.header_c3,
-    R.color.header_c4,
-    R.color.header_c5,
-    R.color.header_c6,
-    R.color.header_c7,
-    R.color.header_c8,
-    R.color.header_c9,
-    R.color.header_c10
+  public static final int[] HEADER_COLOR_ARRAY = new int[] {
+      R.color.header_c1, R.color.header_c2, R.color.header_c3, R.color.header_c4, R.color.header_c5,
+      R.color.header_c6, R.color.header_c7, R.color.header_c8, R.color.header_c9, R.color.header_c10
   };
   public static Integer SHARE = 1;
   public static int EDIT = 2;

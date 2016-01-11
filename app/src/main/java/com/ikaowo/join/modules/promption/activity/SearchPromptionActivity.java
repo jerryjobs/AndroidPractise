@@ -11,13 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-
 import com.ikaowo.join.BaseFragmentActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.modules.promption.fragment.SearchHistoryFragment;
 import com.ikaowo.join.modules.promption.fragment.SearchPromptionFragment;
 import com.ikaowo.join.util.SharedPreferenceHelper;
-
 import java.lang.reflect.Field;
 
 /**
@@ -31,8 +29,7 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
   private SearchHistoryFragment searchHistoryFragment;
   private SharedPreferenceHelper sharedPreferenceHelper;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_search);
 
@@ -55,8 +52,7 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
     invalidateOptionsMenu();
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
     if (mSearchItem != null) {
       return true;
     }
@@ -70,13 +66,14 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
      * setup the search with white cursor.
      */
     // final int textViewID = searchView.getContext().getResources().getIdentifier("android:id/search_src_text",null, null);
-    final AutoCompleteTextView searchTextView = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+    final AutoCompleteTextView searchTextView =
+        (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
 
     try {
       Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
       mCursorDrawableRes.setAccessible(true);
-      mCursorDrawableRes.set(searchTextView, R.drawable.cursor); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
-
+      mCursorDrawableRes.set(searchTextView,
+          R.drawable.cursor); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -85,27 +82,24 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
     mSearchItem = menu.findItem(R.id.action_search);
 
     MenuItemCompat.collapseActionView(mSearchItem);
-    MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
-      @Override
-      public boolean onMenuItemActionExpand(MenuItem item) {
-        return true;
-      }
+    MenuItemCompat.setOnActionExpandListener(mSearchItem,
+        new MenuItemCompat.OnActionExpandListener() {
+          @Override public boolean onMenuItemActionExpand(MenuItem item) {
+            return true;
+          }
 
-      @Override
-      public boolean onMenuItemActionCollapse(MenuItem item) {
-        hideInput(SearchPromptionActivity.this, toolbar);
-        finish();
-        return false;
-      }
-    });
+          @Override public boolean onMenuItemActionCollapse(MenuItem item) {
+            hideInput(SearchPromptionActivity.this, toolbar);
+            finish();
+            return false;
+          }
+        });
     MenuItemCompat.expandActionView(mSearchItem);
 
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-      @Override
-      public boolean onQueryTextSubmit(final String s) {
+      @Override public boolean onQueryTextSubmit(final String s) {
         new Handler().postDelayed(new Runnable() {
-          @Override
-          public void run() {
+          @Override public void run() {
             sharedPreferenceHelper.saveSearchHistory(SearchPromptionActivity.this, s);
             if (searchResultFragment != null) {
               updateFragment(R.id.frament_container, searchResultFragment);
@@ -119,8 +113,7 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
         return true;
       }
 
-      @Override
-      public boolean onQueryTextChange(String s) {
+      @Override public boolean onQueryTextChange(String s) {
         if (TextUtils.isEmpty(s)) {
           updateFragment(R.id.frament_container, searchHistoryFragment);
         }
@@ -139,8 +132,7 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
     searchView.setQuery(str, true);
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "SearchPromptionActivity";
   }
 }

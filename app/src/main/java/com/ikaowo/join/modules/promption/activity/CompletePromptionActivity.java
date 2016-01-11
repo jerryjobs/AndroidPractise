@@ -9,7 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkManager;
 import com.common.framework.util.JToast;
@@ -25,17 +26,13 @@ import com.ikaowo.join.modules.promption.widget.MediaItem;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
-
+import de.greenrobot.event.EventBus;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -43,17 +40,13 @@ import retrofit.Call;
  */
 public class CompletePromptionActivity extends BaseActivity {
 
-  @Bind(R.id.approved_user_container_stub)
-  ViewStub userContainerStub;
+  @Bind(R.id.approved_user_container_stub) ViewStub userContainerStub;
 
-  @Bind(R.id.media_url_1)
-  MediaItem mediaUrl1;
+  @Bind(R.id.media_url_1) MediaItem mediaUrl1;
 
-  @Bind(R.id.media_url_3)
-  MediaItem mediaUrl3;
+  @Bind(R.id.media_url_3) MediaItem mediaUrl3;
 
-  @Bind(R.id.media_url_2)
-  MediaItem mediaUrl2;
+  @Bind(R.id.media_url_2) MediaItem mediaUrl2;
 
   private NetworkManager networkManager = JApplication.getNetworkManager();
 
@@ -61,8 +54,7 @@ public class CompletePromptionActivity extends BaseActivity {
   private Set<Integer> idSets = new HashSet<>();
   private int idSize;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_complete_promption);
     ButterKnife.bind(this);
@@ -101,63 +93,62 @@ public class CompletePromptionActivity extends BaseActivity {
     }
     userContainerStub.setLayoutResource(R.layout.stub_promption_joined_container);
     final ViewGroup container = (ViewGroup) userContainerStub.inflate();
-    PromptionInterface promptionInterface = networkManager.getServiceByClass(PromptionInterface.class);
+    PromptionInterface promptionInterface =
+        networkManager.getServiceByClass(PromptionInterface.class);
     Map<String, Integer> map = new HashMap<>();
     map.put("aci_id", promptionId);
     Call<BaseListResponse<JoinedUser>> call = promptionInterface.getApprovedList(map);
-    networkManager.async(this, Constant.DATAGETTING, call, new KwMarketNetworkCallback<BaseListResponse<JoinedUser>>(this) {
-      @Override
-      public void onSuccess(BaseListResponse<JoinedUser> listResponse) {
+    networkManager.async(this, Constant.DATAGETTING, call,
+        new KwMarketNetworkCallback<BaseListResponse<JoinedUser>>(this) {
+          @Override public void onSuccess(BaseListResponse<JoinedUser> listResponse) {
 
-        List<JoinedUser> joinedUserList;
-        if (listResponse != null && (joinedUserList = listResponse.data) != null) {
-          idSize = joinedUserList.size();
-          CompleteJoinItem completeJoinItem = null;
-          for (int i = 0; i < joinedUserList.size(); i++) {
-            JoinedUser joinedUser = joinedUserList.get(i);
-            idSets.add(joinedUser.uId);
-            switch (i % 2) {
-              case 0: // left
-                completeJoinItem = new CompleteJoinItem(CompletePromptionActivity.this);
-                completeJoinItem.setItemClickInterface(new CompleteJoinItem.ItemClickInterface() {
-                  @Override
-                  public void itemClicked(int id, boolean selected) {
-                    invalidateOptionsMenu();
-                    if (selected) {
-                      idSets.remove(id);
-                    } else {
-                      idSets.add(id);
+            List<JoinedUser> joinedUserList;
+            if (listResponse != null && (joinedUserList = listResponse.data) != null) {
+              idSize = joinedUserList.size();
+              CompleteJoinItem completeJoinItem = null;
+              for (int i = 0; i < joinedUserList.size(); i++) {
+                JoinedUser joinedUser = joinedUserList.get(i);
+                idSets.add(joinedUser.uId);
+                switch (i % 2) {
+                  case 0: // left
+                    completeJoinItem = new CompleteJoinItem(CompletePromptionActivity.this);
+                    completeJoinItem.setItemClickInterface(
+                        new CompleteJoinItem.ItemClickInterface() {
+                          @Override public void itemClicked(int id, boolean selected) {
+                            invalidateOptionsMenu();
+                            if (selected) {
+                              idSets.remove(id);
+                            } else {
+                              idSets.add(id);
+                            }
+                          }
+                        });
+                    container.addView(completeJoinItem);
+                    completeJoinItem.setLeft(joinedUser);
+
+                    //如果为奇数个时候，最后一个添加一个空的view占位，后续优化
+                    if (i == joinedUserList.size() - 1) {
+                      completeJoinItem.setRight(null);
                     }
-                  }
-                });
-                container.addView(completeJoinItem);
-                completeJoinItem.setLeft(joinedUser);
-
-                //如果为奇数个时候，最后一个添加一个空的view占位，后续优化
-                if (i == joinedUserList.size() - 1) {
-                  completeJoinItem.setRight(null);
+                    break;
+                  case 1: //right
+                    if (completeJoinItem != null) {
+                      completeJoinItem.setRight(joinedUser);
+                    }
+                    break;
                 }
-                break;
-              case 1: //right
-                if (completeJoinItem != null) {
-                  completeJoinItem.setRight(joinedUser);
-                }
-                break;
+              }
             }
           }
-        }
-      }
-    });
+        });
   }
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
     menu.getItem(0).setEnabled(idSize > idSets.size());
     return super.onPrepareOptionsMenu(menu);
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_submit:
         submit();
@@ -181,7 +172,8 @@ public class CompletePromptionActivity extends BaseActivity {
     request.u_id = idSets;
     try {
       StringBuilder sb = getMediarUrlStr(URLEncoder.encode(mediaUrl1.getValue(), "utf-8"),
-        URLEncoder.encode(mediaUrl1.getValue(), "utf-8"), URLEncoder.encode(mediaUrl1.getValue(), "utf-8"));
+          URLEncoder.encode(mediaUrl1.getValue(), "utf-8"),
+          URLEncoder.encode(mediaUrl1.getValue(), "utf-8"));
       if (sb.length() > 0) {
         request.media_link = sb.toString();
       }
@@ -189,26 +181,25 @@ public class CompletePromptionActivity extends BaseActivity {
       e.printStackTrace();
     }
 
-    PromptionInterface promptionInterface = networkManager.getServiceByClass(PromptionInterface.class);
+    PromptionInterface promptionInterface =
+        networkManager.getServiceByClass(PromptionInterface.class);
     Call<BaseResponse> call = promptionInterface.completePromption(request);
-    networkManager.async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
-      @Override
-      public void onSuccess(BaseResponse response) {
-        EventBus.getDefault().post(new RefreshWebViewCallback() {
-          @Override
-          public boolean refreshWebView() {
-            return true;
+    networkManager.async(this, Constant.PROCESSING, call,
+        new KwMarketNetworkCallback<BaseResponse>(this) {
+          @Override public void onSuccess(BaseResponse response) {
+            EventBus.getDefault().post(new RefreshWebViewCallback() {
+              @Override public boolean refreshWebView() {
+                return true;
+              }
+            });
+            JToast.toastShort("操作完成");
+            new Handler().postDelayed(new Runnable() {
+              @Override public void run() {
+                finish();
+              }
+            }, 300);
           }
         });
-        JToast.toastShort("操作完成");
-        new Handler().postDelayed(new Runnable() {
-          @Override
-          public void run() {
-            finish();
-          }
-        }, 300);
-      }
-    });
   }
 
   private StringBuilder getMediarUrlStr(String... urls) {
@@ -222,8 +213,7 @@ public class CompletePromptionActivity extends BaseActivity {
     return sb;
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "CompletePromptionActivity";
   }
 }

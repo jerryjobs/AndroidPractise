@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,25 +11,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".modules.user.activity.AddBrandActivity"
-    tools:showIn="@layout/activity_add_branch">
+    tools:showIn="@layout/activity_add_branch"
+    >
 
-    <ImageView
-        android:id="@+id/brand_icon"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/register_uplogo"
-        android:layout_marginTop="40dp"/>
+  <ImageView
+      android:id="@+id/brand_icon"
+      android:layout_width="100dp"
+      android:layout_height="75dp"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginTop="40dp"
+      android:src="@drawable/register_uplogo"
+      />
 
 
-    <com.ikaowo.join.modules.user.widget.CustomEditTextView
-        android:id="@+id/brand_name"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"/>
+  <com.ikaowo.join.modules.user.widget.CustomEditTextView
+      android:id="@+id/brand_name"
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:layout_marginTop="40dp"
+      />
 
-    <com.ikaowo.join.modules.user.widget.CustomEditTextView
-        android:id="@+id/brand_licence"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+  <com.ikaowo.join.modules.user.widget.CustomEditTextView
+      android:id="@+id/brand_licence"
+      android:layout_width="match_parent"
+      android:layout_height="60dp"
+      />
 </LinearLayout>

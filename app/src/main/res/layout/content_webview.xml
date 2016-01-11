@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior"
-              tools:context=".modules.webview.activity.WebViewActivity"
-              tools:showIn="@layout/activity_webview">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".modules.webview.activity.WebViewActivity"
+    tools:showIn="@layout/activity_webview"
+    >
 
-    <RelativeLayout
-        android:id="@+id/webview_container_layout"
+  <RelativeLayout
+      android:id="@+id/webview_container_layout"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      >
+
+    <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/webview_progress"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="2dp"
+        android:background="@null"
+        android:indeterminateOnly="false"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/webview_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        />
 
-        <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-                     android:id="@+id/webview_progress"
-                     style="?android:attr/progressBarStyleHorizontal"
-                     android:layout_width="match_parent"
-                     android:layout_height="2dp"
-                     android:background="@null"
-                     android:indeterminateOnly="false"
-                     android:max="100"
-                     android:progress="0"
-                     android:progressDrawable="@drawable/webview_progress" />
-
-        <WebView
-            android:id="@+id/webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/webview_progress" />
-    </RelativeLayout>
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/webview_progress"
+        />
+  </RelativeLayout>
 
 </LinearLayout>

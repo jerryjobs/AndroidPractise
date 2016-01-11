@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 
-
 /**
  * Created by weibo on 15-12-11.
  */
@@ -24,11 +23,9 @@ public class ResourceUtil {
   public static Drawable getDrawable(Context context, int drawableRes) {
     Drawable drawable = null;
     if (Build.VERSION.SDK_INT >= 21) {
-      drawable = context.getResources()
-        .getDrawable(drawableRes, context.getTheme());
+      drawable = context.getResources().getDrawable(drawableRes, context.getTheme());
     } else {
-      drawable = context.getResources()
-        .getDrawable(drawableRes);
+      drawable = context.getResources().getDrawable(drawableRes);
     }
 
     return drawable;

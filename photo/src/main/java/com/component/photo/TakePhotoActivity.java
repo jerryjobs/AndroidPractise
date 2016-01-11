@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,9 +28,7 @@ public class TakePhotoActivity extends AppCompatActivity {
   private boolean pickPhoto;
   private String tmpPicPath;
 
-
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     aspectCrop = getIntent().getBooleanExtra(PhotoUtil.ASPECT_KEY, false);
@@ -53,8 +50,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
   }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode) {
       case PhotoUtil.REQUEST_TAKE_PHOTO:
         takePhoto(resultCode);
@@ -83,7 +79,8 @@ public class TakePhotoActivity extends AppCompatActivity {
       Intent intent = new Intent(this, CropPhotoActivity.class);
       intent.putExtra(PhotoUtil.FILE_KEY, tmpPicPath);
       intent.putExtra(PhotoUtil.ASPECT_KEY, aspectCrop);
-      intent.putExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME, getIntent().getBundleExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME));
+      intent.putExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME,
+          getIntent().getBundleExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME));
       startActivityForResult(intent, PhotoUtil.REQUEST_CROP_PHOTO);
     } else {
       Log.e(TAG, "file not exists! : [" + file.getAbsolutePath() + "]");
@@ -110,18 +107,16 @@ public class TakePhotoActivity extends AppCompatActivity {
 
   private class ImageLoaderTask extends AsyncTask<Uri, Void, String> {
 
-    @Override
-    protected void onPreExecute() {
+    @Override protected void onPreExecute() {
       super.onPreExecute();
     }
 
-    @Override
-    protected String doInBackground(Uri... params) {
+    @Override protected String doInBackground(Uri... params) {
       Cursor cursor = null;
       try {
         Uri contentUri = params[0];
         if (contentUri.toString().startsWith(CONTENT_PREFIX)) {
-          String[] proj = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME};
+          String[] proj = { MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME };
           cursor = getContentResolver().query(contentUri, proj, null, null, null);
           int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
           cursor.moveToFirst();
@@ -147,15 +142,14 @@ public class TakePhotoActivity extends AppCompatActivity {
       }
     }
 
-    @Override
-    protected void onPostExecute(String s) {
+    @Override protected void onPostExecute(String s) {
       super.onPostExecute(s);
 
       if (s != null) {
         Intent intent = new Intent(TakePhotoActivity.this, CropPhotoActivity.class);
         intent.putExtra(PhotoUtil.FILE_KEY, s);
         intent.putExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME,
-          getIntent().getBundleExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME));
+            getIntent().getBundleExtra(PhotoUtil.MEASURABLE_BUNDLE_NAME));
         intent.putExtra(PhotoUtil.ASPECT_KEY, aspectCrop);
         startActivityForResult(intent, PhotoUtil.REQUEST_CROP_PHOTO);
       } else {
@@ -179,7 +173,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         fOut = new FileOutputStream(f);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
         fOut.flush();
-
       } catch (Exception e) {
         Log.e(TAG, "failed to save image", e);
       } finally {

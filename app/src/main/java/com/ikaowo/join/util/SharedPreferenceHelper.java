@@ -3,13 +3,11 @@ package com.ikaowo.join.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-
 import com.common.framework.core.JApplication;
 import com.common.framework.util.JLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ikaowo.join.model.UserLoginData;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,7 +100,6 @@ public class SharedPreferenceHelper {
     }
     return user.companyId;
   }
-
 
   /*
    * search history related.

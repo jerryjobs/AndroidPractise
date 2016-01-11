@@ -12,10 +12,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.ZoomButtonsController;
-
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.common.service.UserService;
-
 import java.lang.reflect.Method;
 
 /**
@@ -29,7 +27,8 @@ public class WebViewHelper {
   private WebViewInterface mWebViewInterface;
   //约定好的名字
   private String interfaceName = "webViewControl";
-  private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private UserService userService =
+      JApplication.getJContext().getServiceByInterface(UserService.class);
 
   public WebViewHelper(String url, WebView webview, ProgressBar progressBar) {
     this.mWebView = webview;
@@ -65,7 +64,8 @@ public class WebViewHelper {
       settings.setAppCacheMaxSize(5 * 1024 * 1024);
     }
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-      settings.setDatabasePath("/data/data/" + mWebView.getContext().getPackageName() + "/databases/");
+      settings.setDatabasePath(
+          "/data/data/" + mWebView.getContext().getPackageName() + "/databases/");
     }
 
     //去掉缩放按钮
@@ -79,43 +79,35 @@ public class WebViewHelper {
     }
     mWebView.setWebViewClient(new CustomWebViewClient());
 
-
     /**
      * 设置下载监听，当url为文件时候开始下载文件
      */
     mWebView.setDownloadListener(new DownloadListener() {
-      @Override
-      public void onDownloadStart(String url, String userAgent,
-                                  String contentDisposition, String mimetype,
-                                  long contentLength) {
-//				download(url);
+      @Override public void onDownloadStart(String url, String userAgent, String contentDisposition,
+          String mimetype, long contentLength) {
+        //				download(url);
       }
     });
 
-
     mWebView.setWebChromeClient(new WebChromeClient() {
-      @Override
-      public void onReceivedTitle(WebView view, String title) {
+      @Override public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
         if (mWebViewInterface != null) {
           mWebViewInterface.setWebViewTitle(title);
         }
       }
 
-      @Override
-      public void onProgressChanged(WebView view, int newProgress) {
+      @Override public void onProgressChanged(WebView view, int newProgress) {
         if (mProgressbar != null) {
           if (newProgress == 100) {
             mProgressbar.setVisibility(View.GONE);
           } else {
-            if (mProgressbar.getVisibility() == View.GONE)
-              mProgressbar.setVisibility(View.VISIBLE);
+            if (mProgressbar.getVisibility() == View.GONE) mProgressbar.setVisibility(View.VISIBLE);
             mProgressbar.setProgress(newProgress);
           }
         }
         super.onProgressChanged(view, newProgress);
       }
-
     });
     mWebView.loadUrl(mUrl);
   }
@@ -154,9 +146,9 @@ public class WebViewHelper {
       sb.append("&companyid=" + userService.getUserCompanyId());
     }
     sb.append("&uid=")
-      .append(userService.getUserId() + "")
-      .append("&version=")
-      .append(JApplication.getJContext().getVersionName());
+        .append(userService.getUserId() + "")
+        .append("&version=")
+        .append(JApplication.getJContext().getVersionName());
 
     return sb.toString();
   }
@@ -169,8 +161,7 @@ public class WebViewHelper {
 
   class CustomWebViewClient extends WebViewClient {
 
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+    @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
       if (mWebViewInterface != null) {
         return mWebViewInterface.shouldOverrideUrlLoading(view, url);
       }
@@ -178,22 +169,18 @@ public class WebViewHelper {
       return super.shouldOverrideUrlLoading(view, url);
     }
 
-    @Override
-    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+    @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
       super.onPageStarted(view, url, favicon);
     }
 
-    @Override
-    public void onPageFinished(WebView view, String url) {
+    @Override public void onPageFinished(WebView view, String url) {
       super.onPageFinished(view, url);
     }
 
-    @Override
-    public void onReceivedError(WebView view, int errorCode,
-                                String description, String failingUrl) {
+    @Override public void onReceivedError(WebView view, int errorCode, String description,
+        String failingUrl) {
       super.onReceivedError(view, errorCode, description, failingUrl);
     }
-
   }
 }
 

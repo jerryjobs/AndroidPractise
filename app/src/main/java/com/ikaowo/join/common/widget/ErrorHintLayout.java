@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.AnimatorWrapper;
@@ -21,6 +20,7 @@ public class ErrorHintLayout extends LinearLayout {
 
   private Context context;
   private TextView textView;
+
   public ErrorHintLayout(Context context) {
     super(context);
     this.context = context;
@@ -34,8 +34,9 @@ public class ErrorHintLayout extends LinearLayout {
   }
 
   private void init() {
-    LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-      JApplication.getJContext().dip2px(30));
+    LinearLayout.LayoutParams llp =
+        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            JApplication.getJContext().dip2px(30));
     LinearLayout errHintLayout = new LinearLayout(context);
     errHintLayout.setOrientation(LinearLayout.VERTICAL);
     errHintLayout.setLayoutParams(llp);
@@ -51,7 +52,8 @@ public class ErrorHintLayout extends LinearLayout {
     errHintLayout.addView(textView);
     View view = new View(context);
     view.setBackgroundColor(ContextCompat.getColor(context, R.color.c13));
-    llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, JApplication.getJContext().dip2px(1));
+    llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        JApplication.getJContext().dip2px(1));
     view.setLayoutParams(llp);
     errHintLayout.addView(view);
 
@@ -62,6 +64,5 @@ public class ErrorHintLayout extends LinearLayout {
 
   public void setText(String text) {
     textView.setText(text);
-
   }
 }

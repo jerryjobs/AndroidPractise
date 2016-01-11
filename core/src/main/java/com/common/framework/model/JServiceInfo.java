@@ -9,9 +9,8 @@ public class JServiceInfo {
   private Class<? extends JCommonService> mServiceInterface; // 服务接口
   private JCommonService mServiceImpl; //服务具体实现类
 
-
-  public static JServiceInfo createServiceInfo(
-    Class<? extends JCommonService> serviceInterface, JCommonService serviceImpl) {
+  public static JServiceInfo createServiceInfo(Class<? extends JCommonService> serviceInterface,
+      JCommonService serviceImpl) {
     JServiceInfo serviceInfo = new JServiceInfo();
     serviceInfo.mServiceInterface = serviceInterface;
     serviceInfo.mServiceImpl = serviceImpl;

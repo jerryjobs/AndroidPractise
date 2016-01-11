@@ -1,7 +1,6 @@
 package com.component.photo;
 
 import android.os.Environment;
-
 import java.io.File;
 
 /**
@@ -30,8 +29,10 @@ public class PhotoUtil {
   public static String getFilePath() throws IllegalAccessException {
     try {
       String path = Environment.getExternalStorageDirectory()
-        + File.separator + Environment.DIRECTORY_DCIM
-        + File.separator + "Camera";
+          + File.separator
+          + Environment.DIRECTORY_DCIM
+          + File.separator
+          + "Camera";
 
       File dir = new File(path);
       if (!dir.exists()) {

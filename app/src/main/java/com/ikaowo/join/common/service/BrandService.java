@@ -1,7 +1,6 @@
 package com.ikaowo.join.common.service;
 
 import android.content.Context;
-
 import com.common.framework.core.JCommonService;
 
 /**
@@ -13,13 +12,11 @@ public abstract class BrandService extends JCommonService {
 
   public abstract void viewBrandDetail(Context context, int brandId);
 
-  @Override
-  public void onCreate() {
+  @Override public void onCreate() {
 
   }
 
-  @Override
-  public void onDestroy() {
+  @Override public void onDestroy() {
 
   }
 }

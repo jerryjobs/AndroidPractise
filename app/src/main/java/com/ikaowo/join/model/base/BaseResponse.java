@@ -11,11 +11,9 @@ public class BaseResponse extends JResponse {
   public String msg;
   public Object err;
 
-  @SerializedName("uid")
-  public String uid;
+  @SerializedName("uid") public String uid;
 
-  @Override
-  public int getTotals() {
+  @Override public int getTotals() {
     return 0;
   }
 }

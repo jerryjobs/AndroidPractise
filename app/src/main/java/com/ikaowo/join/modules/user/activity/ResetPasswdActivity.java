@@ -9,7 +9,8 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.R;
@@ -17,35 +18,27 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
 import com.ikaowo.join.util.VerifyCodeHelper;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by weibo on 15-12-17.
  */
 public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
 
+  @Bind(R.id.phone) DeletableEditTextView phoneEt;
 
-  @Bind(R.id.phone)
-  DeletableEditTextView phoneEt;
+  @Bind(R.id.verify_btn) TextView getVerifyBtn;
 
-  @Bind(R.id.verify_btn)
-  TextView getVerifyBtn;
+  @Bind(R.id.verify_code) DeletableEditTextView verifyCodeEt;
 
-  @Bind(R.id.verify_code)
-  DeletableEditTextView verifyCodeEt;
-
-  @Bind(R.id.password)
-  DeletableEditTextView passwordEt;
+  @Bind(R.id.password) DeletableEditTextView passwordEt;
 
   private VerifyCodeHelper verifyCodeHelper;
   private String userName;
   private String password;
   private String vcode;
-  private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private UserService userService =
+      JApplication.getJContext().getServiceByInterface(UserService.class);
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_reset_passwd);
     ButterKnife.bind(this);
@@ -74,7 +67,6 @@ public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
     phoneEt.setSingleLine();
     verifyCodeEt.setSingleLine();
     passwordEt.setSingleLine();
-
   }
 
   private void setupOptionMenu() {
@@ -82,9 +74,7 @@ public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
     invalidateOptionsMenu();
   }
 
-
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
     userName = phoneEt.getText().toString().trim();
     password = passwordEt.getText().toString().trim();
     vcode = verifyCodeEt.getText().toString().trim();
@@ -92,8 +82,7 @@ public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
     return true;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_submit:
         resetPasswd();
@@ -106,23 +95,19 @@ public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
     userService.resetPasswd(this, userName, vcode, password);
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "ResetPasswdActivity";
   }
 
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
   }
 
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
   }
 
-  @Override
-  public void afterTextChanged(Editable s) {
+  @Override public void afterTextChanged(Editable s) {
     invalidateOptionsMenu();
 
     userName = phoneEt.getText().toString().trim();
@@ -135,6 +120,5 @@ public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
         getVerifyBtn.setEnabled(false);
       }
     }
-
   }
 }

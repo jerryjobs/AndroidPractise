@@ -4,6 +4,7 @@
     android:layout_width="@dimen/aliwx_common_head_size"
     android:layout_height="@dimen/aliwx_common_head_size"
     android:scaleType="fitXY"
-    android:src="@drawable/aliwx_empty_head" >
+    android:src="@drawable/aliwx_empty_head"
+    >
 
 </ImageView>

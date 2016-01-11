@@ -8,14 +8,16 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".modules.common.BaseListActivity"
-    tools:showIn="@layout/activity_base_list">
+    tools:showIn="@layout/activity_base_list"
+    >
 
-    <com.common.framework.widget.listview.ScrollMoreRecyclerView
-        android:id="@+id/recycler_view"
-        android:background="@color/c6"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+  <com.common.framework.widget.listview.ScrollMoreRecyclerView
+      android:id="@+id/recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/c6"
+      >
 
-    </com.common.framework.widget.listview.ScrollMoreRecyclerView>
+  </com.common.framework.widget.listview.ScrollMoreRecyclerView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

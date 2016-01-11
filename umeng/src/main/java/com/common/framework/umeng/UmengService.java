@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.fb.SyncListener;
@@ -17,7 +16,6 @@ import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.umeng.update.UpdateStatus;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +38,7 @@ public class UmengService {
     UmengUpdateAgent.setUpdateOnlyWifi(false);
 
     UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
-      @Override
-      public void onUpdateReturned(int updateStatus,
-                                   UpdateResponse updateInfo) {
+      @Override public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
         switch (updateStatus) {
           case UpdateStatus.Yes: // has updateView
             UmengUpdateAgent.showUpdateDialog(context, updateInfo);
@@ -74,16 +70,14 @@ public class UmengService {
     //fb.sync();
     Conversation conversation = fb.getDefaultConversation();
     conversation.sync(new SyncListener() {
-      @Override
-      public void onReceiveDevReply(List<Reply> list) {
+      @Override public void onReceiveDevReply(List<Reply> list) {
 
         if (notificationInterface != null) {
           notificationInterface.onNewFeedBack(list);
         }
       }
 
-      @Override
-      public void onSendUserReply(List<Reply> list) {
+      @Override public void onSendUserReply(List<Reply> list) {
 
       }
     });
@@ -93,11 +87,9 @@ public class UmengService {
     FeedbackPush.getInstance(context).init(false);
 
     new Thread(new Runnable() {
-      @Override
-      public void run() {
+      @Override public void run() {
         UserInfo info = fb.getUserInfo();
-        if (info == null)
-          info = new UserInfo();
+        if (info == null) info = new UserInfo();
         Map<String, String> contact = info.getContact();
         if (contact == null) {
           contact = new HashMap<String, String>();

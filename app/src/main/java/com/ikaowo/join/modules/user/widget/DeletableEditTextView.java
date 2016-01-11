@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.ikaowo.join.R;
 import com.ikaowo.join.util.ResourceUtil;
 
@@ -39,26 +38,25 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
 
   private void init(Context context, AttributeSet attrs) {
 
-    TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DeletableEditTextView);
-    showDeleteIcon = typedArray.getBoolean(R.styleable.DeletableEditTextView_show_delete_icon, true);
+    TypedArray typedArray =
+        context.obtainStyledAttributes(attrs, R.styleable.DeletableEditTextView);
+    showDeleteIcon =
+        typedArray.getBoolean(R.styleable.DeletableEditTextView_show_delete_icon, true);
 
-    deleteIconDrawable = ResourceUtil.updateDrawableColor(
-      context, R.drawable.abc_ic_clear_mtrl_alpha, android.R.color.darker_gray);
+    deleteIconDrawable =
+        ResourceUtil.updateDrawableColor(context, R.drawable.abc_ic_clear_mtrl_alpha,
+            android.R.color.darker_gray);
 
     addTextChangedListener(new TextWatcher() {
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
       }
 
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count,
-                                    int after) {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
       }
 
-      @Override
-      public void afterTextChanged(Editable s) {
+      @Override public void afterTextChanged(Editable s) {
         showOrHideDeleteDrawable();
         if (textChangeListener != null) {
           textChangeListener.onChanged(s);
@@ -84,13 +82,12 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
     this.textChangeListener = listener;
   }
 
-  @Override
-  public boolean onTouchEvent(MotionEvent event) {
+  @Override public boolean onTouchEvent(MotionEvent event) {
     if (deleteIconDrawable != null && event.getAction() == MotionEvent.ACTION_UP) {
       int x = (int) event.getX();
       //判断触摸点是否在水平范围内
-      boolean isInnerWidth = (x > (getWidth() - getTotalPaddingRight())) &&
-        (x < (getWidth() - getPaddingRight()));
+      boolean isInnerWidth =
+          (x > (getWidth() - getTotalPaddingRight())) && (x < (getWidth() - getPaddingRight()));
       //获取删除图标的边界，返回一个Rect对象
       Rect rect = deleteIconDrawable.getBounds();
       //获取删除图标的高度
@@ -105,14 +102,12 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
       if (isInnerWidth && isInnerHeight) {
         setText("");
       }
-
     }
 
     return super.onTouchEvent(event);
   }
 
-  @Override
-  public void onFocusChange(View v, boolean hasFocus) {
+  @Override public void onFocusChange(View v, boolean hasFocus) {
     if (hasFocus) {
       showOrHideDeleteDrawable();
     } else {

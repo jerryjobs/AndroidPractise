@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.ikaowo.join.R;
@@ -29,7 +28,8 @@ public class AvatarHelper {
     return instance;
   }
 
-  public void showAvatar(Context context, ImageView iconIv, TextView shortNameTv, int width, int height, String avatarIconUrl, String userName) {
+  public void showAvatar(Context context, ImageView iconIv, TextView shortNameTv, int width,
+      int height, String avatarIconUrl, String userName) {
     ImageLoader imageLoader = JApplication.getImageLoader();
     if (TextUtils.isEmpty(avatarIconUrl)) {
       iconIv.setImageResource(0);
@@ -38,7 +38,8 @@ public class AvatarHelper {
       shortNameTv.setVisibility(View.VISIBLE);
       shortNameTv.setTextColor(ContextCompat.getColor(context, android.R.color.white));
       if (isChinese(userName)) {
-        shortNameTv.setText(userName.substring(Math.max(userName.length() - 2, 0), userName.length()));
+        shortNameTv.setText(
+            userName.substring(Math.max(userName.length() - 2, 0), userName.length()));
       } else {
         shortNameTv.setText(userName.substring(0, Math.min(userName.length(), 2)));
       }
@@ -64,14 +65,13 @@ public class AvatarHelper {
   private boolean isChinese(char c) {
     Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
     if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
-      || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
-      || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-      || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
-      || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
-      || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+        || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+        || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+        || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+        || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+        || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
       return true;
     }
     return false;
   }
-
 }

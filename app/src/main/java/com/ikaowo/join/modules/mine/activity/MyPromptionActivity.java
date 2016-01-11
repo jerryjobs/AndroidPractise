@@ -5,7 +5,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.BaseEventBusFragmentActivity;
 import com.ikaowo.join.R;
@@ -13,25 +14,19 @@ import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.modules.mine.adapter.MyPromptionTabLayoutAdapter;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by leiweibo on 12/29/15.
  */
 public class MyPromptionActivity extends BaseEventBusFragmentActivity {
 
-  @Bind(R.id.tabs)
-  TabLayout tabLayout;
-  @Bind(R.id.viewpager)
-  ViewPager viewPager;
+  @Bind(R.id.tabs) TabLayout tabLayout;
+  @Bind(R.id.viewpager) ViewPager viewPager;
 
   private String[] titlesArray;
   private UserService userService;
   private int brandId;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_my_promption);
@@ -57,7 +52,8 @@ public class MyPromptionActivity extends BaseEventBusFragmentActivity {
     titlesArray[1] = getString(R.string.tab_title_mine_join_promption, 0);
 
     viewPager.setOffscreenPageLimit(2);
-    viewPager.setAdapter(new MyPromptionTabLayoutAdapter(getSupportFragmentManager(), titlesArray, brandId));
+    viewPager.setAdapter(
+        new MyPromptionTabLayoutAdapter(getSupportFragmentManager(), titlesArray, brandId));
     tabLayout.setupWithViewPager(viewPager);
   }
 
@@ -75,15 +71,13 @@ public class MyPromptionActivity extends BaseEventBusFragmentActivity {
           case 1:
             title = getString(R.string.tab_title_mine_join_promption, map.count);
             break;
-
         }
         tabLayout.getTabAt(map.index).setText(title);
       }
     }
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "MyPromptionActivity";
   }
 }

@@ -1,7 +1,6 @@
 package com.ikaowo.join.util;
 
 import android.text.TextUtils;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

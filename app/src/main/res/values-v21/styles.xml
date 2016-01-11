@@ -1,11 +1,11 @@
 <resources>
 
-    <style name="AppTheme.FullScreen" parent="AppTheme">
+  <style name="AppTheme.FullScreen" parent="AppTheme">
 
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
-    </style>
+    <item name="android:windowContentTransitions">true</item>
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowTranslucentNavigation">false</item>
+    <item name="colorPrimaryDark">@android:color/transparent</item>
+  </style>
 
 </resources>

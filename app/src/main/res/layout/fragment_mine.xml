@@ -1,71 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/c6">
+    android:background="@color/c6"
+    android:orientation="vertical"
+    >
 
-    <RelativeLayout
-        android:id="@+id/user_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingLeft="12dp"
-        android:background="@android:color/white">
+  <RelativeLayout
+      android:id="@+id/user_info"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:background="@android:color/white"
+      android:paddingLeft="12dp"
+      >
 
-        <include android:id="@+id/icon_layout" layout="@layout/widget_avatar" />
+    <include
+        layout="@layout/widget_avatar"
+        android:id="@+id/icon_layout"
+        />
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/icon_layout"
-            android:layout_centerVertical="true">
-            <TextView
-                android:id="@+id/name_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:layout_marginBottom="12dp"
-                android:layout_centerVertical="true"
-                android:textColor="@color/c3"/>
-
-            <TextView
-                android:id="@+id/brand_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textColor="@color/c10"
-                android:textSize="13sp"/>
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/content_ic_arrow"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/white"
-        android:orientation="vertical">
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/icon_layout"
+        android:orientation="vertical"
+        >
 
-        <include android:id="@+id/promption" layout="@layout/widget_mine_item" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/c5"/>
-        <include android:id="@+id/brand_info" layout="@layout/widget_mine_item" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/c5"/>
-        <include android:id="@+id/abount" layout="@layout/widget_mine_item" />
+      <TextView
+          android:id="@+id/name_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:layout_marginBottom="12dp"
+          android:textColor="@color/c3"
+          android:textSize="15sp"
+          />
 
+      <TextView
+          android:id="@+id/brand_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:textColor="@color/c10"
+          android:textSize="13sp"
+          />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/content_ic_arrow"
+        />
+  </RelativeLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:background="@android:color/white"
+      android:orientation="vertical"
+      >
+
+    <include
+        layout="@layout/widget_mine_item"
+        android:id="@+id/promption"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/c5"
+        />
+
+    <include
+        layout="@layout/widget_mine_item"
+        android:id="@+id/brand_info"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/c5"
+        />
+
+    <include
+        layout="@layout/widget_mine_item"
+        android:id="@+id/abount"
+        />
+
+  </LinearLayout>
 </LinearLayout>

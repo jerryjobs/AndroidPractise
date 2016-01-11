@@ -11,22 +11,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.ikaowo.join.R;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.ikaowo.join.R;
 
 /**
  * Created by weibo on 15-12-16.
  */
 public class CustomEditTextView extends LinearLayout {
-  @Bind(R.id.right_container)
-  LinearLayout containerLayout;
-  @Bind(R.id.title)
-  TextView titleView;
-  @Bind(R.id.splite_view)
-  View splitView;
+  @Bind(R.id.right_container) LinearLayout containerLayout;
+  @Bind(R.id.title) TextView titleView;
+  @Bind(R.id.splite_view) View splitView;
 
   private Context context;
 
@@ -45,7 +40,8 @@ public class CustomEditTextView extends LinearLayout {
     boolean showSplit = typedArray.getBoolean(R.styleable.CustomEditTextView_show_split, true);
     splitView.setVisibility(showSplit ? VISIBLE : INVISIBLE);
 
-    int color = typedArray.getColor(R.styleable.CustomEditTextView_title_text_color, ContextCompat.getColor(context, R.color.c3));
+    int color = typedArray.getColor(R.styleable.CustomEditTextView_title_text_color,
+        ContextCompat.getColor(context, R.color.c3));
     titleView.setTextColor(color);
 
     String title = typedArray.getString(R.styleable.CustomEditTextView_title_text);
@@ -74,11 +70,11 @@ public class CustomEditTextView extends LinearLayout {
     LinearLayout.LayoutParams llp;
     if (view instanceof EditText) {
       llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-              ViewGroup.LayoutParams.WRAP_CONTENT);
+          ViewGroup.LayoutParams.WRAP_CONTENT);
       llp.weight = 1;
     } else {
       llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-              ViewGroup.LayoutParams.WRAP_CONTENT);
+          ViewGroup.LayoutParams.WRAP_CONTENT);
     }
     llp.gravity = Gravity.CENTER_VERTICAL;
     containerLayout.addView(view, llp);

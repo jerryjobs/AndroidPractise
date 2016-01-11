@@ -8,7 +8,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
@@ -18,29 +20,21 @@ import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
 import com.ikaowo.join.util.Constant;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Created by weibo on 15-12-11.
  */
 public class SigninActivity extends BaseEventBusActivity implements TextWatcher {
 
-  @Bind(R.id.name_et)
-  DeletableEditTextView nameEt;
-  @Bind(R.id.password)
-  DeletableEditTextView passwordEt;
-  @Bind(R.id.login_tv)
-  TextView loginTv;
-  private UserService userService
-    = JApplication.getJContext().getServiceByInterface(UserService.class);
+  @Bind(R.id.name_et) DeletableEditTextView nameEt;
+  @Bind(R.id.password) DeletableEditTextView passwordEt;
+  @Bind(R.id.login_tv) TextView loginTv;
+  private UserService userService =
+      JApplication.getJContext().getServiceByInterface(UserService.class);
   private String username;
   private String password;
   private boolean changeTab;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_signin);
     ButterKnife.bind(this);
@@ -78,16 +72,13 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
 
     nameEt.addTextChangedListener(this);
     passwordEt.addTextChangedListener(this);
-
   }
 
-  @OnClick(R.id.resetpasswd)
-  public void resetPasswd() {
+  @OnClick(R.id.resetpasswd) public void resetPasswd() {
     userService.resetPassword(this);
   }
 
-  @OnClick(R.id.signup_tv)
-  public void signup() {
+  @OnClick(R.id.signup_tv) public void signup() {
     userService.goToSignup(this);
   }
 
@@ -103,13 +94,11 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
     }
   }
 
-  @OnClick(R.id.login_tv)
-  public void login() {
+  @OnClick(R.id.login_tv) public void login() {
     userService.doLogin(this, username, password, changeTab);
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     int itemId = item.getItemId();
     switch (itemId) {
       case android.R.id.home:
@@ -119,23 +108,19 @@ public class SigninActivity extends BaseEventBusActivity implements TextWatcher 
     return super.onOptionsItemSelected(item);
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "SigninActivity";
   }
 
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
   }
 
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
   }
 
-  @Override
-  public void afterTextChanged(Editable s) {
+  @Override public void afterTextChanged(Editable s) {
     username = nameEt.getText().toString().trim();
     password = passwordEt.getText().toString().trim();
     boolean userNameInputed = !(TextUtils.isEmpty(username));

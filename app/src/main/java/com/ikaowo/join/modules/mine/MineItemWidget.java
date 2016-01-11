@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.component.photo.FullImageView;
 import com.ikaowo.join.R;
 
@@ -36,7 +35,8 @@ public class MineItemWidget extends LinearLayout {
 
   private void init(AttributeSet attrs) {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
-    RelativeLayout relativeLayout = (RelativeLayout) layoutInflater.inflate(R.layout.widget_mine_item2, null);
+    RelativeLayout relativeLayout =
+        (RelativeLayout) layoutInflater.inflate(R.layout.widget_mine_item2, null);
 
     TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MineItemWidget);
     String type = typedArray.getString(R.styleable.MineItemWidget_type);
@@ -60,15 +60,15 @@ public class MineItemWidget extends LinearLayout {
       if (width > 0 && height > 0) {
         rlp = new RelativeLayout.LayoutParams(width, height);
       } else {
-        rlp = new RelativeLayout.LayoutParams(
-          ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
       }
 
       rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
       rlp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-//      if (iconMargin > 0) {
-//        rlp.setMargins(iconMargin, iconMargin, 0, iconMargin);
-//      }
+      //      if (iconMargin > 0) {
+      //        rlp.setMargins(iconMargin, iconMargin, 0, iconMargin);
+      //      }
       relativeLayout.addView(imageView, rlp);
       relativeLayout.addView(shortNameTv, rlp);
 
@@ -81,8 +81,9 @@ public class MineItemWidget extends LinearLayout {
       }
     } else if ("text".equals(type)) {
       rightTv = new TextView(context);
-      RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      RelativeLayout.LayoutParams rlp =
+          new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+              ViewGroup.LayoutParams.WRAP_CONTENT);
       rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
       rlp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
       relativeLayout.addView(rightTv, rlp);
@@ -90,7 +91,8 @@ public class MineItemWidget extends LinearLayout {
       throw new IllegalArgumentException("type 不正确");
     }
 
-    ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT);
     addView(relativeLayout, vlp);
   }
 

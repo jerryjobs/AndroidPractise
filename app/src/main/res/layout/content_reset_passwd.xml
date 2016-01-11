@@ -8,7 +8,8 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".modules.user.activity.ResetPasswdActivity"
-    tools:showIn="@layout/activity_reset_passwd">
+    tools:showIn="@layout/activity_reset_passwd"
+    >
 
-    <include layout="@layout/view_phone_related"/>
+  <include layout="@layout/view_phone_related"/>
 </LinearLayout>

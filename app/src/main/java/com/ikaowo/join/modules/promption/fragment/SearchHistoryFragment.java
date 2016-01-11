@@ -7,42 +7,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.ikaowo.join.BaseFragment;
 import com.ikaowo.join.R;
 import com.ikaowo.join.modules.promption.activity.SearchPromptionActivity;
 import com.ikaowo.join.modules.promption.widget.SearchHistory;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 import com.umeng.analytics.MobclickAgent;
-
 import java.util.Collections;
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by weibo on 15-10-13.
  */
 public class SearchHistoryFragment extends BaseFragment {
-  @Bind(R.id.history_view_container)
-  protected LinearLayout mContanerView;
+  @Bind(R.id.history_view_container) protected LinearLayout mContanerView;
 
-  @Bind(R.id.history_view_clear_btn)
-  protected Button mClearBtn;
+  @Bind(R.id.history_view_clear_btn) protected Button mClearBtn;
 
   private SharedPreferenceHelper preferenceHelper;
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     preferenceHelper = SharedPreferenceHelper.getInstance();
   }
 
-  @Nullable
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_search_history, container, false);
     ButterKnife.bind(this, view);
 
@@ -50,33 +43,28 @@ public class SearchHistoryFragment extends BaseFragment {
     return view;
   }
 
-  @Override
-  public void onHiddenChanged(boolean hidden) {
+  @Override public void onHiddenChanged(boolean hidden) {
     super.onHiddenChanged(hidden);
     if (!hidden) {
       initSearchHistory();
     }
   }
 
-  @Override
-  public void onPause() {
+  @Override public void onPause() {
     super.onPause();
     MobclickAgent.onPageEnd("SearchHistory");
   }
 
-  @Override
-  public String getPageName() {
+  @Override public String getPageName() {
     return "SearchHistoryFragment";
   }
 
-  @Override
-  public void onResume() {
+  @Override public void onResume() {
     super.onResume();
     MobclickAgent.onPageStart("SearchHistory");
   }
 
-  @OnClick(R.id.history_view_clear_btn)
-  public void clearSearchHistory() {
+  @OnClick(R.id.history_view_clear_btn) public void clearSearchHistory() {
     preferenceHelper.clearSearcHistory(getActivity());
     mContanerView.removeAllViews();
     mClearBtn.setVisibility(View.GONE);
@@ -92,8 +80,7 @@ public class SearchHistoryFragment extends BaseFragment {
         final SearchHistory searchHistory = new SearchHistory(getActivity());
         final View historyView = searchHistory.getView(history);
         searchHistory.setDeleteListener(new SearchHistory.DeleteListener() {
-          @Override
-          public void delete() {
+          @Override public void delete() {
             preferenceHelper.removeHistory(getActivity(), searchHistory.getText());
             mContanerView.removeView(historyView);
             if (mContanerView.getChildCount() == 0) {
@@ -102,8 +89,7 @@ public class SearchHistoryFragment extends BaseFragment {
           }
         });
         searchHistory.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
+          @Override public void onClick(View v) {
             ((SearchPromptionActivity) getActivity()).setSearchQuery(searchHistory.getText());
           }
         });

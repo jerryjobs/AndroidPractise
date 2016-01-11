@@ -1,117 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp">
-        <TextView
-            android:id="@+id/company_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:textSize="12sp"
-            android:textColor="#999"/>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/content_ic_location" />
-
-            <TextView
-                android:id="@+id/promption_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/c9"
-                android:layout_marginLeft="6dp"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/content_ic_time"
-                android:textSize="12sp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="6dp" />
-
-            <TextView
-                android:id="@+id/promption_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="12sp"
-                android:textColor="#999"/>
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp">
-        <ImageView
-            android:id="@+id/promption_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/brand_icon_default" />
-
-        <ImageView
-            android:id="@+id/state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:visibility="gone"
-            android:src="@drawable/content_ic_join_ing"
-            />
-    </FrameLayout>
-
-
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginBottom="8dp"
+      android:layout_marginLeft="12dp"
+      android:layout_marginRight="12dp"
+      android:layout_marginTop="20dp"
+      >
 
     <TextView
-        android:id="@+id/promption_title"
+        android:id="@+id/company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="#999"
+        android:textSize="12sp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        >
+
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:src="@drawable/content_ic_location"
+          />
+
+      <TextView
+          android:id="@+id/promption_address"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_marginLeft="6dp"
+          android:textColor="@color/c9"
+          android:textSize="12sp"
+          />
+
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_marginLeft="16dp"
+          android:layout_marginRight="6dp"
+          android:src="@drawable/content_ic_time"
+          android:textSize="12sp"
+          />
+
+      <TextView
+          android:id="@+id/promption_time"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:textColor="#999"
+          android:textSize="12sp"
+          />
+    </LinearLayout>
+
+  </RelativeLayout>
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="12dp"
+      android:layout_marginRight="12dp"
+      >
+
+    <ImageView
+        android:id="@+id/promption_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="17sp"
-        android:textColor="@color/c3"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="听书会：韩娱经济学"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="12dp"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/brand_icon_default"
+        />
 
-    <TextView
-        android:id="@+id/promption_content"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:lineSpacingMultiplier="1.3"
-        android:ellipsize="end"
-        android:textColor="@color/c10"
-        android:text="韩娱制造”在中国的火爆并不是单一偶发性的事件，而是“韩娱”庞大工业化，商业化体系和产业链多年经营的必然成果。“韩娱”从业人员累积的方法论，和如制造业一样精细化运营的产业体系，保证了他们能源源不断地推出下一部风靡全球的韩剧、下一位引起全球粉丝尖叫的k—pop偶像、下一个引起全球竞价购买的综艺节目。"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="18dp"/>
+        android:layout_marginTop="12dp"
+        android:src="@drawable/content_ic_join_ing"
+        android:visibility="gone"
+        />
+  </FrameLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/c5"/>
+
+  <TextView
+      android:id="@+id/promption_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="12dp"
+      android:layout_marginLeft="12dp"
+      android:layout_marginRight="12dp"
+      android:layout_marginTop="16dp"
+      android:ellipsize="end"
+      android:maxLines="1"
+      android:text="听书会：韩娱经济学"
+      android:textColor="@color/c3"
+      android:textSize="17sp"
+      />
+
+  <TextView
+      android:id="@+id/promption_content"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="18dp"
+      android:layout_marginLeft="12dp"
+      android:layout_marginRight="12dp"
+      android:ellipsize="end"
+      android:lineSpacingMultiplier="1.3"
+      android:maxLines="2"
+      android:text="韩娱制造”在中国的火爆并不是单一偶发性的事件，而是“韩娱”庞大工业化，商业化体系和产业链多年经营的必然成果。“韩娱”从业人员累积的方法论，和如制造业一样精细化运营的产业体系，保证了他们能源源不断地推出下一部风靡全球的韩剧、下一位引起全球粉丝尖叫的k—pop偶像、下一个引起全球竞价购买的综艺节目。"
+      android:textColor="@color/c10"
+      />
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="0.5dp"
+      android:background="@color/c5"
+      />
 </LinearLayout>

@@ -3,7 +3,6 @@ package com.ikaowo.join.model.response;
 import com.google.gson.annotations.SerializedName;
 import com.ikaowo.join.model.Expert;
 import com.ikaowo.join.model.base.BaseListResponse;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,10 +21,8 @@ public class FollowingAndRecExpertResponse extends BaseListResponse {
   }
 
   public class ExtertList implements Serializable {
-    @SerializedName("list")
-    public List<Expert> expertList;
-    @SerializedName("recList")
-    public List<Expert> recExpertList;
+    @SerializedName("list") public List<Expert> expertList;
+    @SerializedName("recList") public List<Expert> recExpertList;
     public int totals;
   }
 }

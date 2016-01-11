@@ -7,16 +7,16 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.ikaowo.join.R;
 
 /**
  * Created by weibo on 15-12-17.
  */
 public class AlphaSlideBar extends View {
-  private String[] alphas = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
-    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-    "W", "X", "Y", "Z", "#"};
+  private String[] alphas = {
+      "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
+      "T", "U", "V", "W", "X", "Y", "Z", "#"
+  };
 
   private Paint paint = new Paint();
   private int choosedPos = -1;
@@ -34,8 +34,7 @@ public class AlphaSlideBar extends View {
     super(context, attrs, defStyleAttr);
   }
 
-  @Override
-  protected void onDraw(Canvas canvas) {
+  @Override protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
 
     int width = getWidth();
@@ -60,8 +59,7 @@ public class AlphaSlideBar extends View {
     }
   }
 
-  @Override
-  public boolean onTouchEvent(MotionEvent event) {
+  @Override public boolean onTouchEvent(MotionEvent event) {
     final int action = event.getAction();
     final float y = event.getY();
     final int oldChoosedPos = choosedPos;

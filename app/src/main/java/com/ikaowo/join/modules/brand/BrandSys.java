@@ -2,7 +2,6 @@ package com.ikaowo.join.modules.brand;
 
 import android.content.Context;
 import android.view.ViewGroup;
-
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JFragment;
 import com.ikaowo.join.R;
@@ -17,29 +16,23 @@ public class BrandSys extends BaseSys {
     super(context, tabContainer, listener);
   }
 
-  @Override
-  protected JFragment createFragment() {
+  @Override protected JFragment createFragment() {
     return new BrandListFragment();
   }
 
-  @Override
-  protected int getTabIcon() {
+  @Override protected int getTabIcon() {
     return R.drawable.company_tab_icon;
   }
 
-  @Override
-  protected String getTabTitle() {
+  @Override protected String getTabTitle() {
     return context.getString(R.string.title_brand);
   }
 
-  @Override
-  protected String getActionBarTitle() {
+  @Override protected String getActionBarTitle() {
     return context.getResources().getString(R.string.title_brand);
   }
 
-  @Override
-  public String getTag() {
+  @Override public String getTag() {
     return "BrandSys";
   }
-
 }

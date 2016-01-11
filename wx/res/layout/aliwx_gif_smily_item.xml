@@ -5,12 +5,14 @@
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:gravity="center">
+    android:gravity="center"
+    >
 
-    <ImageView
-        android:id="@+id/gif"
-        android:layout_width="@dimen/aliwx_gif_item_size"
-        android:layout_gravity="center_vertical"
-        android:layout_height="@dimen/aliwx_gif_item_size"/>
+  <ImageView
+      android:id="@+id/gif"
+      android:layout_width="@dimen/aliwx_gif_item_size"
+      android:layout_height="@dimen/aliwx_gif_item_size"
+      android:layout_gravity="center_vertical"
+      />
 
 </LinearLayout>

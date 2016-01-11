@@ -2,7 +2,6 @@ package com.ikaowo.join.modules.mine;
 
 import android.content.Context;
 import android.view.ViewGroup;
-
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JFragment;
@@ -20,15 +19,15 @@ public class MineSys extends BaseSys {
     super(context, tabContainer, listener);
   }
 
-  @Override
-  protected JFragment createFragment() {
+  @Override protected JFragment createFragment() {
     return new MineFragment();
   }
 
   protected JInterceptor.Stub createInterceptor() {
     return new JInterceptor.Stub() {
       public boolean check() {
-        UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+        UserService userService =
+            JApplication.getJContext().getServiceByInterface(UserService.class);
         if (!userService.isLogined()) {
           userService.goToSignin(context);
         } else {
@@ -39,29 +38,23 @@ public class MineSys extends BaseSys {
     };
   }
 
-  @Override
-  protected int getTabIcon() {
+  @Override protected int getTabIcon() {
     return R.drawable.mine_tab_icon;
   }
 
-  @Override
-  protected String getTabTitle() {
+  @Override protected String getTabTitle() {
     return context.getString(R.string.title_mine);
   }
 
-  @Override
-  protected String getActionBarTitle() {
+  @Override protected String getActionBarTitle() {
     return context.getResources().getString(R.string.title_mine);
   }
 
-  @Override
-  public int getMenu() {
+  @Override public int getMenu() {
     return R.menu.menu_me;
   }
 
-  @Override
-  public String getTag() {
+  @Override public String getTag() {
     return "MineSys";
   }
-
 }

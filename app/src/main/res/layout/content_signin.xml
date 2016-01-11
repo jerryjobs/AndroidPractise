@@ -4,76 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingLeft="40dp"
     android:paddingRight="40dp"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ikaowo.join.MainActivity"
-    tools:showIn="@layout/activity_signin">
+    tools:showIn="@layout/activity_signin"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:text="@string/app_name"/>
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginTop="80dp"
+      android:text="@string/app_name"
+      android:textColor="@color/colorPrimary"
+      android:textSize="30sp"
+      android:textStyle="bold"
+      />
 
-    <com.ikaowo.join.modules.user.widget.DeletableEditTextView
-        android:id="@+id/name_et"
-        android:hint="@string/phone"
-        app:bottom_line_color="@color/c1"
-        android:layout_marginTop="20dp"
-        android:inputType="number"
-        android:textSize="14sp"
-        android:layout_width="match_parent"
-        android:maxLength="11"
-        android:maxLines="1"
-        android:layout_height="50dp" />
+  <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+      android:id="@+id/name_et"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="20dp"
+      android:hint="@string/phone"
+      android:inputType="number"
+      android:maxLength="11"
+      android:maxLines="1"
+      android:textSize="14sp"
+      app:bottom_line_color="@color/c1"
+      />
 
-    <com.ikaowo.join.modules.user.widget.DeletableEditTextView
-        android:id="@+id/password"
-        android:hint="@string/password"
-        app:bottom_line_color="@color/c1"
-        android:layout_marginTop="20dp"
-        android:textSize="14sp"
-        android:maxLines="1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+  <com.ikaowo.join.modules.user.widget.DeletableEditTextView
+      android:id="@+id/password"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="20dp"
+      android:hint="@string/password"
+      android:maxLines="1"
+      android:textSize="14sp"
+      app:bottom_line_color="@color/c1"
+      />
 
-    <TextView
-        android:id="@+id/resetpasswd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/forget_passwd"/>
+  <TextView
+      android:id="@+id/resetpasswd"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginBottom="24dp"
+      android:layout_marginTop="24dp"
+      android:text="@string/forget_passwd"
+      />
 
-    <TextView
-        android:id="@+id/login_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="18sp"
-        android:background="@drawable/btn_bg_dark"
-        android:textColor="@android:color/white"
-        android:text="@string/login"/>
+  <TextView
+      android:id="@+id/login_tv"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/btn_bg_dark"
+      android:gravity="center"
+      android:paddingBottom="10dp"
+      android:paddingTop="10dp"
+      android:text="@string/login"
+      android:textColor="@android:color/white"
+      android:textSize="18sp"
+      />
 
-    <TextView
-        android:id="@+id/signup_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/c1"
-        android:text="@string/signup"/>
+  <TextView
+      android:id="@+id/signup_tv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginTop="10dp"
+      android:paddingBottom="10dp"
+      android:paddingTop="10dp"
+      android:text="@string/signup"
+      android:textColor="@color/c1"
+      />
 
 </LinearLayout>

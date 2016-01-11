@@ -31,8 +31,7 @@ import com.ikaowo.join.network.VerifyCodeInterface;
  * Created by weibo on 15-12-1.
  */
 public class KwMarketApplication extends JApplication {
-  @Override
-  public void onCreate() {
+  @Override public void onCreate() {
     super.onCreate();
     //Application.onCreate中，首先执行这部分代码, 因为，如果在":TCMSSevice"进程中，无需进行openIM和app业务的初始化，以节省内存
     //todo 特别注意:这段代码不能封装到其他方法中，必须在onCreate顶层代码中!
@@ -45,18 +44,22 @@ public class KwMarketApplication extends JApplication {
     InitHelper.initYWSDK(this);
   }
 
-  @Override
-  public void registerService(JContext context) {
-    context.registerService(JServiceInfo.createServiceInfo(UserService.class, new UserServiceImpl()));
-    context.registerService(JServiceInfo.createServiceInfo(PromptionService.class, new PromptionServiceImpl()));
-    context.registerService(JServiceInfo.createServiceInfo(WebViewService.class, new WebViewServiceImpl()));
-    context.registerService(JServiceInfo.createServiceInfo(BrandService.class, new BrandServiceImpl()));
-    context.registerService(JServiceInfo.createServiceInfo(MineService.class, new MineServiceImpl()));
-    context.registerService(JServiceInfo.createServiceInfo(NotificationService.class, new NotificationServiceImpl()));
+  @Override public void registerService(JContext context) {
+    context.registerService(
+        JServiceInfo.createServiceInfo(UserService.class, new UserServiceImpl()));
+    context.registerService(
+        JServiceInfo.createServiceInfo(PromptionService.class, new PromptionServiceImpl()));
+    context.registerService(
+        JServiceInfo.createServiceInfo(WebViewService.class, new WebViewServiceImpl()));
+    context.registerService(
+        JServiceInfo.createServiceInfo(BrandService.class, new BrandServiceImpl()));
+    context.registerService(
+        JServiceInfo.createServiceInfo(MineService.class, new MineServiceImpl()));
+    context.registerService(
+        JServiceInfo.createServiceInfo(NotificationService.class, new NotificationServiceImpl()));
   }
 
-  @Override
-  public void registerNetworkService(NetworkManager networkManager) {
+  @Override public void registerNetworkService(NetworkManager networkManager) {
     networkManager.registerService(TestInterface.class);
     networkManager.registerService(QiniuInterface.class);
     networkManager.registerService(BrandInterface.class);
@@ -67,8 +70,7 @@ public class KwMarketApplication extends JApplication {
     networkManager.registerService(NotificationInterface.class);
   }
 
-  @Override
-  public String getBaseUrl() {
+  @Override public String getBaseUrl() {
     return "http://mars.test.ikaowo.com/";
   }
 }

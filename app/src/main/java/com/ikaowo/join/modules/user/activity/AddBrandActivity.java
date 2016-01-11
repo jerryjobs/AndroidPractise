@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseActivity;
@@ -25,22 +27,15 @@ import com.ikaowo.join.modules.user.helper.InputFiledHelper;
 import com.ikaowo.join.modules.user.widget.CustomEditTextView;
 import com.ikaowo.join.util.QiniuUploadHelper;
 import com.squareup.picasso.Picasso;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by weibo on 15-12-16.
  */
 public class AddBrandActivity extends BaseActivity implements PhotoService.UploadFinishListener {
-  @Bind(R.id.brand_icon)
-  ImageView brandIconIv;
-  @Bind(R.id.brand_name)
-  CustomEditTextView brandNameTv;
-  @Bind(R.id.brand_licence)
-  CustomEditTextView brandLicenceTv;
+  @Bind(R.id.brand_icon) ImageView brandIconIv;
+  @Bind(R.id.brand_name) CustomEditTextView brandNameTv;
+  @Bind(R.id.brand_licence) CustomEditTextView brandLicenceTv;
 
   private PhotoService photoService = new PhotoService(AddBrandActivity.this);
   private InputFiledHelper inputHelper = new InputFiledHelper();
@@ -54,8 +49,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
   private ImageView targetIv;
   private QiniuUploadHelper qiniuUploadHelper;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_add_branch);
     ButterKnife.bind(this);
@@ -67,24 +61,20 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     setupView();
     setupOptionMenu();
     displayHomeAsIndicator(R.drawable.nav_ic_close_white);
-
   }
 
   private void setupView() {
     brandNameTv.setTitle(getString(R.string.brand_name));
     brandNameEt = inputHelper.getEditText(this, R.string.input_hint, new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
       }
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
       }
 
-      @Override
-      public void afterTextChanged(Editable s) {
+      @Override public void afterTextChanged(Editable s) {
         brandName = s.toString();
         invalidateOptionsMenu();
       }
@@ -94,8 +84,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     brandLicenceIv = new ImageView(this);
     brandLicenceIv.setImageResource(R.drawable.register_uppic);
     brandLicenceIv.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         hideInput(AddBrandActivity.this, toolbar);
         if (licenceImgUri != null) {
           photoService.viewPhoto(AddBrandActivity.this, licenceImgUri);
@@ -107,8 +96,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     });
     brandLicenceTv.setTitle(getString(R.string.licence));
     brandLicenceTv.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         hideInput(AddBrandActivity.this, toolbar);
         clickPos = ClickPos.BRAND_LICENCE;
         photoService.takePhotoAnySize(AddBrandActivity.this, toolbar);
@@ -122,21 +110,19 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     invalidateOptionsMenu();
   }
 
-  @OnClick(R.id.brand_icon)
-  public void onBrandIcon() {
+  @OnClick(R.id.brand_icon) public void onBrandIcon() {
     hideInput(this, toolbar);
     clickPos = ClickPos.BRAND_ICON;
     photoService.takePhoto(AddBrandActivity.this, toolbar, null, false, 4, 3);
   }
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    menu.getItem(0).setEnabled(!TextUtils.isEmpty(brandName) && iconImgUri != null && licenceImgUri != null);
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    menu.getItem(0)
+        .setEnabled(!TextUtils.isEmpty(brandName) && iconImgUri != null && licenceImgUri != null);
     return true;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_submit:
         submit();
@@ -152,24 +138,20 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     brand.brand_logo = brandIconIv.getTag().toString();
 
     EventBus.getDefault().post(new AddBrandCallback() {
-      @Override
-      public Brand addBrand() {
+      @Override public Brand addBrand() {
         return brand;
       }
     });
 
-
     EventBus.getDefault().post(new ClosePageCallback() {
-      @Override
-      public boolean close() {
+      @Override public boolean close() {
         return true;
       }
     });
     finish();
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "AddBrand";
   }
 
@@ -178,8 +160,7 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
     qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
 
-  @Override
-  public void onUpLoadImageFinish(String url, Uri imgUri) {
+  @Override public void onUpLoadImageFinish(String url, Uri imgUri) {
     if (clickPos != null) {
       invalidateOptionsMenu();
       switch (clickPos) {
@@ -199,14 +180,11 @@ public class AddBrandActivity extends BaseActivity implements PhotoService.Uploa
           iconImgUri = imgUri;
           break;
       }
-      Picasso.with(this)
-        .load(imgUri).centerCrop().resize(width, height).into(targetIv);
-
+      Picasso.with(this).load(imgUri).centerCrop().resize(width, height).into(targetIv);
     }
   }
 
-  @Override
-  public void onUpLoadImageFailed() {
+  @Override public void onUpLoadImageFailed() {
     Log.e(getTag(), "failed");
   }
 

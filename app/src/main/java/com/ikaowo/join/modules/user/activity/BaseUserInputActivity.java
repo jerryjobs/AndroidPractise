@@ -15,7 +15,9 @@ import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
@@ -31,35 +33,27 @@ import com.ikaowo.join.util.QiniuUploadHelper;
 import com.ikaowo.join.util.VerifyCodeHelper;
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Created by weibo on 15-12-11.
  */
 public abstract class BaseUserInputActivity extends BaseEventBusActivity
-  implements TextWatcher, PhotoService.UploadFinishListener, DeletableEditTextView.TextChangeListener {
+    implements TextWatcher, PhotoService.UploadFinishListener,
+    DeletableEditTextView.TextChangeListener {
 
-  protected UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+  protected UserService userService =
+      JApplication.getJContext().getServiceByInterface(UserService.class);
   protected InputFiledHelper inputHelper = new InputFiledHelper();
   protected PhotoService photoService = new PhotoService(BaseUserInputActivity.this);
   protected VerifyCodeHelper verifyCodeHelper;
   protected QiniuUploadHelper qiniuUploadHelper;
 
-  @Bind(R.id.divider)
-  View divider;
-  @Bind(R.id.brand_name)
-  CustomEditTextView brandNameTv;
-  @Bind(R.id.user_name)
-  CustomEditTextView userNameTv;
-  @Bind(R.id.user_title)
-  CustomEditTextView userTitleTv;
-  @Bind(R.id.user_card)
-  CustomEditTextView userCardTv;
+  @Bind(R.id.divider) View divider;
+  @Bind(R.id.brand_name) CustomEditTextView brandNameTv;
+  @Bind(R.id.user_name) CustomEditTextView userNameTv;
+  @Bind(R.id.user_title) CustomEditTextView userTitleTv;
+  @Bind(R.id.user_card) CustomEditTextView userCardTv;
 
-  @Bind(R.id.phone_viewstub)
-  ViewStub phoneViewStub;
+  @Bind(R.id.phone_viewstub) ViewStub phoneViewStub;
 
   PhoneViewHolder phoneViewHoder;
 
@@ -79,8 +73,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
 
   int width = JApplication.getJContext().dip2px(48);
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_signup);
     ButterKnife.bind(this);
@@ -95,7 +88,6 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     setupOptionMenu();
   }
 
-
   protected void setupView() {
 
     brandNameTv.setTitle(getString(R.string.brand_name));
@@ -103,8 +95,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     brandNameEt.setFocusable(false);
     brandNameEt.setTextColor(ContextCompat.getColor(this, R.color.c1));
     brandNameTv.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         chooseBrand();
       }
     });
@@ -123,8 +114,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     userCardIv.setImageResource(R.drawable.register_uppic);
 
     userCardIv.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         hideInput(BaseUserInputActivity.this, toolbar);
         if (imageUri != null) {
           photoService.viewPhoto(BaseUserInputActivity.this, imageUri);
@@ -144,26 +134,21 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     invalidateOptionsMenu();
   }
 
-  @OnClick(R.id.brand_name)
-  public void chooseBrand() {
+  @OnClick(R.id.brand_name) public void chooseBrand() {
     userService.chooseBrandList(this);
   }
 
-
-  @OnClick(R.id.user_card)
-  public void takePhoto() {
+  @OnClick(R.id.user_card) public void takePhoto() {
     hideInput(this, toolbar);
     photoService.takePhotoAnySize(BaseUserInputActivity.this, toolbar);
   }
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
     menu.getItem(0).setEnabled(prepareOptionMenu());
     return true;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_submit:
         submit();
@@ -181,9 +166,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     boolean userTitleInputed = !TextUtils.isEmpty(userTitle);
     boolean userCardInputed = !TextUtils.isEmpty(userCardUrl);
 
-
     return brandNameInputed && userNameInputed && userTitleInputed && userCardInputed;
-
   }
 
   protected abstract void submit();
@@ -193,35 +176,27 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
 
-
-  @Override
-  public void onUpLoadImageFinish(String url, Uri imgUri) {
+  @Override public void onUpLoadImageFinish(String url, Uri imgUri) {
 
     imageUri = imgUri;
-    Picasso.with(this)
-      .load(imgUri).centerCrop().resize(width, width).into(userCardIv);
+    Picasso.with(this).load(imgUri).centerCrop().resize(width, width).into(userCardIv);
     userCardUrl = url;
     invalidateOptionsMenu();
   }
 
-  @Override
-  public void onUpLoadImageFailed() {
+  @Override public void onUpLoadImageFailed() {
 
   }
 
-
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
   }
 
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
   }
 
-  @Override
-  public void afterTextChanged(Editable s) {
+  @Override public void afterTextChanged(Editable s) {
     invalidateOptionsMenu();
     if (phoneViewHoder != null) {
       String phone = phoneViewHoder.phoneEt.getText().toString().trim();
@@ -237,8 +212,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     }
   }
 
-  @Override
-  public void onChanged(Editable s) {
+  @Override public void onChanged(Editable s) {
     invalidateOptionsMenu();
   }
 
@@ -255,15 +229,11 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
   }
 
   class PhoneViewHolder {
-    @Bind(R.id.phone)
-    DeletableEditTextView phoneEt;
-    @Bind(R.id.verify_code)
-    DeletableEditTextView verifyCodeEt;
-    @Bind(R.id.password)
-    DeletableEditTextView passwordEt;
+    @Bind(R.id.phone) DeletableEditTextView phoneEt;
+    @Bind(R.id.verify_code) DeletableEditTextView verifyCodeEt;
+    @Bind(R.id.password) DeletableEditTextView passwordEt;
 
-    @Bind(R.id.verify_btn)
-    TextView getVerifyBtn;
+    @Bind(R.id.verify_btn) TextView getVerifyBtn;
 
     public PhoneViewHolder(View phoneView) {
       ButterKnife.bind(this, phoneView);

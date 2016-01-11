@@ -21,7 +21,7 @@ public class JDialogHelper {
 
   public JDialogHelper(Context context) {
     if (context instanceof Activity) {
-      this.activity = (Activity)context;
+      this.activity = (Activity) context;
     }
   }
 
@@ -38,12 +38,11 @@ public class JDialogHelper {
   }
 
   public void showProgressDialog(final String msg, final boolean cancelable,
-                                 final DialogInterface.OnCancelListener cancelListener) {
+      final DialogInterface.OnCancelListener cancelListener) {
     dismissProgressDialog();
     activity.runOnUiThread(new Runnable() {
 
-      @Override
-      public void run() {
+      @Override public void run() {
         if (activity == null || activity.isFinishing()) {
           return;
         }
@@ -56,23 +55,21 @@ public class JDialogHelper {
     });
   }
 
-
-
-  public void showConfirmDialog(final Context context, final String msg, final DoAfterClickCallback callback) {
-    confirmDialog  = createDialog(context, "注意", msg, new String[] {"确定"},
-            new View.OnClickListener[] {
-                    new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                        if (confirmDialog != null && confirmDialog.isShowing()) {
-                          confirmDialog.dismiss();
-                          if(callback != null) {
-                            callback.doAction();
-                          }
-                        }
-                      }
-                    }
-            });
+  public void showConfirmDialog(final Context context, final String msg,
+      final DoAfterClickCallback callback) {
+    confirmDialog =
+        createDialog(context, "注意", msg, new String[] { "确定" }, new View.OnClickListener[] {
+            new View.OnClickListener() {
+              @Override public void onClick(View v) {
+                if (confirmDialog != null && confirmDialog.isShowing()) {
+                  confirmDialog.dismiss();
+                  if (callback != null) {
+                    callback.doAction();
+                  }
+                }
+              }
+            }
+        });
     confirmDialog.show();
   }
 
@@ -82,10 +79,8 @@ public class JDialogHelper {
 
   public void dismissProgressDialog() {
     activity.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        if (dialog != null && dialog.isShowing()
-          && !activity.isFinishing()) {
+      @Override public void run() {
+        if (dialog != null && dialog.isShowing() && !activity.isFinishing()) {
           dialog.dismiss();
           dialog = null;
         }
@@ -93,15 +88,14 @@ public class JDialogHelper {
     });
   }
 
-  public Dialog createDialog(Context context, String title, String content,
-                             String[] buttons, View.OnClickListener[] listeners) {
+  public Dialog createDialog(Context context, String title, String content, String[] buttons,
+      View.OnClickListener[] listeners) {
     AlertDialog.Builder ab = getDialogBuilder(context, title, content);
     return getDialog(ab, buttons, listeners);
   }
 
-  public Dialog createDialog(Context context
-    , String title, View contentView, String[] buttons,
-                             View.OnClickListener[] listeners) {
+  public Dialog createDialog(Context context, String title, View contentView, String[] buttons,
+      View.OnClickListener[] listeners) {
     TextView titleView = getTitleView(context, title);
     AlertDialog.Builder ab = getDialogBuilder(context, titleView, contentView);
 
@@ -115,8 +109,10 @@ public class JDialogHelper {
     return builder;
   }
 
-  private AlertDialog.Builder getDialogBuilder(Context context, TextView titleView, View contentView) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+  private AlertDialog.Builder getDialogBuilder(Context context, TextView titleView,
+      View contentView) {
+    AlertDialog.Builder builder =
+        new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
     int top = (int) context.getResources().getDimension(R.dimen.abc_dialog_padding_top_material);
     builder.setCustomTitle(titleView).setView(contentView, top, top, top, top);
     builder.setCancelable(true);
@@ -124,7 +120,7 @@ public class JDialogHelper {
   }
 
   private void setupDialogBuilder(AlertDialog.Builder builder, String[] buttons,
-                                  View.OnClickListener[] listeners) {
+      View.OnClickListener[] listeners) {
 
     if (buttons.length != listeners.length) {
       throw new IllegalArgumentException("buttons's size is not equals listeners's size");
@@ -154,15 +150,14 @@ public class JDialogHelper {
 
     builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
 
-      @Override
-      public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+      @Override public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
         return keyCode == KeyEvent.KEYCODE_BACK;
       }
     });
   }
 
-  private Dialog getDialog(AlertDialog.Builder ab,
-                           final String[] buttons, final View.OnClickListener[] listeners) {
+  private Dialog getDialog(AlertDialog.Builder ab, final String[] buttons,
+      final View.OnClickListener[] listeners) {
     boolean exception = false;
     try {
       setupDialogBuilder(ab, buttons, listeners);
@@ -172,8 +167,7 @@ public class JDialogHelper {
       final AlertDialog dialog = ab.create();
 
       dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-        @Override
-        public void onShow(DialogInterface dialogInterface) {
+        @Override public void onShow(DialogInterface dialogInterface) {
           Button positiveBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
           Button negativeBtn = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
           Button neutralBtn = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
@@ -204,13 +198,13 @@ public class JDialogHelper {
       return;
     }
     button.setOnClickListener(listener);
-
   }
 
   private TextView getTitleView(Context context, String title) {
     TextView titleView = new TextView(context);
     float top = context.getResources().getDimension(R.dimen.abc_dialog_padding_top_material);
-    titleView.setTextColor(context.getResources().getColor(R.color.abc_primary_text_material_light));
+    titleView.setTextColor(
+        context.getResources().getColor(R.color.abc_primary_text_material_light));
     titleView.setText(title);
     titleView.setPadding((int) (top), (int) top, (int) top, 0);
 

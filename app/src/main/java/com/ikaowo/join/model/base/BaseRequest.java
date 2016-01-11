@@ -1,7 +1,6 @@
 package com.ikaowo.join.model.base;
 
 import com.common.framework.util.JLog;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ public class BaseRequest implements Serializable {
         f.setAccessible(true);
         map.put(f.getName(), f.get(this));
       }
-
     } catch (IllegalArgumentException e) {
       JLog.printStackTraceAndMore(e);
     } catch (IllegalAccessException e) {

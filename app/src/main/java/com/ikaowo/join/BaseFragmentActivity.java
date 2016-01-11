@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 import com.common.framework.core.JFragment;
 import com.common.framework.core.JFragmentActivity;
 import com.umeng.analytics.MobclickAgent;
-
 import java.util.List;
-
 
 /**
  * 含有Fragment的Activity继承这个，跟BaseActivity区别是
@@ -20,8 +17,7 @@ import java.util.List;
  */
 public abstract class BaseFragmentActivity extends JFragmentActivity {
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
   }
@@ -30,7 +26,8 @@ public abstract class BaseFragmentActivity extends JFragmentActivity {
     updateFragment(fragmentContainerId, fragment, 0, 0);
   }
 
-  public void updateFragment(int fragmentContainerId, BaseFragment fragment, int aniEnter, int aniExit) {
+  public void updateFragment(int fragmentContainerId, BaseFragment fragment, int aniEnter,
+      int aniExit) {
     FragmentManager manager = getSupportFragmentManager();
     FragmentTransaction transaction = manager.beginTransaction();
     transaction.setCustomAnimations(aniEnter, aniExit);
@@ -55,16 +52,13 @@ public abstract class BaseFragmentActivity extends JFragmentActivity {
     transaction.commitAllowingStateLoss();
   }
 
-  @Override
-  protected void onResume() {
+  @Override protected void onResume() {
     super.onResume();
     MobclickAgent.onResume(this);
   }
 
-  @Override
-  protected void onPause() {
+  @Override protected void onPause() {
     super.onPause();
     MobclickAgent.onPause(this);
   }
-
 }

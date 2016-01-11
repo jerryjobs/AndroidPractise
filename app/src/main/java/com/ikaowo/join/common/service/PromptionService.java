@@ -1,8 +1,6 @@
 package com.ikaowo.join.common.service;
 
-
 import android.content.Context;
-
 import com.common.framework.core.JCommonService;
 
 /**

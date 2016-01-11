@@ -2,55 +2,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container"
     android:background="@android:color/white"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".modules.user.activity.SignupActivity"
-    tools:showIn="@layout/activity_signup">
+    tools:showIn="@layout/activity_signup"
+    >
 
-    <LinearLayout
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:paddingLeft="20dp"
+      android:paddingRight="20dp"
+      >
+
+    <com.ikaowo.join.modules.user.widget.CustomEditTextView
+        android:id="@+id/brand_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:orientation="vertical">
-        <com.ikaowo.join.modules.user.widget.CustomEditTextView
-            android:id="@+id/brand_name"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        />
 
-        <com.ikaowo.join.modules.user.widget.CustomEditTextView
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-
-        <com.ikaowo.join.modules.user.widget.CustomEditTextView
-            android:id="@+id/user_title"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-
-
-        <com.ikaowo.join.modules.user.widget.CustomEditTextView
-            android:id="@+id/user_card"
-            android:layout_width="match_parent"
-            app:show_split="false"
-            android:layout_height="70dp"/>
-    </LinearLayout>
-
-    <View
-        android:id="@+id/divider"
+    <com.ikaowo.join.modules.user.widget.CustomEditTextView
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:visibility="gone"
-        android:background="@color/c6"/>
+        android:layout_height="50dp"
+        />
 
-    <ViewStub
-        android:id="@+id/phone_viewstub"
-        android:layout_height="wrap_content"
+    <com.ikaowo.join.modules.user.widget.CustomEditTextView
+        android:id="@+id/user_title"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout="@layout/view_phone_related"/>
+        android:layout_height="50dp"
+        />
+
+
+    <com.ikaowo.join.modules.user.widget.CustomEditTextView
+        android:id="@+id/user_card"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:show_split="false"
+        />
+  </LinearLayout>
+
+  <View
+      android:id="@+id/divider"
+      android:layout_width="match_parent"
+      android:layout_height="16dp"
+      android:background="@color/c6"
+      android:visibility="gone"
+      />
+
+  <ViewStub
+      android:id="@+id/phone_viewstub"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout="@layout/view_phone_related"
+      android:visibility="gone"
+      />
 </LinearLayout>

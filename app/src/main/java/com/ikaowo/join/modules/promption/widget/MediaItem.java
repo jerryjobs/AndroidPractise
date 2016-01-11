@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ikaowo.join.R;
 
 /**
@@ -43,7 +42,6 @@ public class MediaItem extends LinearLayout {
     editText = (AppCompatEditText) findViewById(R.id.media_url);
     editText.setSingleLine(true);
     titleTv = (TextView) findViewById(R.id.title);
-
   }
 
   public void setTitle(String title) {

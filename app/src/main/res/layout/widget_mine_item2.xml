@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="12dp"
-              android:background="?android:attr/selectableItemBackground">
-    <TextView
-        android:id="@+id/desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/c3"
-        android:textSize="15sp"
-        android:text="认证状态"
-        android:layout_centerVertical="true"
-        android:paddingRight="6dp"/>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    >
+
+  <TextView
+      android:id="@+id/desc"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:paddingRight="6dp"
+      android:text="认证状态"
+      android:textColor="@color/c3"
+      android:textSize="15sp"
+      />
 
 
 </RelativeLayout>

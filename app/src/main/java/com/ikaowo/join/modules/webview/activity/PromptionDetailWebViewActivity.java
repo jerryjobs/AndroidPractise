@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.common.framework.core.JApplication;
 import com.common.framework.umeng.UmengShareService;
 import com.ikaowo.join.R;
@@ -16,7 +15,6 @@ import com.ikaowo.join.model.response.PromptionResponse;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
-
 import retrofit.Call;
 
 /**
@@ -29,103 +27,96 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
   private int promptionId;
   private int showOptionMenu;
   private PromptionService promptionService;
-  private UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+  private UserService userService =
+      JApplication.getJContext().getServiceByInterface(UserService.class);
   private Dialog dialog;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
   }
 
-  @Override
-  protected void getIntentData() {
+  @Override protected void getIntentData() {
     if (getIntent().getExtras() == null) {
       return;
     }
     super.getIntentData();
     promptionId = intent.getIntExtra(Constant.PROMPTION_ID, 0);
 
-    PromptionInterface promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
+    PromptionInterface promptionInterface =
+        JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
     Call<PromptionResponse> call = promptionInterface.getPromption(promptionId);
-    JApplication.getNetworkManager().async(call, new KwMarketNetworkCallback<PromptionResponse>(this) {
+    JApplication.getNetworkManager()
+        .async(call, new KwMarketNetworkCallback<PromptionResponse>(this) {
 
-      @Override
-      public void onSuccess(PromptionResponse promptionResponse) {
-        Promption promption = null;
-        if (promptionResponse == null || (promption = promptionResponse.data) == null) {
-          return;
-        }
-
-        title = promption.title;
-        content = promption.content;
-        promptionBgUrl = promption.background;
-
-        boolean promptionShowEdit = Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
-          || Constant.PROMPTION_STATE_NEW.equalsIgnoreCase(promption.state);
-        if (userService.isLogined()) {
-          if (userService.getUserId() == promption.publishUid) {
-            if (promptionShowEdit) {
-              showOptionMenu = Constant.EDIT;
-            } else {
-              showOptionMenu = Constant.SHARE;
+          @Override public void onSuccess(PromptionResponse promptionResponse) {
+            Promption promption = null;
+            if (promptionResponse == null || (promption = promptionResponse.data) == null) {
+              return;
             }
-          } else {
-            if (promptionShowEdit) {
-              showOptionMenu = Constant.NONE;
+
+            title = promption.title;
+            content = promption.content;
+            promptionBgUrl = promption.background;
+
+            boolean promptionShowEdit =
+                Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
+                    || Constant.PROMPTION_STATE_NEW.equalsIgnoreCase(promption.state);
+            if (userService.isLogined()) {
+              if (userService.getUserId() == promption.publishUid) {
+                if (promptionShowEdit) {
+                  showOptionMenu = Constant.EDIT;
+                } else {
+                  showOptionMenu = Constant.SHARE;
+                }
+              } else {
+                if (promptionShowEdit) {
+                  showOptionMenu = Constant.NONE;
+                } else {
+                  showOptionMenu = Constant.SHARE;
+                }
+              }
             } else {
-              showOptionMenu = Constant.SHARE;
+              if (promptionShowEdit) { //
+                showOptionMenu = Constant.NONE;
+              } else {
+                showOptionMenu = Constant.SHARE;
+              }
+            }
+
+            if (showOptionMenu == Constant.SHARE) {
+              menuResId = R.menu.menu_promption_detail_share;
+            } else if (showOptionMenu == Constant.EDIT) {
+              menuResId = R.menu.menu_promption_detail_edit;
+            }
+            invalidateOptionsMenu();
+
+            if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)) {
+              new Handler().post(new Runnable() {
+                @Override public void run() {
+                  dialog = dialogHelper.createDialog(PromptionDetailWebViewActivity.this, "认证未通过",
+                      "认证没有通过，可以修改重新认证", new String[] { "取消", "前往修改" }, new View.OnClickListener[] {
+                          new View.OnClickListener() {
+                            @Override public void onClick(View v) {
+                              dialog.dismiss();
+                            }
+                          }, new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                          promptionService.goToEditPromptionActivity(
+                              PromptionDetailWebViewActivity.this, promptionId);
+                          dialog.dismiss();
+                        }
+                      }
+                      });
+                  dialog.show();
+                }
+              });
             }
           }
-        } else {
-          if (promptionShowEdit) { //
-            showOptionMenu = Constant.NONE;
-          } else {
-            showOptionMenu = Constant.SHARE;
-          }
-        }
-
-        if (showOptionMenu == Constant.SHARE) {
-          menuResId = R.menu.menu_promption_detail_share;
-        } else if (showOptionMenu == Constant.EDIT) {
-          menuResId = R.menu.menu_promption_detail_edit;
-        }
-        invalidateOptionsMenu();
-
-        if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)) {
-          new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-              dialog = dialogHelper.createDialog(PromptionDetailWebViewActivity.this,
-                "认证未通过", "认证没有通过，可以修改重新认证",
-                new String[]{"取消", "前往修改"},
-                new View.OnClickListener[]{
-                  new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                      dialog.dismiss();
-                    }
-                  },
-                  new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                      promptionService.goToEditPromptionActivity(PromptionDetailWebViewActivity.this, promptionId);
-                      dialog.dismiss();
-                    }
-                  }
-                });
-              dialog.show();
-            }
-          });
-        }
-      }
-    });
-
-
+        });
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
     switch (id) {
       case R.id.action_edit:

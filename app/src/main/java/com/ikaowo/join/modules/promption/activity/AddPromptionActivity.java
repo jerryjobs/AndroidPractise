@@ -24,11 +24,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.common.framework.util.JToast;
 import com.component.photo.PhotoService;
-import com.ikaowo.join.BaseActivity;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
@@ -47,31 +48,21 @@ import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.DateTimeHelper;
 import com.ikaowo.join.util.QiniuUploadHelper;
 import com.squareup.picasso.Picasso;
-
+import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-22.
  */
 public class AddPromptionActivity extends BaseEventBusActivity
-  implements DragGridItemAdapter.GridViewItemDeleteListener,
-  PhotoService.UploadFinishListener,
-  DragGridView.OnChanageListener, TextWatcher {
+    implements DragGridItemAdapter.GridViewItemDeleteListener, PhotoService.UploadFinishListener,
+    DragGridView.OnChanageListener, TextWatcher {
 
-
-  protected final int MAX_COUNT = 6;
-  private final int MAX_CONTENT_LENGTH = 140;
-  private final int MAX_TITLE_LENGTH = 15;
   protected int targetImgBgWidth, targetImgBgHeight;
   protected List<ItemImageObj> list = new ArrayList<>(); //图标icon
   protected DragGridItemAdapter itemAdapter;
@@ -90,32 +81,21 @@ public class AddPromptionActivity extends BaseEventBusActivity
   protected String endDate; //格式化过的时间，用来展示 格式为 2014-10-11
   protected String state;
 
-  @Bind(R.id.container)
-  LinearLayout containerLayout;
-  @Bind(R.id.content_container)
-  LinearLayout contentContainerLayout;
-  @Bind(R.id.add_promption_bg_container)
-  FrameLayout promptionBgContainer;
-  @Bind(R.id.promption_bg)
-  ImageView promptionBgImg;
-  @Bind(R.id.promption_title)
-  AppCompatEditText promptTitleEt;
-  @Bind(R.id.promption_content)
-  AppCompatEditText promptContentEt;
-  @Bind(R.id.content_remaing)
-  TextView contentRemainingTv;
-  @Bind(R.id.add_promption_bg_btn)
-  RelativeLayout addPromptionBgBtn;
-  @Bind(R.id.promption_imgs_container)
-  DragGridView promptionImgsContainer;
-  @Bind(R.id.promption_time)
-  CustomEditTextView promptionTimeTv;
-  @Bind(R.id.promption_address)
-  CustomEditTextView promptionAddressTv;
-  @Bind(R.id.promption_end_date)
-  CustomEditTextView endDateEt;
-  @Bind(R.id.promption_notes_content)
-  AppCompatEditText noteEt;
+  @Bind(R.id.container) LinearLayout containerLayout;
+  @Bind(R.id.content_container) LinearLayout contentContainerLayout;
+  @Bind(R.id.add_promption_bg_container) FrameLayout promptionBgContainer;
+  @Bind(R.id.promption_bg) ImageView promptionBgImg;
+  @Bind(R.id.promption_title) AppCompatEditText promptTitleEt;
+  @Bind(R.id.promption_content) AppCompatEditText promptContentEt;
+  @Bind(R.id.content_remaing) TextView contentRemainingTv;
+  @Bind(R.id.add_promption_bg_btn) RelativeLayout addPromptionBgBtn;
+  @Bind(R.id.promption_imgs_container) DragGridView promptionImgsContainer;
+  @Bind(R.id.promption_time) CustomEditTextView promptionTimeTv;
+  @Bind(R.id.promption_address) CustomEditTextView promptionAddressTv;
+  @Bind(R.id.promption_end_date) CustomEditTextView endDateEt;
+  protected final int MAX_COUNT = 6;
+  private final int MAX_CONTENT_LENGTH = 140;
+  private final int MAX_TITLE_LENGTH = 15;
   private QiniuUploadHelper qiniuUploadHelper;
   private InputFiledHelper inputHelper;
   private DateTimeHelper dateTimeHelper;
@@ -123,8 +103,7 @@ public class AddPromptionActivity extends BaseEventBusActivity
   private UserService userService;
   private ClickPos clickedPos;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_add_promotion);
     ButterKnife.bind(this);
@@ -146,7 +125,8 @@ public class AddPromptionActivity extends BaseEventBusActivity
   }
 
   private void setupView() {
-    LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) promptionBgContainer.getLayoutParams();
+    LinearLayout.LayoutParams llp =
+        (LinearLayout.LayoutParams) promptionBgContainer.getLayoutParams();
     targetImgBgWidth = JApplication.getJContext().getScreenWidth();
     targetImgBgHeight = targetImgBgWidth * 9 / 16;
     llp.width = targetImgBgWidth;
@@ -162,29 +142,28 @@ public class AddPromptionActivity extends BaseEventBusActivity
 
     promptTitleEt.addTextChangedListener(this);
     promptTitleEt.setSingleLine();
-    promptTitleEt.setFilters(new InputFilter[]{
-      new InputFilter.LengthFilter(MAX_TITLE_LENGTH)
+    promptTitleEt.setFilters(new InputFilter[] {
+        new InputFilter.LengthFilter(MAX_TITLE_LENGTH)
     });
     promptContentEt.addTextChangedListener(this);
 
     contentRemainingTv.setText(getString(R.string.content_remaing, 0, MAX_CONTENT_LENGTH));
-    promptContentEt.setFilters(new InputFilter[]{
-      new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
+    promptContentEt.setFilters(new InputFilter[] {
+        new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
     });
     promptContentEt.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
       }
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
       }
 
-      @Override
-      public void afterTextChanged(Editable s) {
-        contentRemainingTv.setText(getString(R.string.content_remaing, MAX_CONTENT_LENGTH - s.length(), MAX_CONTENT_LENGTH));
+      @Override public void afterTextChanged(Editable s) {
+        contentRemainingTv.setText(
+            getString(R.string.content_remaing, MAX_CONTENT_LENGTH - s.length(),
+                MAX_CONTENT_LENGTH));
       }
     });
 
@@ -213,8 +192,7 @@ public class AddPromptionActivity extends BaseEventBusActivity
     invalidateOptionsMenu();
   }
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
     boolean bgSelected = !TextUtils.isEmpty(promptionBg);
     promptionTitle = promptTitleEt.getText().toString();
     boolean titleInputed = !TextUtils.isEmpty(promptionTitle);
@@ -229,13 +207,18 @@ public class AddPromptionActivity extends BaseEventBusActivity
     promptNotes = noteEt.getText().toString().trim();
     boolean noticeInputed = !TextUtils.isEmpty(promptNotes);
 
-    menu.getItem(0).setEnabled(bgSelected && titleInputed
-      && contentInputed && timeInputed && addressInputed && endTimeInputed && noticeInputed);
+    menu.getItem(0)
+        .setEnabled(bgSelected
+            && titleInputed
+            && contentInputed
+            && timeInputed
+            && addressInputed
+            && endTimeInputed
+            && noticeInputed);
     return true;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
     switch (id) {
       case R.id.action_submit:
@@ -273,121 +256,110 @@ public class AddPromptionActivity extends BaseEventBusActivity
     }
     request.aci_tumblrs = list;
 
-    PromptionInterface promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
+    PromptionInterface promptionInterface =
+        JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
     Call<BaseResponse> call = promptionInterface.postPromption(request.getMap());
-    JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
-      @Override
-      public void onSuccess(BaseResponse baseResponse) {
-        if (promptionId > 0) {
-          JToast.toastShort("推广修改成功");
-          EventBus.getDefault().post(new UpdatePromptionCallback() {
-            @Override
-            public boolean promptionUpdated() {
-              return true;
-            }
+    JApplication.getNetworkManager()
+        .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
+          @Override public void onSuccess(BaseResponse baseResponse) {
+            if (promptionId > 0) {
+              JToast.toastShort("推广修改成功");
+              EventBus.getDefault().post(new UpdatePromptionCallback() {
+                @Override public boolean promptionUpdated() {
+                  return true;
+                }
 
-            @Override
-            public String getNewTitle() {
-              return promptionTitle;
-            }
+                @Override public String getNewTitle() {
+                  return promptionTitle;
+                }
 
-            @Override
-            public String getNewBg() {
-              return promptionBg;
-            }
+                @Override public String getNewBg() {
+                  return promptionBg;
+                }
 
-            @Override
-            public String getNewEndTime() {
-              return promptionEndDate;
-            }
+                @Override public String getNewEndTime() {
+                  return promptionEndDate;
+                }
 
-            @Override
-            public String getNewState() {
-              if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(state)) {
-                state = Constant.PROMPTION_STATE_NEW;
+                @Override public String getNewState() {
+                  if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(state)) {
+                    state = Constant.PROMPTION_STATE_NEW;
+                  }
+                  return state;
+                }
+              });
+
+              EventBus.getDefault().post(new RefreshWebViewCallback() {
+                @Override public boolean refreshWebView() {
+                  return true;
+                }
+              });
+            } else {
+              JToast.toastShort("推广发布成功");
+            }
+            new Handler().postDelayed(new Runnable() {
+              @Override public void run() {
+                finish();
               }
-              return state;
-            }
-          });
-
-          EventBus.getDefault().post(new RefreshWebViewCallback() {
-            @Override
-            public boolean refreshWebView() {
-              return true;
-            }
-          });
-        } else {
-          JToast.toastShort("推广发布成功");
-        }
-        new Handler().postDelayed(new Runnable() {
-          @Override
-          public void run() {
-            finish();
+            }, 500);
           }
-        }, 500);
-
-      }
-    });
+        });
   }
 
-  public void onEvent(Boolean b) {}
+  public void onEvent(Boolean b) {
+  }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
 
-  @OnClick({R.id.add_promption_bg_btn, R.id.promption_bg})
-  public void addBg() {
+  @OnClick({ R.id.add_promption_bg_btn, R.id.promption_bg }) public void addBg() {
     hideInput(this, toolbar);
     clickedPos = ClickPos.PROMPTION_BG;
     photoService.takePhoto(this, toolbar, null, false, 16, 9);
   }
 
-  @OnClick(R.id.promption_end_date)
-  public void selectEndDate() {
+  @OnClick(R.id.promption_end_date) public void selectEndDate() {
     Map<Integer, Integer> timeValue = dateTimeHelper.getDateValue(endDate);
-    DatePickerDialog datePicker = new DatePickerDialog(this,
-      android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-      new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-          endDateTv.setText(dateTimeHelper.getFormatedDate(year, monthOfYear, dayOfMonth));
-          endDate = dateTimeHelper.getFormatedTime(year, monthOfYear, dayOfMonth);
-        }
-      }, timeValue.get(Calendar.YEAR),
-      timeValue.get(Calendar.MONTH),
-      timeValue.get(Calendar.DAY_OF_MONTH));
+    DatePickerDialog datePicker =
+        new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+            new DatePickerDialog.OnDateSetListener() {
+              @Override
+              public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                endDateTv.setText(dateTimeHelper.getFormatedDate(year, monthOfYear, dayOfMonth));
+                endDate = dateTimeHelper.getFormatedTime(year, monthOfYear, dayOfMonth);
+              }
+            }, timeValue.get(Calendar.YEAR), timeValue.get(Calendar.MONTH),
+            timeValue.get(Calendar.DAY_OF_MONTH));
 
     datePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     datePicker.show();
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "AddPromptionActivity";
   }
 
-  @Override
-  public void setGridViewLastItemSwaple(boolean swaple) {
+  @Override public void setGridViewLastItemSwaple(boolean swaple) {
     promptionImgsContainer.setSwapLastItem(swaple);
   }
 
-  @Override
-  public void onUpLoadImageFinish(String imgUrl, Uri imgUri) {
+  @Override public void onUpLoadImageFinish(String imgUrl, Uri imgUri) {
     if (clickedPos != null) {
       addPromptionBgBtn.setVisibility(View.GONE);
       promptionBgImg.setVisibility(View.VISIBLE);
       if (imgUri != null) {
         promptionBg = imgUrl;
         Picasso.with(this)
-          .load(imgUri).centerCrop().resize(targetImgBgWidth, targetImgBgHeight)
-          .into(promptionBgImg);
-
+            .load(imgUri)
+            .centerCrop()
+            .resize(targetImgBgWidth, targetImgBgHeight)
+            .into(promptionBgImg);
       } else if (!TextUtils.isEmpty(imgUrl)) {
         promptionBg = imgUrl;
-        JApplication.getImageLoader().loadImage(
-          promptionBgImg, imgUrl, targetImgBgWidth, targetImgBgHeight, R.drawable.brand_icon_default);
+        JApplication.getImageLoader()
+            .loadImage(promptionBgImg, imgUrl, targetImgBgWidth, targetImgBgHeight,
+                R.drawable.brand_icon_default);
       }
       invalidateOptionsMenu();
       clickedPos = null;
@@ -413,13 +385,11 @@ public class AddPromptionActivity extends BaseEventBusActivity
     }
   }
 
-  @Override
-  public void onUpLoadImageFailed() {
+  @Override public void onUpLoadImageFailed() {
 
   }
 
-  @Override
-  public void onChange(int from, int to) {
+  @Override public void onChange(int from, int to) {
     //直接交互item
     //这里的处理需要注意下
     if (from < to) {
@@ -435,18 +405,15 @@ public class AddPromptionActivity extends BaseEventBusActivity
     itemAdapter.notifyDataSetChanged();
   }
 
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
   }
 
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
   }
 
-  @Override
-  public void afterTextChanged(Editable s) {
+  @Override public void afterTextChanged(Editable s) {
     invalidateOptionsMenu();
   }
 

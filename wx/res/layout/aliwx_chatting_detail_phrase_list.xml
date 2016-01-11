@@ -10,6 +10,7 @@
     android:padding="0dip"
     android:scrollbars="none"
     android:transcriptMode="normal"
-    android:visibility="gone" >
+    android:visibility="gone"
+    >
 
 </ListView>

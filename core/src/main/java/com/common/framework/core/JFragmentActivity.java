@@ -19,25 +19,23 @@ public abstract class JFragmentActivity extends AppCompatActivity {
   protected Toolbar toolbar;
   protected int menuResId;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     dialogHelper = new JDialogHelper(this);
   }
 
   protected void showConfirmDialog(String title, String content) {
-    dialogHelper.createDialog(this, title, content, new String[] {"确定"}, new View.OnClickListener[] {
-      new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          finish();
-        }
-      }
-    }).show();
+    dialogHelper.createDialog(this, title, content, new String[] { "确定" },
+        new View.OnClickListener[] {
+            new View.OnClickListener() {
+              @Override public void onClick(View v) {
+                finish();
+              }
+            }
+        }).show();
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
     if (menuResId > 0) {
       getMenuInflater().inflate(menuResId, menu);
       return true;
@@ -46,8 +44,7 @@ public abstract class JFragmentActivity extends AppCompatActivity {
     }
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
         finish();
@@ -66,23 +63,20 @@ public abstract class JFragmentActivity extends AppCompatActivity {
      */
     if (view != null) {
       InputMethodManager inputMethodManager =
-        (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+          (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
       inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
   }
 
-  @Override
-  protected void onResume() {
+  @Override protected void onResume() {
     super.onResume();
   }
 
-  @Override
-  protected void onPause() {
+  @Override protected void onPause() {
     super.onPause();
   }
 
-  @Override
-  protected void onDestroy() {
+  @Override protected void onDestroy() {
     super.onDestroy();
   }
 }

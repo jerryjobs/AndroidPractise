@@ -3,9 +3,7 @@ package com.ikaowo.join.common.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
 import com.common.framework.core.JFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,18 +24,15 @@ public abstract class TabLayoutAdapter extends FragmentPagerAdapter {
 
   protected abstract void initFragments(int brandId);
 
-  @Override
-  public CharSequence getPageTitle(int position) {
+  @Override public CharSequence getPageTitle(int position) {
     return tabTitles[position];
   }
 
-  @Override
-  public Fragment getItem(int position) {
+  @Override public Fragment getItem(int position) {
     return fragments.get(position);
   }
 
-  @Override
-  public int getCount() {
+  @Override public int getCount() {
     return fragments.size();
   }
 }

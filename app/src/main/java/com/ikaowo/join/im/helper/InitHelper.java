@@ -1,7 +1,6 @@
 package com.ikaowo.join.im.helper;
 
 import android.app.Application;
-
 import com.alibaba.mobileim.YWAPI;
 
 /**
@@ -28,8 +27,8 @@ public class InitHelper {
     //后期将使用Override的方式进行集中配置，请参照YWSDKGlobalConfigSample
     YWAPI.enableSDKLogOutput(true);
 
-//		IYWContactService.enableBlackList();
+    //		IYWContactService.enableBlackList();
 
-//		YWAPI.setEnableAutoLogin(false);
+    //		YWAPI.setEnableAutoLogin(false);
   }
 }

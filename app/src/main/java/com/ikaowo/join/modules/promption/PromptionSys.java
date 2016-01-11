@@ -2,7 +2,6 @@ package com.ikaowo.join.modules.promption;
 
 import android.content.Context;
 import android.view.ViewGroup;
-
 import com.common.framework.activity.BaseSys;
 import com.common.framework.core.JFragment;
 import com.ikaowo.join.R;
@@ -17,33 +16,27 @@ public class PromptionSys extends BaseSys {
     super(context, tabContainer, listener);
   }
 
-  @Override
-  protected JFragment createFragment() {
+  @Override protected JFragment createFragment() {
     return new PromptionListFragment();
   }
 
-  @Override
-  protected int getTabIcon() {
+  @Override protected int getTabIcon() {
     return R.drawable.home_tab_icon;
   }
 
-  @Override
-  protected String getTabTitle() {
+  @Override protected String getTabTitle() {
     return context.getString(R.string.title_promption);
   }
 
-  @Override
-  protected String getActionBarTitle() {
+  @Override protected String getActionBarTitle() {
     return context.getResources().getString(R.string.title_promption);
   }
 
-  @Override
-  public String getTag() {
+  @Override public String getTag() {
     return "PromptionSys";
   }
 
-  @Override
-  public int getMenu() {
+  @Override public int getMenu() {
     return R.menu.menu_home;
   }
 }

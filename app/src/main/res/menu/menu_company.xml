@@ -2,10 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ikaowo.join.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="company"
-        android:icon="@android:drawable/sym_def_app_icon"
-        app:showAsAction="always" />
+  <item
+      android:id="@+id/action_settings"
+      android:icon="@android:drawable/sym_def_app_icon"
+      android:orderInCategory="100"
+      android:title="company"
+      app:showAsAction="always"/>
 </menu>

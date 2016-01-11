@@ -2,38 +2,43 @@
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="20dp"
-    android:scrollbars="none" >
+    android:scrollbars="none"
+    >
 
-    <RadioGroup 
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
+  <RadioGroup
+      android:id="@+id/radioGroup"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:background="@color/aliwx_right_sliding_text_color"
+      android:orientation="horizontal"
+      android:visibility="gone"
+      >
+
+    <!-- android:weightSum="2" -->
+
+    <RadioButton
+        android:id="@+id/smily_radio"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:background="@color/aliwx_right_sliding_text_color"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+        android:layout_weight="1"
+        android:text="@string/aliwx_smily_ww"
+        style="@style/aliwx_radio_button_style"
+        />
 
-        <!-- android:weightSum="2" -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/aliwx_black"
+        />
 
-        <RadioButton
-            android:id="@+id/smily_radio"
-            style="@style/aliwx_radio_button_style"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/aliwx_smily_ww" />
-        
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/aliwx_black" />
-
-        <RadioButton
-            android:id="@+id/gif_radio"
-            style="@style/aliwx_radio_button_style"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/aliwx_smily_tao" />
-    </RadioGroup>
+    <RadioButton
+        android:id="@+id/gif_radio"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/aliwx_smily_tao"
+        style="@style/aliwx_radio_button_style"
+        />
+  </RadioGroup>
 
 </HorizontalScrollView>

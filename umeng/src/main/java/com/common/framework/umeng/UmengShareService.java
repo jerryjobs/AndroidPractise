@@ -16,7 +16,6 @@ import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.controller.UMServiceFactory;
@@ -31,7 +30,6 @@ import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,8 +70,7 @@ public class UmengShareService {
   }
 
   public SharePopupWindow openShareWindow(Context context, View target, String title,
-                                          String content, String targetUrl,
-                                          String picUrl) {
+      String content, String targetUrl, String picUrl) {
     initUMSocialService((Activity) context);
     SharePopupWindow shareWindow = new SharePopupWindow(context, title, content, targetUrl, picUrl);
     shareWindow.showAtLocation(target, Gravity.BOTTOM, 0, 0);
@@ -83,13 +80,11 @@ public class UmengShareService {
 
   /**
    * 分享到
-   *
-   * @param sBean
    */
-  public void shareTo(final Activity context, ShareBean sBean, String title, String content, String targetUrl, String picUrl) {
+  public void shareTo(final Activity context, ShareBean sBean, String title, String content,
+      String targetUrl, String picUrl) {
     //防止内容为空时,分享只有一个头像的问题。
-    if (TextUtils.isEmpty(content))
-      content = " ";
+    if (TextUtils.isEmpty(content)) content = " ";
 
     UMImage umImage;
 
@@ -99,7 +94,7 @@ public class UmengShareService {
     } else {
       umImage = new UMImage(context, picUrl);
     }
-//    	Toast.makeText(context, "类型："+sBean.media, Toast.LENGTH_SHORT).show();
+    //    	Toast.makeText(context, "类型："+sBean.media, Toast.LENGTH_SHORT).show();
     switch (sBean.media) {
       case WEIXIN://微信
 
@@ -169,60 +164,61 @@ public class UmengShareService {
         sinaShareContent.setShareImage(umImage);
         mController.setShareMedia(sinaShareContent);
 
-
         break;
       case DOUBAN://用豆瓣来代替复制链接
 
         //保存到剪贴板
-        ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clip =
+            (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         clip.setText(targetUrl);
         Toast.makeText(context, "复制链接成功", Toast.LENGTH_SHORT).show();
 
         break;
     }
-    if (sBean.media != SHARE_MEDIA.DOUBAN && sBean.media != SHARE_MEDIA.YNOTE)
-      mController.postShare(context, sBean.media,
-        new SocializeListeners.SnsPostListener() {
-          @Override
-          public void onStart() {
-            //  Toast.makeText(context, "开始分享.", Toast.LENGTH_SHORT).show();
-          }
+    if (sBean.media != SHARE_MEDIA.DOUBAN && sBean.media != SHARE_MEDIA.YNOTE) {
+      mController.postShare(context, sBean.media, new SocializeListeners.SnsPostListener() {
+        @Override public void onStart() {
+          //  Toast.makeText(context, "开始分享.", Toast.LENGTH_SHORT).show();
+        }
 
-          @Override
-          public void onComplete(SHARE_MEDIA platform, int eCode,
-                                 SocializeEntity entity) {
-            if (eCode == 200) {
-              Toast.makeText(context, "分享成功.", Toast.LENGTH_SHORT).show();
-            } else {
-              String eMsg = "";
-              if (eCode == -101) {
-                eMsg = "没有授权";
-              }
-              Toast.makeText(context, "分享失败[" + eCode + "] " +
-                eMsg, Toast.LENGTH_SHORT).show();
+        @Override public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
+          if (eCode == 200) {
+            Toast.makeText(context, "分享成功.", Toast.LENGTH_SHORT).show();
+          } else {
+            String eMsg = "";
+            if (eCode == -101) {
+              eMsg = "没有授权";
             }
+            Toast.makeText(context, "分享失败[" + eCode + "] " +
+                eMsg, Toast.LENGTH_SHORT).show();
           }
-        });
-
+        }
+      });
+    }
   }
 
   class SharePopupWindow extends PopupWindow implements AdapterView.OnItemClickListener {
 
     private ShareAdapter sAdapter;
     private String title, content, targetUrl, picUrl;
-    private String[] shareBeanValues = new String[]{"微信好友", "朋友圈", "QQ", "QQ空间", "微博"};
-    private int[] shareBeanDrawids = new int[]{R.drawable.umeng_socialize_wechat, R.drawable.umeng_socialize_wxcircle,
-      R.drawable.umeng_socialize_qq_on, R.drawable.umeng_socialize_qzone_on,
-      R.drawable.umeng_socialize_sina_on};
-    private SHARE_MEDIA[] shareBeanMedias = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE,
-      SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.SINA};
+    private String[] shareBeanValues = new String[] { "微信好友", "朋友圈", "QQ", "QQ空间", "微博" };
+    private int[] shareBeanDrawids = new int[] {
+        R.drawable.umeng_socialize_wechat, R.drawable.umeng_socialize_wxcircle,
+        R.drawable.umeng_socialize_qq_on, R.drawable.umeng_socialize_qzone_on,
+        R.drawable.umeng_socialize_sina_on
+    };
+    private SHARE_MEDIA[] shareBeanMedias = new SHARE_MEDIA[] {
+        SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
+        SHARE_MEDIA.SINA
+    };
     private View mMenuView;
     private GridView gridView;
     private TextView cancelTv;
     private List<ShareBean> shareBeans = new ArrayList();
     private Context context;
 
-    public SharePopupWindow(Context context, String title, String content, String targetUrl, String picUrl) {
+    public SharePopupWindow(Context context, String title, String content, String targetUrl,
+        String picUrl) {
       super(context);
 
       this.context = context;
@@ -231,14 +227,13 @@ public class UmengShareService {
       this.targetUrl = targetUrl;
       this.picUrl = picUrl;
 
-      LayoutInflater inflater = (LayoutInflater) context
-        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      LayoutInflater inflater =
+          (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       mMenuView = inflater.inflate(R.layout.share_popupwindow_view, null);
       gridView = (GridView) mMenuView.findViewById(R.id.gridView);
       cancelTv = (TextView) mMenuView.findViewById(R.id.cancel);
       cancelTv.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
+        @Override public void onClick(View view) {
           dismiss();
         }
       });
@@ -276,7 +271,6 @@ public class UmengShareService {
           return true;
         }
       });
-
     }
 
     private List<ShareBean> initShareBean() {
@@ -291,12 +285,10 @@ public class UmengShareService {
       return sBeans;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
       ShareBean sBean = shareBeans.get(position);
       shareTo((Activity) context, sBean, title, content, targetUrl, picUrl);
-      if (sBean.media != SHARE_MEDIA.YNOTE)
-        this.dismiss();
+      if (sBean.media != SHARE_MEDIA.YNOTE) this.dismiss();
     }
 
     /**
@@ -306,8 +298,7 @@ public class UmengShareService {
      */
     class ShareAdapter extends BaseAdapter {
 
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
+      @Override public View getView(int position, View convertView, ViewGroup parent) {
         HolderView holder = null;
         if (convertView == null) {
           holder = new HolderView();
@@ -332,18 +323,15 @@ public class UmengShareService {
         return convertView;
       }
 
-      @Override
-      public int getCount() {
+      @Override public int getCount() {
         return shareBeans.size();
       }
 
-      @Override
-      public Object getItem(int position) {
+      @Override public Object getItem(int position) {
         return shareBeans.get(position);
       }
 
-      @Override
-      public long getItemId(int position) {
+      @Override public long getItemId(int position) {
         return position;
       }
 
@@ -351,11 +339,8 @@ public class UmengShareService {
 
         View img;
         TextView text;
-
       }
-
     }
-
   }
 
   class ShareBean {
@@ -370,10 +355,8 @@ public class UmengShareService {
     private String imgUrl;
     private String detailUrl;
 
-    public ShareBean(long postId, long shareId, int type,
-                     SHARE_MEDIA media,
-                     String title, String content,
-                     String imgUrl, String detailUrl) {
+    public ShareBean(long postId, long shareId, int type, SHARE_MEDIA media, String title,
+        String content, String imgUrl, String detailUrl) {
       this.postId = postId;
       this.shareId = shareId;
       this.type = type;
@@ -390,5 +373,4 @@ public class UmengShareService {
       this.value = value;
     }
   }
-
 }

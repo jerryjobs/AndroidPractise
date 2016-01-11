@@ -9,7 +9,8 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.BaseFragmentActivity;
@@ -21,29 +22,24 @@ import com.ikaowo.join.modules.user.widget.DeletableEditTextView;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.Constant;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-29.
  */
-public class UpdatePasswordActivity extends BaseFragmentActivity implements DeletableEditTextView.TextChangeListener {
+public class UpdatePasswordActivity extends BaseFragmentActivity
+    implements DeletableEditTextView.TextChangeListener {
 
-  @Bind(R.id.new_password)
-  DeletableEditTextView newPasswordEt;
+  @Bind(R.id.new_password) DeletableEditTextView newPasswordEt;
 
-  @Bind(R.id.old_password)
-  DeletableEditTextView oldPasswordEt;
+  @Bind(R.id.old_password) DeletableEditTextView oldPasswordEt;
 
   private String newPassowrd;
   private String oldPassword;
 
   private UserService userService;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_update_passwd);
     ButterKnife.bind(this);
@@ -76,18 +72,18 @@ public class UpdatePasswordActivity extends BaseFragmentActivity implements Dele
     oldPasswordEt.setTextChangeListener(this);
   }
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    boolean oldPassworldInputed = !TextUtils.isEmpty(oldPassword = oldPasswordEt.getText().toString().trim());
-    boolean newPasswordInputed = !TextUtils.isEmpty(newPassowrd = newPasswordEt.getText().toString().trim());
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    boolean oldPassworldInputed =
+        !TextUtils.isEmpty(oldPassword = oldPasswordEt.getText().toString().trim());
+    boolean newPasswordInputed =
+        !TextUtils.isEmpty(newPassowrd = newPasswordEt.getText().toString().trim());
     boolean passwordEquals = newPasswordInputed && oldPassworldInputed;
     boolean passwordAtLast6 = newPassowrd.length() >= 6;
     menu.getItem(0).setEnabled(passwordEquals && passwordAtLast6);
     return true;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_submit:
         submit();
@@ -104,31 +100,28 @@ public class UpdatePasswordActivity extends BaseFragmentActivity implements Dele
     request.new_password = newPassowrd;
     request.old_password = oldPassword;
 
-    UserInterface userInterface = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+    UserInterface userInterface =
+        JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
     Call<BaseResponse> call = userInterface.updatePasswd(request);
-    JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback(this) {
-      @Override
-      public void onSuccess(Object o) {
-        JToast.toastShort("修改密码成功，请重新登录");
-        finish();
-        new Handler().postDelayed(new Runnable() {
-          @Override
-          public void run() {
-            userService.logout(UpdatePasswordActivity.this);
+    JApplication.getNetworkManager()
+        .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback(this) {
+          @Override public void onSuccess(Object o) {
+            JToast.toastShort("修改密码成功，请重新登录");
+            finish();
+            new Handler().postDelayed(new Runnable() {
+              @Override public void run() {
+                userService.logout(UpdatePasswordActivity.this);
+              }
+            }, 300);
           }
-        }, 300);
-
-      }
-    });
+        });
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "UpdatePasswordActivity";
   }
 
-  @Override
-  public void onChanged(Editable s) {
+  @Override public void onChanged(Editable s) {
     invalidateOptionsMenu();
   }
 }

@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:background="@android:color/white"
-              android:layout_height="50dp">
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    >
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="0.5dp"
+      android:layout_marginLeft="12dp"
+      android:layout_marginRight="12dp"
+      android:background="@color/c5"
+      />
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:orientation="horizontal"
+      android:paddingLeft="12dp"
+      android:paddingRight="12dp"
+      >
+
+    <ViewStub
+        android:id="@+id/stub_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:inflatedId="@+id/subTree"
+        android:layout="@layout/widget_complte_join_item_view"
+        android:paddingRight="8dp"
+        />
+
     <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/c5"
+        />
+
+
+    <ViewStub
+        android:id="@+id/stub_right"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:background="@color/c5"/>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
-
-        <ViewStub android:id="@+id/stub_left"
-                  android:inflatedId="@+id/subTree"
-                  android:layout_weight="1"
-                  android:layout="@layout/widget_complte_join_item_view"
-                  android:layout_width="match_parent"
-                  android:paddingRight="8dp"
-                  android:layout_height="match_parent"/>
-
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@color/c5"/>
-
-
-        <ViewStub android:id="@+id/stub_right"
-                  android:inflatedId="@+id/subTree"
-                  android:layout_weight="1"
-                  android:paddingLeft="8dp"
-                  android:layout="@layout/widget_complte_join_item_view"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:inflatedId="@+id/subTree"
+        android:layout="@layout/widget_complte_join_item_view"
+        android:paddingLeft="8dp"
+        />
+  </LinearLayout>
 </LinearLayout>

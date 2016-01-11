@@ -31,8 +31,7 @@ public class FullImageView extends ImageView {
 
   private void init() {
     setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         PhotoService photoService = new PhotoService(context);
         if (imgUri != null) {
           photoService.viewPhoto(context, imgUri);

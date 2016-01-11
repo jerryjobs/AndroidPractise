@@ -2,7 +2,6 @@ package com.ikaowo.join.model.response;
 
 import com.ikaowo.join.model.EnumData;
 import com.ikaowo.join.model.base.BaseResponse;
-
 import java.util.List;
 
 /**

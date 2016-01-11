@@ -3,22 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@android:color/white"
-    tools:context="com.ikaowo.join.MainActivity">
+    android:fitsSystemWindows="true"
+    tools:context="com.ikaowo.join.MainActivity"
+    >
 
-    <android.support.design.widget.CollapsingToolbarLayout
+  <android.support.design.widget.CollapsingToolbarLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:theme="@style/AppTheme.AppBarOverlay"
+      >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="?attr/actionBarSize"
+        />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+  </android.support.design.widget.CollapsingToolbarLayout>
 
-    </android.support.design.widget.CollapsingToolbarLayout>
-
-    <include layout="@layout/content_signin" />
+  <include layout="@layout/content_signin"/>
 
 </android.support.design.widget.CoordinatorLayout>

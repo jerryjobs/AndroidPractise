@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
@@ -26,15 +27,11 @@ import com.ikaowo.join.modules.common.BaseListActivity;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.SharedPreferenceHelper;
-
+import de.greenrobot.event.EventBus;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
@@ -54,8 +51,7 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
   private int promptionId;
   private Map<String, String> stateDescMap;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     try {
       List<String> pathList = getIntent().getData().getPathSegments();
       promptionId = Integer.valueOf(pathList.get(pathList.size() - 1));
@@ -91,16 +87,13 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     EventBus.getDefault().register(this);
 
     stateDescMap = SharedPreferenceHelper.getInstance().getEnumValue(this);
-
   }
 
-  @Override
-  protected boolean isSupportLoadMore() {
+  @Override protected boolean isSupportLoadMore() {
     return true;
   }
 
-  @Override
-  protected void sendHttpRequest(NetworkCallback callback, int cp, int ps) {
+  @Override protected void sendHttpRequest(NetworkCallback callback, int cp, int ps) {
     if (networkManager == null) {
       networkManager = JApplication.getNetworkManager();
     }
@@ -109,31 +102,26 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     networkManager.async(this, Constant.DATAGETTING, call, callback);
   }
 
-  @Override
-  protected void performCustomItemClick(JoinedUser user) {
+  @Override protected void performCustomItemClick(JoinedUser user) {
     if (userService == null) {
       userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     }
     promptionService.viewJoinDetail(this, user.companyId, user.promption_id);
   }
 
-  @Override
-  protected JAdapter getAdapter(RecyclerViewHelper recyclerViewHelper) {
+  @Override protected JAdapter getAdapter(RecyclerViewHelper recyclerViewHelper) {
     return new JoinedUserAdapter(recyclerViewHelper);
   }
 
-  @Override
-  protected String getEmptyHint() {
+  @Override protected String getEmptyHint() {
     return "暂无参加人员";
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "JoinedListActivity";
   }
 
-  @Override
-  protected void onDestroy() {
+  @Override protected void onDestroy() {
     super.onDestroy();
     EventBus.getDefault().unregister(this);
   }
@@ -159,29 +147,30 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
       this.recyclerViewHelper = helper;
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(JoinedListActivity.this).inflate(R.layout.item_joined_list, null);
+    @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+      View view =
+          LayoutInflater.from(JoinedListActivity.this).inflate(R.layout.item_joined_list, null);
       RecyclerView.ViewHolder viewHolder = new JoinedUserViewHolder(view, recyclerViewHelper);
       return viewHolder;
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
       if (holder instanceof JoinedUserViewHolder) {
         JoinedUserViewHolder viewHolder = (JoinedUserViewHolder) holder;
         JoinedUser user = objList.get(position);
-//        viewHolder.brandNameTv.setText(user.);
+        //        viewHolder.brandNameTv.setText(user.);
         viewHolder.brandNameTv.setText(user.brandName);
         viewHolder.joinCommentTv.setText(user.extra);
         if (visibleStateSet.contains(user.state)) {
           viewHolder.joinedStateTv.setVisibility(View.VISIBLE);
           viewHolder.joinedStateTv.setText(user.stateDesc);
-          viewHolder.joinedStateTv.setBackgroundColor(ContextCompat.getColor(JoinedListActivity.this, stateColorMap.get(user.state)));
+          viewHolder.joinedStateTv.setBackgroundColor(
+              ContextCompat.getColor(JoinedListActivity.this, stateColorMap.get(user.state)));
         } else {
           viewHolder.joinedStateTv.setVisibility(View.GONE);
         }
-        imageLoader.loadImage(viewHolder.brandIconIv, user.brandIcon, targetWidth, targetHeight, R.drawable.brand_icon_default);
+        imageLoader.loadImage(viewHolder.brandIconIv, user.brandIcon, targetWidth, targetHeight,
+            R.drawable.brand_icon_default);
       }
       super.onBindViewHolder(holder, position);
     }
@@ -189,22 +178,17 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
 
   class JoinedUserViewHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.brand_icon)
-    ImageView brandIconIv;
-    @Bind(R.id.brand_name)
-    TextView brandNameTv;
-    @Bind(R.id.join_comment)
-    TextView joinCommentTv;
-    @Bind(R.id.join_state)
-    TextView joinedStateTv;
+    @Bind(R.id.brand_icon) ImageView brandIconIv;
+    @Bind(R.id.brand_name) TextView brandNameTv;
+    @Bind(R.id.join_comment) TextView joinCommentTv;
+    @Bind(R.id.join_state) TextView joinedStateTv;
 
     public JoinedUserViewHolder(View itemView, final RecyclerViewHelper helper) {
       super(itemView);
       ButterKnife.bind(this, itemView);
 
       itemView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+        @Override public void onClick(View v) {
           helper.getRecyclerHelperImpl().performItemClick(getLayoutPosition());
         }
       });

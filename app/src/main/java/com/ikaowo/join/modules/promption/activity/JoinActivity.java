@@ -15,7 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.common.framework.util.JToast;
 import com.component.photo.PhotoService;
@@ -32,30 +33,24 @@ import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.QiniuUploadHelper;
-
+import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-29.
  */
-public class JoinActivity extends BaseFragmentActivity implements PhotoService.UploadFinishListener,
-  DragGridItemAdapter.GridViewItemDeleteListener, DragGridView.OnChanageListener {
+public class JoinActivity extends BaseFragmentActivity
+    implements PhotoService.UploadFinishListener, DragGridItemAdapter.GridViewItemDeleteListener,
+    DragGridView.OnChanageListener {
 
+  @Bind(R.id.promption_content) AppCompatEditText promptContentEt;
+  @Bind(R.id.content_remaing) TextView contentRemainingTv;
+  @Bind(R.id.promption_imgs_container) DragGridView dragGridView;
   private final int MAX_COUNT = 6;
   private final int MAX_CONTENT_LENGTH = 140;
-  @Bind(R.id.promption_content)
-  AppCompatEditText promptContentEt;
-  @Bind(R.id.content_remaing)
-  TextView contentRemainingTv;
-  @Bind(R.id.promption_imgs_container)
-  DragGridView dragGridView;
   private int promptionId = -1;
   private String content;
   private List<ItemImageObj> list = new ArrayList<>(); //图标icon
@@ -65,8 +60,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
   private PromptionInterface promptionInterface;
   private QiniuUploadHelper qiniuUploadHelper;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_join);
     ButterKnife.bind(this);
@@ -80,8 +74,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
 
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     userService.interceptorCheckUserState(this, new UserService.AuthedAction() {
-      @Override
-      public void doActionAfterAuthed() {
+      @Override public void doActionAfterAuthed() {
         doActionIfAuthed();
       }
     });
@@ -90,9 +83,9 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
 
   private void doActionIfAuthed() {
 
-    promptionInterface = JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
+    promptionInterface =
+        JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
     qiniuUploadHelper = new QiniuUploadHelper();
-
 
     try {
       List<String> pathList = getIntent().getData().getPathSegments();
@@ -105,14 +98,14 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     }
 
     if (promptionId < 0) {
-      dialogHelper.createDialog(this, "注意", "推广信息不正确，请返回重试", new String[]{"确定"}, new View.OnClickListener[]{
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            finish();
-          }
-        }
-      }).show();
+      dialogHelper.createDialog(this, "注意", "推广信息不正确，请返回重试", new String[] { "确定" },
+          new View.OnClickListener[] {
+              new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                  finish();
+                }
+              }
+          }).show();
     }
 
     setupView();
@@ -122,23 +115,22 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
 
   private void setupView() {
     contentRemainingTv.setText(getString(R.string.content_remaing, 0, MAX_CONTENT_LENGTH));
-    promptContentEt.setFilters(new InputFilter[]{
-      new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
+    promptContentEt.setFilters(new InputFilter[] {
+        new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)
     });
     promptContentEt.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
       }
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
       }
 
-      @Override
-      public void afterTextChanged(Editable s) {
-        contentRemainingTv.setText(getString(R.string.content_remaing, MAX_CONTENT_LENGTH - s.length(), MAX_CONTENT_LENGTH));
+      @Override public void afterTextChanged(Editable s) {
+        contentRemainingTv.setText(
+            getString(R.string.content_remaing, MAX_CONTENT_LENGTH - s.length(),
+                MAX_CONTENT_LENGTH));
         invalidateOptionsMenu();
       }
     });
@@ -155,12 +147,11 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     invalidateOptionsMenu();
   }
 
-
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
     content = promptContentEt.getText().toString().trim();
     boolean enable = !TextUtils.isEmpty(content)
-      && content.length() <= MAX_CONTENT_LENGTH && userService.isLogined();
+        && content.length() <= MAX_CONTENT_LENGTH
+        && userService.isLogined();
     menu.getItem(0).setEnabled(enable);
     return true;
   }
@@ -171,8 +162,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     items.add(thumb);
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
     switch (id) {
       case R.id.action_submit:
@@ -207,39 +197,33 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     }
     request.aci_tumblrs = list;
     Call<BaseResponse> call = promptionInterface.join(request);
-    JApplication.getNetworkManager().async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
-      @Override
-      public void onSuccess(BaseResponse o) {
-        new Handler().postDelayed(new Runnable() {
-          @Override
-          public void run() {
-            EventBus.getDefault().post(new JoinedActivityCallback() {
-              @Override
-              public boolean joined() {
-                return true;
+    JApplication.getNetworkManager()
+        .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
+          @Override public void onSuccess(BaseResponse o) {
+            new Handler().postDelayed(new Runnable() {
+              @Override public void run() {
+                EventBus.getDefault().post(new JoinedActivityCallback() {
+                  @Override public boolean joined() {
+                    return true;
+                  }
+                });
               }
-            });
+            }, 500);
+            JToast.toastShort("参加活动成功");
+            finish();
           }
-        }, 500);
-        JToast.toastShort("参加活动成功");
-        finish();
-      }
-    });
-
+        });
   }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "JoinActivity";
   }
 
-  @Override
-  public void onChange(int from, int to) {
+  @Override public void onChange(int from, int to) {
     //直接交互item
     //这里的处理需要注意下
     if (from < to) {
@@ -255,8 +239,7 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     itemAdapter.notifyDataSetChanged();
   }
 
-  @Override
-  public void onUpLoadImageFinish(String imgUrl, Uri imgUri) {
+  @Override public void onUpLoadImageFinish(String imgUrl, Uri imgUri) {
     int imgSize = list.size();
     ItemImageObj item = new ItemImageObj();
     item.thumbImg = imgUrl;
@@ -276,13 +259,11 @@ public class JoinActivity extends BaseFragmentActivity implements PhotoService.U
     itemAdapter.notifyDataSetChanged();
   }
 
-  @Override
-  public void onUpLoadImageFailed() {
+  @Override public void onUpLoadImageFailed() {
 
   }
 
-  @Override
-  public void setGridViewLastItemSwaple(boolean swaple) {
+  @Override public void setGridViewLastItemSwaple(boolean swaple) {
     dragGridView.setSwapLastItem(swaple);
   }
 }

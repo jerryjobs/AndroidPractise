@@ -7,28 +7,33 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ikaowo.join.ViewImageActivity"
-    tools:showIn="@layout/activity_view_image">
+    tools:showIn="@layout/activity_view_image"
+    >
 
-    <Button
-        android:id="@+id/viewImgBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Image" />
+  <Button
+      android:id="@+id/viewImgBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="View Image"
+      />
 
-    <ImageView
-        android:id="@+id/imgView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+  <ImageView
+      android:id="@+id/imgView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      />
 
-    <Button
-        android:id="@+id/viewImgBtn2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Image" />
+  <Button
+      android:id="@+id/viewImgBtn2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="View Image"
+      />
 
-    <ImageView
-        android:id="@+id/imgView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+  <ImageView
+      android:id="@+id/imgView2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      />
 
 </LinearLayout>

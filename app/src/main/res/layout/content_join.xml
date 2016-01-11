@@ -7,9 +7,10 @@
     android:background="@android:color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ikaowo.join.modules.promption.activity.JoinActivity"
-    tools:showIn="@layout/activity_join">
+    tools:showIn="@layout/activity_join"
+    >
 
-    <include layout="@layout/widget_input_with_remaining" />
+  <include layout="@layout/widget_input_with_remaining"/>
 
 </LinearLayout>
 

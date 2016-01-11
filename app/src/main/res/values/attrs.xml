@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="DeletableEditTextView">
-        <attr name="show_delete_icon" format="boolean"></attr>
+  <declare-styleable name="DeletableEditTextView">
+    <attr format="boolean" name="show_delete_icon"></attr>
 
-    </declare-styleable>
-    <declare-styleable name="CustomEditTextView">
-        <attr name="show_split" format="boolean"></attr>
-        <attr name="bottom_line_color" format="boolean"></attr>
-        <attr name="title_text_color" format="color"></attr>
-        <attr name="title_text" format="string"></attr>
-    </declare-styleable>
+  </declare-styleable>
+  <declare-styleable name="CustomEditTextView">
+    <attr format="boolean" name="show_split"></attr>
+    <attr format="boolean" name="bottom_line_color"></attr>
+    <attr format="color" name="title_text_color"></attr>
+    <attr format="string" name="title_text"></attr>
+  </declare-styleable>
 
-    <declare-styleable name="MineItemWidget">
-        <attr name="item_title" format="string"></attr>
-        <attr name="type" format="string"></attr>
-        <attr name="icon_width" format="dimension"></attr>
-        <attr name="icon_height" format="dimension"></attr>
-        <attr name="item_icon" format="reference"></attr>
-        <attr name="icon_margin" format="dimension"></attr>
-    </declare-styleable>
+  <declare-styleable name="MineItemWidget">
+    <attr format="string" name="item_title"></attr>
+    <attr format="string" name="type"></attr>
+    <attr format="dimension" name="icon_width"></attr>
+    <attr format="dimension" name="icon_height"></attr>
+    <attr format="reference" name="item_icon"></attr>
+    <attr format="dimension" name="icon_margin"></attr>
+  </declare-styleable>
 
-    <declare-styleable name="MediaItem">
-        <attr name="media_title" format="string"></attr>
-        <attr name="content_color" format="color" />
-    </declare-styleable>
+  <declare-styleable name="MediaItem">
+    <attr format="string" name="media_title"></attr>
+    <attr format="color" name="content_color"/>
+  </declare-styleable>
 </resources>

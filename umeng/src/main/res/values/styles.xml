@@ -1,24 +1,24 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="UMAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+  <!-- Base application theme. -->
+  <style name="UMAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+  </style>
 
-    <style name="UMAppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+  <style name="UMAppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
 
-    <style name="AnimBottom" parent="@android:style/Animation">
-        <item name="android:windowEnterAnimation">@anim/umeng_socialize_fade_in</item>
-        <item name="android:windowExitAnimation">@anim/umeng_socialize_fade_out</item>
-    </style>
+  <style name="AnimBottom" parent="@android:style/Animation">
+    <item name="android:windowEnterAnimation">@anim/umeng_socialize_fade_in</item>
+    <item name="android:windowExitAnimation">@anim/umeng_socialize_fade_out</item>
+  </style>
 
-    <style name="UMAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+  <style name="UMAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="UMAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+  <style name="UMAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

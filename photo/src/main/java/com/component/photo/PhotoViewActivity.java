@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
-
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -20,15 +18,13 @@ public class PhotoViewActivity extends AppCompatActivity {
   PhotoView photoView;
   ProgressBar progressBar;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_photo_view);
     photoView = (PhotoView) findViewById(R.id.mainsys_fullimg_img);
     progressBar = (ProgressBar) findViewById(R.id.mainsys_fullimg_progress);
     photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-      @Override
-      public void onPhotoTap(View view, float x, float y) {
+      @Override public void onPhotoTap(View view, float x, float y) {
         finish();
       }
     });
@@ -44,19 +40,16 @@ public class PhotoViewActivity extends AppCompatActivity {
       }
 
       Target target = new Target() {
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+        @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
           progressBar.setVisibility(View.GONE);
           photoView.setImageBitmap(bitmap);
         }
 
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
+        @Override public void onBitmapFailed(Drawable errorDrawable) {
           progressBar.setVisibility(View.GONE);
         }
 
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
+        @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
           progressBar.setVisibility(View.VISIBLE);
         }
       };

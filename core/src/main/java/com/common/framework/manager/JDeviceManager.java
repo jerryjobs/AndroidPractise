@@ -18,5 +18,4 @@ public abstract class JDeviceManager {
   public abstract void stopVibrateAndMediaPlayer();
 
   public abstract boolean isNetworkConnected(Context context);
-
 }

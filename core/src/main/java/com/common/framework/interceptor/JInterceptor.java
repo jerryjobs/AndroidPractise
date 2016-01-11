@@ -13,15 +13,12 @@ public interface JInterceptor {
   boolean check();
 
   class Stub implements JInterceptor {
-    @Override
-    public boolean check() {
+    @Override public boolean check() {
       return false;
     }
 
-    @Override
-    public boolean check(Context context, Intent intent) {
+    @Override public boolean check(Context context, Intent intent) {
       return false;
     }
   }
-
 }

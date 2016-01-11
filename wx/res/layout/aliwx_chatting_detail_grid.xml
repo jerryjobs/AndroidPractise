@@ -12,6 +12,7 @@
     android:paddingRight="12dp"
     android:paddingTop="16dp"
     android:verticalSpacing="12dp"
-    android:visibility="gone" >
+    android:visibility="gone"
+    >
 
 </GridView>

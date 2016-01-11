@@ -3,14 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <com.common.framework.widget.listview.ScrollMoreRecyclerView
-        android:id="@+id/recycler_view"
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+  <com.common.framework.widget.listview.ScrollMoreRecyclerView
+      android:id="@+id/recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@android:color/white"
+      >
 
-    </com.common.framework.widget.listview.ScrollMoreRecyclerView>
+  </com.common.framework.widget.listview.ScrollMoreRecyclerView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

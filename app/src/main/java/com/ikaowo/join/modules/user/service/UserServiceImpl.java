@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
-
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.login.YWLoginState;
@@ -44,7 +42,6 @@ import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.SharedPreferenceHelper;
-
 import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
@@ -56,55 +53,48 @@ public class UserServiceImpl extends UserService {
   private SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
   private boolean changTab = true;
 
-  @Override
-  public void goToSignin(Context context) {
+  @Override public void goToSignin(Context context) {
     Intent intent = new Intent(context, SigninActivity.class);
     intent.putExtra(Constant.CHANGE_TAB, true); //从这里进入的登录页面，登录完成之后，都需要进行tab切换。
     JApplication.getJContext().startActivity(context, intent);
   }
 
-  @Override
-  public void resetPassword(Context context) {
+  @Override public void resetPassword(Context context) {
     Intent intent = new Intent(context, ResetPasswdActivity.class);
     JApplication.getJContext().startActivity(context, intent);
   }
 
-  @Override
-  public void goToSignup(Context context) {
+  @Override public void goToSignup(Context context) {
     Intent intent = new Intent(context, SignupActivity.class);
     JApplication.getJContext().startActivity(context, intent);
   }
 
-  @Override
-  public void addBrand(Context context) {
+  @Override public void addBrand(Context context) {
     Intent intent = new Intent(context, AddBrandActivity.class);
     JApplication.getJContext().startActivity(context, intent);
   }
 
-  @Override
-  public void chooseBrandList(Context context) {
+  @Override public void chooseBrandList(Context context) {
     Intent intent = new Intent(context, BrandListActivity.class);
     intent.putExtra(CHOOSE, true);
     JApplication.getJContext().startActivity(context, intent);
   }
 
-  @Override
-  public void doLogin(final Context context, final String userName, String password) {
-    UserInterface userNetworkService
-      = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+  @Override public void doLogin(final Context context, final String userName, String password) {
+    UserInterface userNetworkService =
+        JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
     LoginRequest request = new LoginRequest();
     request.username = userName;
     request.password = password;
-    JApplication.getNetworkManager().async(context, Constant.LOGINING,
-      userNetworkService.signin(request),
-      new NetworkCallback<SignupResponse>(context) {
-        @Override
-        public void onSuccess(SignupResponse signupResponse) {
+    JApplication.getNetworkManager()
+        .async(context, Constant.LOGINING, userNetworkService.signin(request),
+            new NetworkCallback<SignupResponse>(context) {
+              @Override public void onSuccess(SignupResponse signupResponse) {
 
-          sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
-          doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
-        }
-      });
+                sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
+                doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
+              }
+            });
   }
 
   @Override
@@ -117,13 +107,11 @@ public class UserServiceImpl extends UserService {
   public void doAfterSignin(Context context, SignupResponse signupResponse, String suc_hint) {
     sharedPreferenceHelper.saveUser(signupResponse.data);
     EventBus.getDefault().post(new SigninCallback() {
-      @Override
-      public boolean singined() {
+      @Override public boolean singined() {
         return true;
       }
 
-      @Override
-      public boolean changeTab() {
+      @Override public boolean changeTab() {
         return changTab;
       }
     });
@@ -135,15 +123,13 @@ public class UserServiceImpl extends UserService {
   public void doAfterResubmit(Context context, UserLoginData userLoginData, String suc_hint) {
     sharedPreferenceHelper.saveUser(userLoginData);
     EventBus.getDefault().post(new ClosePageCallback() {
-      @Override
-      public boolean close() {
+      @Override public boolean close() {
         return true;
       }
     });
 
     EventBus.getDefault().post(new UpdatedataCallback() {
-      @Override
-      public boolean update() {
+      @Override public boolean update() {
         return true;
       }
     });
@@ -154,8 +140,8 @@ public class UserServiceImpl extends UserService {
 
   @Override
   public void resetPasswd(final Context context, String userName, String vCode, String password) {
-    UserInterface userNetworkService
-      = JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+    UserInterface userNetworkService =
+        JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
 
     ResetPasswdRequest request = new ResetPasswdRequest();
     request.phone = userName;
@@ -163,37 +149,32 @@ public class UserServiceImpl extends UserService {
     request.password = password;
 
     Call<BaseResponse> call = userNetworkService.resetPasswd(request);
-    JApplication.getNetworkManager().async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback(context) {
-      @Override
-      public void onSuccess(Object o) {
-        ((Activity) context).finish();
-        JToast.toastShort(context.getString(R.string.reset_passwd_suc));
-      }
-    });
+    JApplication.getNetworkManager()
+        .async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback(context) {
+          @Override public void onSuccess(Object o) {
+            ((Activity) context).finish();
+            JToast.toastShort(context.getString(R.string.reset_passwd_suc));
+          }
+        });
   }
 
-  @Override
-  public boolean isLogined() {
+  @Override public boolean isLogined() {
     return sharedPreferenceHelper.isLogined();
   }
 
-  @Override
-  public boolean isAuthed() {
+  @Override public boolean isAuthed() {
     return isLogined() && (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(getUser().state));
   }
 
-  @Override
-  public boolean isPendingAuthed() {
+  @Override public boolean isPendingAuthed() {
     return isLogined() && (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(getUser().state));
   }
 
-  @Override
-  public boolean isAuthFailed() {
+  @Override public boolean isAuthFailed() {
     return isLogined() && (Constant.AUTH_STATE_FAILED.equalsIgnoreCase(getUser().state));
   }
 
-  @Override
-  public int getUserCompanyId() {
+  @Override public int getUserCompanyId() {
     return sharedPreferenceHelper.getUserCompanyId();
   }
 
@@ -201,46 +182,38 @@ public class UserServiceImpl extends UserService {
     return sharedPreferenceHelper.getUser();
   }
 
-  @Override
-  public int getUserId() {
+  @Override public int getUserId() {
     return sharedPreferenceHelper.getUserId();
   }
 
-  @Override
-  public void logout(final Context context) {
+  @Override public void logout(final Context context) {
     sharedPreferenceHelper.clearUser();
     JApplication.getNetworkManager().clearCookieStore();
     LoginHelper.getInstance().getIMKit().getLoginService().logout(new IWxCallback() {
-      @Override
-      public void onSuccess(Object... objects) {
+      @Override public void onSuccess(Object... objects) {
         Log.e("IMService", "退出登录成功");
       }
 
-      @Override
-      public void onError(int i, String s) {
+      @Override public void onError(int i, String s) {
         Log.e("IMService", "退出登录失败");
       }
 
-      @Override
-      public void onProgress(int i) {
+      @Override public void onProgress(int i) {
 
       }
     });
     JToast.toastShort("退出登录成功...");
     new Handler().postDelayed(new Runnable() {
-      @Override
-      public void run() {
+      @Override public void run() {
         //将MineActivity 页面关闭
         EventBus.getDefault().post(new ClosePageCallback() {
-          @Override
-          public boolean close() {
+          @Override public boolean close() {
             return true;
           }
         });
 
         EventBus.getDefault().post(new SignoutCallback() {
-          @Override
-          public boolean signout() {
+          @Override public boolean signout() {
             return true;
           }
         });
@@ -248,45 +221,39 @@ public class UserServiceImpl extends UserService {
     }, 300);
 
     EventBus.getDefault().post(new ClickTabCallback() {
-      @Override
-      public int getClickedSys() {
+      @Override public int getClickedSys() {
         return 0;
       }
     });
 
     new Handler().postDelayed(new Runnable() {
-      @Override
-      public void run() {
+      @Override public void run() {
         //将MineActivity 页面关闭
         goToSignin(context);
       }
     }, 500);
   }
 
-  @Override
-  public void updateAvatarInfo(String avatarUrl) {
+  @Override public void updateAvatarInfo(String avatarUrl) {
     UserLoginData user = getUser();
     user.icon = avatarUrl;
     sharedPreferenceHelper.saveUser(user);
   }
 
-  @Override
-  public boolean authed() {
+  @Override public boolean authed() {
     UserLoginData user = getUser();
     return Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
-      && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
+        && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
   }
 
-  @Override
-  public void updateLocalUserInfo(UserLatestState state) {
+  @Override public void updateLocalUserInfo(UserLatestState state) {
     UserLoginData user = getUser();
     user.state = state.sta;
     user.comment = state.comment;
-//    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
+    //    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
 
     sharedPreferenceHelper.saveUser(user);
   }
-
 
   @Override
   public void interceptorCheckUserState(final Context context, final AuthedAction authedAction) {
@@ -303,43 +270,35 @@ public class UserServiceImpl extends UserService {
 
   private void checkState(final Context context, final AuthedAction authedAction) {
     checkLatestUserState(context, new CheckStateCallback() {
-      @Override
-      public void onProcessing() {
+      @Override public void onProcessing() {
         new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
-          context.getString(R.string.unauthed_hint),
-          new JDialogHelper.DoAfterClickCallback() {
-            @Override
-            public void doAction() {
-              if (context instanceof JoinActivity) {
-                ((JoinActivity) context).finish();
+            context.getString(R.string.unauthed_hint), new JDialogHelper.DoAfterClickCallback() {
+              @Override public void doAction() {
+                if (context instanceof JoinActivity) {
+                  ((JoinActivity) context).finish();
+                }
               }
-            }
-          });
+            });
       }
 
-      @Override
-      public void onPassed() {
+      @Override public void onPassed() {
         if (authedAction != null) {
           authedAction.doActionAfterAuthed();
         }
       }
 
-      @Override
-      public void onFailed() {
+      @Override public void onFailed() {
         new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
-          context.getString(R.string.auth_failed_hint),
-          new JDialogHelper.DoAfterClickCallback() {
-            @Override
-            public void doAction() {
-              if (context instanceof JoinActivity) {
-                ((JoinActivity) context).finish();
+            context.getString(R.string.auth_failed_hint), new JDialogHelper.DoAfterClickCallback() {
+              @Override public void doAction() {
+                if (context instanceof JoinActivity) {
+                  ((JoinActivity) context).finish();
+                }
               }
-            }
-          });
+            });
       }
     });
   }
-
 
   private void checkLatestUserState(Context context, final CheckStateCallback callback) {
     NetworkManager networkManager = JApplication.getNetworkManager();
@@ -348,16 +307,14 @@ public class UserServiceImpl extends UserService {
     request.u_id = getUserId();
     final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
     networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
-      @Override
-      public void onSuccess(final CheckStateResponse response) {
+      @Override public void onSuccess(final CheckStateResponse response) {
         if (response == null || response.data != null) {
           return;
         }
         updateLocalUserInfo(response.data);
 
         EventBus.getDefault().post(new CheckLatestStateCallback() {
-          @Override
-          public UserLatestState getLatestState() {
+          @Override public UserLatestState getLatestState() {
             return response.data;
           }
         });
@@ -369,16 +326,13 @@ public class UserServiceImpl extends UserService {
         } else {
           callback.onFailed();
         }
-
       }
     });
   }
 
-  @Override
-  public void imChat(final Context context, final String targetUserWxId) {
+  @Override public void imChat(final Context context, final String targetUserWxId) {
     interceptorCheckUserState(context, new AuthedAction() {
-      @Override
-      public void doActionAfterAuthed() {
+      @Override public void doActionAfterAuthed() {
         String target = targetUserWxId;
         if (loginSuccessed(context)) {
           Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
@@ -410,25 +364,20 @@ public class UserServiceImpl extends UserService {
     return false;
   }
 
-  @Override
-  public String getLoginedUserName(Context context) {
+  @Override public String getLoginedUserName(Context context) {
     return sharedPreferenceHelper.getLoginedUserName(context);
   }
 
-  @Override
-  public void reSubmitInfo(Context context) {
+  @Override public void reSubmitInfo(Context context) {
     Intent intent = new Intent(context, ReSubmitInfoActivity.class);
     JApplication.getJContext().startActivity(context, intent);
   }
 
-
-  @Override
-  public void onCreate() {
+  @Override public void onCreate() {
 
   }
 
-  @Override
-  public void onDestroy() {
+  @Override public void onDestroy() {
 
   }
 }

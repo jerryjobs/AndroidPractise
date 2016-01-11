@@ -5,57 +5,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/c6"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ikaowo.join.modules.promption.activity.CompletePromptionActivity"
     tools:showIn="@layout/activity_complete_promption"
-    android:orientation="vertical">
+    >
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:background="@android:color/white"
+      android:gravity="center_vertical"
+      android:paddingLeft="12dp"
+      android:paddingRight="12dp"
+      android:text="请确认本次推广的合作伙伴"
+      />
+
+  <ViewStub
+      android:id="@+id/approved_user_container_stub"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inflatedId="@+id/subTree"
+      />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:background="@android:color/white"
+      android:orientation="vertical"
+      >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
         android:gravity="center_vertical"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:background="@android:color/white"
-        android:text="请确认本次推广的合作伙伴"/>
-
-    <ViewStub
-        android:id="@+id/approved_user_container_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/subTree"
+        android:text="本次推广媒体报道"
         />
 
-    <LinearLayout
+    <com.ikaowo.join.modules.promption.widget.MediaItem
+        android:id="@+id/media_url_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/white"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="12dp"
-            android:gravity="center_vertical"
-            android:text="本次推广媒体报道"/>
+        app:media_title="媒体１"
+        ></com.ikaowo.join.modules.promption.widget.MediaItem>
 
-        <com.ikaowo.join.modules.promption.widget.MediaItem
-            android:id="@+id/media_url_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:media_title="媒体１"></com.ikaowo.join.modules.promption.widget.MediaItem>
+    <com.ikaowo.join.modules.promption.widget.MediaItem
+        android:id="@+id/media_url_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:media_title="媒体2"
+        ></com.ikaowo.join.modules.promption.widget.MediaItem>
 
-        <com.ikaowo.join.modules.promption.widget.MediaItem
-            android:id="@+id/media_url_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:media_title="媒体2"></com.ikaowo.join.modules.promption.widget.MediaItem>
-
-        <com.ikaowo.join.modules.promption.widget.MediaItem
-            android:id="@+id/media_url_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:media_title="媒体2"></com.ikaowo.join.modules.promption.widget.MediaItem>
-    </LinearLayout>
+    <com.ikaowo.join.modules.promption.widget.MediaItem
+        android:id="@+id/media_url_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:media_title="媒体2"
+        ></com.ikaowo.join.modules.promption.widget.MediaItem>
+  </LinearLayout>
 </LinearLayout>
 

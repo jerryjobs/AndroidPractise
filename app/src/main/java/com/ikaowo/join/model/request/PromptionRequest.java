@@ -2,7 +2,6 @@ package com.ikaowo.join.model.request;
 
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
 import com.ikaowo.join.model.base.BaseRequest;
-
 import java.util.List;
 
 /**

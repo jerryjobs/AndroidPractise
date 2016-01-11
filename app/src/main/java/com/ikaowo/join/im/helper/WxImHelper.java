@@ -3,7 +3,6 @@ package com.ikaowo.join.im.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-
 import com.alibaba.mobileim.IYWLoginService;
 import com.alibaba.mobileim.YWLoginParam;
 import com.alibaba.mobileim.channel.event.IWxCallback;
@@ -33,19 +32,17 @@ public class WxImHelper {
     YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
     loginService.login(loginParam, new IWxCallback() {
 
-      @Override
-      public void onSuccess(Object... objects) {
+      @Override public void onSuccess(Object... objects) {
         Log.e("weiboooo", "login success...");
       }
 
-      @Override
-      public void onError(int i, String s) {
+      @Override public void onError(int i, String s) {
         Log.e("weiboooo", "login failed...:" + s);
-        new JDialogHelper((Activity) context).showConfirmDialog(context, context.getString(R.string.im_service_failed));
+        new JDialogHelper((Activity) context).showConfirmDialog(context,
+            context.getString(R.string.im_service_failed));
       }
 
-      @Override
-      public void onProgress(int i) {
+      @Override public void onProgress(int i) {
       }
     });
   }

@@ -12,11 +12,11 @@ import android.widget.PopupWindow;
  */
 public class TakePhotoPopupWindow extends PopupWindow {
 
-  public TakePhotoPopupWindow(final View contentView,
-                              Button takeBtn, Button pickBtn, Button cancelBtn,
-                              final TakePhotoInterface takePhotoInterface) {
+  public TakePhotoPopupWindow(final View contentView, Button takeBtn, Button pickBtn,
+      Button cancelBtn, final TakePhotoInterface takePhotoInterface) {
 
-    super(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+    super(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,
+        true);
     //取消按钮
     cancelBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -27,8 +27,7 @@ public class TakePhotoPopupWindow extends PopupWindow {
     });
     //设置按钮监听
     takeBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         if (takePhotoInterface != null) {
           dismiss();
           takePhotoInterface.takePhoto();
@@ -36,8 +35,7 @@ public class TakePhotoPopupWindow extends PopupWindow {
       }
     });
     pickBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         if (takePhotoInterface != null) {
           dismiss();
           takePhotoInterface.pickPhoto();

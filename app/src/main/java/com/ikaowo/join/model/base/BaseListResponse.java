@@ -9,8 +9,7 @@ public class BaseListResponse<T> extends BaseResponse {
   public int total;
   public List<T> data;
 
-  @Override
-  public int getTotals() {
+  @Override public int getTotals() {
     return total;
   }
 }

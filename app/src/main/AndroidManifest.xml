@@ -2,161 +2,176 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ikaowo.join">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.VIBRATE"/>
 
-    <application
-        android:name="com.ikaowo.join.KwMarketApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+  <application
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:name="com.ikaowo.join.KwMarketApplication"
+      android:supportsRtl="true"
+      android:theme="@style/AppTheme">
 
-        <activity
-            android:name="com.ikaowo.join.MainTabActivity"
-            android:windowSoftInputMode = "adjustNothing">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+    <activity
+        android:name="com.ikaowo.join.MainTabActivity"
+        android:windowSoftInputMode="adjustNothing">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
 
-        <activity android:name=".modules.user.activity.SigninActivity"
-            android:theme="@style/AppTheme.FullScreen">
-            <intent-filter>
-                <data
-                    android:host="activity"
-                    android:scheme="join"
-                    android:pathPattern="/login"/>
-                <action android:name="android.intent.action.VIEW" />
+    <activity
+        android:name=".modules.user.activity.SigninActivity"
+        android:theme="@style/AppTheme.FullScreen">
+      <intent-filter>
+        <data
+            android:host="activity"
+            android:pathPattern="/login"
+            android:scheme="join"/>
+        <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+      </intent-filter>
+    </activity>
 
-        <activity android:name=".modules.user.activity.AddBrandActivity"
-            android:label="@string/title_activity_add_brand"/>
+    <activity
+        android:label="@string/title_activity_add_brand"
+        android:name=".modules.user.activity.AddBrandActivity"/>
 
-        <activity android:name=".modules.user.activity.SignupActivity"
-            android:label="@string/title_activity_signup" />
+    <activity
+        android:label="@string/title_activity_signup"
+        android:name=".modules.user.activity.SignupActivity"/>
 
-        <activity android:name=".modules.user.activity.ReSubmitInfoActivity"
-                  android:label="@string/title_activity_resubmit" />
+    <activity
+        android:label="@string/title_activity_resubmit"
+        android:name=".modules.user.activity.ReSubmitInfoActivity"/>
 
-        <activity android:name=".modules.user.activity.ResetPasswdActivity"
-            android:label="@string/title_activity_resetpasswd" />
+    <activity
+        android:label="@string/title_activity_resetpasswd"
+        android:name=".modules.user.activity.ResetPasswdActivity"/>
 
-        <activity android:name=".modules.user.activity.BrandListActivity"
-            android:windowSoftInputMode = "adjustPan"/>
+    <activity
+        android:name=".modules.user.activity.BrandListActivity"
+        android:windowSoftInputMode="adjustPan"/>
 
-        <activity android:name=".modules.promption.activity.AddPromptionActivity"
-             android:windowSoftInputMode="stateHidden"
-             android:label="@string/title_activity_add_promotion"/>
+    <activity
+        android:label="@string/title_activity_add_promotion"
+        android:name=".modules.promption.activity.AddPromptionActivity"
+        android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name=".modules.promption.activity.EditPromptionActivity"
-                  android:windowSoftInputMode="stateHidden"
-                  android:label="@string/title_activity_add_promotion"/>
+    <activity
+        android:label="@string/title_activity_add_promotion"
+        android:name=".modules.promption.activity.EditPromptionActivity"
+        android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name=".modules.promption.activity.SearchPromptionActivity"
-                  android:label="@string/title_activity_add_promotion"/>
+    <activity
+        android:label="@string/title_activity_add_promotion"
+        android:name=".modules.promption.activity.SearchPromptionActivity"/>
 
-        <activity android:name=".modules.brand.activity.BrandDetailActivity"
-                  android:label="@string/title_activity_brand_detail">
-            <intent-filter>
-                <data
-                    android:host="brand"
-                    android:scheme="join" />
-                <action android:name="android.intent.action.VIEW" />
+    <activity
+        android:label="@string/title_activity_brand_detail"
+        android:name=".modules.brand.activity.BrandDetailActivity">
+      <intent-filter>
+        <data
+            android:host="brand"
+            android:scheme="join"/>
+        <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+      </intent-filter>
+    </activity>
 
-        <activity android:name=".modules.promption.activity.JoinedListActivity"
-                  android:label="@string/title_activity_joined_list">
-            <intent-filter>
-            <data
-                android:host="activity"
-                android:scheme="join"
-                android:pathPattern="/join_list/.*"/>
-            <action android:name="android.intent.action.VIEW" />
+    <activity
+        android:label="@string/title_activity_joined_list"
+        android:name=".modules.promption.activity.JoinedListActivity">
+      <intent-filter>
+        <data
+            android:host="activity"
+            android:pathPattern="/join_list/.*"
+            android:scheme="join"/>
+        <action android:name="android.intent.action.VIEW"/>
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-        </intent-filter>
-        </activity>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+      </intent-filter>
+    </activity>
 
-        <activity android:name=".modules.promption.activity.JoinActivity"
-                  android:label="@string/title_activity_join">
-            <intent-filter>
-                <data
-                    android:host="activity"
-                    android:scheme="join"
-                    android:pathPattern="/join/.*"/>
-                <action android:name="android.intent.action.VIEW" />
+    <activity
+        android:label="@string/title_activity_join"
+        android:name=".modules.promption.activity.JoinActivity">
+      <intent-filter>
+        <data
+            android:host="activity"
+            android:pathPattern="/join/.*"
+            android:scheme="join"/>
+        <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+      </intent-filter>
+    </activity>
 
-        <activity android:name=".modules.mine.activity.MineActivity" />
+    <activity android:name=".modules.mine.activity.MineActivity"/>
 
-        <activity android:name=".modules.mine.activity.UpdatePasswordActivity"
-                  android:label="@string/title_activity_update_password" />
+    <activity
+        android:label="@string/title_activity_update_password"
+        android:name=".modules.mine.activity.UpdatePasswordActivity"/>
 
-        <activity android:name=".modules.mine.activity.MyPromptionActivity"
-                  android:label="@string/title_activity_mine_promption" />
+    <activity
+        android:label="@string/title_activity_mine_promption"
+        android:name=".modules.mine.activity.MyPromptionActivity"/>
 
-        <activity android:name=".modules.promption.activity.JoinDetailActivity"
-                  android:label="@string/title_activity_join_detail"/>
+    <activity
+        android:label="@string/title_activity_join_detail"
+        android:name=".modules.promption.activity.JoinDetailActivity"/>
 
-        <activity android:name=".modules.webview.activity.WebViewActivity" />
+    <activity android:name=".modules.webview.activity.WebViewActivity"/>
 
-        <activity android:name=".modules.webview.activity.PromptionDetailWebViewActivity" />
+    <activity android:name=".modules.webview.activity.PromptionDetailWebViewActivity"/>
 
-        <activity android:name=".modules.promption.activity.CompletePromptionActivity" >
-            <intent-filter>
-                <data
-                    android:host="activity"
-                    android:scheme="join"
-                    android:pathPattern="/complete/.*"/>
-                <action android:name="android.intent.action.VIEW" />
+    <activity android:name=".modules.promption.activity.CompletePromptionActivity">
+      <intent-filter>
+        <data
+            android:host="activity"
+            android:pathPattern="/complete/.*"
+            android:scheme="join"/>
+        <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".modules.mine.activity.SystemNotificationActivity" />
-        <!-- Umeng Config -->
-        <service
-            android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" />
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+      </intent-filter>
+    </activity>
+    <activity android:name=".modules.mine.activity.SystemNotificationActivity"/>
+    <!-- Umeng Config -->
+    <service
+        android:name="com.umeng.update.net.DownloadingService"
+        android:process=":DownloadingService"/>
 
-        <activity
-            android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    <activity
+        android:name="com.umeng.update.UpdateDialogActivity"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="${UMENG_APPKEY}" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${CHANNEL_NAME}" />
+    <meta-data
+        android:name="UMENG_APPKEY"
+        android:value="${UMENG_APPKEY}"/>
+    <meta-data
+        android:name="UMENG_CHANNEL"
+        android:value="${CHANNEL_NAME}"/>
 
-        <activity
-            android:name="com.ikaowo.join.ViewImageActivity"
-            android:label="@string/title_activity_view_image"
-            android:theme="@style/AppTheme.FullScreen" />
+    <activity
+        android:label="@string/title_activity_view_image"
+        android:name="com.ikaowo.join.ViewImageActivity"
+        android:theme="@style/AppTheme.FullScreen"/>
 
 
-    </application>
+  </application>
 
 </manifest>

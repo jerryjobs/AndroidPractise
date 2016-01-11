@@ -8,7 +8,6 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.ikaowo.join.R;
@@ -62,12 +61,11 @@ public class CompleteJoinItem extends LinearLayout {
     TextView brandTv = (TextView) inflated.findViewById(R.id.brand_name);
 
     ImageLoader imageLoader = JApplication.getImageLoader();
-    imageLoader.loadImage(brandIv, joinedUser.brandIcon,
-      JApplication.getJContext().dip2px(40), JApplication.getJContext().dip2px(30), R.drawable.brand_icon_default);
+    imageLoader.loadImage(brandIv, joinedUser.brandIcon, JApplication.getJContext().dip2px(40),
+        JApplication.getJContext().dip2px(30), R.drawable.brand_icon_default);
     brandTv.setText(joinedUser.brandName);
     inflated.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         iconIv.setSelected(!iconIv.isSelected());
         if (itemClickInterface != null) {
           itemClickInterface.itemClicked(joinedUser.uId, iconIv.isSelected());
@@ -83,5 +81,4 @@ public class CompleteJoinItem extends LinearLayout {
   public interface ItemClickInterface {
     void itemClicked(int id, boolean selected);
   }
-
 }

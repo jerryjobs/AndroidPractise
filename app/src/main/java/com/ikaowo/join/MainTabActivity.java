@@ -6,10 +6,8 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.conversation.IYWConversationService;
 import com.alibaba.mobileim.conversation.IYWConversationUnreadChangeListener;
@@ -41,13 +39,11 @@ import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.MD5Util;
 import com.ikaowo.join.util.SharedPreferenceHelper;
-
+import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 public class MainTabActivity extends TabActivity {
@@ -63,19 +59,19 @@ public class MainTabActivity extends TabActivity {
   private Handler mHandler = new Handler(Looper.getMainLooper());
   private String MD5_KEY = "ddl";
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     notificatonStyle = NotificatonStyle.Badge;
     super.onCreate(savedInstanceState);
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
-    notificationService = JApplication.getJContext().getServiceByInterface(NotificationService.class);
+    notificationService =
+        JApplication.getJContext().getServiceByInterface(NotificationService.class);
     if (userService.isAuthed()) {
       initWxImKit();
     }
 
     toolbar.setTitle(getResources().getString(R.string.app_name));
-//        getNotificationCount();
+    //        getNotificationCount();
     EventBus.getDefault().register(this);
     getEnumData();
 
@@ -84,25 +80,26 @@ public class MainTabActivity extends TabActivity {
   }
 
   private void getEnumData() {
-    CommonInterface commonInterface = JApplication.getNetworkManager().getServiceByClass(CommonInterface.class);
+    CommonInterface commonInterface =
+        JApplication.getNetworkManager().getServiceByClass(CommonInterface.class);
     Call<EnumDataResponse> call = commonInterface.getSystemStateEnum();
-    JApplication.getNetworkManager().async(call, new KwMarketNetworkCallback<EnumDataResponse>(this) {
-      @Override
-      public void onSuccess(EnumDataResponse response) {
-        List<EnumData> enumDataList = null;
-        if (response == null || (enumDataList = response.data) == null) {
-          return;
-        }
+    JApplication.getNetworkManager()
+        .async(call, new KwMarketNetworkCallback<EnumDataResponse>(this) {
+          @Override public void onSuccess(EnumDataResponse response) {
+            List<EnumData> enumDataList = null;
+            if (response == null || (enumDataList = response.data) == null) {
+              return;
+            }
 
-        Map<String, String> enumMap = new HashMap<String, String>();
-        for (EnumData data : enumDataList) {
-          enumMap.put(data.type + data.key, data.value);
-        }
+            Map<String, String> enumMap = new HashMap<String, String>();
+            for (EnumData data : enumDataList) {
+              enumMap.put(data.type + data.key, data.value);
+            }
 
-        SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
-        sharedPreferenceHelper.saveEnumValue(MainTabActivity.this, enumMap);
-      }
-    });
+            SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
+            sharedPreferenceHelper.saveEnumValue(MainTabActivity.this, enumMap);
+          }
+        });
   }
 
   private void initWxImKit() {
@@ -118,11 +115,9 @@ public class MainTabActivity extends TabActivity {
   private void initConversationServiceAndListener() {
     mConversationUnreadChangeListener = new IYWConversationUnreadChangeListener() {
 
-      @Override
-      public void onUnreadChange() {
+      @Override public void onUnreadChange() {
         mHandler.post(new Runnable() {
-          @Override
-          public void run() {
+          @Override public void run() {
             LoginHelper loginHelper = LoginHelper.getInstance();
             final YWIMKit imKit = loginHelper.getIMKit();
             conversationService = imKit.getConversationService();
@@ -138,13 +133,11 @@ public class MainTabActivity extends TabActivity {
     };
   }
 
-  @Override
-  protected String getTag() {
+  @Override protected String getTag() {
     return "MainTabActivity";
   }
 
-  @Override
-  protected List<BaseSys> getTabPages() {
+  @Override protected List<BaseSys> getTabPages() {
     List<BaseSys> tabList = new ArrayList<>();
     PromptionSys homeTab = new PromptionSys(this, tabContainerLayout, this);
     tabList.add(homeTab);
@@ -164,20 +157,17 @@ public class MainTabActivity extends TabActivity {
     return tabList;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-
     switch (id) {
       case R.id.action_add:
 
         userService.interceptorCheckUserState(this, new UserService.AuthedAction() {
-          @Override
-          public void doActionAfterAuthed() {
+          @Override public void doActionAfterAuthed() {
             initWxImKit();
             promptionService.goToAddPromotionActivity(MainTabActivity.this);
           }
@@ -196,15 +186,13 @@ public class MainTabActivity extends TabActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  @Override
-  public void onClicked(final BaseSys tab) {
+  @Override public void onClicked(final BaseSys tab) {
     menuResId = tab.getMenu();
     invalidateOptionsMenu();
     super.onClicked(tab);
   }
 
-  @Override
-  protected void getNotificationCount() {
+  @Override protected void getNotificationCount() {
     Map<String, Integer> map = new HashMap<>();
     map.put("homesys", 1);
     map.put("mesys", 3);
@@ -253,7 +241,7 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(CheckLatestStateCallback callback) {
     UserLatestState state = null;
-    if ((state = callback.getLatestState())!= null) {
+    if ((state = callback.getLatestState()) != null) {
       userService.updateLocalUserInfo(callback.getLatestState());
       if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(state.sta)) {
         initWxImKit();
@@ -263,12 +251,12 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(WxKickedOffCallback callback) {
     if (callback.kickedOff()) {
-      dialogHelper.showConfirmDialog(this, "你的账号在别的设备登录，请退出重新登录", new JDialogHelper.DoAfterClickCallback() {
-        @Override
-        public void doAction() {
-          userService.logout(MainTabActivity.this);
-        }
-      });
+      dialogHelper.showConfirmDialog(this, "你的账号在别的设备登录，请退出重新登录",
+          new JDialogHelper.DoAfterClickCallback() {
+            @Override public void doAction() {
+              userService.logout(MainTabActivity.this);
+            }
+          });
     }
   }
 
@@ -287,7 +275,9 @@ public class MainTabActivity extends TabActivity {
           transaction.commitAllowingStateLoss();
           Log.e(getTag(), "remove the fragment finished");
 
-          Log.e(getTag(), "the fragmetnr rmoved?" + (fragmentManager.findFragmentByTag(imTab.getTag()) == null));
+          Log.e(getTag(),
+              "the fragmetnr rmoved?" + (fragmentManager.findFragmentByTag(imTab.getTag())
+                  == null));
         }
       }
     } catch (Exception e) {
@@ -296,16 +286,14 @@ public class MainTabActivity extends TabActivity {
     }
   }
 
-  @Override
-  protected void onPause() {
+  @Override protected void onPause() {
     super.onPause();
     if (conversationService != null) {
       conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
     }
   }
 
-  @Override
-  protected void onResume() {
+  @Override protected void onResume() {
     super.onResume();
 
     LoginHelper loginHelper = LoginHelper.getInstance();
@@ -322,8 +310,7 @@ public class MainTabActivity extends TabActivity {
     }
   }
 
-  @Override
-  protected void onDestroy() {
+  @Override protected void onDestroy() {
     super.onDestroy();
     EventBus.getDefault().unregister(this);
   }

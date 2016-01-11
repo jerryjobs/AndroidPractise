@@ -25,13 +25,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.fb.SyncListener;
 import com.umeng.fb.model.Conversation;
 import com.umeng.fb.model.Reply;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -51,14 +49,12 @@ public class FeedbackActivity extends AppCompatActivity {
   private EditText inputEdit;
   private SwipeRefreshLayout mSwipeRefreshLayout;
   private Handler mHandler = new Handler() {
-    @Override
-    public void handleMessage(Message msg) {
+    @Override public void handleMessage(Message msg) {
       adapter.notifyDataSetChanged();
     }
   };
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.feedback_layout);
     mContext = this;
@@ -72,15 +68,13 @@ public class FeedbackActivity extends AppCompatActivity {
     mListView.setSelection(mComversation.getReplyList().size() - 1);
   }
 
-  @Override
-  protected void onPause() {
+  @Override protected void onPause() {
     super.onPause();
     MobclickAgent.onPause(this);
     MobclickAgent.onPageEnd(TAG);
   }
 
-  @Override
-  protected void onResume() {
+  @Override protected void onResume() {
     super.onResume();
     MobclickAgent.onResume(this);
     MobclickAgent.onPageStart(TAG);
@@ -98,8 +92,7 @@ public class FeedbackActivity extends AppCompatActivity {
     mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.fb_reply_refresh);
     sendBtn.setOnClickListener(new OnClickListener() {
 
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         String content = inputEdit.getText().toString();
         inputEdit.getEditableText().clear();
         if (!TextUtils.isEmpty(content)) {
@@ -117,32 +110,26 @@ public class FeedbackActivity extends AppCompatActivity {
 
     // 下拉刷新
     mSwipeRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-      @Override
-      public void onRefresh() {
+      @Override public void onRefresh() {
         sync();
       }
     });
 
     inputEdit.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         new Handler().postDelayed(new Runnable() {
-          @Override
-          public void run() {
+          @Override public void run() {
             mListView.setSelection(mListView.getCount() - 1);
           }
         }, 500);
-
       }
     });
 
     inputEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View v, boolean hasFocus) {
+      @Override public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
           new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
               mListView.setSelection(mListView.getCount() - 1);
             }
           }, 500);
@@ -151,7 +138,6 @@ public class FeedbackActivity extends AppCompatActivity {
         }
       }
     });
-
   }
 
   // 数据同步
@@ -159,13 +145,11 @@ public class FeedbackActivity extends AppCompatActivity {
 
     mComversation.sync(new SyncListener() {
 
-      @Override
-      public void onSendUserReply(List<Reply> replyList) {
+      @Override public void onSendUserReply(List<Reply> replyList) {
         mListView.setSelection(mComversation.getReplyList().size() - 1);
       }
 
-      @Override
-      public void onReceiveDevReply(List<Reply> replyList) {
+      @Override public void onReceiveDevReply(List<Reply> replyList) {
         // SwipeRefreshLayout停止刷新
         mSwipeRefreshLayout.setRefreshing(false);
         // 发送消息，刷新ListView
@@ -187,7 +171,7 @@ public class FeedbackActivity extends AppCompatActivity {
      */
     if (view != null) {
       InputMethodManager inputMethodManager =
-        (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+          (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
       inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
   }
@@ -195,29 +179,24 @@ public class FeedbackActivity extends AppCompatActivity {
   // adapter
   class ReplyAdapter extends BaseAdapter {
 
-    @Override
-    public int getCount() {
+    @Override public int getCount() {
       return mComversation.getReplyList().size();
     }
 
-    @Override
-    public Object getItem(int arg0) {
+    @Override public Object getItem(int arg0) {
       return mComversation.getReplyList().get(arg0);
     }
 
-    @Override
-    public long getItemId(int arg0) {
+    @Override public long getItemId(int arg0) {
       return arg0;
     }
 
-    @Override
-    public int getViewTypeCount() {
+    @Override public int getViewTypeCount() {
       // 两种不同的Tiem布局
       return VIEW_TYPE_COUNT;
     }
 
-    @Override
-    public int getItemViewType(int position) {
+    @Override public int getItemViewType(int position) {
       // 获取单条回复
       Reply reply = mComversation.getReplyList().get(position);
       if (Reply.TYPE_DEV_REPLY.equals(reply.type)) {
@@ -229,8 +208,7 @@ public class FeedbackActivity extends AppCompatActivity {
       }
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @Override public View getView(int position, View convertView, ViewGroup parent) {
       ViewHolder holder = null;
       // 获取单条回复
       Reply reply = mComversation.getReplyList().get(position);
@@ -238,24 +216,18 @@ public class FeedbackActivity extends AppCompatActivity {
         // 根据Type的类型来加载不同的Item布局
         if (Reply.TYPE_DEV_REPLY.equals(reply.type)) {
           // 开发者的回复
-          convertView = LayoutInflater.from(mContext).inflate(
-            R.layout.custom_fb_dev_reply, null);
+          convertView = LayoutInflater.from(mContext).inflate(R.layout.custom_fb_dev_reply, null);
         } else {
           // 用户的反馈、回复
-          convertView = LayoutInflater.from(mContext).inflate(
-            R.layout.custom_fb_user_reply, null);
+          convertView = LayoutInflater.from(mContext).inflate(R.layout.custom_fb_user_reply, null);
         }
 
         // 创建ViewHolder并获取各种View
         holder = new ViewHolder();
-        holder.replyContent = (TextView) convertView
-          .findViewById(R.id.fb_reply_content);
-        holder.replyProgressBar = (ProgressBar) convertView
-          .findViewById(R.id.fb_reply_progressBar);
-        holder.replyStateFailed = (ImageView) convertView
-          .findViewById(R.id.fb_reply_state_failed);
-        holder.replyData = (TextView) convertView
-          .findViewById(R.id.fb_reply_date);
+        holder.replyContent = (TextView) convertView.findViewById(R.id.fb_reply_content);
+        holder.replyProgressBar = (ProgressBar) convertView.findViewById(R.id.fb_reply_progressBar);
+        holder.replyStateFailed = (ImageView) convertView.findViewById(R.id.fb_reply_state_failed);
+        holder.replyData = (TextView) convertView.findViewById(R.id.fb_reply_date);
         convertView.setTag(holder);
       } else {
         holder = (ViewHolder) convertView.getTag();
@@ -283,12 +255,10 @@ public class FeedbackActivity extends AppCompatActivity {
 
       // 回复的时间数据，这里仿照QQ两条Reply之间相差100000ms则展示时间
       if ((position + 1) < mComversation.getReplyList().size()) {
-        Reply nextReply = mComversation.getReplyList()
-          .get(position + 1);
+        Reply nextReply = mComversation.getReplyList().get(position + 1);
         if (nextReply.created_at - reply.created_at > 100000) {
           Date replyTime = new Date(reply.created_at);
-          SimpleDateFormat sdf = new SimpleDateFormat(
-            "yyyy-MM-dd HH:mm:ss");
+          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
           holder.replyData.setText(sdf.format(replyTime));
           holder.replyData.setVisibility(View.VISIBLE);
         } else {
@@ -305,5 +275,4 @@ public class FeedbackActivity extends AppCompatActivity {
       TextView replyData;
     }
   }
-
 }
