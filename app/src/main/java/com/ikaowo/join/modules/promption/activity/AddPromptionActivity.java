@@ -63,6 +63,7 @@ public class AddPromptionActivity extends BaseEventBusActivity
     implements DragGridItemAdapter.GridViewItemDeleteListener, PhotoService.UploadFinishListener,
     DragGridView.OnChanageListener, TextWatcher {
 
+
   protected int targetImgBgWidth, targetImgBgHeight;
   protected List<ItemImageObj> list = new ArrayList<>(); //图标icon
   protected DragGridItemAdapter itemAdapter;
@@ -93,6 +94,7 @@ public class AddPromptionActivity extends BaseEventBusActivity
   @Bind(R.id.promption_time) CustomEditTextView promptionTimeTv;
   @Bind(R.id.promption_address) CustomEditTextView promptionAddressTv;
   @Bind(R.id.promption_end_date) CustomEditTextView endDateEt;
+  @Bind(R.id.promption_notes_content) AppCompatEditText noteEt;
   protected final int MAX_COUNT = 6;
   private final int MAX_CONTENT_LENGTH = 140;
   private final int MAX_TITLE_LENGTH = 15;

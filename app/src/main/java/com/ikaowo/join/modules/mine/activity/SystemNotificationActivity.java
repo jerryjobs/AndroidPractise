@@ -43,7 +43,7 @@ public class SystemNotificationActivity
 
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    toolbar.setTitle(getString(R.string.title_activity_system_notification));
+    toolbar.setTitle(R.string.title_activity_system_notification);
 
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
@@ -111,14 +111,14 @@ public class SystemNotificationActivity
           viewHolder.timeTv.setText(dateTimeHelper.getTime(notification.time));
         }
 
-        if (notification.isRead) {
+        if (notification.isRead == 1) {
           viewHolder.timeTv.setTextColor(getColor(R.color.c9));
           viewHolder.titleTv.setTextColor(getColor(R.color.c9));
           viewHolder.contentTv.setTextColor(getColor(R.color.c9));
         } else {
-          viewHolder.timeTv.setTextColor(getColor(R.color.c10));
+          viewHolder.timeTv.setTextColor(getColor(R.color.c9));
           viewHolder.titleTv.setTextColor(getColor(R.color.c3));
-          viewHolder.contentTv.setTextColor(getColor(R.color.c9));
+          viewHolder.contentTv.setTextColor(getColor(R.color.c10));
         }
       }
       super.onBindViewHolder(holder, position);
