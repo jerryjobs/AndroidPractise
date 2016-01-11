@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -70,8 +71,15 @@ public class CustomEditTextView extends LinearLayout {
       ((TextView) view).setTextColor(ContextCompat.getColor(context, color));
     }
 
-    LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-      ViewGroup.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams llp;
+    if (view instanceof EditText) {
+      llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+              ViewGroup.LayoutParams.WRAP_CONTENT);
+      llp.weight = 1;
+    } else {
+      llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+              ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
     llp.gravity = Gravity.CENTER_VERTICAL;
     containerLayout.addView(view, llp);
   }
