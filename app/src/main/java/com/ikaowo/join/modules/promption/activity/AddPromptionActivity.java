@@ -29,6 +29,7 @@ import com.common.framework.core.JApplication;
 import com.common.framework.util.JToast;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseActivity;
+import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
@@ -62,7 +63,7 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-22.
  */
-public class AddPromptionActivity extends BaseActivity
+public class AddPromptionActivity extends BaseEventBusActivity
   implements DragGridItemAdapter.GridViewItemDeleteListener,
   PhotoService.UploadFinishListener,
   DragGridView.OnChanageListener, TextWatcher {
@@ -91,6 +92,8 @@ public class AddPromptionActivity extends BaseActivity
 
   @Bind(R.id.container)
   LinearLayout containerLayout;
+  @Bind(R.id.content_container)
+  LinearLayout contentContainerLayout;
   @Bind(R.id.add_promption_bg_container)
   FrameLayout promptionBgContainer;
   @Bind(R.id.promption_bg)

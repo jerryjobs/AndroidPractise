@@ -8,6 +8,7 @@ import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.widget.ErrorHintLayout;
+import com.ikaowo.join.eventbus.AnimationUpdateCallback;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.response.PromptionResponse;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
@@ -81,5 +82,9 @@ public class EditPromptionActivity extends AddPromptionActivity {
         noteEt.setText(promptNotes);
       }
     });
+  }
+
+  public void onEvent(AnimationUpdateCallback callback) {
+    contentContainerLayout.setTranslationY(callback.getUpdatedValue());
   }
 }
