@@ -7,17 +7,20 @@ import com.common.framework.model.JServiceInfo;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.MineService;
+import com.ikaowo.join.common.service.NotificationService;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.service.WebViewService;
 import com.ikaowo.join.im.helper.InitHelper;
 import com.ikaowo.join.modules.brand.service.BrandServiceImpl;
 import com.ikaowo.join.modules.mine.service.MineServiceImpl;
+import com.ikaowo.join.modules.mine.service.NotificationServiceImpl;
 import com.ikaowo.join.modules.promption.service.PromptionServiceImpl;
 import com.ikaowo.join.modules.user.service.UserServiceImpl;
 import com.ikaowo.join.modules.webview.service.WebViewServiceImpl;
 import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.CommonInterface;
+import com.ikaowo.join.network.NotificationInterface;
 import com.ikaowo.join.network.PromptionInterface;
 import com.ikaowo.join.network.QiniuInterface;
 import com.ikaowo.join.network.TestInterface;
@@ -49,6 +52,7 @@ public class KwMarketApplication extends JApplication {
     context.registerService(JServiceInfo.createServiceInfo(WebViewService.class, new WebViewServiceImpl()));
     context.registerService(JServiceInfo.createServiceInfo(BrandService.class, new BrandServiceImpl()));
     context.registerService(JServiceInfo.createServiceInfo(MineService.class, new MineServiceImpl()));
+    context.registerService(JServiceInfo.createServiceInfo(NotificationService.class, new NotificationServiceImpl()));
   }
 
   @Override
@@ -60,6 +64,7 @@ public class KwMarketApplication extends JApplication {
     networkManager.registerService(UserInterface.class);
     networkManager.registerService(PromptionInterface.class);
     networkManager.registerService(CommonInterface.class);
+    networkManager.registerService(NotificationInterface.class);
   }
 
   @Override

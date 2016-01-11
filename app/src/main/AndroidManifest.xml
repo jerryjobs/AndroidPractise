@@ -134,6 +134,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
+        <activity android:name=".modules.mine.activity.SystemNotificationActivity" />
         <!-- Umeng Config -->
         <service
             android:name="com.umeng.update.net.DownloadingService"

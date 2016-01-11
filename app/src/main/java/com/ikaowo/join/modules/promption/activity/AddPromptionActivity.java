@@ -330,6 +330,8 @@ public class AddPromptionActivity extends BaseEventBusActivity
     });
   }
 
+  public void onEvent(Boolean b) {}
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);

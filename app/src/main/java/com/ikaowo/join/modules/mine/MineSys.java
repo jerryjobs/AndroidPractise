@@ -55,6 +55,11 @@ public class MineSys extends BaseSys {
   }
 
   @Override
+  public int getMenu() {
+    return R.menu.menu_me;
+  }
+
+  @Override
   public String getTag() {
     return "MineSys";
   }

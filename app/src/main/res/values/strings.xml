@@ -65,4 +65,5 @@
     <string name="im_service_logining">IM服务正在登录中，请稍后</string>
     <string name="title_activity_complete_promption">完成活动</string>
     <string name="title_activity_resubmit">重新认证</string>
+    <string name="title_activity_system_notification">系统通知</string>
 </resources>

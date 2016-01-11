@@ -17,6 +17,9 @@ public class JoinInfo implements Serializable {
   @SerializedName("aci_u_id")
   public int publishUId;
 
+  @SerializedName("aci_state")
+  public String prompState;
+
   @SerializedName("user_icon")
   public String userIcon;
 

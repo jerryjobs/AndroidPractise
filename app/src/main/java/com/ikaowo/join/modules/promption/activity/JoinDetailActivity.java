@@ -176,7 +176,8 @@ public class JoinDetailActivity extends BaseActivity {
 
           nameTitleTv.setText(joinInfo.nickname + " | " + joinInfo.title);
 
-          if (userService.isLogined() && userService.getUserId() == joinInfo.publishUId) {
+          if (userService.isLogined() && userService.getUserId() == joinInfo.publishUId
+                  && joinInfo.prompState.equalsIgnoreCase(Constant.PROMPTION_STATE_PASS)) {
             if (Constant.JOIN_STATE_FAILED.equalsIgnoreCase(joinInfo.state)) {
               btnLayout.setVisibility(View.VISIBLE);
               approveBtn.setVisibility(View.VISIBLE);

@@ -17,6 +17,8 @@ import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
+import com.common.framework.umeng.UmengService;
+import com.ikaowo.join.common.service.NotificationService;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.CheckLatestStateCallback;
@@ -51,7 +53,9 @@ import retrofit.Call;
 public class MainTabActivity extends TabActivity {
 
   private UserService userService;
+  private UmengService umengService = new UmengService();
   private PromptionService promptionService;
+  private NotificationService notificationService;
 
   private IYWConversationService conversationService;
   private YWIMKit imKit;
@@ -65,7 +69,7 @@ public class MainTabActivity extends TabActivity {
     super.onCreate(savedInstanceState);
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
-
+    notificationService = JApplication.getJContext().getServiceByInterface(NotificationService.class);
     if (userService.isAuthed()) {
       initWxImKit();
     }
@@ -75,6 +79,8 @@ public class MainTabActivity extends TabActivity {
     EventBus.getDefault().register(this);
     getEnumData();
 
+    umengService.init(this);
+    umengService.checkUpdate(this, false);
   }
 
   private void getEnumData() {
@@ -180,6 +186,10 @@ public class MainTabActivity extends TabActivity {
 
       case R.id.action_search:
         promptionService.searchPromptionActivity(this);
+        break;
+
+      case R.id.action_view_notification:
+        notificationService.viewNotification(this);
         break;
     }
 
