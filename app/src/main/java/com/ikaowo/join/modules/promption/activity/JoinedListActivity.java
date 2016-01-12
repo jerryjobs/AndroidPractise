@@ -1,5 +1,6 @@
 package com.ikaowo.join.modules.promption.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -53,8 +54,13 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
 
   @Override public void onCreate(Bundle savedInstanceState) {
     try {
-      List<String> pathList = getIntent().getData().getPathSegments();
-      promptionId = Integer.valueOf(pathList.get(pathList.size() - 1));
+      Uri data = getIntent().getData();
+      List<String> pathList = null;
+      if (data != null) {
+        pathList = getIntent().getData().getPathSegments();
+        promptionId = Integer.valueOf(pathList.get(pathList.size() - 1));
+      }
+
       if (promptionId <= 0) {
         promptionId = getIntent().getExtras().getInt(Constant.PROMPTION_ID, -1);
       }

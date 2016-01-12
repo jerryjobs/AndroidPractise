@@ -1,6 +1,7 @@
 package com.ikaowo.join.modules.mine.activity;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +21,11 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.model.JoinedUser;
 import com.ikaowo.join.model.Notification;
 import com.ikaowo.join.model.base.BaseListResponse;
+import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.modules.common.BaseListActivity;
+import com.ikaowo.join.modules.push.factory.PushProcesserFactory;
+import com.ikaowo.join.modules.push.processer.PushDataProcesser;
+import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.NotificationInterface;
 import com.ikaowo.join.util.DateTimeHelper;
 import java.util.HashMap;
@@ -69,8 +74,22 @@ public class SystemNotificationActivity
     networkManager.async(call, callback);
   }
 
-  @Override protected void performCustomItemClick(Notification notification) {
+  @Override protected void performCustomItemClick(final Notification notification) {
+    PushDataProcesser processer = new PushProcesserFactory().getDataProcesser(notification.type);
+    processer.action(this, notification.targetId);
 
+    if (!notification.isRead) {
+      Map<String, Integer> map = new HashMap<>();
+      map.put("nt_id", notification.id);
+      Call<BaseResponse> call = notificationInterface.markAsRed(map);
+      networkManager.async(call, new KwMarketNetworkCallback<BaseResponse>(this) {
+        @Override public void onSuccess(BaseResponse response) {
+          notification.isRead = true;
+          JAdapter<JoinedUser> adapter = (JAdapter<JoinedUser>) recyclerView.getAdapter();
+          adapter.notifyDataSetChanged();
+        }
+      });
+    }
   }
 
   @Override protected JAdapter getAdapter(RecyclerViewHelper recyclerViewHelper) {
@@ -111,14 +130,14 @@ public class SystemNotificationActivity
           viewHolder.timeTv.setText(dateTimeHelper.getTime(notification.time));
         }
 
-        if (notification.isRead == 1) {
-          viewHolder.timeTv.setTextColor(getColor(R.color.c9));
-          viewHolder.titleTv.setTextColor(getColor(R.color.c9));
-          viewHolder.contentTv.setTextColor(getColor(R.color.c9));
+        if (notification.isRead) {
+          viewHolder.timeTv.setTextColor(ContextCompat.getColor(SystemNotificationActivity.this, R.color.c9));
+          viewHolder.titleTv.setTextColor(ContextCompat.getColor(SystemNotificationActivity.this, R.color.c9));
+          viewHolder.contentTv.setTextColor(ContextCompat.getColor(SystemNotificationActivity.this, R.color.c9));
         } else {
-          viewHolder.timeTv.setTextColor(getColor(R.color.c9));
-          viewHolder.titleTv.setTextColor(getColor(R.color.c3));
-          viewHolder.contentTv.setTextColor(getColor(R.color.c10));
+          viewHolder.timeTv.setTextColor(ContextCompat.getColor(SystemNotificationActivity.this, R.color.c9));
+          viewHolder.titleTv.setTextColor(ContextCompat.getColor(SystemNotificationActivity.this, R.color.c3));
+          viewHolder.contentTv.setTextColor(ContextCompat.getColor(SystemNotificationActivity.this, R.color.c10));
         }
       }
       super.onBindViewHolder(holder, position);

@@ -10,7 +10,7 @@ public abstract class WebViewService extends JCommonService {
 
   public abstract void openWebView(Context context, WebViewRequest request);
 
-  public abstract void viewPromptionDetail(Context context, UserService userService,
+  public abstract void viewPromptionDetail(Context context,
       int promptionId, WebViewRequest request);
 
   public static class WebViewRequest {

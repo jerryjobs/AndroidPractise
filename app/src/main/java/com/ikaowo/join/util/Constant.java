@@ -56,6 +56,19 @@ public class Constant {
   public static int EDIT = 2;
   public static int NONE = 3;
 
+  public static final String GETUI_STATE_T = "T";
+
+  public static final String SYS = "android";
+
+  public static final String PUSH_PROMPTION_PASSED = "G_SOC_001"; //活动审核通过
+  public static final String PUSH_PROMPTION_FAILED = "G_SOC_002"; //活动审核未通过
+  public static final String PUSH_JOIN_NEW = "G_JOIN_001"; //新的报名成功
+  public static final String PUSH_JOIN_JOINED = "G_JOIN_002"; //您已参加了一个活动
+  public static final String PUSH_ACCT_PASSED = "G_REG_001"; //账号审核通过
+  public static final String PUSH_ACCT_FAILED = "G_REG_002"; //账号审核未通过
+
+  public static final String PUSH_INTENT_EXTRA = "data";
+
   public static int getRandomColor() {
     Random random = new Random(System.currentTimeMillis());
     int index = Math.abs(random.nextInt()) % 10;

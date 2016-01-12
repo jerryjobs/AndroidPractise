@@ -24,7 +24,7 @@ public class WebViewServiceImpl extends WebViewService {
   }
 
   @Override
-  public void viewPromptionDetail(Context context, UserService userService, int promptionId,
+  public void viewPromptionDetail(Context context, int promptionId,
       WebViewRequest request) {
 
     if (TextUtils.isEmpty(request.url)) {

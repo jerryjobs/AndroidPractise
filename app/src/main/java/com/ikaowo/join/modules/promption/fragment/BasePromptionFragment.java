@@ -72,7 +72,7 @@ public abstract class BasePromptionFragment
     }
     WebViewService.WebViewRequest webViewRequest = new WebViewService.WebViewRequest();
     webViewRequest.url = url;
-    webViewService.viewPromptionDetail(getActivity(), userService, promption.id, webViewRequest);
+    webViewService.viewPromptionDetail(getActivity(), promption.id, webViewRequest);
   }
 
   @Override protected JAdapter<Promption> getAdapter(

@@ -9,7 +9,7 @@
 
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="60dp"
+      android:layout_height="72dp"
       android:layout_weight="1"
       android:orientation="horizontal"
       >
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:text="新的报名"
             android:textColor="@color/c3"
-            android:textSize="15sp"
+            android:textSize="16sp"
             />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_marginLeft="16dp"
             android:text="10:12"
             android:textColor="@color/c9"
-            android:textSize="13sp"
+            android:textSize="12sp"
             />
       </LinearLayout>
 

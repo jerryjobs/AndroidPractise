@@ -8,8 +8,9 @@ import java.io.Serializable;
  */
 public class Notification implements Serializable {
   @SerializedName("nt_id") public int id;
-  @SerializedName("ntc_type") public int type;
-  @SerializedName("is_read") public int isRead;
+  @SerializedName("ntc_id") public String type;
+  @SerializedName("nt_uid") public int targetId;
+  @SerializedName("is_read") public boolean isRead;
   @SerializedName("nt_title") public String title;
   @SerializedName("nt_time") public String time;
   @SerializedName("nt_contents") public String content;

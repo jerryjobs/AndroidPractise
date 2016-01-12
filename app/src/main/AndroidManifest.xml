@@ -19,7 +19,9 @@
 
     <activity
         android:name="com.ikaowo.join.MainTabActivity"
-        android:windowSoftInputMode="adjustNothing">
+        android:windowSoftInputMode="adjustNothing"
+        android:launchMode="singleTop"
+        android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
@@ -170,6 +172,15 @@
         android:label="@string/title_activity_view_image"
         android:name="com.ikaowo.join.ViewImageActivity"
         android:theme="@style/AppTheme.FullScreen"/>
+
+    <!-- 配置第三方Receiver -->
+    <receiver
+        android:name=".modules.push.PushReceiver"
+        android:exported="false" >
+      <intent-filter>
+        <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+      </intent-filter>
+    </receiver>
 
 
   </application>

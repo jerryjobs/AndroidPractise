@@ -22,6 +22,7 @@ import com.ikaowo.join.network.BrandInterface;
 import com.ikaowo.join.network.CommonInterface;
 import com.ikaowo.join.network.NotificationInterface;
 import com.ikaowo.join.network.PromptionInterface;
+import com.ikaowo.join.network.PushInterface;
 import com.ikaowo.join.network.QiniuInterface;
 import com.ikaowo.join.network.TestInterface;
 import com.ikaowo.join.network.UserInterface;
@@ -68,6 +69,7 @@ public class KwMarketApplication extends JApplication {
     networkManager.registerService(PromptionInterface.class);
     networkManager.registerService(CommonInterface.class);
     networkManager.registerService(NotificationInterface.class);
+    networkManager.registerService(PushInterface.class);
   }
 
   @Override public String getBaseUrl() {

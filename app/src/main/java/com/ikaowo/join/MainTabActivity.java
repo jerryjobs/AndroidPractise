@@ -1,5 +1,6 @@
 package com.ikaowo.join;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,6 +35,10 @@ import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
 import com.ikaowo.join.modules.mine.MineSys;
 import com.ikaowo.join.modules.promption.PromptionSys;
+import com.ikaowo.join.modules.push.GetuiService;
+import com.ikaowo.join.modules.push.factory.PushProcesserFactory;
+import com.ikaowo.join.modules.push.model.Push;
+import com.ikaowo.join.modules.push.processer.PushDataProcesser;
 import com.ikaowo.join.network.CommonInterface;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.util.Constant;
@@ -50,6 +55,7 @@ public class MainTabActivity extends TabActivity {
 
   private UserService userService;
   private UmengService umengService = new UmengService();
+  private GetuiService getuiService = new GetuiService();
   private PromptionService promptionService;
   private NotificationService notificationService;
 
@@ -66,8 +72,11 @@ public class MainTabActivity extends TabActivity {
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
     notificationService =
         JApplication.getJContext().getServiceByInterface(NotificationService.class);
-    if (userService.isAuthed()) {
-      initWxImKit();
+    if (userService.isLogined()) {
+      getuiService.initGetuiService(this);
+      if (userService.isAuthed()) {
+        initWxImKit();
+      }
     }
 
     toolbar.setTitle(getResources().getString(R.string.app_name));
@@ -77,6 +86,7 @@ public class MainTabActivity extends TabActivity {
 
     umengService.init(this);
     umengService.checkUpdate(this, false);
+
   }
 
   private void getEnumData() {
@@ -216,6 +226,7 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(SigninCallback callback) {
     if (callback.singined()) {
+      getuiService.initGetuiService(this);
       if (userService.isAuthed()) {
         initWxImKit();
         updateConversationList();
@@ -229,6 +240,8 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(SignoutCallback callback) {
     if (callback.signout()) {
+      getuiService.stopGetuiService(this);
+
       if (conversationService != null) {
         conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
       }
@@ -286,6 +299,11 @@ public class MainTabActivity extends TabActivity {
     }
   }
 
+  @Override protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+  }
+
   @Override protected void onPause() {
     super.onPause();
     if (conversationService != null) {
@@ -307,6 +325,26 @@ public class MainTabActivity extends TabActivity {
       if (conversationService != null) {
         conversationService.addTotalUnreadChangeListener(mConversationUnreadChangeListener);
       }
+    }
+
+    handlePushMsg();
+  }
+
+  private void handlePushMsg() {
+    Bundle bundle = getIntent().getExtras();
+    if (bundle == null) {
+      return;
+    }
+    Object objData = getIntent().getExtras().get("data");
+    try {
+      if (objData != null) {
+        Push push = (Push) objData;
+        PushDataProcesser pushDataProcesser = new PushProcesserFactory().getDataProcesser(push.type);
+        pushDataProcesser.action(this, push.targetId);
+        getIntent().removeExtra("data");
+      }
+    }catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
