@@ -7,6 +7,7 @@ import com.ikaowo.join.modules.push.processer.JoinedProcesser;
 import com.ikaowo.join.modules.push.processer.PromptionFailedProcesser;
 import com.ikaowo.join.modules.push.processer.PromptionPassedProcesser;
 import com.ikaowo.join.modules.push.processer.PushDataProcesser;
+import com.ikaowo.join.modules.push.processer.SystemNotificationProcesser;
 import com.ikaowo.join.util.Constant;
 
 /**
@@ -39,6 +40,10 @@ public class PushProcesserFactory {
 
       case Constant.PUSH_PROMPTION_FAILED:
         processer = new PromptionFailedProcesser();
+        break;
+
+      case Constant.PUSH_SYS:
+        processer = new SystemNotificationProcesser();
         break;
     }
 

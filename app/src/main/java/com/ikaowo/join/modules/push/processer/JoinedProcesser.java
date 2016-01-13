@@ -8,8 +8,8 @@ import com.ikaowo.join.common.service.BrandService;
  */
 public class JoinedProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, int targetId) {
+  @Override public void action(Context context, String target) {
     BrandService brandService = jContext.getServiceByInterface(BrandService.class);
-    brandService.viewBrandDetail(context, targetId);
+    brandService.viewBrandDetail(context, Integer.valueOf(target));
   }
 }

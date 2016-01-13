@@ -46,6 +46,6 @@ public abstract class PushDataProcesser {
     intent.putExtra(Constant.PUSH_INTENT_EXTRA, push);
     new NotificationHelper().displayNotification(context, data.title, data.content, intent);
   }
-  public abstract void action(Context context, int targetId);
+  public abstract void action(Context context, String target);
 
 }

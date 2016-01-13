@@ -4,7 +4,7 @@
     tools:context="com.ikaowo.join.MainActivity">
   <item
       android:id="@+id/action_view_notification"
-      android:icon="@drawable/nav_ic_notice"
+      app:actionLayout="@layout/menu_system_notification"
       android:orderInCategory="100"
       android:title="系统消息"
       app:showAsAction="always"/>

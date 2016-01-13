@@ -8,7 +8,7 @@ import com.ikaowo.join.common.service.UserService;
  */
 public class AuthFailedProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, int targetId) {
+  @Override public void action(Context context, String target) {
     UserService userService = jContext.getServiceByInterface(UserService.class);
     userService.reSubmitInfo(context);
   }

@@ -8,7 +8,7 @@ import com.ikaowo.join.common.service.MineService;
  */
 public class AuthSucProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, int targetId) {
+  @Override public void action(Context context, String target) {
     MineService mineService = jContext.getServiceByInterface(MineService.class);
     mineService.viewUserInfo(context);
   }

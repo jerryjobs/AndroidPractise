@@ -8,8 +8,8 @@ import com.ikaowo.join.common.service.PromptionService;
  */
 public class PromptionFailedProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, int targetId) {
+  @Override public void action(Context context, String target) {
     PromptionService promptionService = jContext.getServiceByInterface(PromptionService.class);
-    promptionService.goToEditPromptionActivity(context, targetId);
+    promptionService.goToEditPromptionActivity(context, Integer.valueOf(target));
   }
 }

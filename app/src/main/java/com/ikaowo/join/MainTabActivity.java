@@ -7,8 +7,11 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.menu.MenuBuilder;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.conversation.IYWConversationService;
 import com.alibaba.mobileim.conversation.IYWConversationUnreadChangeListener;
@@ -16,10 +19,12 @@ import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
+import com.common.framework.network.NetworkManager;
 import com.common.framework.umeng.UmengService;
 import com.ikaowo.join.common.service.NotificationService;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.common.widget.NotificationImageView;
 import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.ClickTabCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
@@ -28,8 +33,10 @@ import com.ikaowo.join.eventbus.WxKickedOffCallback;
 import com.ikaowo.join.im.helper.LoginHelper;
 import com.ikaowo.join.im.helper.WxImHelper;
 import com.ikaowo.join.model.EnumData;
+import com.ikaowo.join.model.UnReadMsg;
 import com.ikaowo.join.model.UserLatestState;
 import com.ikaowo.join.model.UserLoginData;
+import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.response.EnumDataResponse;
 import com.ikaowo.join.modules.brand.BrandSys;
 import com.ikaowo.join.modules.message.MessageSys;
@@ -41,6 +48,7 @@ import com.ikaowo.join.modules.push.model.Push;
 import com.ikaowo.join.modules.push.processer.PushDataProcesser;
 import com.ikaowo.join.network.CommonInterface;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
+import com.ikaowo.join.network.NotificationInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.MD5Util;
 import com.ikaowo.join.util.SharedPreferenceHelper;
@@ -64,6 +72,8 @@ public class MainTabActivity extends TabActivity {
   private IYWConversationUnreadChangeListener mConversationUnreadChangeListener;
   private Handler mHandler = new Handler(Looper.getMainLooper());
   private String MD5_KEY = "ddl";
+
+  private Map<String, Integer> notificationCnt = new HashMap<>();
 
   @Override public void onCreate(Bundle savedInstanceState) {
     notificatonStyle = NotificatonStyle.Badge;
@@ -167,6 +177,30 @@ public class MainTabActivity extends TabActivity {
     return tabList;
   }
 
+  @Override public boolean onCreateOptionsMenu(final Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    View actionView;
+
+    try {
+      if ((actionView = (menu.getItem(0).getActionView())) != null) {
+        actionView.setOnClickListener(new View.OnClickListener() {
+          @Override public void onClick(View v) {
+            onOptionsItemSelected(menu.getItem(0));
+          }
+        });
+        NotificationImageView notificationImageView
+            = (NotificationImageView) actionView.findViewById(R.id.notification_img);
+        if (notificationCnt.get("SYSTEM") > 0) {
+          notificationImageView.showNotification();
+        } else {
+          notificationImageView.hideNotification();
+        }
+      }
+    } finally {
+      return true;
+    }
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
@@ -200,20 +234,41 @@ public class MainTabActivity extends TabActivity {
     menuResId = tab.getMenu();
     invalidateOptionsMenu();
     super.onClicked(tab);
+    getNotificationCount();
   }
 
   @Override protected void getNotificationCount() {
-    Map<String, Integer> map = new HashMap<>();
-    map.put("homesys", 1);
-    map.put("mesys", 3);
-    for (BaseSys tab : tabbarList) {
-      Integer count = map.get(tab.getTag().toLowerCase());
-      if (null == count || count == 0) {
-        tab.hideNotification();
-      } else {
-        tab.showNotification(notificatonStyle, count);
-      }
+    //Map<String, Integer> map = new HashMap<>();
+    //map.put("homesys", 1);
+    //map.put("mesys", 3);
+    //for (BaseSys tab : tabbarList) {
+    //  Integer count = map.get(tab.getTag().toLowerCase());
+    //  if (null == count || count == 0) {
+    //    tab.hideNotification();
+    //  } else {
+    //    tab.showNotification(notificatonStyle, count);
+    //  }
+    //}
+
+    if (clickedPos != 3) {
+      return;
     }
+
+    NetworkManager networkManager = JApplication.getNetworkManager();
+    NotificationInterface notificationInterface
+        = networkManager.getServiceByClass(NotificationInterface.class);
+    Call<BaseListResponse<UnReadMsg>> call = notificationInterface.getUnreadMsg();
+    networkManager.async(call, new KwMarketNetworkCallback<BaseListResponse<UnReadMsg>>(this) {
+      @Override public void onSuccess(BaseListResponse<UnReadMsg> response) {
+        if (response != null && response.data != null && response.data.size() > 0){
+          List<UnReadMsg> unReadMsgList = response.data;
+          for (UnReadMsg msg : unReadMsgList) {
+            notificationCnt.put(msg.type, msg.total);
+            invalidateOptionsMenu();
+          }
+        }
+      }
+    });
   }
 
   public void onEvent(ClickTabCallback callback) {
@@ -326,7 +381,7 @@ public class MainTabActivity extends TabActivity {
         conversationService.addTotalUnreadChangeListener(mConversationUnreadChangeListener);
       }
     }
-
+    getNotificationCount();
     handlePushMsg();
   }
 
@@ -340,7 +395,7 @@ public class MainTabActivity extends TabActivity {
       if (objData != null) {
         Push push = (Push) objData;
         PushDataProcesser pushDataProcesser = new PushProcesserFactory().getDataProcesser(push.type);
-        pushDataProcesser.action(this, push.targetId);
+        pushDataProcesser.action(this, String.valueOf(push.targetId));
         getIntent().removeExtra("data");
       }
     }catch (Exception e) {

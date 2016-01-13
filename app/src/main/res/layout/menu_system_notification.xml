@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:layout_width="48dp"
+    android:layout_height="match_parent">
+  <com.ikaowo.join.common.widget.NotificationImageView
+      android:id="@+id/notification_img"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:src="@drawable/nav_ic_notice" />
+</RelativeLayout>

@@ -21,7 +21,7 @@ public abstract class TabActivity extends JFragmentActivity implements BaseSys.T
   protected List<BaseSys> tabbarList = new ArrayList<>();
   protected LinearLayout tabContainerLayout;
   protected NotificatonStyle notificatonStyle;
-  private int clickedPos;
+  protected int clickedPos;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

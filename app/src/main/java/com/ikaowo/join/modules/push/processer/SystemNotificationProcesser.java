@@ -1,20 +1,16 @@
 package com.ikaowo.join.modules.push.processer;
 
 import android.content.Context;
-import com.ikaowo.join.BuildConfig;
 import com.ikaowo.join.common.service.WebViewService;
 
 /**
- * Created by weibo on 16-1-12.
+ * Created by weibo on 16-1-13.
  */
-public class PromptionPassedProcesser extends PushDataProcesser {
-
+public class SystemNotificationProcesser extends PushDataProcesser {
   @Override public void action(Context context, String target) {
-    String url = BuildConfig.PROMPTION_URL + target;
-
     WebViewService webViewService = jContext.getServiceByInterface(WebViewService.class);
     WebViewService.WebViewRequest request = new WebViewService.WebViewRequest();
-    request.url = url;
+    request.url = target;
     webViewService.viewPromptionDetail(context, Integer.valueOf(target), request);
   }
 }

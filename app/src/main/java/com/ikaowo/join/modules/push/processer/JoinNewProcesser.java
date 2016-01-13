@@ -8,8 +8,8 @@ import com.ikaowo.join.common.service.PromptionService;
  */
 public class JoinNewProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, int targetId) {
+  @Override public void action(Context context, String target) {
     PromptionService promptionService = jContext.getServiceByInterface(PromptionService.class);
-    promptionService.viewJoinedUserList(context, targetId);
+    promptionService.viewJoinedUserList(context, Integer.valueOf(target));
   }
 }

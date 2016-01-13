@@ -1,6 +1,7 @@
 package com.ikaowo.join.network;
 
 import com.ikaowo.join.model.Notification;
+import com.ikaowo.join.model.UnReadMsg;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.base.BaseResponse;
 import java.util.Map;
@@ -17,4 +18,6 @@ public interface NotificationInterface {
       @QueryMap Map<String, String> map);
 
   @PUT("message") Call<BaseResponse> markAsRed(@QueryMap Map map);
+
+  @GET("message/unread") Call<BaseListResponse<UnReadMsg>> getUnreadMsg();
 }

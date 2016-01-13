@@ -16,6 +16,7 @@ import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.network.NetworkManager;
+import com.common.framework.util.JLog;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.R;
 import com.ikaowo.join.model.JoinedUser;
@@ -47,8 +48,8 @@ public class SystemNotificationActivity
     networkManager = JApplication.getNetworkManager();
 
     toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
     toolbar.setTitle(R.string.title_activity_system_notification);
+    setSupportActionBar(toolbar);
 
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
@@ -76,7 +77,11 @@ public class SystemNotificationActivity
 
   @Override protected void performCustomItemClick(final Notification notification) {
     PushDataProcesser processer = new PushProcesserFactory().getDataProcesser(notification.type);
-    processer.action(this, notification.targetId);
+    if (processer == null) {
+      JLog.e(getTag(), "暂不支持该类型的推送消息处理:" + notification.type);
+      return;
+    }
+    processer.action(this, String.valueOf(notification.targetId));
 
     if (!notification.isRead) {
       Map<String, Integer> map = new HashMap<>();
