@@ -3,22 +3,28 @@
     android:id="@+id/expertsys_add_thumb"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/c6"
+    android:background="@android:color/white"
     >
-
-  <!-- 图片 -->
-  <ImageView
-      android:layout_width="72dp"
-      android:layout_height="72dp"
+  <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_centerInParent="true"
-      android:visibility="invisible"
-      />
-  <!-- 删除 -->
-  <ImageView
-      android:layout_width="32dp"
-      android:layout_height="32dp"
-      android:layout_centerInParent="true"
-      android:background="@drawable/newbuilt_ic_addimgs"
-      />
+      android:background="@color/c6">
+    <!-- 图片 -->
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
+    <!-- 删除 -->
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/newbuilt_ic_addimgs"
+        />
+  </RelativeLayout>
 
 </RelativeLayout>

@@ -16,7 +16,7 @@ public class NotificationImageView extends ImageView {
 
   private static int radius = JApplication.getJContext().dip2px(4);
   private static int padding = JApplication.getJContext().dip2px(10);
-  private boolean notificationFlag = true;
+  private boolean notificationFlag = false;
 
   public NotificationImageView(Context context) {
     super(context);

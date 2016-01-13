@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
   <!-- 图片 -->
   <RelativeLayout
@@ -16,25 +15,24 @@
 
     <com.component.photo.FullImageView
         android:id="@+id/expertsys_thumb_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/brand_icon_default"
         />
   </RelativeLayout>
 
   <!-- 删除 -->
   <RelativeLayout
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignRight="@id/expertsys_thumb_img_layout"
-      android:layout_alignTop="@id/expertsys_thumb_img_layout"
-      >
+      android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/widget_draggrid_delete_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:background="@drawable/newbuilt_ic_deletepic"
         />
   </RelativeLayout>

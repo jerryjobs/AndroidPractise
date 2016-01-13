@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,8 +38,8 @@ public class DragGridItemAdapter extends BaseAdapter {
     this.context = context;
     this.thumbList = items;
     this.width = (JApplication.getJContext().getScreenWidth()
-        - JApplication.getJContext().dip2px(30)
-        - JApplication.getJContext().dip2px(24)) / 4;
+        - JApplication.getJContext().dip2px(12)
+        - JApplication.getJContext().dip2px(24)) / 4; // 12　marginLeft + marginRight
     this.maxCount = maxCount;
     this.photoService = new PhotoService(context);
   }
@@ -71,7 +72,7 @@ public class DragGridItemAdapter extends BaseAdapter {
 
   @Override public View getView(final int position, View convertView, ViewGroup parent) {
     NormalHolderView normalHolder = null;
-    AddHolderView addHolder;
+    AddHolderView addHolder = null;
 
     int type = getItemViewType(position);
     item = thumbList.get(position);
@@ -97,14 +98,23 @@ public class DragGridItemAdapter extends BaseAdapter {
         break;
     }
 
-    AbsListView.LayoutParams rlp = new AbsListView.LayoutParams(width, width);
-    convertView.setLayoutParams(rlp);
+    AbsListView.LayoutParams alp = new AbsListView.LayoutParams(width, width);
+    convertView.setLayoutParams(alp);
     if (normalHolder != null) {
       normalHolder.thumbImg.setImgUri(item.uri);
       normalHolder.thumbImg.setImgUrl(item.thumbImg);
-      JApplication.getImageLoader()
-          .loadImage(normalHolder.thumbImg, item.thumbImg, width, width,
-              R.drawable.brand_icon_default);
+      JApplication.getImageLoader().loadImage(normalHolder.thumbImg, item.thumbImg,
+        width - JApplication.getJContext().dip2px(12),
+        width - JApplication.getJContext().dip2px(12),
+        R.drawable.brand_icon_default);
+    }
+
+    if (addHolder != null) {
+      RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+          width - JApplication.getJContext().dip2px(12),
+          width - JApplication.getJContext().dip2px(12));
+
+      addHolder.imageView.setLayoutParams(rlp);
     }
     return convertView;
   }
@@ -178,6 +188,7 @@ public class DragGridItemAdapter extends BaseAdapter {
    */
   class AddHolderView {
 
+    @Bind(R.id.img) ImageView imageView;
     public AddHolderView(View view) {
       ButterKnife.bind(this, view);
     }

@@ -62,7 +62,7 @@
       android:paddingBottom="10dp"
       android:paddingTop="10dp"
       android:stretchMode="columnWidth"
-      android:verticalSpacing="10dip"
+      android:verticalSpacing="6dip"
       />
 
 </LinearLayout>
