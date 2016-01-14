@@ -164,8 +164,7 @@ public class AddPromptionActivity extends BaseEventBusActivity
 
       @Override public void afterTextChanged(Editable s) {
         contentRemainingTv.setText(
-            getString(R.string.content_remaing, MAX_CONTENT_LENGTH - s.length(),
-                MAX_CONTENT_LENGTH));
+            getString(R.string.content_remaing, s.length(), MAX_CONTENT_LENGTH));
       }
     });
 
