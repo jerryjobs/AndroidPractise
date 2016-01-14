@@ -2,6 +2,7 @@ package com.ikaowo.join.common.widget.draggridview;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.common.framework.core.JFragmentActivity;
 import com.component.photo.FullImageView;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.R;
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,10 +105,20 @@ public class DragGridItemAdapter extends BaseAdapter {
     if (normalHolder != null) {
       normalHolder.thumbImg.setImgUri(item.uri);
       normalHolder.thumbImg.setImgUrl(item.thumbImg);
-      JApplication.getImageLoader().loadImage(normalHolder.thumbImg, item.thumbImg,
-        width - JApplication.getJContext().dip2px(12),
-        width - JApplication.getJContext().dip2px(12),
-        R.drawable.brand_icon_default);
+
+      int targetWidth = width - JApplication.getJContext().dip2px(12);
+      int targetHeight = width - JApplication.getJContext().dip2px(12);
+      if (item.uri != null) {
+        Picasso.with(context)
+            .load(item.uri)
+            .centerCrop()
+            .resize(targetWidth, targetHeight)
+            .into(normalHolder.thumbImg);
+      } else if (!TextUtils.isEmpty(item.thumbImg)) {
+        JApplication.getImageLoader()
+            .loadImage(normalHolder.thumbImg, item.thumbImg,
+                targetWidth, targetHeight, R.drawable.brand_icon_default);
+      }
     }
 
     if (addHolder != null) {

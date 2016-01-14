@@ -122,6 +122,14 @@ public class WebViewActivity extends BaseEventBusActivity
     }
   }
 
+  @Override public void onBackPressed() {
+    if (webView.canGoBack()) {
+      webView.goBack();
+    } else {
+      super.onBackPressed();
+    }
+  }
+
   @Override protected void onDestroy() {
     if (webViewHelper != null) {
       webViewHelper.onDestroy(webviewContainerLayout);

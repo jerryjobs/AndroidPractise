@@ -1,5 +1,6 @@
 package com.ikaowo.join.modules.promption.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import butterknife.Bind;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import retrofit.Call;
+import retrofit.http.Path;
 
 /**
  * Created by weibo on 16-1-8.
@@ -53,6 +56,7 @@ public class CompletePromptionActivity extends BaseActivity {
   private int promptionId;
   private Set<Integer> idSets = new HashSet<>();
   private int idSize;
+  private Dialog dialog;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -60,8 +64,8 @@ public class CompletePromptionActivity extends BaseActivity {
     ButterKnife.bind(this);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
     toolbar.setTitle(com.ikaowo.join.R.string.title_activity_complete_promption);
+    setSupportActionBar(toolbar);
 
     android.support.v7.app.ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
@@ -166,14 +170,14 @@ public class CompletePromptionActivity extends BaseActivity {
     } catch (Exception e) {
       e.toString();
     }
-    CompletePromptionRequest request = new CompletePromptionRequest();
+    final CompletePromptionRequest request = new CompletePromptionRequest();
 
     request.aci_id = promptionId;
     request.u_id = idSets;
     try {
-      StringBuilder sb = getMediarUrlStr(URLEncoder.encode(mediaUrl1.getValue(), "utf-8"),
-          URLEncoder.encode(mediaUrl1.getValue(), "utf-8"),
-          URLEncoder.encode(mediaUrl1.getValue(), "utf-8"));
+      StringBuilder sb = getMediarUrlStr(mediaUrl1.getValue(),
+          mediaUrl2.getValue(),
+          mediaUrl3.getValue());
       if (sb.length() > 0) {
         request.media_link = sb.toString();
       }
@@ -181,25 +185,46 @@ public class CompletePromptionActivity extends BaseActivity {
       e.printStackTrace();
     }
 
-    PromptionInterface promptionInterface =
-        networkManager.getServiceByClass(PromptionInterface.class);
-    Call<BaseResponse> call = promptionInterface.completePromption(request);
-    networkManager.async(this, Constant.PROCESSING, call,
-        new KwMarketNetworkCallback<BaseResponse>(this) {
-          @Override public void onSuccess(BaseResponse response) {
-            EventBus.getDefault().post(new RefreshWebViewCallback() {
-              @Override public boolean refreshWebView() {
-                return true;
-              }
-            });
-            JToast.toastShort("操作完成");
-            new Handler().postDelayed(new Runnable() {
-              @Override public void run() {
-                finish();
-              }
-            }, 300);
+    if (dialog == null) {
+      dialog = dialogHelper.createDialog(this, "注意", "请确保已经勾选已参与的合作伙伴", new String[] { "确定", "取消" },
+        new View.OnClickListener[] {
+          new View.OnClickListener() {
+            @Override public void onClick(View v) {
+
+              PromptionInterface promptionInterface =
+                  networkManager.getServiceByClass(PromptionInterface.class);
+              Call<BaseResponse> call = promptionInterface.completePromption(request);
+
+              networkManager.async(CompletePromptionActivity.this, Constant.PROCESSING, call,
+                new KwMarketNetworkCallback<BaseResponse>(CompletePromptionActivity.this) {
+                  @Override public void onSuccess(BaseResponse response) {
+                    EventBus.getDefault().post(new RefreshWebViewCallback() {
+                      @Override public boolean refreshWebView() {
+                        return true;
+                      }
+                    });
+                    JToast.toastShort("操作完成");
+                    new Handler().postDelayed(new Runnable() {
+                      @Override public void run() {
+                        finish();
+                      }
+                    }, 300);
+                  }
+                });
+              dialog.dismiss();
+            }
+          },
+          new View.OnClickListener() {
+            @Override public void onClick(View v) {
+              dialog.dismiss();
+            }
           }
-        });
+        }
+      );
+      dialog.show();
+    } else if(!dialog.isShowing()) {
+      dialog.show();
+    }
   }
 
   private StringBuilder getMediarUrlStr(String... urls) {
@@ -208,7 +233,18 @@ public class CompletePromptionActivity extends BaseActivity {
       if (TextUtils.isEmpty(urls[i])) {
         continue;
       }
-      sb.append(TextUtils.isEmpty(sb.toString()) ? urls[i] : "," + urls[i]);
+      String url = urls[i];
+      if (url.startsWith("www")) {
+        url = "http://" + url;
+      } else if (!url.startsWith("http") && !url.startsWith("www")) {
+        url = "http://www." + url;
+      }
+      try {
+        url = URLEncoder.encode(url, "utf-8");
+      }catch (Exception e) {
+        e.printStackTrace();
+      }
+      sb.append(TextUtils.isEmpty(sb.toString()) ? url : "," + url);
     }
     return sb;
   }

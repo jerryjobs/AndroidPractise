@@ -8,6 +8,7 @@ import com.common.framework.util.JToast;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.squareup.okhttp.ResponseBody;
+import com.umeng.analytics.MobclickAgent;
 import java.lang.annotation.Annotation;
 import retrofit.Converter;
 import retrofit.Response;
@@ -34,6 +35,8 @@ public abstract class KwMarketNetworkCallback<T> extends NetworkCallback<T> {
     } catch (Exception e) {
       e.printStackTrace();
       JToast.toastShort("服务器出错");
+      MobclickAgent.reportError(JApplication.getInstance().getApplicationContext(),
+          "ONREQUREST_FAILED:" + retrofit.baseUrl() + ":" +  e.getMessage());
     }
 
     if (response.code() == 403) {

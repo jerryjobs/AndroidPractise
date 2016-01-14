@@ -123,7 +123,7 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
 
     //mSearchView.setFocusable(true);
     searchView.setQuery("", false);
-    searchView.setQueryHint("搜索行业、智客姓名");
+    searchView.setQueryHint("搜索公司或产品名，搜不到可以点击右上角添加");
 
     return true;
   }

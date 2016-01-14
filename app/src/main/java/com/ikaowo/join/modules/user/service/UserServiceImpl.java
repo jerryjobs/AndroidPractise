@@ -308,7 +308,7 @@ public class UserServiceImpl extends UserService {
     final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
     networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
       @Override public void onSuccess(final CheckStateResponse response) {
-        if (response == null || response.data != null) {
+        if (response == null || response.data == null) {
           return;
         }
         updateLocalUserInfo(response.data);
