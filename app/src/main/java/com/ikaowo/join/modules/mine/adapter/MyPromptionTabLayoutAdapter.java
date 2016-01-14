@@ -25,7 +25,8 @@ public class MyPromptionTabLayoutAdapter extends TabLayoutAdapter {
     PostedPromptionListFragment postedPromptionListFragment = new PostedPromptionListFragment();
     postedPromptionListFragment.setArguments(companyIdBundle);
 
-    fragments.add(joinedPromptionListFragment);
+
     fragments.add(postedPromptionListFragment);
+    fragments.add(joinedPromptionListFragment);
   }
 }

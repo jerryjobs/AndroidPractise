@@ -18,7 +18,7 @@ public class JoinedPromptionListFragment extends BasePromptionDetailListFragment
   }
 
   @Override protected int getIndex() {
-    return 0;
+    return 1;
   }
 
   @Override public String getPageName() {

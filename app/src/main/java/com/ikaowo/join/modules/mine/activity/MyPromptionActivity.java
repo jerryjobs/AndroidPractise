@@ -65,11 +65,11 @@ public class MyPromptionActivity extends BaseEventBusFragmentActivity {
       if (tab != null) {
         switch (map.index) {
           case 0:
-            title = getString(R.string.tab_title_mine_posted_promption, map.count);
+            title = getString(R.string.tab_title_mine_join_promption, map.count);
             break;
 
           case 1:
-            title = getString(R.string.tab_title_mine_join_promption, map.count);
+            title = getString(R.string.tab_title_mine_posted_promption, map.count);
             break;
         }
         tabLayout.getTabAt(map.index).setText(title);

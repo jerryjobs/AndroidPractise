@@ -23,7 +23,7 @@ public class PostedPromptionListFragment extends BasePromptionDetailListFragment
   }
 
   @Override protected int getIndex() {
-    return 1;
+    return 0;
   }
 
   @Override public String getPageName() {
