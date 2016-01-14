@@ -45,6 +45,7 @@ public abstract class BasePromptionDetailListFragment
   protected PromptionInterface promptionInterface;
   protected int brandId;
   protected boolean showState;
+  protected String statePrefix;
   LinearLayout.LayoutParams tmpLlp =
       new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
           JApplication.getJContext().dip2px(36));
@@ -55,6 +56,7 @@ public abstract class BasePromptionDetailListFragment
   private DateTimeHelper dateTimeHelper = new DateTimeHelper();
   private Map<String, Integer> stateColorMap = new HashMap();
   private Map<String, String> map;
+
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -194,7 +196,7 @@ public abstract class BasePromptionDetailListFragment
           if (map == null) {
             viewHolder.textView.setText(promption.stateDesc);
           } else {
-            viewHolder.textView.setText(map.get(Constant.PROMPTION_STATE_PREFIX + promption.state));
+            viewHolder.textView.setText(map.get(statePrefix + promption.state));
           }
 
           viewHolder.textView.setTextColor(
