@@ -1,7 +1,9 @@
 package com.ikaowo.join.modules.push.factory;
 
+import android.text.TextUtils;
 import com.ikaowo.join.modules.push.processer.AuthFailedProcesser;
 import com.ikaowo.join.modules.push.processer.AuthSucProcesser;
+import com.ikaowo.join.modules.push.processer.IMProcesser;
 import com.ikaowo.join.modules.push.processer.JoinNewProcesser;
 import com.ikaowo.join.modules.push.processer.JoinedProcesser;
 import com.ikaowo.join.modules.push.processer.PromptionFailedProcesser;
@@ -17,6 +19,9 @@ public class PushProcesserFactory {
 
   public PushDataProcesser getDataProcesser(String type) {
     PushDataProcesser processer = null;
+    if (TextUtils.isEmpty(type)) {
+      return null;
+    }
     switch (type) {
       case Constant.PUSH_JOIN_NEW:
         processer = new JoinNewProcesser();
@@ -42,8 +47,13 @@ public class PushProcesserFactory {
         processer = new PromptionFailedProcesser();
         break;
 
-      case Constant.PUSH_SYS:
+      case Constant.PUSH_SYS_1:
+      case Constant.PUSH_SYS_2:
         processer = new SystemNotificationProcesser();
+        break;
+
+      case Constant.IM_CHAT:
+        processer = new IMProcesser();
         break;
     }
 

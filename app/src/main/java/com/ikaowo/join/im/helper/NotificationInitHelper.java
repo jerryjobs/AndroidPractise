@@ -6,7 +6,11 @@ import com.alibaba.mobileim.aop.Pointcut;
 import com.alibaba.mobileim.aop.custom.IMNotification;
 import com.alibaba.mobileim.conversation.YWConversation;
 import com.alibaba.mobileim.conversation.YWMessage;
+import com.common.framework.core.JApplication;
+import com.ikaowo.join.MainTabActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.modules.push.model.Push;
+import com.ikaowo.join.util.Constant;
 
 /**
  * Created by weibo on 15-12-30.
@@ -106,13 +110,16 @@ public class NotificationInitHelper extends IMNotification {
   public Intent getCustomNotificationIntent(YWConversation conversation, YWMessage message,
       int totalUnReadCount) {
     //以下仅为示例代码，需要Intent开发者根据不同目的自己实现
-    //        Intent intent = new Intent(Intent.ACTION_MAIN);
-    //        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-    //        intent.setClass(DemoApplication.getContext(), FragmentTabs.class);
-    //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    //        return intent;
-
-    return null;
+    Intent intent = new Intent(Intent.ACTION_MAIN);
+    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+          //intent.setClass(DemoApplication.getContext(), FragmentTabs.class);
+    intent.setClass(JApplication.getInstance().getApplicationContext(), MainTabActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    Push push = new Push();
+    push.type =Constant.IM_CHAT;
+    push.targetId = message.getAuthorUserId();
+    intent.putExtra(Constant.PUSH_INTENT_EXTRA, push);
+    return intent;
   }
 
   /**

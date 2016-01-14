@@ -66,7 +66,10 @@ public class Constant {
   public static final String PUSH_JOIN_JOINED = "G_JOIN_002"; //您已参加了一个活动
   public static final String PUSH_ACCT_PASSED = "G_REG_001"; //账号审核通过
   public static final String PUSH_ACCT_FAILED = "G_REG_002"; //账号审核未通过
-  public static final String PUSH_SYS = "G_SYS_002";
+  public static final String PUSH_SYS_1 = "G_SYS_001"; //　公告，跳转到  h5
+  public static final String PUSH_SYS_2 = "G_SYS_002"; //  系统活动 h5
+
+  public static final String IM_CHAT = "IM_CHAT";
 
   public static final String PUSH_INTENT_EXTRA = "data";
 

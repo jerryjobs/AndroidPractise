@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public class Push implements Serializable {
   public String type;
-  public int targetId;
+  public String targetId;
 }
