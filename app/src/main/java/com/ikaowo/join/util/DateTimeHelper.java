@@ -16,6 +16,7 @@ public class DateTimeHelper {
 
   private DateFormat dateTimeFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private DateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
+  private DateFormat notificationDf = new SimpleDateFormat("MM-dd HH:mm");
   //2016-01-29T00:00:00.000Z
 
   public String getTime(String timeStr) {
@@ -23,6 +24,16 @@ public class DateTimeHelper {
     try {
       Date date = dateFormat.parse(timeStr);
       return dateFormate.format(date);
+    } catch (Exception e) {
+      return timeStr;
+    }
+  }
+
+  public String getNotificationTime(String timeStr) {
+    DateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    try {
+      Date date = dateFormate.parse(timeStr);
+      return notificationDf.format(date);
     } catch (Exception e) {
       return timeStr;
     }

@@ -12,6 +12,6 @@ public class Notification implements Serializable {
   @SerializedName("nt_uid") public int targetId;
   @SerializedName("is_read") public boolean isRead;
   @SerializedName("nt_title") public String title;
-  @SerializedName("nt_time") public String time;
+  @SerializedName("create_date") public String time;
   @SerializedName("nt_contents") public String content;
 }

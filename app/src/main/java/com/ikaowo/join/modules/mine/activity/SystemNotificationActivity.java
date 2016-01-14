@@ -129,10 +129,8 @@ public class SystemNotificationActivity
         Notification notification = objList.get(position);
         viewHolder.titleTv.setText(notification.title);
         viewHolder.contentTv.setText(notification.content);
-        if (TextUtils.isEmpty(notification.time)) {
-          viewHolder.timeTv.setText("2016-01-02");
-        } else {
-          viewHolder.timeTv.setText(dateTimeHelper.getTime(notification.time));
+        if (!TextUtils.isEmpty(notification.time)) {
+          viewHolder.timeTv.setText(dateTimeHelper.getNotificationTime(notification.time));
         }
 
         if (notification.isRead) {
