@@ -50,7 +50,7 @@
       android:background="@color/c5"
       />
 
-  <com.ikaowo.join.common.widget.draggridview.DragGridView
+  <GridView
       android:id="@+id/promption_imgs_container"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

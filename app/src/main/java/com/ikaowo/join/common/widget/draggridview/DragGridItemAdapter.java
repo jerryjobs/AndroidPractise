@@ -32,7 +32,6 @@ public class DragGridItemAdapter extends BaseAdapter {
   private int width;
   private List<ItemImageObj> thumbList = new ArrayList<>();
   private int maxCount;
-  private GridViewItemDeleteListener deleteListener;
   private PhotoService photoService;
   private boolean anySize = false;
 
@@ -131,18 +130,10 @@ public class DragGridItemAdapter extends BaseAdapter {
     return convertView;
   }
 
-  public void setDeleteListener(GridViewItemDeleteListener listener) {
-    this.deleteListener = listener;
-  }
-
   void addAddItem(List<ItemImageObj> items) {
     ItemImageObj thumb = new ItemImageObj();
     thumb.type = ItemImageObj.TYPE_ADD;
     items.add(thumb);
-  }
-
-  public interface GridViewItemDeleteListener {
-    void setGridViewLastItemSwaple(boolean swaple);
   }
 
   /**
@@ -175,9 +166,7 @@ public class DragGridItemAdapter extends BaseAdapter {
           if (thumbList.size() == maxCount - 1
               && thumbList.get(thumbList.size() - 1).type != ItemImageObj.TYPE_ADD) {
             addAddItem(thumbList);
-            if (deleteListener != null) {
-              deleteListener.setGridViewLastItemSwaple(false);
-            }
+
           }
           notifyDataSetChanged();
           dialog.dismiss();

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,7 +35,6 @@ import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
-import com.ikaowo.join.common.widget.draggridview.DragGridView;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
 import com.ikaowo.join.eventbus.RefreshWebViewCallback;
 import com.ikaowo.join.eventbus.UpdatePromptionCallback;
@@ -51,7 +51,6 @@ import com.squareup.picasso.Picasso;
 import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import retrofit.Call;
@@ -60,8 +59,7 @@ import retrofit.Call;
  * Created by weibo on 15-12-22.
  */
 public class AddPromptionActivity extends BaseEventBusActivity
-    implements DragGridItemAdapter.GridViewItemDeleteListener, PhotoService.UploadFinishListener,
-    DragGridView.OnChanageListener, TextWatcher {
+    implements PhotoService.UploadFinishListener, TextWatcher {
 
 
   protected int targetImgBgWidth, targetImgBgHeight;
@@ -90,7 +88,7 @@ public class AddPromptionActivity extends BaseEventBusActivity
   @Bind(R.id.promption_content) AppCompatEditText promptContentEt;
   @Bind(R.id.content_remaing) TextView contentRemainingTv;
   @Bind(R.id.add_promption_bg_btn) RelativeLayout addPromptionBgBtn;
-  @Bind(R.id.promption_imgs_container) DragGridView promptionImgsContainer;
+  @Bind(R.id.promption_imgs_container) GridView promptionImgsContainer;
   @Bind(R.id.promption_time) CustomEditTextView promptionTimeTv;
   @Bind(R.id.promption_address) CustomEditTextView promptionAddressTv;
   @Bind(R.id.promption_end_date) CustomEditTextView endDateEt;
@@ -137,10 +135,7 @@ public class AddPromptionActivity extends BaseEventBusActivity
       addAddItem(list);
     }
     itemAdapter = new DragGridItemAdapter(this, list, MAX_COUNT, true);
-    itemAdapter.setDeleteListener(this);
     promptionImgsContainer.setAdapter(itemAdapter);
-    promptionImgsContainer.setSwapLastItem(false);
-    promptionImgsContainer.setOnChangeListener(this);
 
     promptTitleEt.addTextChangedListener(this);
     promptTitleEt.setSingleLine();
@@ -341,10 +336,6 @@ public class AddPromptionActivity extends BaseEventBusActivity
     return "AddPromptionActivity";
   }
 
-  @Override public void setGridViewLastItemSwaple(boolean swaple) {
-    promptionImgsContainer.setSwapLastItem(swaple);
-  }
-
   @Override public void onUpLoadImageFinish(String imgUrl, Uri imgUri) {
     if (clickedPos != null) {
       addPromptionBgBtn.setVisibility(View.GONE);
@@ -375,11 +366,9 @@ public class AddPromptionActivity extends BaseEventBusActivity
           return;
         } else {
           list.set(imgSize - 1, item);
-          promptionImgsContainer.setSwapLastItem(true);
         }
       } else {
         list.add(imgSize - 1, item);
-        promptionImgsContainer.setSwapLastItem(false);
       }
 
       itemAdapter.notifyDataSetChanged();
@@ -388,22 +377,6 @@ public class AddPromptionActivity extends BaseEventBusActivity
 
   @Override public void onUpLoadImageFailed() {
 
-  }
-
-  @Override public void onChange(int from, int to) {
-    //直接交互item
-    //这里的处理需要注意下
-    if (from < to) {
-      for (int i = from; i < to; i++) {
-        Collections.swap(list, i, i + 1);
-      }
-    } else if (from > to) {
-      for (int i = from; i > to; i--) {
-        Collections.swap(list, i, i - 1);
-      }
-    }
-
-    itemAdapter.notifyDataSetChanged();
   }
 
   @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {

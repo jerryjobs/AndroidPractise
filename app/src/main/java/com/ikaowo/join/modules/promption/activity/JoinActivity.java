@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +25,6 @@ import com.ikaowo.join.BaseFragmentActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
-import com.ikaowo.join.common.widget.draggridview.DragGridView;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
 import com.ikaowo.join.eventbus.JoinedActivityCallback;
 import com.ikaowo.join.model.base.BaseResponse;
@@ -43,12 +43,11 @@ import retrofit.Call;
  * Created by weibo on 15-12-29.
  */
 public class JoinActivity extends BaseFragmentActivity
-    implements PhotoService.UploadFinishListener, DragGridItemAdapter.GridViewItemDeleteListener,
-    DragGridView.OnChanageListener {
+    implements PhotoService.UploadFinishListener {
 
   @Bind(R.id.promption_content) AppCompatEditText promptContentEt;
   @Bind(R.id.content_remaing) TextView contentRemainingTv;
-  @Bind(R.id.promption_imgs_container) DragGridView dragGridView;
+  @Bind(R.id.promption_imgs_container) GridView dragGridView;
   private final int MAX_COUNT = 6;
   private final int MAX_CONTENT_LENGTH = 140;
   private int promptionId = -1;
@@ -135,10 +134,7 @@ public class JoinActivity extends BaseFragmentActivity
     });
 
     itemAdapter = new DragGridItemAdapter(this, list, MAX_COUNT, true);
-    itemAdapter.setDeleteListener(this);
     dragGridView.setAdapter(itemAdapter);
-    dragGridView.setSwapLastItem(false);
-    dragGridView.setOnChangeListener(this);
   }
 
   private void setupOptionMenu() {
@@ -222,22 +218,6 @@ public class JoinActivity extends BaseFragmentActivity
     return "JoinActivity";
   }
 
-  @Override public void onChange(int from, int to) {
-    //直接交互item
-    //这里的处理需要注意下
-    if (from < to) {
-      for (int i = from; i < to; i++) {
-        Collections.swap(list, i, i + 1);
-      }
-    } else if (from > to) {
-      for (int i = from; i > to; i--) {
-        Collections.swap(list, i, i - 1);
-      }
-    }
-
-    itemAdapter.notifyDataSetChanged();
-  }
-
   @Override public void onUpLoadImageFinish(String imgUrl, Uri imgUri) {
     int imgSize = list.size();
     ItemImageObj item = new ItemImageObj();
@@ -248,21 +228,14 @@ public class JoinActivity extends BaseFragmentActivity
         return;
       } else {
         list.set(imgSize - 1, item);
-        dragGridView.setSwapLastItem(true);
       }
     } else {
       list.add(imgSize - 1, item);
-      dragGridView.setSwapLastItem(false);
     }
 
     itemAdapter.notifyDataSetChanged();
   }
 
   @Override public void onUpLoadImageFailed() {
-
-  }
-
-  @Override public void setGridViewLastItemSwaple(boolean swaple) {
-    dragGridView.setSwapLastItem(swaple);
   }
 }
