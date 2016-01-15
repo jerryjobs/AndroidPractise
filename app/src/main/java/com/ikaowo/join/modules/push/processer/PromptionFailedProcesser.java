@@ -8,7 +8,7 @@ import com.ikaowo.join.common.service.PromptionService;
  */
 public class PromptionFailedProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, String target) {
+  @Override public void openPage(Context context, String target, String targetUrl) {
     PromptionService promptionService = jContext.getServiceByInterface(PromptionService.class);
     promptionService.goToEditPromptionActivity(context, Integer.valueOf(target));
   }

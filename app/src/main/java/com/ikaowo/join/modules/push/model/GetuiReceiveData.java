@@ -12,4 +12,5 @@ public class GetuiReceiveData implements Serializable {
   @SerializedName("contents") public String content;
   @SerializedName("type") public String type;
   @SerializedName("rsId") public String rsId;
+  @SerializedName("targetUrl") public String targetUrl;
 }

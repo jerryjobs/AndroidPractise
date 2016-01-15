@@ -62,10 +62,10 @@ public class Constant {
 
   public static final String PUSH_PROMPTION_PASSED = "G_SOC_001"; //活动审核通过
   public static final String PUSH_PROMPTION_FAILED = "G_SOC_002"; //活动审核未通过
-  public static final String PUSH_JOIN_NEW = "G_JOIN_001"; //新的报名成功
-  public static final String PUSH_JOIN_JOINED = "G_JOIN_002"; //您已参加了一个活动
-  public static final String PUSH_ACCT_PASSED = "G_REG_001"; //账号审核通过
-  public static final String PUSH_ACCT_FAILED = "G_REG_002"; //账号审核未通过
+  public static final String PUSH_JOIN_NEW = "G_JOIN_001"; //新的报名成功 - 合作伙伴列表
+  public static final String PUSH_JOIN_JOINED = "G_JOIN_002"; //您已参加了一个活动 - 我的品牌主页
+  public static final String PUSH_ACCT_PASSED = "G_REG_001"; //账号审核通过 - 查看个人主页
+  public static final String PUSH_ACCT_FAILED = "G_REG_002"; //账号审核未通过 -重新认证页面
   public static final String PUSH_SYS_1 = "G_SYS_001"; //　公告，跳转到  h5
   public static final String PUSH_SYS_2 = "G_SYS_002"; //  系统活动 h5
 

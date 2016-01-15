@@ -9,7 +9,7 @@ import com.ikaowo.join.common.service.WebViewService;
  */
 public class PromptionPassedProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, String target) {
+  @Override public void openPage(Context context, String target, String targetUrl) {
     String url = BuildConfig.PROMPTION_URL + target;
 
     WebViewService webViewService = jContext.getServiceByInterface(WebViewService.class);

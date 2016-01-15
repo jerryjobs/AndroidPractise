@@ -224,13 +224,6 @@ public class UserServiceImpl extends UserService {
         return 0;
       }
     });
-
-    new Handler().postDelayed(new Runnable() {
-      @Override public void run() {
-        //将MineActivity 页面关闭
-        goToSignin(context);
-      }
-    }, 500);
   }
 
   @Override public void updateAvatarInfo(String avatarUrl) {

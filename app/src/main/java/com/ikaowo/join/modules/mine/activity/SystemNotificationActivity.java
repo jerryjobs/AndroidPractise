@@ -81,19 +81,10 @@ public class SystemNotificationActivity
       JLog.e(getTag(), "暂不支持该类型的推送消息处理:" + notification.type);
       return;
     }
-    processer.action(this, String.valueOf(notification.targetId));
-
+    processer.action(this, notification.id, notification.isRead, String.valueOf(notification.targetId),  notification.url);
     if (!notification.isRead) {
-      Map<String, Integer> map = new HashMap<>();
-      map.put("nt_id", notification.id);
-      Call<BaseResponse> call = notificationInterface.markAsRed(map);
-      networkManager.async(call, new KwMarketNetworkCallback<BaseResponse>(this) {
-        @Override public void onSuccess(BaseResponse response) {
-          notification.isRead = true;
-          JAdapter<JoinedUser> adapter = (JAdapter<JoinedUser>) recyclerView.getAdapter();
-          adapter.notifyDataSetChanged();
-        }
-      });
+      JAdapter<JoinedUser> adapter = (JAdapter<JoinedUser>) recyclerView.getAdapter();
+      adapter.notifyDataSetChanged();
     }
   }
 

@@ -81,8 +81,8 @@ public class MainTabActivity extends TabActivity {
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
     notificationService =
         JApplication.getJContext().getServiceByInterface(NotificationService.class);
+    getuiService.initGetuiService(this);
     if (userService.isLogined()) {
-      getuiService.initGetuiService(this);
       if (userService.isAuthed()) {
         initWxImKit();
       }
@@ -294,8 +294,6 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(SignoutCallback callback) {
     if (callback.signout()) {
-      getuiService.stopGetuiService(this);
-
       if (conversationService != null) {
         conversationService.removeTotalUnreadChangeListener(mConversationUnreadChangeListener);
       }
@@ -389,12 +387,12 @@ public class MainTabActivity extends TabActivity {
     if (bundle == null) {
       return;
     }
-    Object objData = getIntent().getExtras().get("data");
+    Object objData = getIntent().getExtras().get(Constant.PUSH_INTENT_EXTRA);
     try {
       if (objData != null) {
         Push push = (Push) objData;
         PushDataProcesser pushDataProcesser = new PushProcesserFactory().getDataProcesser(push.type);
-        pushDataProcesser.action(this, String.valueOf(push.targetId));
+        pushDataProcesser.action(this, push.id, push.targetId, push.targetUrl);
         getIntent().removeExtra("data");
       }
     }catch (Exception e) {

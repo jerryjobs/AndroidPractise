@@ -22,6 +22,11 @@ public class GetuiClientPushVender implements PushVendor {
   NetworkManager networkManager = JApplication.getNetworkManager();
   UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
   @Override public void onPushReceived(final Context context, Bundle bundle) {
+
+    if (!userService.isLogined()) { //如果未登录，那么不上报个推ID
+      return;
+    }
+
     final String cid = bundle.getString("clientid");
     PushInterface pushInterface = networkManager.getServiceByClass(PushInterface.class);
     PushClientIdRequest request = new PushClientIdRequest();

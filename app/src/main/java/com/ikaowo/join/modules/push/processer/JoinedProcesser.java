@@ -8,7 +8,7 @@ import com.ikaowo.join.common.service.BrandService;
  */
 public class JoinedProcesser extends PushDataProcesser {
 
-  @Override public void action(Context context, String target) {
+  @Override public void openPage(Context context, String target, String targetUrl) {
     BrandService brandService = jContext.getServiceByInterface(BrandService.class);
     brandService.viewBrandDetail(context, Integer.valueOf(target));
   }
