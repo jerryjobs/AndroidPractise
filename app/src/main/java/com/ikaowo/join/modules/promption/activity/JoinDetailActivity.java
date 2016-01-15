@@ -1,5 +1,6 @@
 package com.ikaowo.join.modules.promption.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -210,30 +211,45 @@ public class JoinDetailActivity extends BaseActivity {
     sendRequest(Constant.JOIN_STATE_PASSED);
   }
 
+  Dialog dialog = null;
   private void sendRequest(final String state) {
-    UpdateJoinStateRequest updateJoinStateRequest = new UpdateJoinStateRequest();
-    updateJoinStateRequest.aci_id = promptionId;
-    updateJoinStateRequest.u_act = state;
-    List<Integer> uIdList = new ArrayList<>();
-    uIdList.add(u_id);
-    updateJoinStateRequest.u_id = uIdList;
-    Call<BaseResponse> call = promptionInterface.updateJoinState(updateJoinStateRequest);
-    JApplication.getNetworkManager()
-        .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
-          @Override public void onSuccess(BaseResponse baseResponse) {
-            EventBus.getDefault().post(new JoinStateUpdateCallback() {
+    dialog = dialogHelper.createDialog(this, "注意",
+        "(文案暂定)你确定" + ((state.equalsIgnoreCase(Constant.JOIN_STATE_FAILED) ?"拒绝Ta参加你的活动?" :  "同意Ta参加")),
+        new String[] {"取消",   "确认"}, new View.OnClickListener[] {
+            new View.OnClickListener() {
+              @Override public void onClick(View v) {
+                dialog.dismiss();
+              }
+            },
+          new View.OnClickListener() {
+            @Override public void onClick(View v) {
+              dialog.dismiss();
+              UpdateJoinStateRequest updateJoinStateRequest = new UpdateJoinStateRequest();
+              updateJoinStateRequest.aci_id = promptionId;
+              updateJoinStateRequest.u_act = state;
+              List<Integer> uIdList = new ArrayList<>();
+              uIdList.add(u_id);
+              updateJoinStateRequest.u_id = uIdList;
+              Call<BaseResponse> call = promptionInterface.updateJoinState(updateJoinStateRequest);
+              JApplication.getNetworkManager().async(JoinDetailActivity.this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(JoinDetailActivity.this) {
+                @Override public void onSuccess(BaseResponse baseResponse) {
+                  EventBus.getDefault().post(new JoinStateUpdateCallback() {
 
-              @Override public String newState() {
-                return state;
-              }
-            });
-            new Handler().postDelayed(new Runnable() {
-              @Override public void run() {
-                finish();
-              }
-            }, 1000);
+                    @Override public String newState() {
+                      return state;
+                    }
+                  });
+                  new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                      finish();
+                    }
+                  }, 1000);
+                }
+              });
+            }
           }
         });
+    dialog.show();
   }
 
   @Override protected String getTag() {
