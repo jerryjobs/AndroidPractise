@@ -7,6 +7,7 @@
       <stroke android:color="@color/c8" android:width="0.5dp"/>
       <corners
           android:radius="3dp"/>
+      <solid android:color="@android:color/white" />
     </shape>
   </item>
 
@@ -16,6 +17,7 @@
       <stroke android:color="@color/c8" android:width="0.5dp"/>
       <corners
           android:radius="3dp"/>
+      <solid android:color="@android:color/white" />
     </shape>
   </item>
 
@@ -25,6 +27,7 @@
       <stroke android:color="@color/c8" android:width="0.5dp"/>
       <corners
           android:radius="3dp"/>
+      <solid android:color="@android:color/white" />
     </shape>
   </item>
 </selector>

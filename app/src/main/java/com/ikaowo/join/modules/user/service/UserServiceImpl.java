@@ -202,7 +202,6 @@ public class UserServiceImpl extends UserService {
 
       }
     });
-    JToast.toastShort("退出登录成功...");
     new Handler().postDelayed(new Runnable() {
       @Override public void run() {
         //将MineActivity 页面关闭
