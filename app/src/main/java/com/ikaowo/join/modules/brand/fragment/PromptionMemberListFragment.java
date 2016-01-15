@@ -75,7 +75,9 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
   }
 
   @Override protected void performCustomItemClick(User user) {
-    userService.imChat(getActivity(), user.wx);
+    if (!(user.id == userService.getUserId())) {
+      userService.imChat(getActivity(), user.wx);
+    }
   }
 
   @Override protected JAdapter<User> getAdapter(
@@ -115,6 +117,8 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
                 user.userIcon, user.nickName);
 
         memberListViewHolder.nameTitleTv.setText(user.nickName + " | " + user.title);
+        memberListViewHolder.chatIconView.setVisibility(
+            userService.getUserId() == user.id ? View.GONE:View.VISIBLE);
       }
     }
   }
@@ -126,6 +130,8 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
     @Bind(R.id.icon) ImageView userIconIv;
 
     @Bind(R.id.name_title) TextView nameTitleTv;
+
+    @Bind(R.id.chat_icon) View chatIconView;
 
     public MemberListViewHolder(View itemView, final RecyclerViewHelper recyclerViewHelper) {
       super(itemView);
