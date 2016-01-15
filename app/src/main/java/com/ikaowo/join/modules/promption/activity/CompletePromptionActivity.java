@@ -239,11 +239,7 @@ public class CompletePromptionActivity extends BaseActivity {
       } else if (!url.startsWith("http") && !url.startsWith("www")) {
         url = "http://www." + url;
       }
-      try {
-        url = URLEncoder.encode(url, "utf-8");
-      }catch (Exception e) {
-        e.printStackTrace();
-      }
+
       sb.append(TextUtils.isEmpty(sb.toString()) ? url : "," + url);
     }
     return sb;
