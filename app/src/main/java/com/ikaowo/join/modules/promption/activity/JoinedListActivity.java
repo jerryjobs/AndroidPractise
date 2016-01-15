@@ -85,9 +85,8 @@ public class JoinedListActivity extends BaseListActivity<BaseListResponse<Joined
     targetHeight = JApplication.getJContext().dip2px(48);
 
     stateColorMap.put(Constant.JOIN_STATE_PASSED, R.color.c1);
-    stateColorMap.put(Constant.JOIN_STATE_JOINED, R.color.c8);
-    stateColorMap.put(Constant.JOIN_STATE_FAILED, R.color.c1);
     stateColorMap.put(Constant.JOIN_STATE_FAILED, R.color.c9);
+    stateColorMap.put(Constant.JOIN_STATE_JOINED, R.color.c8);
     stateColorMap.put(Constant.JOIN_STATE_NOT_JOINED, R.color.c9);
     visibleStateSet = stateColorMap.keySet();
     EventBus.getDefault().register(this);
