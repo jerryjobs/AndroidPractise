@@ -3,8 +3,11 @@ package com.ikaowo.join.modules.mine.adapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import com.ikaowo.join.common.adapter.TabLayoutAdapter;
-import com.ikaowo.join.modules.brand.fragment.JoinedPromptionListFragment;
-import com.ikaowo.join.modules.brand.fragment.PostedPromptionListFragment;
+import com.ikaowo.join.model.User;
+import com.ikaowo.join.modules.brand.fragment.BrandJoinedPromptionListFragment;
+import com.ikaowo.join.modules.brand.fragment.BrandPostedPromptionListFragment;
+import com.ikaowo.join.modules.mine.fragment.UserJoinedPromptionListFragment;
+import com.ikaowo.join.modules.mine.fragment.UserPostedPromptionListFragment;
 import com.ikaowo.join.util.Constant;
 
 /**
@@ -20,13 +23,15 @@ public class MyPromptionTabLayoutAdapter extends TabLayoutAdapter {
     Bundle companyIdBundle = new Bundle();
     companyIdBundle.putInt(Constant.BRAND_ID, brandId);
     companyIdBundle.putBoolean(Constant.SHOW_STATE, true);
-    JoinedPromptionListFragment joinedPromptionListFragment = new JoinedPromptionListFragment();
-    joinedPromptionListFragment.setArguments(companyIdBundle);
-    PostedPromptionListFragment postedPromptionListFragment = new PostedPromptionListFragment();
-    postedPromptionListFragment.setArguments(companyIdBundle);
+    UserJoinedPromptionListFragment
+        userJoinedPromptionListFragment = new UserJoinedPromptionListFragment();
+    userJoinedPromptionListFragment.setArguments(companyIdBundle);
+    UserPostedPromptionListFragment
+        userPostedPromptionListFragment = new UserPostedPromptionListFragment();
+    userPostedPromptionListFragment.setArguments(companyIdBundle);
 
 
-    fragments.add(postedPromptionListFragment);
-    fragments.add(joinedPromptionListFragment);
+    fragments.add(userPostedPromptionListFragment);
+    fragments.add(userJoinedPromptionListFragment);
   }
 }

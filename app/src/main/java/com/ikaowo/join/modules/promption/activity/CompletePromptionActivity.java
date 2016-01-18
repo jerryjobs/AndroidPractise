@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import retrofit.Call;
-import retrofit.http.Path;
 
 /**
  * Created by weibo on 16-1-8.
