@@ -91,7 +91,7 @@ public class UserServiceImpl extends UserService {
         .async(context, Constant.LOGINING, userNetworkService.signin(request),
             new NetworkCallback<SignupResponse>(context) {
               @Override public void onSuccess(SignupResponse signupResponse) {
-
+                ((JFragmentActivity) context).dialogHelper.dismissProgressDialog();
                 sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
                 doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
               }
