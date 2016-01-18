@@ -66,6 +66,7 @@ public class EditPromptionActivity extends AddPromptionActivity {
                 .loadImage(promptionBgImg, promptionBg, targetImgBgWidth, targetImgBgHeight,
                     R.drawable.brand_icon_default);
             promptTitleEt.setText(promptionTitle);
+            promptTitleEt.setSelection(promptionTitle.length());
             promptContentEt.setText(promptionContent);
 
             list.addAll(promption.aci_tumblrs);

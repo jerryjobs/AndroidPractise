@@ -117,7 +117,7 @@ public class UserServiceImpl extends UserService {
       }
     });
     ((Activity) context).finish();
-    JToast.toastShort(suc_hint);
+    //JToast.toastShort(suc_hint);
   }
 
   @Override

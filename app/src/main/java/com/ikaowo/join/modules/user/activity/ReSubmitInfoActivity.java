@@ -36,6 +36,7 @@ public class ReSubmitInfoActivity extends BaseUserInputActivity {
 
     brandNameEt.setText(user.brandInfo.brand_name);
     userNameEt.setText(user.nickName);
+    userNameEt.setSelection(user.nickName.length());
     userTitleEt.setText(user.title);
     choosedBrand = user.brandInfo;
     userCardUrl = user.cardUrl;
