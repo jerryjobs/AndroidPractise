@@ -72,6 +72,7 @@ public class Constant {
   public static final String IM_CHAT = "IM_CHAT";
 
   public static final String PUSH_INTENT_EXTRA = "data";
+  public static final String INTRODUCE_INTENT_EXTRA = "introduce";
 
   public static int getRandomColor() {
     Random random = new Random(System.currentTimeMillis());

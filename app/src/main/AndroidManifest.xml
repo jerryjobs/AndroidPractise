@@ -91,6 +91,9 @@
       </intent-filter>
     </activity>
 
+    <activity android:name=".modules.brand.activity.BrandIntroduceActivity"
+      android:label="@string/title_activity_brand_introduce"
+        />
     <activity
         android:label="@string/title_activity_joined_list"
         android:name=".modules.promption.activity.JoinedListActivity">

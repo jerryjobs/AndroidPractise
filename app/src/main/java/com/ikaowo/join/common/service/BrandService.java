@@ -12,6 +12,8 @@ public abstract class BrandService extends JCommonService {
 
   public abstract void viewBrandDetail(Context context, int brandId);
 
+  public abstract void viewBrandIntroduce(Context context, String content);
+
   @Override public void onCreate() {
 
   }

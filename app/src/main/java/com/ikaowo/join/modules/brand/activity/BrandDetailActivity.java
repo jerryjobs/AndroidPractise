@@ -6,6 +6,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.BaseEventBusFragmentActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.model.Brand;
 import com.ikaowo.join.model.response.BrandResponse;
@@ -41,6 +45,7 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
   private int brandId;
   private String[] titlesArray;
   private int targetHeight, targetWidth;
+  private String summary;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -85,6 +90,7 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
 
     setupView();
     getBrandInfo();
+
   }
 
   private void setupView() {
@@ -116,9 +122,31 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
                   R.drawable.brand_icon_default);
               brandName.setText(brand.brand_name);
               companyName.setText(brand.company_name);
+              summary = brand.summary;
+              setupOPtionMenu();
             }
           }
         });
+  }
+
+
+  private void setupOPtionMenu() {
+    menuResId = R.menu.menu_brand_detail;
+    invalidateOptionsMenu();
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.view_introduce:
+        if (!TextUtils.isEmpty(summary)) {
+          BrandService brandService
+              = JApplication.getJContext().getServiceByInterface(BrandService.class);
+          brandService.viewBrandIntroduce(this, summary);
+        }
+
+        break;
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   public void onEvent(GetListCountCallback callback) {
