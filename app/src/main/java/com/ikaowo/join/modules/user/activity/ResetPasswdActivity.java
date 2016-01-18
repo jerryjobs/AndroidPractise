@@ -62,11 +62,10 @@ public class ResetPasswdActivity extends BaseActivity implements TextWatcher {
     verifyCodeHelper = new VerifyCodeHelper(this, phoneEt, getVerifyBtn);
     verifyCodeHelper.initVerifyBtn();
 
-    passwordEt.setInputType(InputType.TYPE_MASK_CLASS | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
     phoneEt.setSingleLine();
+    passwordEt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
     verifyCodeEt.setSingleLine();
-    passwordEt.setSingleLine();
   }
 
   private void setupOptionMenu() {
