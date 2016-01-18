@@ -63,6 +63,7 @@ public class BrandListFragment extends BaseFragment
   private String queryStr;
   private boolean choose; //是否为选择操作
   private BrandService brandService;
+  private String queryHint;
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -126,6 +127,10 @@ public class BrandListFragment extends BaseFragment
         return false;
       }
     });
+
+    if (!TextUtils.isEmpty(queryHint)) {
+      searchView.setQueryHint(queryHint);
+    }
   }
 
   /**
@@ -285,6 +290,10 @@ public class BrandListFragment extends BaseFragment
         }
       }
     }
+  }
+
+  public void setQueryHint(String hint) {
+    this.queryHint = hint;
   }
 
   public class BrandListViewHodler extends RecyclerView.ViewHolder {

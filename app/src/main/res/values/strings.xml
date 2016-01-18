@@ -32,7 +32,8 @@
   <string name="forget_passwd">忘记了您的密码?</string>
   <string name="login">登 录</string>
   <string name="signup">新用户注册</string>
-  <string name="brand_query_hint">搜索公司或产品名，搜不到可以点击右上角录入</string>
+  <string name="brand_query_hint">搜索公司或产品名</string>
+  <string name="brand_query_hint_signup">搜索公司或产品名，搜不到可以点击右上角录入</string>
   <string name="verify_code_time_remaining">%1$d(S)</string>
   <string name="login_suc">登录成功</string>
   <string name="signup_suc">注册成功</string>
