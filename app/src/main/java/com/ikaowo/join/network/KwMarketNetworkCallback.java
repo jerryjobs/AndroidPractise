@@ -38,7 +38,7 @@ public abstract class KwMarketNetworkCallback<T> extends NetworkCallback<T> {
           "ONREQUREST_FAILED:" + retrofit.baseUrl() + ":" +  e.getMessage());
     }
 
-    if (response.code() == 403) {
+    if (response.code() == 401) {
       new Handler().postDelayed(new Runnable() {
         @Override public void run() {
           UserService userService =
