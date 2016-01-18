@@ -52,7 +52,6 @@ import com.squareup.picasso.Picasso;
 import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import retrofit.Call;

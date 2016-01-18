@@ -83,6 +83,7 @@ public class SystemNotificationActivity
     }
     processer.action(this, notification.id, notification.isRead, String.valueOf(notification.targetId),  notification.url);
     if (!notification.isRead) {
+      notification.isRead = true;
       JAdapter<JoinedUser> adapter = (JAdapter<JoinedUser>) recyclerView.getAdapter();
       adapter.notifyDataSetChanged();
     }

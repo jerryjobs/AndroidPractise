@@ -1,6 +1,6 @@
 package com.component.photo;
 
-import android.os.Environment;
+import android.content.Context;
 import java.io.File;
 
 /**
@@ -26,13 +26,11 @@ public class PhotoUtil {
 
   public static final String IMG_TYPE = "image/*";
 
-  public static String getFilePath() throws IllegalAccessException {
+  public static String getFilePath(Context context) throws IllegalAccessException {
     try {
-      String path = Environment.getExternalStorageDirectory()
+      String path = context.getExternalCacheDir()
           + File.separator
-          + Environment.DIRECTORY_DCIM
-          + File.separator
-          + "Camera";
+          + "crop_image";
 
       File dir = new File(path);
       if (!dir.exists()) {
@@ -40,7 +38,38 @@ public class PhotoUtil {
       }
       return path;
     } catch (Exception e) {
-      throw new IllegalAccessException("SD卡不可用");
+      throw new IllegalAccessException("缓存目录不可用");
+    }
+  }
+
+  public static void dropCropImageFolder(Context context) throws IllegalAccessException {
+    try {
+      String path = context.getExternalCacheDir() + File.separator + "crop_image";
+
+      File dir = new File(path);
+      delete(dir);
+    } catch (Exception e) {
+      throw new IllegalAccessException("缓存目录不可用");
+    }
+  }
+
+  public static void delete(File file) {
+    if (file.isFile()) {
+      file.delete();
+      return;
+    }
+
+    if(file.isDirectory()){
+      File[] childFiles = file.listFiles();
+      if (childFiles == null || childFiles.length == 0) {
+        file.delete();
+        return;
+      }
+
+      for (int i = 0; i < childFiles.length; i++) {
+        delete(childFiles[i]);
+      }
+      file.delete();
     }
   }
 }

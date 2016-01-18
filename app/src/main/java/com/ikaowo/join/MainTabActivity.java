@@ -20,6 +20,7 @@ import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
 import com.common.framework.network.NetworkManager;
 import com.common.framework.umeng.UmengService;
+import com.component.photo.PhotoUtil;
 import com.ikaowo.join.common.service.NotificationService;
 import com.ikaowo.join.common.service.PromptionService;
 import com.ikaowo.join.common.service.UserService;
@@ -81,7 +82,7 @@ public class MainTabActivity extends TabActivity {
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
     notificationService =
         JApplication.getJContext().getServiceByInterface(NotificationService.class);
-    getuiService.initGetuiService(this);
+    getuiService.initGetuiService(this, userService.getUserId());
     if (userService.isLogined()) {
       if (userService.isAuthed()) {
         initWxImKit();
@@ -280,7 +281,7 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(SigninCallback callback) {
     if (callback.singined()) {
-      getuiService.initGetuiService(this);
+      getuiService.initGetuiService(this, userService.getUserId());
       if (userService.isAuthed()) {
         initWxImKit();
         updateConversationList();
@@ -401,7 +402,13 @@ public class MainTabActivity extends TabActivity {
   }
 
   @Override protected void onDestroy() {
-    super.onDestroy();
     EventBus.getDefault().unregister(this);
+    //用户退出的时候，删除这次操作产生的所有的临时文件
+    try {
+      PhotoUtil.dropCropImageFolder(this);
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    super.onDestroy();
   }
 }

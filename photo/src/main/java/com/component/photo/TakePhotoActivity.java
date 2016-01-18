@@ -40,7 +40,7 @@ public class TakePhotoActivity extends AppCompatActivity {
       startActivityForResult(intent, PhotoUtil.REQUEST_PICK_PHOTO);
     } else {
       try {
-        tmpPicPath = PhotoUtil.getFilePath() + "/" + System.currentTimeMillis() + ".jpg";
+        tmpPicPath = PhotoUtil.getFilePath(this) + "/" + System.currentTimeMillis() + ".jpg";
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(tmpPicPath)));
         startActivityForResult(intent, PhotoUtil.REQUEST_TAKE_PHOTO);

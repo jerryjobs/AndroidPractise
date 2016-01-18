@@ -26,7 +26,7 @@ public class CropPhotoActivity extends AppCompatActivity {
     filePath = getIntent().getStringExtra(PhotoUtil.FILE_KEY);
     aspectCrop = getIntent().getBooleanExtra(PhotoUtil.ASPECT_KEY, false);
     try {
-      cropToPath = PhotoUtil.getFilePath() + "/" + System.currentTimeMillis() + ".jpg";
+      cropToPath = PhotoUtil.getFilePath(this) + "/" + System.currentTimeMillis() + ".jpg";
       cropPhoto(cropToPath);
     } catch (IllegalAccessException exception) {
       Log.e(TAG, exception.getMessage());

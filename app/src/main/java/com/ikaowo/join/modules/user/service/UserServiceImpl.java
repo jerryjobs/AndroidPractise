@@ -32,6 +32,7 @@ import com.ikaowo.join.model.request.ResetPasswdRequest;
 import com.ikaowo.join.model.response.CheckStateResponse;
 import com.ikaowo.join.model.response.SignupResponse;
 import com.ikaowo.join.modules.promption.activity.JoinActivity;
+import com.ikaowo.join.modules.push.GetuiService;
 import com.ikaowo.join.modules.user.activity.AddBrandActivity;
 import com.ikaowo.join.modules.user.activity.BrandListActivity;
 import com.ikaowo.join.modules.user.activity.ReSubmitInfoActivity;
@@ -187,6 +188,8 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override public void logout(final Context context) {
+    new GetuiService().unBindGetuiService(context, getUserId());
+
     sharedPreferenceHelper.clearUser();
     JApplication.getNetworkManager().clearCookieStore();
     LoginHelper.getInstance().getIMKit().getLoginService().logout(new IWxCallback() {
