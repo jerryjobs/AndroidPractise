@@ -1,6 +1,7 @@
 package com.ikaowo.join;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -78,6 +79,7 @@ public class MainTabActivity extends TabActivity {
   @Override public void onCreate(Bundle savedInstanceState) {
     notificatonStyle = NotificatonStyle.Badge;
     super.onCreate(savedInstanceState);
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
     notificationService =
