@@ -129,7 +129,11 @@ public class MineFragment extends BaseEventBusFragment {
   }
 
   @OnClick(R.id.promption) public void viewMyPromption() {
-    mineService.viewMyPromption(getActivity());
+    userService.interceptorCheckUserState(getActivity(), new UserService.AuthedAction() {
+      @Override public void doActionAfterAuthed() {
+        mineService.viewMyPromption(getActivity());
+      }
+    });
   }
 
   @OnClick(R.id.brand_info) public void viewBrandInfo() {
