@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.common.framework.core.JFragmentActivity;
+import com.common.framework.core.R;
 import com.common.framework.model.JErrorReponse;
 import com.common.framework.util.JToast;
 import com.common.framework.widget.listview.RecyclerViewHelper;
@@ -45,6 +46,7 @@ public abstract class NetworkCallback<T> implements Callback<T> {
   public void onFailure(Throwable t) {
     t.printStackTrace();
     onNetworkRequestFinished();
+    JToast.toastLong(context.getString(R.string.network_error));
   }
 
   //根据对应的项目，对错误做一些处理，在1.x版本，有一个errorhandler,
