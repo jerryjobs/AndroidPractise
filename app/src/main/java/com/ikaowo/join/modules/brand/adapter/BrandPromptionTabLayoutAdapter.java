@@ -32,8 +32,8 @@ public class BrandPromptionTabLayoutAdapter extends TabLayoutAdapter {
     PromptionMemberListFragment promptionMemberListFragment = new PromptionMemberListFragment();
     promptionMemberListFragment.setArguments(companyIdBundle);
 
-    fragments.add(brandJoinedPromptionListFragment);
     fragments.add(postedPromptionListFragment);
+    fragments.add(brandJoinedPromptionListFragment);
     fragments.add(promptionMemberListFragment);
   }
 }

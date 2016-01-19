@@ -97,8 +97,8 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
     collapsingToolbarLayout.setTitleEnabled(false);
 
     titlesArray = new String[3];
-    titlesArray[0] = getString(R.string.tab_title_join_promption, 0);
-    titlesArray[1] = getString(R.string.tab_title_posted_promption, 0);
+    titlesArray[0] = getString(R.string.tab_title_posted_promption, 0);
+    titlesArray[1] = getString(R.string.tab_title_join_promption, 0);
     titlesArray[2] = getString(R.string.tab_title_member, 0);
 
     viewpager.setOffscreenPageLimit(3);
@@ -157,11 +157,11 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
       if (tab != null) {
         switch (map.index) {
           case 0:
-            title = getString(R.string.tab_title_join_promption, map.count);
+            title = getString(R.string.tab_title_posted_promption, map.count);
             break;
 
           case 1:
-            title = getString(R.string.tab_title_posted_promption, map.count);
+            title = getString(R.string.tab_title_join_promption, map.count);
             break;
 
           case 2:
