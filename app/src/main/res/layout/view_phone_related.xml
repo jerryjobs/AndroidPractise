@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/phone_relate_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -13,7 +14,6 @@
       android:id="@+id/phone"
       android:layout_width="match_parent"
       android:layout_height="50dp"
-      android:layout_marginTop="24dp"
       android:hint="@string/phone"
       android:maxLength="11"
       android:textSize="14sp"

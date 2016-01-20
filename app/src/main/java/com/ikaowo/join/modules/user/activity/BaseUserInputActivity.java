@@ -3,7 +3,10 @@ package com.ikaowo.join.modules.user.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.NestedScrollingChild;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -11,9 +14,12 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +29,7 @@ import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.common.widget.InputMethodLinearLayout;
 import com.ikaowo.join.eventbus.AddBrandCallback;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
 import com.ikaowo.join.model.Brand;
@@ -48,6 +55,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
   protected QiniuUploadHelper qiniuUploadHelper;
 
   @Bind(R.id.divider) View divider;
+  @Bind(R.id.container) InputMethodLinearLayout containerLayout;
   @Bind(R.id.brand_name) CustomEditTextView brandNameTv;
   @Bind(R.id.user_name) CustomEditTextView userNameTv;
   @Bind(R.id.user_title) CustomEditTextView userTitleTv;
@@ -84,8 +92,9 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
 
     displayHomeAsIndicator(0);
 
-    setupView();
     setupOptionMenu();
+    setupView();
+
   }
 
   protected void setupView() {
@@ -122,7 +131,6 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
           photoService.viewPhoto(BaseUserInputActivity.this, userCardUrl);
         } else {
           photoService.takePhotoAnySize(BaseUserInputActivity.this, toolbar);
-          ;
         }
       }
     });
@@ -229,6 +237,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
   }
 
   class PhoneViewHolder {
+    @Bind(R.id.phone_relate_layout) LinearLayout phoneRelatedContainerLayout;
     @Bind(R.id.phone) DeletableEditTextView phoneEt;
     @Bind(R.id.verify_code) DeletableEditTextView verifyCodeEt;
     @Bind(R.id.password) DeletableEditTextView passwordEt;
