@@ -91,7 +91,8 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
             }
             invalidateOptionsMenu();
 
-            if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)) {
+            if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
+                || promption.publishUid == userService.getUserId()) {
               new Handler().post(new Runnable() {
                 @Override public void run() {
                   dialog = dialogHelper.createDialog(PromptionDetailWebViewActivity.this, "认证未通过",
