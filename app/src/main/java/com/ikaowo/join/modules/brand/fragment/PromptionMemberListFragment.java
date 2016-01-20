@@ -112,7 +112,7 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
         User user = objList.get(position);
 
         AvatarHelper.getInstance()
-            .showAvatar(getContext(), memberListViewHolder.userIconIv,
+            .showAvatar(getContext(), position, memberListViewHolder.userIconIv,
                 memberListViewHolder.shortNameTv, targetImgBgWidth, targetImgBgHeight,
                 user.userIcon, user.nickName);
 

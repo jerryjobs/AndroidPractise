@@ -28,12 +28,12 @@ public class AvatarHelper {
     return instance;
   }
 
-  public void showAvatar(Context context, ImageView iconIv, TextView shortNameTv, int width,
+  public void showAvatar(Context context, int pos, ImageView iconIv, TextView shortNameTv, int width,
       int height, String avatarIconUrl, String userName) {
     ImageLoader imageLoader = JApplication.getImageLoader();
     if (TextUtils.isEmpty(avatarIconUrl)) {
       iconIv.setImageResource(0);
-      iconIv.setBackgroundColor(ContextCompat.getColor(context, Constant.getRandomColor()));
+      iconIv.setBackgroundColor(ContextCompat.getColor(context, Constant.getRandomColor(pos)));
       iconIv.setVisibility(View.VISIBLE);
       shortNameTv.setVisibility(View.VISIBLE);
       shortNameTv.setTextColor(ContextCompat.getColor(context, android.R.color.white));
@@ -49,6 +49,11 @@ public class AvatarHelper {
       iconIv.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
       imageLoader.loadImage(iconIv, avatarIconUrl, width, height, R.drawable.brand_icon_default);
     }
+  }
+
+  public void showAvatar(Context context, ImageView iconIv, TextView shortNameTv, int width,
+      int height, String avatarIconUrl, String userName) {
+    showAvatar(context, 0, iconIv, shortNameTv, width, height, avatarIconUrl, userName);
   }
 
   public boolean isChinese(String strName) {

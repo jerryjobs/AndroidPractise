@@ -74,9 +74,8 @@ public class Constant {
   public static final String PUSH_INTENT_EXTRA = "data";
   public static final String INTRODUCE_INTENT_EXTRA = "introduce";
 
-  public static int getRandomColor() {
-    Random random = new Random(System.currentTimeMillis());
-    int index = Math.abs(random.nextInt()) % 10;
+  public static int getRandomColor(int pos) {
+    int index = pos % 10;
     return HEADER_COLOR_ARRAY[index];
   }
 }
