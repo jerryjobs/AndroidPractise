@@ -4,6 +4,7 @@
 
   <item android:state_enabled="false">
     <shape android:shape="rectangle">
+      <solid android:color="@android:color/transparent" />
       <stroke android:color="@color/c2" android:width="0.5dp"/>
       <corners
           android:radius="3dp"/>
@@ -13,6 +14,7 @@
   <!-- Focused states -->
   <item android:state_pressed="true">
     <shape android:shape="rectangle">
+      <solid android:color="@android:color/transparent" />
       <stroke android:color="@color/c7" android:width="0.5dp"/>
       <corners
           android:radius="3dp"/>
@@ -22,6 +24,7 @@
   <!-- Normal -->
   <item>
     <shape android:shape="rectangle">
+      <solid android:color="@android:color/transparent" />
       <stroke android:color="@color/c1" android:width="0.5dp"/>
       <corners
           android:radius="3dp"/>

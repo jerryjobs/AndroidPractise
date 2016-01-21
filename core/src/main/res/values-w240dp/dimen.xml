@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <dimen name="toast_padding">20dp</dimen>
-  <dimen name="unread_text_size">8sp</dimen>
+  <dimen name="unread_text_size">10sp</dimen>
+  <dimen name="alpha_slide_text_size">12sp</dimen>
 </resources>

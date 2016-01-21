@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import com.ikaowo.join.R;
@@ -45,7 +46,7 @@ public class AlphaSlideBar extends View {
       paint.setColor(ContextCompat.getColor(getContext(), R.color.c4));
       // paint.setColor(Color.WHITE);
       paint.setAntiAlias(true);
-      paint.setTextSize(30);
+      paint.setTextSize(getResources().getDimension(R.dimen.alpha_slide_text_size));
       // 选中的状态
       if (i == choosedPos) {
         paint.setColor(ContextCompat.getColor(getContext(), R.color.c4));
