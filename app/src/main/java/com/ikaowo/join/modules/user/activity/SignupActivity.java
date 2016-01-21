@@ -24,6 +24,7 @@ import retrofit.Call;
 public class SignupActivity extends BaseUserInputActivity {
 
   private int pos = -1;
+  private boolean resizeWithOutScroll;
   private Boolean first = true;//第一次进入页面
   @Override protected void setupView() {
     divider.setVisibility(View.VISIBLE);
@@ -35,7 +36,7 @@ public class SignupActivity extends BaseUserInputActivity {
     phoneViewHoder.verifyCodeEt.addTextChangedListener(this);
     phoneViewHoder.passwordEt.addTextChangedListener(this);
     phoneViewHoder.passwordEt.setInputType(
-        InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+      InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
     verifyCodeHelper =
         new VerifyCodeHelper(this, phoneViewHoder.phoneEt, phoneViewHoder.getVerifyBtn);
@@ -50,7 +51,7 @@ public class SignupActivity extends BaseUserInputActivity {
           }
           //这里必须要设置一下layoutparam 才能滚动正常
           LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
-              ViewGroup.LayoutParams.MATCH_PARENT, phoneViewHoder.phoneRelatedContainerLayout.getMeasuredHeight());
+            ViewGroup.LayoutParams.MATCH_PARENT, phoneViewHoder.phoneRelatedContainerLayout.getMeasuredHeight());
           phoneViewHoder.phoneRelatedContainerLayout.setLayoutParams(llp);
 
           if (pos == -1) {
@@ -68,7 +69,8 @@ public class SignupActivity extends BaseUserInputActivity {
 
     containerLayout.setOnSizeChangedListenner(
       new InputMethodLinearLayout.OnSizeChangedListenner() {
-        @Override public void onSizeChange(boolean paramBoolean, int oldh, int h) {
+        @Override
+        public void onSizeChange(boolean paramBoolean, int oldh, int h) {
           //如果第一次进入，获取到高度的变化，也就是键盘的高度。
           if (first) {
             synchronized (first) {
@@ -78,17 +80,29 @@ public class SignupActivity extends BaseUserInputActivity {
           }
 
           if (phoneViewHoder.phoneEt.isFocused()
-              || phoneViewHoder.passwordEt.isFocused()
-                || phoneViewHoder.verifyCodeEt.isFocused()) {
+            || phoneViewHoder.passwordEt.isFocused()
+            || phoneViewHoder.verifyCodeEt.isFocused()) {
             if (paramBoolean) {
               containerLayout.smoothScrollTo(pos, 200);
             } else {
               containerLayout.smoothScrollTo(-pos, 200);
             }
+          } else {
+            resizeWithOutScroll = true;
           }
         }
-    });
+      });
 
+
+    phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus && resizeWithOutScroll) {
+          containerLayout.smoothScrollTo(pos, 200);
+          resizeWithOutScroll = false;
+        }
+      }
+    });
     containerLayout.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         hideInput(SignupActivity.this, toolbar);
