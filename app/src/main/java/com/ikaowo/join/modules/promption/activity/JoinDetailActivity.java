@@ -213,42 +213,43 @@ public class JoinDetailActivity extends BaseActivity {
 
   Dialog dialog = null;
   private void sendRequest(final String state) {
-    dialog = dialogHelper.createDialog(this, "注意",
-        "(文案暂定)你确定" + ((state.equalsIgnoreCase(Constant.JOIN_STATE_FAILED) ?"拒绝Ta参加你的活动?" :  "同意Ta参加")),
-        new String[] {"取消",   "确认"}, new View.OnClickListener[] {
-            new View.OnClickListener() {
-              @Override public void onClick(View v) {
-                dialog.dismiss();
-              }
-            },
-          new View.OnClickListener() {
-            @Override public void onClick(View v) {
-              dialog.dismiss();
-              UpdateJoinStateRequest updateJoinStateRequest = new UpdateJoinStateRequest();
-              updateJoinStateRequest.aci_id = promptionId;
-              updateJoinStateRequest.u_act = state;
-              List<Integer> uIdList = new ArrayList<>();
-              uIdList.add(u_id);
-              updateJoinStateRequest.u_id = uIdList;
-              Call<BaseResponse> call = promptionInterface.updateJoinState(updateJoinStateRequest);
-              JApplication.getNetworkManager().async(JoinDetailActivity.this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(JoinDetailActivity.this) {
-                @Override public void onSuccess(BaseResponse baseResponse) {
-                  EventBus.getDefault().post(new JoinStateUpdateCallback() {
+    int hintRes = (state == Constant.JOIN_STATE_FAILED) ? R.string.hint_reject_join
+        : R.string.hint_accept_join;
+    dialog = dialogHelper.createDialog(hintRes, new View.OnClickListener[] {
+        new View.OnClickListener() {
+          @Override public void onClick(View v) {
+            dialog.dismiss();
+          }
+        }, new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        dialog.dismiss();
+        UpdateJoinStateRequest updateJoinStateRequest = new UpdateJoinStateRequest();
+        updateJoinStateRequest.aci_id = promptionId;
+        updateJoinStateRequest.u_act = state;
+        List<Integer> uIdList = new ArrayList<>();
+        uIdList.add(u_id);
+        updateJoinStateRequest.u_id = uIdList;
+        Call<BaseResponse> call = promptionInterface.updateJoinState(updateJoinStateRequest);
+        JApplication.getNetworkManager()
+            .async(JoinDetailActivity.this, Constant.PROCESSING, call,
+                new KwMarketNetworkCallback<BaseResponse>(JoinDetailActivity.this) {
+                  @Override public void onSuccess(BaseResponse baseResponse) {
+                    EventBus.getDefault().post(new JoinStateUpdateCallback() {
 
-                    @Override public String newState() {
-                      return state;
-                    }
-                  });
-                  new Handler().postDelayed(new Runnable() {
-                    @Override public void run() {
-                      finish();
-                    }
-                  }, 1000);
+                      @Override public String newState() {
+                        return state;
                 }
               });
+                    new Handler().postDelayed(new Runnable() {
+                      @Override public void run() {
+                        finish();
+                      }
+                    }, 600);
             }
-          }
-        });
+                });
+      }
+    }
+    });
     dialog.show();
   }
 

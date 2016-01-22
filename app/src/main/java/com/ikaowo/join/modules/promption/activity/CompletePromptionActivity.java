@@ -14,6 +14,7 @@ import android.view.ViewStub;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.common.framework.network.NetworkManager;
 import com.common.framework.util.JToast;
 import com.ikaowo.join.BaseActivity;
@@ -27,6 +28,7 @@ import com.ikaowo.join.modules.promption.widget.CompleteJoinItem;
 import com.ikaowo.join.modules.promption.widget.MediaItem;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.PromptionInterface;
+import com.ikaowo.join.network.UpdatePromptionStateRequest;
 import com.ikaowo.join.util.Constant;
 import de.greenrobot.event.EventBus;
 import java.net.URLEncoder;
@@ -56,6 +58,7 @@ public class CompletePromptionActivity extends BaseActivity {
   private Set<Integer> idSets = new HashSet<>();
   private int idSize;
   private Dialog dialog;
+  private JDialogHelper dialogHelper;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -106,7 +109,7 @@ public class CompletePromptionActivity extends BaseActivity {
           @Override public void onSuccess(BaseListResponse<JoinedUser> listResponse) {
 
             List<JoinedUser> joinedUserList;
-            if (listResponse != null && (joinedUserList = listResponse.data) != null) {
+            if (listResponse != null && (joinedUserList = listResponse.data) != null && joinedUserList.size() > 0) {
               idSize = joinedUserList.size();
               CompleteJoinItem completeJoinItem = null;
               for (int i = 0; i < joinedUserList.size(); i++) {
@@ -141,6 +144,49 @@ public class CompletePromptionActivity extends BaseActivity {
                     break;
                 }
               }
+            } else {
+              if (dialogHelper == null) {
+                dialogHelper = new JDialogHelper(CompletePromptionActivity.this);
+              }
+              dialog = dialogHelper.createDialog(R.string.hint_nobody_joined,
+                  new String[] { "我知道了", "结束推广" }, new View.OnClickListener[] {
+                      new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                          dialog.dismiss();
+                          CompletePromptionActivity.this.finish();
+                        }
+                      }, new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                      UpdatePromptionStateRequest request = new UpdatePromptionStateRequest();
+                      request.aci_id = promptionId;
+                      request.comment = "无人参加，选择结束活动";
+                      request.u_act = Constant.JOIN_STATE_CANCEL;
+                      PromptionInterface promptionInterface =
+                          networkManager.getServiceByClass(PromptionInterface.class);
+                      Call<BaseResponse> call = promptionInterface.updatePromptionState(request);
+
+                      networkManager.async(CompletePromptionActivity.this, Constant.PROCESSING,
+                          call, new KwMarketNetworkCallback<BaseResponse>(
+                              CompletePromptionActivity.this) {
+                            @Override public void onSuccess(BaseResponse response) {
+                              EventBus.getDefault().post(new RefreshWebViewCallback() {
+                                @Override public boolean refreshWebView() {
+                                  return true;
+                                }
+                              });
+
+                              new Handler().postDelayed(new Runnable() {
+                                @Override public void run() {
+                                  finish();
+                                }
+                              }, 300);
+                            }
+                          });
+                      dialog.dismiss();
+                    }
+                  }
+                  });
+              dialog.show();
             }
           }
         });

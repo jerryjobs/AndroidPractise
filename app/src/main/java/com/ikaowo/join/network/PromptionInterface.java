@@ -62,4 +62,7 @@ public interface PromptionInterface {
 
   @PUT("social/complete") Call<BaseResponse> completePromption(
       @Body CompletePromptionRequest request);
+
+  @PUT("social/state") Call<BaseResponse> updatePromptionState(
+      @Body UpdatePromptionStateRequest request);
 }

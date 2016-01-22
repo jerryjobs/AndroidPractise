@@ -84,6 +84,9 @@
   <string name="hint_wx_service_logining">IM服务正在登录中，请稍后</string>
   <string name="hint_join_submit_suc">报名成功，您可以联系发起方</string>
   <string name="hint_data_inavaliable">数据不对，请退出重试</string>
+  <string name="hint_accept_join">您确定同意此合作伙伴报名？</string>
+  <string name="hint_reject_join">您确定拒绝此合作伙伴报名？</string>
+  <string name="hint_nobody_joined">本次活动报名已截止，系统将为您结束活动，如需要延后报名截止请联系客服</string>
 
   <string name="custom_ok_btn">我知道了</string>
 </resources>

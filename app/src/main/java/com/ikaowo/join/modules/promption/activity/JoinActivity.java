@@ -205,7 +205,7 @@ public class JoinActivity extends BaseFragmentActivity
                 });
               }
             }, 500);
-            JToast.toastShort("参加活动成功");
+            JToast.toastShort("参加活动成功-文案待定");
             finish();
           }
         });

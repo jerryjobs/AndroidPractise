@@ -146,6 +146,18 @@ public class JDialogHelper {
     return createDialog(activity, title, content, buttons, listeners);
   }
 
+  public Dialog createDialog(int titleRes, int contentRes, View.OnClickListener[] listeners) {
+    String title = activity.getString(titleRes);
+    String content = activity.getString(contentRes);
+    return createDialog(activity, title, content, new String[] {"取消", "确定"}, listeners);
+  }
+
+  public Dialog createDialog(int contentRes, View.OnClickListener[] listeners) {
+
+    String title = "注意";
+    String content = activity.getString(contentRes);
+    return createDialog(activity, title, content, new String[] {"取消", "确定"}, listeners);
+  }
 
   public Dialog createDialog(Context context, String title, String content, String[] buttons,
       View.OnClickListener[] listeners) {
