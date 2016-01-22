@@ -30,6 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.common.framework.util.JToast;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
@@ -292,7 +293,8 @@ public class AddPromptionActivity extends BaseEventBusActivity
                 }
               });
             } else {
-              JToast.toastShort("推广发布成功");
+              new JDialogHelper(AddPromptionActivity.this)
+                .showConfirmDialog(AddPromptionActivity.this, "发布成功 通过审核后即可上线，请耐心等待");
             }
             new Handler().postDelayed(new Runnable() {
               @Override public void run() {

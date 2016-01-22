@@ -81,7 +81,7 @@ public abstract class BasePromptionFragment
   }
 
   @Override protected String getEmptyHint() {
-    return "暂无推广信息";
+    return getResources().getString(R.string.promption_empty);
   }
 
   class PromptionListAdapter extends JAdapter<Promption> {

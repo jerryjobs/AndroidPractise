@@ -72,10 +72,11 @@ public class JoinActivity extends BaseFragmentActivity
     ab.setDisplayHomeAsUpEnabled(true);
 
     userService = JApplication.getJContext().getServiceByInterface(UserService.class);
-    userService.interceptorCheckUserState(this, new UserService.AuthedAction() {
-      @Override public void doActionAfterAuthed() {
-        doActionIfAuthed();
-      }
+    userService.interceptorCheckUserState(this, R.string.action_join_promption,
+      new UserService.AuthedAction() {
+        @Override public void doActionAfterAuthed() {
+          doActionIfAuthed();
+        }
     });
     setupOptionMenu();
   }

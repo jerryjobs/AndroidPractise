@@ -29,10 +29,11 @@ public class MessageSys extends BaseSys {
       public boolean check() {
         UserService userService =
             JApplication.getJContext().getServiceByInterface(UserService.class);
-        userService.interceptorCheckUserState(context, new UserService.AuthedAction() {
-          @Override public void doActionAfterAuthed() {
-            performClick();
-          }
+        userService.interceptorCheckUserState(context, R.string.action_msg,
+          new UserService.AuthedAction() {
+            @Override public void doActionAfterAuthed() {
+              performClick();
+            }
         });
         return false;
       }

@@ -59,7 +59,7 @@
               android:layout_centerHorizontal="true"
               android:layout_marginTop="10dp"
               android:lineSpacingMultiplier="1.2"
-              android:text="添加封面图片 \n 尺寸800*450像素，大小不超过300K"
+              android:text="点击添加封面图片 建议上传16：9的图片"
               android:textAlignment="center"
               android:textColor="@color/c2"
               android:textSize="11sp"

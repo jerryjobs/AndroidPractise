@@ -1,10 +1,13 @@
 package com.ikaowo.join.modules.user.service;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.login.YWLoginState;
@@ -89,13 +92,14 @@ public class UserServiceImpl extends UserService {
     request.password = password;
     JApplication.getNetworkManager()
         .async(context, Constant.LOGINING, userNetworkService.signin(request),
-            new NetworkCallback<SignupResponse>(context) {
-              @Override public void onSuccess(SignupResponse signupResponse) {
-                ((JFragmentActivity) context).dialogHelper.dismissProgressDialog();
-                sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
-                doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
-              }
-            });
+          new NetworkCallback<SignupResponse>(context) {
+            @Override
+            public void onSuccess(SignupResponse signupResponse) {
+              ((JFragmentActivity) context).dialogHelper.dismissProgressDialog();
+              sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
+              doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
+            }
+          });
   }
 
   @Override
@@ -108,11 +112,13 @@ public class UserServiceImpl extends UserService {
   public void doAfterSignin(Context context, SignupResponse signupResponse, String suc_hint) {
     sharedPreferenceHelper.saveUser(signupResponse.data);
     EventBus.getDefault().post(new SigninCallback() {
-      @Override public boolean singined() {
+      @Override
+      public boolean singined() {
         return true;
       }
 
-      @Override public boolean changeTab() {
+      @Override
+      public boolean changeTab() {
         return changTab;
       }
     });
@@ -223,7 +229,8 @@ public class UserServiceImpl extends UserService {
     }, 300);
 
     EventBus.getDefault().post(new ClickTabCallback() {
-      @Override public int getClickedSys() {
+      @Override
+      public int getClickedSys() {
         return 0;
       }
     });
@@ -251,29 +258,33 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
-  public void interceptorCheckUserState(final Context context, final AuthedAction authedAction) {
+  public void interceptorCheckUserState(final Context context, int actionRes, final AuthedAction authedAction) {
     if (isAuthed()) {
       authedAction.doActionAfterAuthed();
     } else if (isAuthFailed()) {
-      checkState(context, authedAction);
+      checkState(context, actionRes, authedAction);
     } else if (isPendingAuthed()) {
-      checkState(context, authedAction);
+      checkState(context, actionRes, authedAction);
     } else {
       goToSignin(context);
     }
   }
 
-  private void checkState(final Context context, final AuthedAction authedAction) {
+  Dialog dialog;
+  private void checkState(final Context context, final int actionRes, final AuthedAction authedAction) {
+    final String actionStr = context.getString(actionRes);
     checkLatestUserState(context, new CheckStateCallback() {
       @Override public void onProcessing() {
-        new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
-            context.getString(R.string.unauthed_hint), new JDialogHelper.DoAfterClickCallback() {
+        if (context instanceof JoinActivity) {
+          new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
+            context.getString(R.string.unauthed_hint, actionStr), new JDialogHelper.DoAfterClickCallback() {
               @Override public void doAction() {
-                if (context instanceof JoinActivity) {
-                  ((JoinActivity) context).finish();
-                }
+                ((JoinActivity) context).finish();
               }
             });
+        } else {
+          JToast.toastShort(context.getString(R.string.unauthed_hint, actionStr));
+        }
       }
 
       @Override public void onPassed() {
@@ -283,14 +294,27 @@ public class UserServiceImpl extends UserService {
       }
 
       @Override public void onFailed() {
-        new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
-            context.getString(R.string.auth_failed_hint), new JDialogHelper.DoAfterClickCallback() {
-              @Override public void doAction() {
-                if (context instanceof JoinActivity) {
-                  ((JoinActivity) context).finish();
+        dialog = new JDialogHelper((JFragmentActivity) context)
+          .createDialog(context,
+            context.getString(R.string.dialog_title, actionStr),
+            context.getString(R.string.auth_failed_hint, actionStr),
+            new String[]{"取消", "重新审核"},
+            new View.OnClickListener[] {
+              new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  dialog.dismiss();
+                }
+              },
+              new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  dialog.dismiss();
+                  reSubmitInfo(context);
                 }
               }
             });
+        dialog.show();
       }
     });
   }
@@ -326,7 +350,7 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override public void imChat(final Context context, final String targetUserWxId) {
-    interceptorCheckUserState(context, new AuthedAction() {
+    interceptorCheckUserState(context, R.string.action_msg, new AuthedAction() {
       @Override public void doActionAfterAuthed() {
         String target = targetUserWxId;
         if (loginSuccessed(context)) {

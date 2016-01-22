@@ -58,7 +58,7 @@ public abstract class UserService extends JCommonService {
 
   public abstract void updateLocalUserInfo(UserLatestState state);
 
-  public abstract void interceptorCheckUserState(Context context, AuthedAction authedAction);
+  public abstract void interceptorCheckUserState(Context context, int actionStr, AuthedAction authedAction);
 
   public abstract void imChat(Context context, String targetUserWxId);
 

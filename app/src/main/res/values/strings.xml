@@ -32,15 +32,15 @@
   <string name="forget_passwd">忘记了您的密码?</string>
   <string name="login">登 录</string>
   <string name="signup">新用户注册</string>
-  <string name="brand_query_hint">搜索公司或产品名</string>
+  <string name="brand_query_hint">搜索推广活动</string>
   <string name="brand_query_hint_signup">搜索公司或产品名，搜不到可以点击右上角录入</string>
   <string name="verify_code_time_remaining">%1$d(S)</string>
   <string name="login_suc">登录成功</string>
   <string name="signup_suc">注册成功</string>
   <string name="resubmit_suc">重新提交成功</string>
   <string name="reset_passwd_suc">密码修改成功，请重新登录</string>
-  <string name="promotion_content_hint">填写活动描述，比如举办时间、已有资源等，让更多组织能报名合作...</string>
-  <string name="promotion_title_hint">输入活动名称(15字以内)</string>
+  <string name="promotion_content_hint">填写推广描述，比如已有资源，让更多品牌能报名合作...</string>
+  <string name="promotion_title_hint">填写推广活动标题（15个字以内）</string>
   <string name="promotion_time">举办时间</string>
   <string name="promption_address">举办地点</string>
   <string name="promption_end">报名截止</string>
@@ -60,12 +60,22 @@
   <string name="action_edit">编辑</string>
   <string name="posted_brand_name">举办方: %1$s</string>
   <string name="posted_join_end_date">报名截止: %1$s</string>
-  <string name="unauthed_hint">该功能需要审核通过后才能使用，请耐心等待</string>
-  <string name="auth_failed_hint">对不起，你的个人资料审核失败，无法使用该功能</string>
+  <string name="unauthed_hint">需要用户审核通过后才能%1$s，请耐心等待</string>
+  <string name="auth_failed_hint">抱歉，您的审核未通过，无法%1$s</string>
   <string name="im_service_failed">IM服务异常，IM功能暂时不可用，如果想使用IM功能，请退出APP重试</string>
   <string name="im_service_disconnected">IM服务已经断开，如果想使用IM功能，请退出账户重新登录</string>
   <string name="im_service_logining">IM服务正在登录中，请稍后</string>
   <string name="title_activity_complete_promption">完成活动</string>
   <string name="title_activity_resubmit">重新认证</string>
   <string name="title_activity_system_notification">系统通知</string>
+
+  <string name="dialog_title">注意</string>
+  <string name="action_post_promption">发起活动</string>
+  <string name="action_msg">查看消息</string>
+  <string name="action_view_my_promption">查看我的推广</string>
+  <string name="action_join_promption">参与推广</string>
+
+  <string name="promption_empty">暂无推广活动</string>
+  <string name="search_promption_empty">没有找到相关推广，换个关键词试试？</string>
+
 </resources>

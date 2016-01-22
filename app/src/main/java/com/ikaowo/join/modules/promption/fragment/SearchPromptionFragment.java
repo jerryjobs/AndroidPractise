@@ -3,6 +3,7 @@ package com.ikaowo.join.modules.promption.fragment;
 import android.text.TextUtils;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
+import com.ikaowo.join.R;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.request.SearchRequest;
@@ -34,6 +35,10 @@ public class SearchPromptionFragment extends BasePromptionFragment {
   public void search(String search) {
     this.value = search;
     recyclerViewHelper.sendRequestAndProcess(RecyclerViewHelper.Action.INIT);
+  }
+
+  @Override protected String getEmptyHint() {
+    return getResources().getString(R.string.search_promption_empty);
   }
 
   @Override public String getPageName() {

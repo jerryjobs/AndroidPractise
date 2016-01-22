@@ -212,11 +212,12 @@ public class MainTabActivity extends TabActivity {
     switch (id) {
       case R.id.action_add:
 
-        userService.interceptorCheckUserState(this, new UserService.AuthedAction() {
-          @Override public void doActionAfterAuthed() {
-            initWxImKit();
-            promptionService.goToAddPromotionActivity(MainTabActivity.this);
-          }
+        userService.interceptorCheckUserState(this, R.string.action_post_promption,
+          new UserService.AuthedAction() {
+            @Override public void doActionAfterAuthed() {
+              initWxImKit();
+              promptionService.goToAddPromotionActivity(MainTabActivity.this);
+            }
         });
         break;
 
