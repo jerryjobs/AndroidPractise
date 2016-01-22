@@ -62,9 +62,7 @@
   <string name="posted_join_end_date">报名截止: %1$s</string>
   <string name="unauthed_hint">需要用户审核通过后才能%1$s，请耐心等待</string>
   <string name="auth_failed_hint">抱歉，您的审核未通过，无法%1$s</string>
-  <string name="im_service_failed">IM服务异常，IM功能暂时不可用，如果想使用IM功能，请退出APP重试</string>
-  <string name="im_service_disconnected">IM服务已经断开，如果想使用IM功能，请退出账户重新登录</string>
-  <string name="im_service_logining">IM服务正在登录中，请稍后</string>
+
   <string name="title_activity_complete_promption">完成活动</string>
   <string name="title_activity_resubmit">重新认证</string>
   <string name="title_activity_system_notification">系统通知</string>
@@ -75,7 +73,17 @@
   <string name="action_view_my_promption">查看我的推广</string>
   <string name="action_join_promption">参与推广</string>
 
-  <string name="promption_empty">暂无推广活动</string>
-  <string name="search_promption_empty">没有找到相关推广，换个关键词试试？</string>
+  <string name="empty_hint_promption">暂无推广活动</string>
+  <string name="empty_hint_search_promption">没有找到相关推广，换个关键词试试？</string>
 
+  <string name="hint_promption_posted">发布成功 通过审核后即可上线，请耐心等待</string>
+  <string name="hint_promption_resubmit">修改已提交，通过审核后即可上线，请耐心等待</string>
+  <string name="hint_wx_kickedoff">你的账号在别的设备登录，请重新登录</string>
+  <string name="hint_wx_service_failed">IM服务异常，IM功能暂时不可用，如果想使用IM功能，请退出APP重试</string>
+  <string name="hint_wx_service_disconnected">IM服务已经断开，如果想使用IM功能，请退出账户重新登录</string>
+  <string name="hint_wx_service_logining">IM服务正在登录中，请稍后</string>
+  <string name="hint_join_submit_suc">报名成功，您可以联系发起方</string>
+  <string name="hint_data_inavaliable">数据不对，请退出重试</string>
+
+  <string name="custom_ok_btn">我知道了</string>
 </resources>

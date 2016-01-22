@@ -26,20 +26,16 @@ public class WxImHelper {
 
   public void initWxService(final Context context, String password, String userid) {
 
-    Log.e("weiboooo", "uid:" + userid + "p:" + password);
     LoginHelper loginHelper = LoginHelper.getInstance();
     IYWLoginService loginService = loginHelper.getIMKit().getLoginService();
     YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
     loginService.login(loginParam, new IWxCallback() {
 
       @Override public void onSuccess(Object... objects) {
-        Log.e("weiboooo", "login success...");
       }
 
       @Override public void onError(int i, String s) {
-        Log.e("weiboooo", "login failed...:" + s);
-        new JDialogHelper((Activity) context).showConfirmDialog(context,
-            context.getString(R.string.im_service_failed));
+        new JDialogHelper(context).showConfirmDialog(R.string.hint_wx_service_failed);
       }
 
       @Override public void onProgress(int i) {

@@ -81,7 +81,7 @@ public abstract class BasePromptionFragment
   }
 
   @Override protected String getEmptyHint() {
-    return getResources().getString(R.string.promption_empty);
+    return getResources().getString(R.string.empty_hint_promption);
   }
 
   class PromptionListAdapter extends JAdapter<Promption> {

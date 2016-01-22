@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
-import com.common.framework.util.JToast;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
@@ -254,55 +253,75 @@ public class AddPromptionActivity extends BaseEventBusActivity
     }
     request.aci_tumblrs = list;
 
+    hideInput(this, toolbar);
+
     PromptionInterface promptionInterface =
         JApplication.getNetworkManager().getServiceByClass(PromptionInterface.class);
     Call<BaseResponse> call = promptionInterface.postPromption(request.getMap());
     JApplication.getNetworkManager()
-        .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
-          @Override public void onSuccess(BaseResponse baseResponse) {
-            if (promptionId > 0) {
-              JToast.toastShort("推广修改成功");
-              EventBus.getDefault().post(new UpdatePromptionCallback() {
-                @Override public boolean promptionUpdated() {
-                  return true;
-                }
+      .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
+        @Override
+        public void onSuccess(BaseResponse baseResponse) {
+          if (promptionId > 0) {
 
-                @Override public String getNewTitle() {
-                  return promptionTitle;
-                }
-
-                @Override public String getNewBg() {
-                  return promptionBg;
-                }
-
-                @Override public String getNewEndTime() {
-                  return promptionEndDate;
-                }
-
-                @Override public String getNewState() {
-                  if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(state)) {
-                    state = Constant.PROMPTION_STATE_NEW;
-                  }
-                  return state;
-                }
-              });
-
-              EventBus.getDefault().post(new RefreshWebViewCallback() {
-                @Override public boolean refreshWebView() {
-                  return true;
-                }
-              });
-            } else {
-              new JDialogHelper(AddPromptionActivity.this)
-                .showConfirmDialog(AddPromptionActivity.this, "发布成功 通过审核后即可上线，请耐心等待");
-            }
-            new Handler().postDelayed(new Runnable() {
-              @Override public void run() {
-                finish();
+            EventBus.getDefault().post(new UpdatePromptionCallback() {
+              @Override
+              public boolean promptionUpdated() {
+                return true;
               }
-            }, 500);
+
+              @Override
+              public String getNewTitle() {
+                return promptionTitle;
+              }
+
+              @Override
+              public String getNewBg() {
+                return promptionBg;
+              }
+
+              @Override
+              public String getNewEndTime() {
+                return promptionEndDate;
+              }
+
+              @Override
+              public String getNewState() {
+                if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(state)) {
+                  state = Constant.PROMPTION_STATE_NEW;
+                }
+                return state;
+              }
+            });
+
+            EventBus.getDefault().post(new RefreshWebViewCallback() {
+              @Override
+              public boolean refreshWebView() {
+                return true;
+              }
+            });
+
+            new JDialogHelper(AddPromptionActivity.this).showConfirmDialog(
+              R.string.hint_promption_resubmit, R.string.custom_ok_btn,
+              new JDialogHelper.DoAfterClickCallback() {
+                @Override
+                public void doAction() {
+                  finish();
+                }
+              });
+          } else {
+            new JDialogHelper(AddPromptionActivity.this).showConfirmDialog(
+              R.string.hint_promption_posted,
+              R.string.custom_ok_btn,
+              new JDialogHelper.DoAfterClickCallback() {
+                @Override
+                public void doAction() {
+                  finish();
+                }
+              });
           }
-        });
+        }
+      });
   }
 
   public void onEvent(Boolean b) {

@@ -38,7 +38,7 @@ public class SearchPromptionFragment extends BasePromptionFragment {
   }
 
   @Override protected String getEmptyHint() {
-    return getResources().getString(R.string.search_promption_empty);
+    return getResources().getString(R.string.empty_hint_search_promption);
   }
 
   @Override public String getPageName() {

@@ -18,7 +18,6 @@ import com.alibaba.mobileim.conversation.IYWConversationUnreadChangeListener;
 import com.common.framework.activity.BaseSys;
 import com.common.framework.activity.TabActivity;
 import com.common.framework.core.JApplication;
-import com.common.framework.core.JDialogHelper;
 import com.common.framework.network.NetworkManager;
 import com.common.framework.umeng.UmengService;
 import com.component.photo.PhotoUtil;
@@ -320,12 +319,7 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(WxKickedOffCallback callback) {
     if (callback.kickedOff()) {
-      dialogHelper.showConfirmDialog(this, "你的账号在别的设备登录，请退出重新登录",
-          new JDialogHelper.DoAfterClickCallback() {
-            @Override public void doAction() {
-              userService.logout(MainTabActivity.this);
-            }
-          });
+      dialogHelper.showConfirmDialog(R.string.hint_wx_kickedoff);
     }
   }
 

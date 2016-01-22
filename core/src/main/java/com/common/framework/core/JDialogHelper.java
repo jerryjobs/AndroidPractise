@@ -33,8 +33,18 @@ public class JDialogHelper {
     showProgressDialog(msg, true, null);
   }
 
+  public void showProgressDialog(int msgRes) {
+    String msg = activity.getString(msgRes);
+    showProgressDialog(msg);
+  }
+
   public void showProgressDialog(String msg, boolean cancelable) {
     showProgressDialog(msg, cancelable, null);
+  }
+
+  public void showProgressDialog(int msgRes, boolean cancelable) {
+    String msg = activity.getString(msgRes);
+    showProgressDialog(msg, cancelable);
   }
 
   public void showProgressDialog(final String msg, final boolean cancelable,
@@ -42,7 +52,8 @@ public class JDialogHelper {
     dismissProgressDialog();
     activity.runOnUiThread(new Runnable() {
 
-      @Override public void run() {
+      @Override
+      public void run() {
         if (activity == null || activity.isFinishing()) {
           return;
         }
@@ -55,31 +66,64 @@ public class JDialogHelper {
     });
   }
 
-  public void showConfirmDialog(final Context context, final String msg,
-      final DoAfterClickCallback callback) {
+  public void showProgressDialog(final int msgRes, final boolean cancelable,
+                                 final DialogInterface.OnCancelListener cancelListener) {
+    String msg = activity.getString(msgRes);
+    showProgressDialog(msg, cancelable, cancelListener);
+  }
+
+  public void showConfirmDialog(final String msg, final String okBtnStr,
+                                final DoAfterClickCallback callback) {
     confirmDialog =
-        createDialog(context, "注意", msg, new String[] { "确定" }, new View.OnClickListener[] {
-            new View.OnClickListener() {
-              @Override public void onClick(View v) {
-                if (confirmDialog != null && confirmDialog.isShowing()) {
-                  confirmDialog.dismiss();
-                  if (callback != null) {
-                    callback.doAction();
-                  }
-                }
+      createDialog(activity, "注意", msg, new String[] { okBtnStr }, new View.OnClickListener[] {
+        new View.OnClickListener() {
+          @Override public void onClick(View v) {
+            if (confirmDialog != null && confirmDialog.isShowing()) {
+              confirmDialog.dismiss();
+              if (callback != null) {
+                callback.doAction();
               }
             }
-        });
+          }
+        }
+      });
     confirmDialog.show();
   }
 
-  public void showConfirmDialog(final Context context, final String msg) {
-    showConfirmDialog(context, msg, null);
+  public void showConfirmDialog(final String msg,
+                                final DoAfterClickCallback callback) {
+    String okBtnStr = "确定";
+    showConfirmDialog(msg, okBtnStr, callback);
+  }
+
+  public void showConfirmDialog(final int msgRes,
+                                final DoAfterClickCallback callback) {
+    String msg = activity.getString(msgRes);
+    showConfirmDialog(msg, callback);
+  }
+
+  public void showConfirmDialog(final String msg) {
+    showConfirmDialog(msg, null);
+  }
+
+  public void showConfirmDialog(final int msgRes) {
+    showConfirmDialog(msgRes, null);
+  }
+
+  public void showConfirmDialog(int msgRes, int okBtnRes) {
+    showConfirmDialog(msgRes, okBtnRes, null);
+  }
+
+  public void showConfirmDialog(int msgRes, int okBtnRes, final DoAfterClickCallback callback) {
+    String msg = activity.getString(msgRes);
+    String okBtnStr = activity.getString(okBtnRes);
+    showConfirmDialog(msg, okBtnStr, callback);
   }
 
   public void dismissProgressDialog() {
     activity.runOnUiThread(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         if (dialog != null && dialog.isShowing() && !activity.isFinishing()) {
           dialog.dismiss();
           dialog = null;
@@ -87,6 +131,21 @@ public class JDialogHelper {
       }
     });
   }
+
+  public Dialog createDialog(int contentRes, String[] buttons,
+                             View.OnClickListener[] listeners) {
+    String title = "注意";
+    String content = activity.getString(contentRes);
+    return createDialog(activity, title, content, buttons, listeners);
+  }
+
+  public Dialog createDialog(int titleRes, int contentRes,
+                             String[] buttons, View.OnClickListener[] listeners) {
+    String title = activity.getString(titleRes);
+    String content = activity.getString(contentRes);
+    return createDialog(activity, title, content, buttons, listeners);
+  }
+
 
   public Dialog createDialog(Context context, String title, String content, String[] buttons,
       View.OnClickListener[] listeners) {

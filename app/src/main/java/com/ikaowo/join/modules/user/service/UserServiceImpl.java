@@ -276,12 +276,7 @@ public class UserServiceImpl extends UserService {
     checkLatestUserState(context, new CheckStateCallback() {
       @Override public void onProcessing() {
         if (context instanceof JoinActivity) {
-          new JDialogHelper((JFragmentActivity) context).showConfirmDialog(context,
-            context.getString(R.string.unauthed_hint, actionStr), new JDialogHelper.DoAfterClickCallback() {
-              @Override public void doAction() {
-                ((JoinActivity) context).finish();
-              }
-            });
+          new JDialogHelper(context).showConfirmDialog(R.string.unauthed_hint, actionRes);
         } else {
           JToast.toastShort(context.getString(R.string.unauthed_hint, actionStr));
         }
@@ -371,13 +366,13 @@ public class UserServiceImpl extends UserService {
     if (imKit.getIMCore().getLoginState().equals(YWLoginState.success)) {
       return true;
     } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.idle)) {
-      JToast.toastShort(context.getString(R.string.im_service_logining));
+      JToast.toastShort(context.getString(R.string.hint_wx_service_logining));
       return false;
     } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
-      JToast.toastShort(context.getString(R.string.im_service_failed));
+      JToast.toastShort(context.getString(R.string.hint_wx_service_failed));
       return false;
     } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
-      JToast.toastShort(context.getString(R.string.im_service_disconnected));
+      JToast.toastShort(context.getString(R.string.hint_wx_service_disconnected));
       return false;
     }
     return false;
