@@ -35,7 +35,6 @@
   <string name="brand_query_hint">搜索推广活动</string>
   <string name="brand_query_hint_signup">搜索公司或产品名，搜不到可以点击右上角录入</string>
   <string name="verify_code_time_remaining">%1$d(S)</string>
-  <string name="login_suc">登录成功</string>
   <string name="signup_suc">注册成功</string>
   <string name="resubmit_suc">重新提交成功</string>
   <string name="reset_passwd_suc">密码修改成功，请重新登录</string>
@@ -74,9 +73,15 @@
   <string name="action_join_promption">参与推广</string>
 
   <string name="empty_hint_promption">暂无推广活动</string>
+  <string name="empty_hint_brand">暂无品牌</string>
+  <string name="empty_hint_posted_promption">暂无发起的推广</string>
+  <string name="empty_hint_joined_promption">暂无参加的推广</string>
   <string name="empty_hint_search_promption">没有找到相关推广，换个关键词试试？</string>
+  <string name="empty_hint_no_brand_introduce">暂无品牌介绍</string>
 
+  <string name="hint_verify_code_sent">验证码已发送</string>
   <string name="hint_promption_posted">发布成功 通过审核后即可上线，请耐心等待</string>
+  <string name="hint_signup_submitted">信息已提交，请耐心等待审核</string>
   <string name="hint_promption_resubmit">修改已提交，通过审核后即可上线，请耐心等待</string>
   <string name="hint_wx_kickedoff">你的账号在别的设备登录，请重新登录</string>
   <string name="hint_wx_service_failed">IM服务异常，IM功能暂时不可用，如果想使用IM功能，请退出APP重试</string>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import com.common.framework.core.JApplication;
 import com.common.framework.network.NetworkCallback;
+import com.ikaowo.join.R;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.request.PromptionListRequest;
@@ -29,6 +30,10 @@ public class UserPostedPromptionListFragment extends BasePromptionDetailListFrag
     Call<BaseListResponse<Promption>> call =
         promptionInterface.getUserPostedPromptionList(request.getMap());
     JApplication.getNetworkManager().async(call, callback);
+  }
+
+  @Override protected String getEmptyHint() {
+    return getActivity().getString(R.string.empty_hint_posted_promption);
   }
 
   @Override protected int getIndex() {

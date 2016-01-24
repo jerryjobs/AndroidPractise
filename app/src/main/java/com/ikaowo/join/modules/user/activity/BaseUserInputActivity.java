@@ -1,12 +1,11 @@
 package com.ikaowo.join.modules.user.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.NestedScrollingChild;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -14,12 +13,13 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,7 +29,6 @@ import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
-import com.ikaowo.join.common.widget.InputMethodLinearLayout;
 import com.ikaowo.join.eventbus.AddBrandCallback;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
 import com.ikaowo.join.model.Brand;
@@ -54,8 +53,9 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
   protected VerifyCodeHelper verifyCodeHelper;
   protected QiniuUploadHelper qiniuUploadHelper;
 
+  @Bind(R.id.scrollview) ScrollView scrollView;
   @Bind(R.id.divider) View divider;
-  @Bind(R.id.container) InputMethodLinearLayout containerLayout;
+  @Bind(R.id.container) LinearLayout containerLayout;
   @Bind(R.id.brand_name) CustomEditTextView brandNameTv;
   @Bind(R.id.user_name) CustomEditTextView userNameTv;
   @Bind(R.id.user_title) CustomEditTextView userTitleTv;
@@ -94,7 +94,6 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
 
     setupOptionMenu();
     setupView();
-
   }
 
   protected void setupView() {
@@ -112,6 +111,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
 
     userNameTv.setTitle(getString(R.string.user_name));
     userNameEt = inputHelper.getEditText(this, R.string.input_hint, this);
+    userNameEt.requestFocus();
     userNameTv.addRightView(userNameEt, R.color.c1);
 
     userTitleTv.setTitle(getString(R.string.user_title));
@@ -135,6 +135,75 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
       }
     });
     userCardTv.addRightView(userCardIv, 0);
+
+    userNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+          bindGlobalLayoutChangeToScrollView(hasFocus, 1);
+        }
+      }
+    });
+
+    userTitleEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+          bindGlobalLayoutChangeToScrollView(hasFocus, 2);
+        }
+      }
+    });
+
+    phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override public void onFocusChange(View v, boolean hasFocus) {
+        bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+      }
+    });
+
+    phoneViewHoder.verifyCodeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override public void onFocusChange(View v, boolean hasFocus) {
+        bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+      }
+    });
+
+    phoneViewHoder.passwordEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override public void onFocusChange(View v, boolean hasFocus) {
+        bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+      }
+    });
+  }
+
+
+  private void bindGlobalLayoutChangeToScrollView(boolean hasFocus, final int index) {
+    if (!hasFocus) {
+      return;
+    }
+    scrollView.getViewTreeObserver()
+        .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+          @Override public void onGlobalLayout() {
+            int heightDiff = scrollView.getRootView().getHeight() - scrollView.getHeight();
+
+            InputMethodManager inputMethodManager =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            boolean isKeyboardActived = inputMethodManager.isActive();
+            scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+            if (phoneViewHoder.phoneEt.isFocused()
+                || phoneViewHoder.verifyCodeEt.isFocused()
+                || phoneViewHoder.passwordEt.isFocused()) {
+              new Handler().postDelayed(new Runnable() {
+                @Override public void run() {
+                  scrollView.smoothScrollBy(0, JApplication.getJContext().getScreenHeight());
+                }
+              }, 300);
+
+            } else if (userTitleEt.isFocused() || userNameEt.isFocused()) {
+              new Handler().postDelayed(new Runnable() {
+                @Override public void run() {
+                  scrollView.smoothScrollBy(0, index * userTitleTv.getMeasuredHeight());
+                }
+              }, 300);
+            }
+          }
+        });
   }
 
   private void setupOptionMenu() {
@@ -206,6 +275,7 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
 
   @Override public void afterTextChanged(Editable s) {
     invalidateOptionsMenu();
+
     if (phoneViewHoder != null) {
       String phone = phoneViewHoder.phoneEt.getText().toString().trim();
       if (!TextUtils.isEmpty(phone) && phone.length() == 11) {

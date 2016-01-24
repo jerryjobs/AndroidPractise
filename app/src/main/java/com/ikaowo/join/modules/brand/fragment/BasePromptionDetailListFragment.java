@@ -139,10 +139,6 @@ public abstract class BasePromptionDetailListFragment
     return new PromptionListAdapter(recyclerViewHelper);
   }
 
-  @Override protected String getEmptyHint() {
-    return "暂无推广信息";
-  }
-
   protected abstract int getIndex();
 
   public void onEvent(UpdatePromptionCallback callback) {

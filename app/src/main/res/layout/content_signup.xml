@@ -1,64 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ikaowo.join.common.widget.InputMethodLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:background="@android:color/white"
     tools:context=".modules.user.activity.SignupActivity"
     tools:showIn="@layout/activity_signup"
+    android:background="@android:color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-  <com.ikaowo.join.common.widget.InputMethodLinearLayout
+  <LinearLayout
+      android:id="@+id/container"
+      android:background="@android:color/white"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:paddingLeft="20dp"
-      android:paddingRight="20dp" >
+      android:layout_height="match_parent"
+      android:orientation="vertical">
 
-    <com.ikaowo.join.modules.user.widget.CustomEditTextView
-        android:id="@+id/brand_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+      <com.ikaowo.join.modules.user.widget.CustomEditTextView
+          android:id="@+id/brand_name"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          />
+
+      <com.ikaowo.join.modules.user.widget.CustomEditTextView
+          android:id="@+id/user_name"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          />
+
+      <com.ikaowo.join.modules.user.widget.CustomEditTextView
+          android:id="@+id/user_title"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          />
+
+
+      <com.ikaowo.join.modules.user.widget.CustomEditTextView
+          android:id="@+id/user_card"
+          android:layout_width="match_parent"
+          android:layout_height="70dp"
+          app:show_split="false"
+          />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/c6"
+        android:visibility="gone"
         />
 
-    <com.ikaowo.join.modules.user.widget.CustomEditTextView
-        android:id="@+id/user_name"
+    <ViewStub
+        android:id="@+id/phone_viewstub"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout="@layout/view_phone_related"
+        android:visibility="gone"
         />
+  </LinearLayout>
 
-    <com.ikaowo.join.modules.user.widget.CustomEditTextView
-        android:id="@+id/user_title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        />
+</ScrollView>
 
-
-    <com.ikaowo.join.modules.user.widget.CustomEditTextView
-        android:id="@+id/user_card"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:show_split="false"
-        />
-  </com.ikaowo.join.common.widget.InputMethodLinearLayout>
-
-  <View
-      android:id="@+id/divider"
-      android:layout_width="match_parent"
-      android:layout_height="16dp"
-      android:background="@color/c6"
-      android:visibility="gone"
-      />
-
-  <ViewStub
-      android:id="@+id/phone_viewstub"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout="@layout/view_phone_related"
-      android:visibility="gone"
-      />
-</com.ikaowo.join.common.widget.InputMethodLinearLayout>

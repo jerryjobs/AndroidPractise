@@ -28,8 +28,7 @@ public abstract class UserService extends JCommonService {
   public abstract void doLogin(Context context, String userName, String password,
       boolean changeTab);
 
-  public abstract void doAfterSignin(Context context, SignupResponse signupResponse,
-      String suc_hint);
+  public abstract void doAfterSignin(Context context, SignupResponse signupResponse);
 
   public abstract void doAfterResubmit(Context context, UserLoginData userLoginData,
       String suc_hint);

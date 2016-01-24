@@ -138,11 +138,9 @@ public class BrandDetailActivity extends BaseEventBusFragmentActivity {
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.view_introduce:
-        if (!TextUtils.isEmpty(summary)) {
-          BrandService brandService
-              = JApplication.getJContext().getServiceByInterface(BrandService.class);
-          brandService.viewBrandIntroduce(this, summary);
-        }
+        BrandService brandService
+            = JApplication.getJContext().getServiceByInterface(BrandService.class);
+        brandService.viewBrandIntroduce(this, summary);
 
         break;
     }

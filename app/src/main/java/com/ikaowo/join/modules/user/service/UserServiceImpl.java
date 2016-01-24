@@ -97,7 +97,7 @@ public class UserServiceImpl extends UserService {
             public void onSuccess(SignupResponse signupResponse) {
               ((JFragmentActivity) context).dialogHelper.dismissProgressDialog();
               sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
-              doAfterSignin(context, signupResponse, context.getString(R.string.login_suc));
+              doAfterSignin(context, signupResponse);
             }
           });
   }
@@ -109,7 +109,7 @@ public class UserServiceImpl extends UserService {
   }
 
   @Override
-  public void doAfterSignin(Context context, SignupResponse signupResponse, String suc_hint) {
+  public void doAfterSignin(Context context, SignupResponse signupResponse) {
     sharedPreferenceHelper.saveUser(signupResponse.data);
     EventBus.getDefault().post(new SigninCallback() {
       @Override
@@ -123,7 +123,6 @@ public class UserServiceImpl extends UserService {
       }
     });
     ((Activity) context).finish();
-    //JToast.toastShort(suc_hint);
   }
 
   @Override

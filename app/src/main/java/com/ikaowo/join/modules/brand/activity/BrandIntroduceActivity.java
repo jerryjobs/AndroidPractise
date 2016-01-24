@@ -33,6 +33,8 @@ public class BrandIntroduceActivity extends BaseActivity {
     String content = getIntent().getStringExtra(Constant.INTRODUCE_INTENT_EXTRA);
     if (!TextUtils.isEmpty(content)) {
       introduceTv.setText(content);
+    } else {
+      introduceTv.setText(R.string.empty_hint_no_brand_introduce);
     }
   }
 

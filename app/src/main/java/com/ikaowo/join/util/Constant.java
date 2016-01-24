@@ -35,7 +35,7 @@ public class Constant {
   public static final String JOIN_STATE_FAILED = "F"; //审核不通过
   public static final String JOIN_STATE_PENDING_APPROVE = "J";//待审核
   public static final String JOIN_STATE_USER_CANCEL = "X";//用户取消
-  public static final String JOIN_STATE_CANCEL = "X";//主办方取消
+  public static final String JOIN_STATE_CANCEL = "C";//主办方取消
   public static final String JOIN_STATE_JOINED = "P"; //审核通过，并且参与
   public static final String JOIN_STATE_NOT_JOINED = "Q"; //审核通过，但是没有参与
 

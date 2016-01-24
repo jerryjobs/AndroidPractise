@@ -1,6 +1,7 @@
 package com.ikaowo.join.modules.user.activity;
 
 import android.os.Build;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -8,9 +9,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.common.framework.network.NetworkCallback;
 import com.ikaowo.join.R;
-import com.ikaowo.join.common.widget.InputMethodLinearLayout;
 import com.ikaowo.join.model.BrandInfo;
 import com.ikaowo.join.model.request.SignupRequest;
 import com.ikaowo.join.model.response.SignupResponse;
@@ -24,8 +25,8 @@ import retrofit.Call;
 public class SignupActivity extends BaseUserInputActivity {
 
   private int pos = -1;
-  private boolean resizeWithOutScroll;
   private Boolean first = true;//第一次进入页面
+  private boolean scrolled;
   @Override protected void setupView() {
     divider.setVisibility(View.VISIBLE);
 
@@ -37,6 +38,14 @@ public class SignupActivity extends BaseUserInputActivity {
     phoneViewHoder.passwordEt.addTextChangedListener(this);
     phoneViewHoder.passwordEt.setInputType(
       InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+    phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+          scrollView.smoothScrollTo(0, 30);
+        }
+      }
+    });
 
     verifyCodeHelper =
         new VerifyCodeHelper(this, phoneViewHoder.phoneEt, phoneViewHoder.getVerifyBtn);
@@ -59,50 +68,10 @@ public class SignupActivity extends BaseUserInputActivity {
             phoneViewHoder.passwordEt.getLocationInWindow(loc);
             pos = loc[1] - toolbar.getHeight() + toolbar.getHeight() / 3;
           }
-          if (Build.VERSION.SDK_INT < 16) {
-            containerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-          } else {
-            containerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-          }
+
         }
       });
 
-    containerLayout.setOnSizeChangedListenner(
-      new InputMethodLinearLayout.OnSizeChangedListenner() {
-        @Override
-        public void onSizeChange(boolean paramBoolean, int oldh, int h) {
-          //如果第一次进入，获取到高度的变化，也就是键盘的高度。
-          if (first) {
-            synchronized (first) {
-              pos = pos - Math.abs(oldh - h);
-              first = false;
-            }
-          }
-
-          if (phoneViewHoder.phoneEt.isFocused()
-            || phoneViewHoder.passwordEt.isFocused()
-            || phoneViewHoder.verifyCodeEt.isFocused()) {
-            if (paramBoolean) {
-              containerLayout.smoothScrollTo(pos, 200);
-            } else {
-              containerLayout.smoothScrollTo(-pos, 200);
-            }
-          } else {
-            resizeWithOutScroll = true;
-          }
-        }
-      });
-
-
-    phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus && resizeWithOutScroll) {
-          containerLayout.smoothScrollTo(pos, 200);
-          resizeWithOutScroll = false;
-        }
-      }
-    });
     containerLayout.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         hideInput(SignupActivity.this, toolbar);
@@ -150,9 +119,14 @@ public class SignupActivity extends BaseUserInputActivity {
     request.password = password;
     Call<SignupResponse> call = userNetworkService.signup(request);
     call.enqueue(new NetworkCallback<SignupResponse>(SignupActivity.this) {
-      @Override public void onSuccess(SignupResponse signupResponse) {
-        userService.doAfterSignin(SignupActivity.this, signupResponse,
-            getString(R.string.signup_suc));
+      @Override public void onSuccess(final SignupResponse signupResponse) {
+        new JDialogHelper(SignupActivity.this).showConfirmDialog(R.string.hint_signup_submitted,
+          R.string.custom_ok_btn,
+          new JDialogHelper.DoAfterClickCallback() {
+            @Override public void doAction() {
+              userService.doAfterSignin(SignupActivity.this, signupResponse);
+            }
+          });
       }
     });
   }

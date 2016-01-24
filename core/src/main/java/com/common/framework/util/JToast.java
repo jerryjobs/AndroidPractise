@@ -46,4 +46,12 @@ public class JToast {
   public static void toastLong(String str) {
     toast(str, Toast.LENGTH_LONG);
   }
+
+  public static void toastLong(int strRes) {
+    toastLong(JApplication.getInstance().getApplicationContext().getString(strRes));
+  }
+
+  public static void toastShort(int strRes) {
+    toastShort(JApplication.getInstance().getApplicationContext().getString(strRes));
+  }
 }
