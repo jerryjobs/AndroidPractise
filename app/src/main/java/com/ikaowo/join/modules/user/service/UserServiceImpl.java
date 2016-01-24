@@ -159,7 +159,7 @@ public class UserServiceImpl extends UserService {
         .async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback(context) {
           @Override public void onSuccess(Object o) {
             ((Activity) context).finish();
-            JToast.toastShort(context.getString(R.string.reset_passwd_suc));
+            JToast.toastShort(context.getString(R.string.hint_reset_passwd_suc));
           }
         });
   }

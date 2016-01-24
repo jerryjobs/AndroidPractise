@@ -106,7 +106,7 @@ public class UpdatePasswordActivity extends BaseFragmentActivity
     JApplication.getNetworkManager()
         .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback(this) {
           @Override public void onSuccess(Object o) {
-            JToast.toastShort("修改密码成功，请重新登录");
+            JToast.toastShort(getString(R.string.hint_update_passwd_suc));
             finish();
             new Handler().postDelayed(new Runnable() {
               @Override public void run() {

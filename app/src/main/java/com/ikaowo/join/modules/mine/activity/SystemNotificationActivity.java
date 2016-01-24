@@ -94,7 +94,7 @@ public class SystemNotificationActivity
   }
 
   @Override protected String getEmptyHint() {
-    return "暂无系统消息";
+    return getString(R.string.empty_hint_no_system_notification);
   }
 
   @Override protected String getTag() {

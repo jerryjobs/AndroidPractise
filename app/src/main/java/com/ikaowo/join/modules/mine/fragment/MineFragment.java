@@ -138,7 +138,12 @@ public class MineFragment extends BaseEventBusFragment {
   }
 
   @OnClick(R.id.brand_info) public void viewBrandInfo() {
-    brandService.viewBrandDetail(getActivity(), userService.getUserCompanyId());
+    userService.interceptorCheckUserState(getActivity(), R.string.action_view_my_brand,
+        new UserService.AuthedAction() {
+          @Override public void doActionAfterAuthed() {
+            brandService.viewBrandDetail(getActivity(), userService.getUserCompanyId());
+          }
+        });
   }
 
   public void onEvent(SigninCallback callback) {

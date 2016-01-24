@@ -277,6 +277,9 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     invalidateOptionsMenu();
 
     if (phoneViewHoder != null) {
+      if (phoneViewHoder.verifyCodeEt.isFocused()) {
+        return;
+      }
       String phone = phoneViewHoder.phoneEt.getText().toString().trim();
       if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
         if (!phoneViewHoder.getVerifyBtn.isEnabled()) {
