@@ -44,7 +44,7 @@ public class DateTimeHelper {
     Map<Integer, Integer> map = new HashMap<>();
     map.put(Calendar.YEAR, calendar.get(Calendar.YEAR));
     map.put(Calendar.MONTH, calendar.get(Calendar.MONTH));
-    map.put(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+    map.put(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
     return map;
   }
 
