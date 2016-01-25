@@ -7,8 +7,10 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import com.ikaowo.join.BaseFragmentActivity;
@@ -126,6 +128,17 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
     searchView.setQueryHint(getResources().getString(R.string.brand_query_hint));
 
     return true;
+  }
+
+  @Override protected void onResume() {
+    if (searchView != null) {
+      new Handler().postDelayed(new Runnable() {
+        @Override public void run() {
+          searchView.clearFocus();
+        }
+      }, 20);
+    }
+    super.onResume();
   }
 
   public void setSearchQuery(String str) {

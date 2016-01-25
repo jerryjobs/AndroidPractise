@@ -3,6 +3,7 @@ package com.ikaowo.join.modules.webview.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import com.common.framework.core.JApplication;
@@ -34,6 +35,10 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     promptionService = JApplication.getJContext().getServiceByInterface(PromptionService.class);
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    toolbar.setTitle("");
+    setSupportActionBar(toolbar);
+
   }
 
   @Override protected void getIntentData() {

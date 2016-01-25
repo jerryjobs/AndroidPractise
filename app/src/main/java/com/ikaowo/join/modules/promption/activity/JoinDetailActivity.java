@@ -162,7 +162,7 @@ public class JoinDetailActivity extends BaseActivity {
                 llp.leftMargin = JApplication.getJContext().dip2px(12);
 
                 AvatarHelper.getInstance()
-                    .showAvatar(JoinDetailActivity.this, iconIv, shortNameTv, userIconTargetWidth,
+                    .showAvatar(JoinDetailActivity.this, joinInfo.userId, iconIv, shortNameTv, userIconTargetWidth,
                         userIconTargetHeight, joinInfo.userIcon, joinInfo.nickname);
 
                 nameTitleTv.setText(joinInfo.nickname + " | " + joinInfo.title);

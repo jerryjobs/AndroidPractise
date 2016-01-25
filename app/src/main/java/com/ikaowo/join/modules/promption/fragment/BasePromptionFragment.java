@@ -14,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.common.framework.core.JAdapter;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JFragmentActivity;
 import com.common.framework.image.ImageLoader;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.ikaowo.join.BuildConfig;

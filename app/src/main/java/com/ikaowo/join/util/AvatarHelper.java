@@ -28,12 +28,12 @@ public class AvatarHelper {
     return instance;
   }
 
-  public void showAvatar(Context context, int pos, ImageView iconIv, TextView shortNameTv, int width,
+  public void showAvatar(Context context, int userId, ImageView iconIv, TextView shortNameTv, int width,
       int height, String avatarIconUrl, String userName) {
     ImageLoader imageLoader = JApplication.getImageLoader();
     if (TextUtils.isEmpty(avatarIconUrl)) {
       iconIv.setImageResource(0);
-      iconIv.setBackgroundColor(ContextCompat.getColor(context, Constant.getRandomColor(pos)));
+      iconIv.setBackgroundColor(ContextCompat.getColor(context, Constant.getRandomColor(userId)));
       iconIv.setVisibility(View.VISIBLE);
       shortNameTv.setVisibility(View.VISIBLE);
       shortNameTv.setTextColor(ContextCompat.getColor(context, android.R.color.white));

@@ -147,7 +147,7 @@ public class MineActivity extends BaseEventBusFragmentActivity
       if (imageView != null) {
         imageView.setImgUrl(user.icon);
         AvatarHelper.getInstance()
-            .showAvatar(MineActivity.this, imageView, userIconItem.getShortNameTv(), targetWidth,
+            .showAvatar(MineActivity.this, user.uId, imageView, userIconItem.getShortNameTv(), targetWidth,
                 targetHeight, user.icon, user.nickName);
       }
 

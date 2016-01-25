@@ -153,23 +153,25 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
       }
     });
 
-    phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-        bindGlobalLayoutChangeToScrollView(hasFocus, -1);
-      }
-    });
+    if (phoneViewHoder != null) {
+      phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override public void onFocusChange(View v, boolean hasFocus) {
+          bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+        }
+      });
 
-    phoneViewHoder.verifyCodeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-        bindGlobalLayoutChangeToScrollView(hasFocus, -1);
-      }
-    });
+      phoneViewHoder.verifyCodeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override public void onFocusChange(View v, boolean hasFocus) {
+          bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+        }
+      });
 
-    phoneViewHoder.passwordEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-        bindGlobalLayoutChangeToScrollView(hasFocus, -1);
-      }
-    });
+      phoneViewHoder.passwordEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override public void onFocusChange(View v, boolean hasFocus) {
+          bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+        }
+      });
+    }
   }
 
 

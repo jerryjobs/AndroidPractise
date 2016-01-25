@@ -83,7 +83,7 @@ public class MineFragment extends BaseEventBusFragment {
     if (userService.isLogined()) {
       UserLoginData user = userService.getUser();
       AvatarHelper.getInstance()
-          .showAvatar(getContext(), iconIv, shortNameTv, targetImgWidth, targetImgHeight, user.icon,
+          .showAvatar(getContext(), user.uId, iconIv, shortNameTv, targetImgWidth, targetImgHeight, user.icon,
               user.nickName);
       nameTitleTv.setText(user.nickName + " | " + user.title);
       brandNameTv.setText(user.brandInfo != null ? user.brandInfo.brand_name : "");
@@ -162,7 +162,7 @@ public class MineFragment extends BaseEventBusFragment {
     UserLoginData user = userService.getUser();
     if (!TextUtils.isEmpty(callback.updatedAvatar())) {
       AvatarHelper.getInstance()
-          .showAvatar(getContext(), iconIv, shortNameTv, targetImgWidth, targetImgHeight, user.icon,
+          .showAvatar(getContext(), user.uId, iconIv, shortNameTv, targetImgWidth, targetImgHeight, user.icon,
               user.nickName);
     }
   }

@@ -273,7 +273,7 @@ public class BrandListFragment extends BaseFragment
         Brand brand = objList.get(position);
         if (brand != null) {
           viewHodler.nameTv.setText(brand.brand_name);
-          viewHodler.summaryTv.setText(brand.summary);
+          viewHodler.summaryTv.setText(brand.company_name);
           if (brand.showSection) {
             viewHodler.sectionTv.setVisibility(View.VISIBLE);
             viewHodler.sectionTv.setText(brand.company_py);
