@@ -3,6 +3,7 @@ package com.ikaowo.join.modules.user.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -179,12 +180,11 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     scrollView.getViewTreeObserver()
         .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
           @Override public void onGlobalLayout() {
-            int heightDiff = scrollView.getRootView().getHeight() - scrollView.getHeight();
-
-            InputMethodManager inputMethodManager =
-                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            boolean isKeyboardActived = inputMethodManager.isActive();
-            scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            } else {
+              scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
 
             if (phoneViewHoder.phoneEt.isFocused()
                 || phoneViewHoder.verifyCodeEt.isFocused()

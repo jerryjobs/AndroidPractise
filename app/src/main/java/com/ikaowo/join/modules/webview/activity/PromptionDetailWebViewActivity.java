@@ -95,20 +95,21 @@ public class PromptionDetailWebViewActivity extends WebViewActivity {
                 && promption.publishUid == userService.getUserId()) {
               new Handler().post(new Runnable() {
                 @Override public void run() {
-                  dialog = dialogHelper.createDialog(PromptionDetailWebViewActivity.this, "认证未通过",
-                      "认证没有通过，可以修改重新认证", new String[] { "取消", "前往修改" }, new View.OnClickListener[] {
-                          new View.OnClickListener() {
-                            @Override public void onClick(View v) {
-                              dialog.dismiss();
-                            }
-                          }, new View.OnClickListener() {
-                        @Override public void onClick(View v) {
-                          promptionService.goToEditPromptionActivity(
-                              PromptionDetailWebViewActivity.this, promptionId);
-                          dialog.dismiss();
-                        }
+                dialog = dialogHelper.createDialog(PromptionDetailWebViewActivity.this, "认证未通过",
+                  "认证没有通过，可以修改重新认证-文案暂定", new String[] { "取消", "前往修改" },
+                  new View.OnClickListener[] {
+                    new View.OnClickListener() {
+                      @Override public void onClick(View v) {
+                        dialog.dismiss();
                       }
-                      });
+                    }, new View.OnClickListener() {
+                      @Override public void onClick(View v) {
+                        promptionService.goToEditPromptionActivity(
+                            PromptionDetailWebViewActivity.this, promptionId);
+                        dialog.dismiss();
+                      }
+                    }
+                  });
                   dialog.show();
                 }
               });

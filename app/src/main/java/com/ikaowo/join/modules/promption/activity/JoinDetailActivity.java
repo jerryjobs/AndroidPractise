@@ -18,6 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.common.framework.image.ImageLoader;
 import com.component.photo.FullImageView;
 import com.ikaowo.join.BaseActivity;
@@ -57,6 +58,7 @@ public class JoinDetailActivity extends BaseActivity {
   @Bind(R.id.btn_layout) LinearLayout btnLayout;
   @Bind(R.id.rejectBtn) TextView rejectBtn;
   @Bind(R.id.approveBtn) TextView approveBtn;
+  Dialog dialog = null;
   private int promptionId;
   private int brandId;
   private int u_id; //参与活动人的id
@@ -211,7 +213,6 @@ public class JoinDetailActivity extends BaseActivity {
     sendRequest(Constant.JOIN_STATE_PASSED);
   }
 
-  Dialog dialog = null;
   private void sendRequest(final String state) {
     int hintRes = (state == Constant.JOIN_STATE_FAILED) ? R.string.hint_reject_join
         : R.string.hint_accept_join;
@@ -238,14 +239,17 @@ public class JoinDetailActivity extends BaseActivity {
 
                       @Override public String newState() {
                         return state;
-                }
-              });
-                    new Handler().postDelayed(new Runnable() {
-                      @Override public void run() {
-                        finish();
                       }
-                    }, 600);
-            }
+                    });
+
+                    new JDialogHelper(JoinDetailActivity.this)
+                      .showConfirmDialog(R.string.hint_join_submit_suc, R.string.custom_ok_btn,
+                      new JDialogHelper.DoAfterClickCallback() {
+                        @Override public void doAction() {
+                          finish();
+                        }
+                      });
+                  }
                 });
       }
     }

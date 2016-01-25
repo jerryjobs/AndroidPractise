@@ -88,9 +88,8 @@
         android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/content_ic_join_ing"
-        android:visibility="gone"
         />
   </FrameLayout>
 
