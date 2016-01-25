@@ -68,8 +68,8 @@ public class CompletePromptionActivity extends BaseActivity {
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitle(com.ikaowo.join.R.string.title_activity_complete_promption);
     setSupportActionBar(toolbar);
-
     android.support.v7.app.ActionBar ab = getSupportActionBar();
+    dialogHelper = new JDialogHelper(CompletePromptionActivity.this);
     ab.setDisplayHomeAsUpEnabled(true);
     setOptionMenu();
     getIntentData();
@@ -145,9 +145,6 @@ public class CompletePromptionActivity extends BaseActivity {
                 }
               }
             } else {
-              if (dialogHelper == null) {
-                dialogHelper = new JDialogHelper(CompletePromptionActivity.this);
-              }
               dialog = dialogHelper.createDialog(R.string.hint_nobody_joined,
                   new String[] { "我知道了", "结束推广" }, new View.OnClickListener[] {
                       new View.OnClickListener() {
@@ -207,14 +204,6 @@ public class CompletePromptionActivity extends BaseActivity {
   }
 
   private void submit() {
-    Log.e(getTag(), idSets.toString());
-    try {
-      Log.e(getTag(), "media1:" + URLEncoder.encode(mediaUrl1.getValue(), "utf-8"));
-      Log.e(getTag(), "media2:" + URLEncoder.encode(mediaUrl2.getValue(), "utf-8"));
-      Log.e(getTag(), "media3:" + URLEncoder.encode(mediaUrl3.getValue(), "utf-8"));
-    } catch (Exception e) {
-      e.toString();
-    }
     final CompletePromptionRequest request = new CompletePromptionRequest();
 
     request.aci_id = promptionId;
@@ -231,8 +220,13 @@ public class CompletePromptionActivity extends BaseActivity {
     }
 
     if (dialog == null) {
-      dialog = dialogHelper.createDialog(this, "注意", "请确保已经勾选已参与的合作伙伴", new String[] { "确定", "取消" },
+      dialog = dialogHelper.createDialog(R.string.dialog_title, R.string.hint_pick_joined_user, new String[] { "取消" , "确定"},
         new View.OnClickListener[] {
+          new View.OnClickListener() {
+            @Override public void onClick(View v) {
+              dialog.dismiss();
+            }
+          },
           new View.OnClickListener() {
             @Override public void onClick(View v) {
 
@@ -256,11 +250,6 @@ public class CompletePromptionActivity extends BaseActivity {
                     }, 300);
                   }
                 });
-              dialog.dismiss();
-            }
-          },
-          new View.OnClickListener() {
-            @Override public void onClick(View v) {
               dialog.dismiss();
             }
           }

@@ -1,7 +1,6 @@
 package com.ikaowo.join.util;
 
 import com.ikaowo.join.R;
-import java.util.Random;
 
 /**
  * Created by leiweibo on 12/27/15.
