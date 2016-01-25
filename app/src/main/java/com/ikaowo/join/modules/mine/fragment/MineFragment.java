@@ -106,26 +106,29 @@ public class MineFragment extends BaseEventBusFragment {
   }
 
   @OnClick(R.id.user_info) public void viewUserInfo() {
-    NetworkManager networkManager = JApplication.getNetworkManager();
-    UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
-    CheckStateRequest request = new CheckStateRequest();
-    request.u_id = userService.getUserId();
-    Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
-    networkManager.async(getActivity(), Constant.DATAGETTING, call,
-      new KwMarketNetworkCallback<CheckStateResponse>(getActivity()) {
-        @Override public void onSuccess(final CheckStateResponse stateResponse) {
-          if (stateResponse != null && stateResponse.data != null) {
-            userService.updateLocalUserInfo(stateResponse.data);
-            EventBus.getDefault().post(new CheckLatestStateCallback() {
-              @Override public UserLatestState getLatestState() {
-                return stateResponse.data;
+    if (userService.isAuthed()) {
+      mineService.viewUserInfo(getActivity());
+    } else {
+      NetworkManager networkManager = JApplication.getNetworkManager();
+      UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
+      CheckStateRequest request = new CheckStateRequest();
+      request.u_id = userService.getUserId();
+      Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
+      networkManager.async(getActivity(), Constant.DATAGETTING, call,
+          new KwMarketNetworkCallback<CheckStateResponse>(getActivity()) {
+            @Override public void onSuccess(final CheckStateResponse stateResponse) {
+              if (stateResponse != null && stateResponse.data != null) {
+                userService.updateLocalUserInfo(stateResponse.data);
+                EventBus.getDefault().post(new CheckLatestStateCallback() {
+                  @Override public UserLatestState getLatestState() {
+                    return stateResponse.data;
+                  }
+                });
+                mineService.viewUserInfo(getActivity());
               }
-            });
-            mineService.viewUserInfo(getActivity());
-          }
-        }
-      });
-
+            }
+          });
+    }
   }
 
   @OnClick(R.id.promption) public void viewMyPromption() {
