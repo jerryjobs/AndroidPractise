@@ -386,9 +386,9 @@ public class UserServiceImpl extends UserService {
     JApplication.getJContext().startActivity(context, intent);
   }
 
-  @Override public void reSubmitInfo(Context context, boolean fromPush) {
+  @Override public void reSubmitInfo(Context context, boolean needCheckState) {
     Intent intent = new Intent(context, ReSubmitInfoActivity.class);
-    intent.putExtra(Constant.VIEW_USRE_INFO_FROM_PUSH, fromPush);
+    intent.putExtra(Constant.NEED_RETRIEVE_LATEST_STATE, needCheckState);
     JApplication.getJContext().startActivity(context, intent);
   }
 

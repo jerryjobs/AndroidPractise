@@ -20,7 +20,7 @@ public class Constant {
   public static final String SHAREW_IMG_URL = "bg_url";
   public static final String SHOW_OPTION_MENU = "show_option_menu";
 
-  public static final String VIEW_USRE_INFO_FROM_PUSH = "v_user_from_push";
+  public static final String NEED_RETRIEVE_LATEST_STATE = "need_check_latest_state";
 
   public static final int SEARCH_TYPE_PROMPTION = 1;
   public static final int SEARCH_TYPE_BRAND = 2;

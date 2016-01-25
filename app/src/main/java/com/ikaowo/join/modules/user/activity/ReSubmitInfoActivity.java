@@ -33,7 +33,7 @@ public class ReSubmitInfoActivity extends BaseUserInputActivity {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    boolean fromPush = getIntent().getExtras() == null ? false : getIntent().getExtras().getBoolean(Constant.VIEW_USRE_INFO_FROM_PUSH, false);
+    boolean fromPush = getIntent().getExtras() == null ? false : getIntent().getExtras().getBoolean(Constant.NEED_RETRIEVE_LATEST_STATE, false);
     if (fromPush) {
       NetworkManager networkManager = JApplication.getNetworkManager();
       UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
