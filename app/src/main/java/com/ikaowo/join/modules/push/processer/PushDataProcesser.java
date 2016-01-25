@@ -8,6 +8,7 @@ import com.common.framework.network.NetworkManager;
 import com.common.framework.util.JLog;
 import com.ikaowo.join.MainTabActivity;
 import com.ikaowo.join.common.service.UserService;
+import com.ikaowo.join.model.UserLatestState;
 import com.ikaowo.join.model.base.BaseResponse;
 import com.ikaowo.join.modules.push.common.NotificationHelper;
 import com.ikaowo.join.modules.push.model.GetuiReceiveData;
@@ -15,6 +16,7 @@ import com.ikaowo.join.modules.push.model.Push;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.NotificationInterface;
 import com.ikaowo.join.util.Constant;
+import de.greenrobot.event.EventBus;
 import java.util.HashMap;
 import java.util.Map;
 import retrofit.Call;
@@ -38,7 +40,6 @@ public abstract class PushDataProcesser {
 
     UserService userService = JApplication.getJContext().getServiceByInterface(UserService.class);
     if (userService.isLogined()) {//如果为已经登录，那么显示正常的推送
-
       intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
       intent.putExtra(Constant.PUSH_INTENT_EXTRA, push);
       new NotificationHelper().displayNotification(context, data.title, data.content, intent);

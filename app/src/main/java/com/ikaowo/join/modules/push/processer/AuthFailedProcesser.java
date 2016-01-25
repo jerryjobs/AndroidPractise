@@ -10,6 +10,6 @@ public class AuthFailedProcesser extends PushDataProcesser {
 
   @Override public void openPage(Context context, String target, String targetUrl) {
     UserService userService = jContext.getServiceByInterface(UserService.class);
-    userService.reSubmitInfo(context);
+    userService.reSubmitInfo(context, true);
   }
 }

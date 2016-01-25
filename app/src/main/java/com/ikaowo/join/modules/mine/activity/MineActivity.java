@@ -25,10 +25,14 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.AvatarUpdateCallback;
+import com.ikaowo.join.eventbus.CheckLatestStateCallback;
 import com.ikaowo.join.eventbus.ClosePageCallback;
+import com.ikaowo.join.model.UserLatestState;
 import com.ikaowo.join.model.UserLoginData;
 import com.ikaowo.join.model.base.BaseResponse;
+import com.ikaowo.join.model.request.CheckStateRequest;
 import com.ikaowo.join.model.request.UpdateAvatarRequest;
+import com.ikaowo.join.model.response.CheckStateResponse;
 import com.ikaowo.join.modules.mine.MineItemWidget;
 import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
@@ -98,6 +102,7 @@ public class MineActivity extends BaseEventBusFragmentActivity
 
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
+
     setupDate();
     setupOptionMenu();
   }

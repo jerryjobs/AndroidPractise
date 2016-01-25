@@ -7,6 +7,7 @@ import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.modules.mine.activity.MineActivity;
 import com.ikaowo.join.modules.mine.activity.MyPromptionActivity;
 import com.ikaowo.join.modules.mine.activity.UpdatePasswordActivity;
+import com.ikaowo.join.util.Constant;
 
 /**
  * Created by weibo on 15-12-29.
