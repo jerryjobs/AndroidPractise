@@ -15,18 +15,17 @@ import android.widget.TextView;
  * Created by weibo on 15-12-3.
  */
 public class JDialogHelper {
-  private Activity activity;
+  private Context context;
   private ProgressDialog dialog;
   private Dialog confirmDialog;
 
   public JDialogHelper(Context context) {
-    if (context instanceof Activity) {
-      this.activity = (Activity) context;
-    }
+
+    this.context = context;
   }
 
   public JDialogHelper(Activity activity) {
-    this.activity = activity;
+    this.context = activity;
   }
 
   public void showProgressDialog(String msg) {
@@ -34,7 +33,7 @@ public class JDialogHelper {
   }
 
   public void showProgressDialog(int msgRes) {
-    String msg = activity.getString(msgRes);
+    String msg = context.getString(msgRes);
     showProgressDialog(msg);
   }
 
@@ -43,39 +42,42 @@ public class JDialogHelper {
   }
 
   public void showProgressDialog(int msgRes, boolean cancelable) {
-    String msg = activity.getString(msgRes);
+    String msg = context.getString(msgRes);
     showProgressDialog(msg, cancelable);
   }
 
   public void showProgressDialog(final String msg, final boolean cancelable,
       final DialogInterface.OnCancelListener cancelListener) {
     dismissProgressDialog();
-    activity.runOnUiThread(new Runnable() {
+    if (context instanceof Activity) {
+      ((Activity)context).runOnUiThread(new Runnable() {
 
-      @Override
-      public void run() {
-        if (activity == null || activity.isFinishing()) {
-          return;
-        }
+        @Override
+        public void run() {
+          if (context == null || ((Activity)context).isFinishing()) {
+            return;
+          }
 
-        dialog = ProgressDialog.show(activity, "", msg, true, cancelable);
-        if (cancelListener != null) {
-          dialog.setOnCancelListener(cancelListener);
+          dialog = ProgressDialog.show(context, "", msg, true, cancelable);
+          if (cancelListener != null) {
+            dialog.setOnCancelListener(cancelListener);
+          }
         }
-      }
-    });
+      });
+    }
+
   }
 
   public void showProgressDialog(final int msgRes, final boolean cancelable,
                                  final DialogInterface.OnCancelListener cancelListener) {
-    String msg = activity.getString(msgRes);
+    String msg = context.getString(msgRes);
     showProgressDialog(msg, cancelable, cancelListener);
   }
 
   public void showConfirmDialog(final String msg, final String okBtnStr,
                                 final DoAfterClickCallback callback) {
     confirmDialog =
-      createDialog(activity, "注意", msg, new String[] { okBtnStr }, new View.OnClickListener[] {
+      createDialog(context, "注意", msg, new String[] { okBtnStr }, new View.OnClickListener[] {
         new View.OnClickListener() {
           @Override public void onClick(View v) {
             if (confirmDialog != null && confirmDialog.isShowing()) {
@@ -98,7 +100,7 @@ public class JDialogHelper {
 
   public void showConfirmDialog(final int msgRes,
                                 final DoAfterClickCallback callback) {
-    String msg = activity.getString(msgRes);
+    String msg = context.getString(msgRes);
     showConfirmDialog(msg, callback);
   }
 
@@ -115,16 +117,16 @@ public class JDialogHelper {
   }
 
   public void showConfirmDialog(int msgRes, int okBtnRes, final DoAfterClickCallback callback) {
-    String msg = activity.getString(msgRes);
-    String okBtnStr = activity.getString(okBtnRes);
+    String msg = context.getString(msgRes);
+    String okBtnStr = context.getString(okBtnRes);
     showConfirmDialog(msg, okBtnStr, callback);
   }
 
   public void dismissProgressDialog() {
-    activity.runOnUiThread(new Runnable() {
+    ((Activity)context).runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        if (dialog != null && dialog.isShowing() && !activity.isFinishing()) {
+        if (dialog != null && dialog.isShowing() && !((Activity)context).isFinishing()) {
           dialog.dismiss();
           dialog = null;
         }
@@ -135,28 +137,28 @@ public class JDialogHelper {
   public Dialog createDialog(int contentRes, String[] buttons,
                              View.OnClickListener[] listeners) {
     String title = "注意";
-    String content = activity.getString(contentRes);
-    return createDialog(activity, title, content, buttons, listeners);
+    String content = context.getString(contentRes);
+    return createDialog(context, title, content, buttons, listeners);
   }
 
   public Dialog createDialog(int titleRes, int contentRes,
                              String[] buttons, View.OnClickListener[] listeners) {
-    String title = activity.getString(titleRes);
-    String content = activity.getString(contentRes);
-    return createDialog(activity, title, content, buttons, listeners);
+    String title = context.getString(titleRes);
+    String content = context.getString(contentRes);
+    return createDialog(context, title, content, buttons, listeners);
   }
 
   public Dialog createDialog(int titleRes, int contentRes, View.OnClickListener[] listeners) {
-    String title = activity.getString(titleRes);
-    String content = activity.getString(contentRes);
-    return createDialog(activity, title, content, new String[] {"取消", "确定"}, listeners);
+    String title = context.getString(titleRes);
+    String content = context.getString(contentRes);
+    return createDialog(context, title, content, new String[] {"取消", "确定"}, listeners);
   }
 
   public Dialog createDialog(int contentRes, View.OnClickListener[] listeners) {
 
     String title = "注意";
-    String content = activity.getString(contentRes);
-    return createDialog(activity, title, content, new String[] {"取消", "确定"}, listeners);
+    String content = context.getString(contentRes);
+    return createDialog(context, title, content, new String[] {"取消", "确定"}, listeners);
   }
 
   public Dialog createDialog(Context context, String title, String content, String[] buttons,

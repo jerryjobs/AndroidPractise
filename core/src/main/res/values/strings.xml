@@ -1,4 +1,4 @@
 <resources>
   <string name="app_name">Framework_Core</string>
-  <string name="network_error">对不起网络有问题，请检查你的网络（文案暂定，到时候统一改）</string>
+  <string name="network_error">网络不给力，请重试</string>
 </resources>

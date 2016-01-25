@@ -1,5 +1,6 @@
 package com.ikaowo.join;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -72,6 +73,7 @@ public class MainTabActivity extends TabActivity {
   private IYWConversationUnreadChangeListener mConversationUnreadChangeListener;
   private Handler mHandler = new Handler(Looper.getMainLooper());
   private String MD5_KEY = "ddl";
+  private Dialog dialog;
 
   private Map<String, Integer> notificationCnt = new HashMap<>();
 
@@ -319,7 +321,25 @@ public class MainTabActivity extends TabActivity {
 
   public void onEvent(WxKickedOffCallback callback) {
     if (callback.kickedOff()) {
-      dialogHelper.showConfirmDialog(R.string.hint_wx_kickedoff);
+      dialog = dialogHelper.createDialog(R.string.dialog_title, R.string.hint_acct_kickedoff,
+        new String[] {"我知道了", "重新登录"}, new View.OnClickListener[] {
+          new View.OnClickListener() {
+            @Override public void onClick(View v) {
+              dialog.dismiss();
+              onClicked(tabbarList.get(0));
+              userService.logout(MainTabActivity.this);
+            }
+          },
+          new View.OnClickListener() {
+            @Override public void onClick(View v) {
+              dialog.dismiss();
+              onClicked(tabbarList.get(0));
+              userService.logout(MainTabActivity.this);
+              userService.goToSignin(MainTabActivity.this);
+            }
+          }
+        });
+      dialog.show();
     }
   }
 

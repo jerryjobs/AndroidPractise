@@ -36,7 +36,7 @@ public abstract class KwMarketNetworkCallback<T> extends NetworkCallback<T> {
     } catch (Exception e) {
       JToast.toastLong("服务器开小差了，请重试");
       MobclickAgent.reportError(JApplication.getInstance().getApplicationContext(),
-          "ONREQUREST_FAILED:" + retrofit.baseUrl() + ":" +  e.getMessage());
+          "ONREQUREST_FAILED:" + retrofit.baseUrl() + ":" +  e.toString());
     }
 
     if (response.code() == 401) {

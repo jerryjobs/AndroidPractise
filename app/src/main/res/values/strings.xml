@@ -87,7 +87,8 @@
   <string name="hint_promption_posted">发布成功 通过审核后即可上线，请耐心等待</string>
   <string name="hint_signup_submitted">信息已提交，请耐心等待审核</string>
   <string name="hint_promption_resubmit">修改已提交，通过审核后即可上线，请耐心等待</string>
-  <string name="hint_wx_kickedoff">你的账号在别的设备登录，请重新登录</string>
+  <string name="hint_promption_failed">抱歉，您的推广审核未通过</string>
+  <string name="hint_acct_kickedoff">你的账号在别手机登录</string>
   <string name="hint_reset_passwd_suc">您已成功重置密码</string>
   <string name="hint_wx_service_failed">IM服务异常，IM功能暂时不可用，如果想使用IM功能，请退出APP重试</string>
   <string name="hint_wx_service_disconnected">IM服务已经断开，如果想使用IM功能，请退出账户重新登录</string>
