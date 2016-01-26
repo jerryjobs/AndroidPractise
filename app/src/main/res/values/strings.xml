@@ -100,6 +100,7 @@
   <string name="hint_nobody_joined">本次活动报名已截止，系统将为您结束活动，如需要延后报名截止请联系客服</string>
   <string name="hint_pick_joined_user">请确保已经勾选已参与的合作伙伴</string>
   <string name="hint_update_passwd_suc">修改密码成功</string>
+  <string name="hint_state_update">状态已变更</string>
 
   <string name="custom_ok_btn">我知道了</string>
 

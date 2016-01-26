@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.widget.ErrorHintLayout;
@@ -22,6 +23,7 @@ import retrofit.Call;
 public class EditPromptionActivity extends AddPromptionActivity {
 
   private NetworkManager networkManager;
+  private String notificationType;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     titleResId = R.string.title_activity_edit_promotion;
@@ -29,6 +31,7 @@ public class EditPromptionActivity extends AddPromptionActivity {
     if (promptionId <= 0) {
       finish();
     }
+    notificationType = getIntent().getExtras().getString(Constant.NOTIFICATION_TYPE, "");
     super.onCreate(savedInstanceState);
 
     networkManager = JApplication.getNetworkManager();
@@ -42,6 +45,22 @@ public class EditPromptionActivity extends AddPromptionActivity {
             if (response == null || (promption = response.data) == null) {
               finish();
             }
+
+            if (!TextUtils.isEmpty(notificationType)
+                && notificationType.equalsIgnoreCase(Constant.PUSH_PROMPTION_FAILED)) {
+
+              if (!promption.state.equalsIgnoreCase(Constant.PROMPTION_STATE_FAILED)) {
+                new JDialogHelper(EditPromptionActivity.this)
+                    .showConfirmDialog(R.string.hint_state_update, R.string.custom_ok_btn,
+                        new JDialogHelper.DoAfterClickCallback() {
+                      @Override public void doAction() {
+                        finish();
+                      }
+                    });
+                return;
+              }
+            }
+
             if (Constant.PROMPTION_STATE_FAILED.equalsIgnoreCase(promption.state)
                 && !TextUtils.isEmpty(promption.comment)) {
               ErrorHintLayout errorHintLayout = new ErrorHintLayout(EditPromptionActivity.this);

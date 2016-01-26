@@ -13,6 +13,7 @@ public class Constant {
   public static final String BRAND_ID = "brand_id";
   public static final String SHOW_STATE = "show_state";
   public static final String PROMPTION_ID = "promption_id";
+  public static final String NOTIFICATION_TYPE = "notification_type";
   public static final String USER_ID = "user_id";
   public static final String URL = "url";
   public static final String SHAREW_TITLE = "title";
