@@ -22,6 +22,7 @@
       android:layout_centerVertical="true"
       android:layout_gravity="center_vertical"
       android:layout_toRightOf="@id/icon"
+      android:layout_toEndOf="@id/icon"
       >
 
     <TextView
@@ -29,13 +30,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="6dp"
+        android:paddingEnd="6dp"
         android:textColor="@color/c3"
         />
 
     <ImageView
         android:layout_width="6dp"
         android:layout_height="6dp"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:src="@drawable/unread_hint"
         android:visibility="gone"
         />
@@ -45,6 +47,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
       android:layout_centerVertical="true"
       android:layout_gravity="right"
       android:layout_marginRight="12dp"

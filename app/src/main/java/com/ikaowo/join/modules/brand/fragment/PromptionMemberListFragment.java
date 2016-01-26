@@ -116,7 +116,7 @@ public class PromptionMemberListFragment extends BaseListFragment<BaseListRespon
                 memberListViewHolder.shortNameTv, targetImgBgWidth, targetImgBgHeight,
                 user.userIcon, user.nickName);
 
-        memberListViewHolder.nameTitleTv.setText(user.nickName + " | " + user.title);
+        memberListViewHolder.nameTitleTv.setText(getActivity().getString(R.string.user_name_and_title, user.nickName, user.title));
         memberListViewHolder.chatIconView.setVisibility(
             userService.getUserId() == user.id ? View.GONE:View.VISIBLE);
       }

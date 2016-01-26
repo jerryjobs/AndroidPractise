@@ -93,7 +93,7 @@ public class BrandListFragment extends BaseFragment
     final AutoCompleteTextView searchText =
         (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
 
-    searchText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+    searchText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
     setupSearchView(searchView);
     setupRecyclerView(searchRecyclerView, true, searchRecyclerViewHelper);
     setupRecyclerView(recyclerView, false, recyclerViewHelper);
@@ -141,7 +141,7 @@ public class BrandListFragment extends BaseFragment
 
     recyclerViewHelper.init(getActivity(), recyclerView, new BrandListAdapter(recyclerViewHelper),
         swipeRefreshLayout);
-    recyclerViewHelper.initEmptyView(0, "暂无品牌信息");
+    recyclerViewHelper.initEmptyView(0, getString(R.string.empty_hint_no_brand_introduce));
     recyclerViewHelper.supportLoadMore(search);
 
     RecyclerViewHelperInterface recyclerViewHelperImpl =

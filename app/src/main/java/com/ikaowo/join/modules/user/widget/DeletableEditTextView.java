@@ -43,6 +43,7 @@ public class DeletableEditTextView extends AppCompatEditText implements View.OnF
     showDeleteIcon =
         typedArray.getBoolean(R.styleable.DeletableEditTextView_show_delete_icon, true);
 
+    typedArray.recycle();
     deleteIconDrawable =
         ResourceUtil.updateDrawableColor(context, R.drawable.abc_ic_clear_mtrl_alpha,
             android.R.color.darker_gray);

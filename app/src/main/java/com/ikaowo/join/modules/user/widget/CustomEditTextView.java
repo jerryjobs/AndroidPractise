@@ -46,6 +46,7 @@ public class CustomEditTextView extends LinearLayout {
 
     String title = typedArray.getString(R.styleable.CustomEditTextView_title_text);
     titleView.setText(title);
+    typedArray.recycle();
   }
 
   private void init() {

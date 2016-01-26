@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         >
 
       <ImageView
@@ -43,6 +44,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:layout_marginLeft="6dp"
+          android:layout_marginStart="6dp"
           android:textColor="@color/c9"
           android:textSize="12sp"
           />
@@ -52,7 +54,9 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:layout_marginLeft="16dp"
+          android:layout_marginStart="16dp"
           android:layout_marginRight="6dp"
+          android:layout_marginEnd="6dp"
           android:src="@drawable/content_ic_time"
           android:textSize="12sp"
           />

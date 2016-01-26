@@ -15,7 +15,7 @@ public class InputFiledHelper {
     EditText editText = new EditText(context);
     editText.setPadding(0, 0, 0, 0);
     editText.setSingleLine();
-    editText.setGravity(Gravity.RIGHT);
+    editText.setGravity(Gravity.END);
     editText.setTextSize(14);
     editText.setHint(hintRes);
     if (textWatcher != null) {

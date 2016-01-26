@@ -19,6 +19,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.common.framework.util.JToast;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseFragmentActivity;
@@ -194,21 +195,23 @@ public class JoinActivity extends BaseFragmentActivity
     request.aci_tumblrs = list;
     Call<BaseResponse> call = promptionInterface.join(request);
     JApplication.getNetworkManager()
-        .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
-          @Override public void onSuccess(BaseResponse o) {
-            new Handler().postDelayed(new Runnable() {
-              @Override public void run() {
-                EventBus.getDefault().post(new JoinedActivityCallback() {
-                  @Override public boolean joined() {
-                    return true;
-                  }
-                });
-              }
-            }, 500);
-            JToast.toastShort("参加活动成功-文案待定");
-            finish();
-          }
-        });
+      .async(this, Constant.PROCESSING, call, new KwMarketNetworkCallback<BaseResponse>(this) {
+        @Override public void onSuccess(BaseResponse o) {
+          hideInput(JoinActivity.this, toolbar);
+          EventBus.getDefault().post(new JoinedActivityCallback() {
+            @Override public boolean joined() {
+              return true;
+            }
+          });
+          new JDialogHelper(JoinActivity.this).showConfirmDialog(R.string.hint_join_submit_suc,
+                  R.string.custom_ok_btn, new JDialogHelper.DoAfterClickCallback() {
+            @Override
+            public void doAction() {
+              finish();
+            }
+          });
+        }
+      });
   }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {

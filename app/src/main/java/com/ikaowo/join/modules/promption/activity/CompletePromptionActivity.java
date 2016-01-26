@@ -242,7 +242,6 @@ public class CompletePromptionActivity extends BaseActivity {
                         return true;
                       }
                     });
-                    JToast.toastShort("操作完成");
                     new Handler().postDelayed(new Runnable() {
                       @Override public void run() {
                         finish();

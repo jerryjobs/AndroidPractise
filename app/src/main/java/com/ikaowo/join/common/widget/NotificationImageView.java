@@ -17,6 +17,7 @@ public class NotificationImageView extends ImageView {
   private static int radius = JApplication.getJContext().dip2px(4);
   private static int padding = JApplication.getJContext().dip2px(10);
   private boolean notificationFlag = false;
+  private Paint circlePaint;
 
   public NotificationImageView(Context context) {
     super(context);
@@ -35,13 +36,13 @@ public class NotificationImageView extends ImageView {
 
   private void init() {
     setPadding(padding, padding, padding, padding);
+    circlePaint = new Paint();
   }
 
   @Override protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
 
     if (notificationFlag) {
-      Paint circlePaint = new Paint();
       circlePaint.setColor(getResources().getColor(R.color.c11));
       circlePaint.setAntiAlias(true);
       Rect rect = getDrawable().getBounds();

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fitsSystemWindows="true"
-    tools:context="com.ikaowo.join.MainActivity"
+    tools:context="com.ikaowo.join.modules.user.activity.SigninActivity"
     >
 
   <android.support.design.widget.CollapsingToolbarLayout

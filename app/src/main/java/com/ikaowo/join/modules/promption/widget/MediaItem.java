@@ -34,6 +34,7 @@ public class MediaItem extends LinearLayout {
     TypedArray typedValue = context.obtainStyledAttributes(attrs, R.styleable.MediaItem);
     String title = typedValue.getString(R.styleable.MediaItem_media_title);
     titleTv.setText(title);
+    typedValue.recycle();
   }
 
   private void init() {

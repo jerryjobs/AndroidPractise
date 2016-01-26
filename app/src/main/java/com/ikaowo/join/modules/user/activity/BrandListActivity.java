@@ -37,7 +37,7 @@ public class BrandListActivity extends BaseEventBusFragmentActivity {
   private void setupFragment() {
     boolean choose = getIntent().getBooleanExtra(UserService.CHOOSE, false);
     brandListFragment = new BrandListFragment();
-    brandListFragment.setQueryHint(getString(R.string.brand_query_hint_signup));
+    brandListFragment.setQueryHint(getString(R.string.hint_brand_query_signup));
 
     Bundle bundle = new Bundle();
     bundle.putBoolean(UserService.CHOOSE, choose);

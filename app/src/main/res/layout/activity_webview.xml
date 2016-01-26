@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.ikaowo.join.MainActivity"
+    tools:context="com.ikaowo.join.modules.webview.activity.WebViewActivity"
     >
 
   <android.support.design.widget.AppBarLayout

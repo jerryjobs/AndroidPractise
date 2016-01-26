@@ -36,7 +36,8 @@ android {
                               'UMENG_APPKEY': '565d592e67e58eb11b000e44',
                               'CHANNEL_NAME': 'test']
 
-      minifyEnabled false
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
       debuggable true
     }
 
@@ -57,6 +58,11 @@ android {
 
   dexOptions {
     jumboMode = true
+  }
+
+
+  lintOptions {
+    abortOnError false
   }
 
   packagingOptions {

@@ -53,7 +53,7 @@ public class SharedPreferenceHelper {
       SharedPreferences sp = context.getSharedPreferences(USER_INFO, Context.MODE_PRIVATE);
       SharedPreferences.Editor userEditor = sp.edit();
       userEditor.putString(USER, gson.toJson(data));
-      userEditor.commit();
+      userEditor.apply();
     } catch (Exception e) {
       JLog.d("SharePreference", e.getMessage());
     }
@@ -77,7 +77,7 @@ public class SharedPreferenceHelper {
   public void clearUser() {
     SharedPreferences sp = context.getSharedPreferences(USER_INFO, Context.MODE_PRIVATE);
     SharedPreferences.Editor userEditor = sp.edit();
-    userEditor.clear().commit();
+    userEditor.clear().apply();
   }
 
   public boolean isLogined() {
@@ -108,7 +108,7 @@ public class SharedPreferenceHelper {
     SharedPreferences sp = context.getSharedPreferences(HISTORY, 0);
     SharedPreferences.Editor edit = sp.edit();
     edit.remove(SEARCH_HISTORY);
-    edit.commit();
+    edit.apply();
   }
 
   public List<String> getSearchHistory(Context context) {
@@ -136,7 +136,7 @@ public class SharedPreferenceHelper {
       historyList.remove(history);
       String s = new GsonBuilder().create().toJson(historyList);
       edit.putString(SEARCH_HISTORY, s);
-      edit.commit();
+      edit.apply();
     }
   }
 
@@ -156,14 +156,14 @@ public class SharedPreferenceHelper {
     }
     String historyListStr = new GsonBuilder().create().toJson(historyList);
     edit.putString(SEARCH_HISTORY, historyListStr);
-    edit.commit();
+    edit.apply();
   }
 
   public void saveLoginName(Context context, String name) {
     SharedPreferences sp = context.getSharedPreferences(LOGIN_INFO, 0);
     SharedPreferences.Editor edit = sp.edit();
     edit.putString(LOGIN_INFO_NAME, name);
-    edit.commit();
+    edit.apply();
   }
 
   public String getLoginedUserName(Context context) {
@@ -176,7 +176,7 @@ public class SharedPreferenceHelper {
     SharedPreferences.Editor edit = sp.edit();
     Gson gson = new GsonBuilder().create();
     edit.putString(COMMON_ENUM, gson.toJson(enumMap));
-    edit.commit();
+    edit.apply();
   }
 
   public Map<String, String> getEnumValue(Context context) {

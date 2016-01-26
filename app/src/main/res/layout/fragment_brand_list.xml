@@ -12,7 +12,7 @@
       android:layout_width="match_parent"
       android:layout_height="60dp"
       app:iconifiedByDefault="false"
-      app:queryHint="@string/brand_query_hint"
+      app:queryHint="@string/hint_brand_query"
       app:searchHintIcon="@null"
       ></android.support.v7.widget.SearchView>
 
@@ -70,7 +70,7 @@
         android:id="@+id/slidebar"
         android:layout_width="20dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         />
   </FrameLayout>
 </LinearLayout>

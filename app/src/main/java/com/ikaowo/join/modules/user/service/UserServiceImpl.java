@@ -275,7 +275,14 @@ public class UserServiceImpl extends UserService {
     checkLatestUserState(context, new CheckStateCallback() {
       @Override public void onProcessing() {
         if (context instanceof JoinActivity) {
-          new JDialogHelper(context).showConfirmDialog(R.string.unauthed_hint, actionRes);
+          new JDialogHelper(context).showConfirmDialog(
+            context.getString(R.string.unauthed_hint, actionStr), context.getString(R.string.custom_ok_btn),
+              new JDialogHelper.DoAfterClickCallback() {
+              @Override
+              public void doAction() {
+                ((JoinActivity) context).finish();
+              }
+          });
         } else {
           JToast.toastShort(context.getString(R.string.unauthed_hint, actionStr));
         }
@@ -290,7 +297,7 @@ public class UserServiceImpl extends UserService {
       @Override public void onFailed() {
         dialog = new JDialogHelper((JFragmentActivity) context)
           .createDialog(context,
-            context.getString(R.string.dialog_title, actionStr),
+            context.getString(R.string.dialog_title),
             context.getString(R.string.auth_failed_hint, actionStr),
             new String[]{"取消", "重新审核"},
             new View.OnClickListener[] {

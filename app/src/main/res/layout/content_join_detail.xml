@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".modules.promption.activity.JoinDetailActivity"
-    tools:showIn="@layout/activity_join_detail"
-    >
+    tools:showIn="@layout/activity_join_detail">
 
   <ScrollView
       android:id="@+id/scroll_view"
@@ -17,7 +16,7 @@
       android:layout_marginBottom="98dp"
       >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/c6"
@@ -37,7 +36,6 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:background="@android:color/white"
-          android:nestedScrollingEnabled="false"
           android:paddingLeft="12dp"
           android:paddingRight="12dp"
           android:scrollbars="none"
@@ -45,7 +43,7 @@
 
         <LinearLayout
             android:id="@+id/tumblrs_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
@@ -74,13 +72,15 @@
               android:layout_height="36dp"
               android:layout_gravity="center_vertical"
               android:layout_marginLeft="12dp"
+              android:layout_marginStart="12dp"
               />
 
           <TextView
               android:id="@+id/brand_name"
-              android:layout_width="match_parent"
+              android:layout_width="0dp"
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
+              android:layout_marginStart="16dp"
               android:layout_marginLeft="16dp"
               android:layout_weight="1"
               android:textSize="15sp"
@@ -91,6 +91,7 @@
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
               android:layout_marginRight="12dp"
+              android:layout_marginEnd="12dp"
               android:src="@drawable/content_ic_arrow"
               />
         </LinearLayout>
@@ -131,6 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/content_ic_applicant_chat"
             />
 
@@ -140,6 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/content_ic_applicant_phone"
             />
       </LinearLayout>
@@ -162,7 +165,9 @@
         android:layout_height="40dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:background="@drawable/shape_agreen"
@@ -177,7 +182,9 @@
         android:layout_height="40dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:background="@drawable/btn_bg_yellow"

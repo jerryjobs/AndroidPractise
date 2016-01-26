@@ -18,7 +18,7 @@
       android:gravity="center_vertical"
       android:paddingLeft="12dp"
       android:paddingRight="12dp"
-      android:text="请确认本次推广的合作伙伴"
+      android:text="@string/hint_comfirm_joined_users"
       />
 
   <ViewStub
@@ -39,30 +39,31 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:gravity="center_vertical"
-        android:text="本次推广媒体报道"
+        android:text="@string/hint_meadia_report"
         />
 
     <com.ikaowo.join.modules.promption.widget.MediaItem
         android:id="@+id/media_url_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:media_title="媒体１"
-        ></com.ikaowo.join.modules.promption.widget.MediaItem>
+        app:media_title="@string/item_title_media_1"
+        />
 
     <com.ikaowo.join.modules.promption.widget.MediaItem
         android:id="@+id/media_url_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:media_title="媒体2"
+        app:media_title="@string/item_title_media_2"
         ></com.ikaowo.join.modules.promption.widget.MediaItem>
 
     <com.ikaowo.join.modules.promption.widget.MediaItem
         android:id="@+id/media_url_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:media_title="媒体2"
+        app:media_title="@string/item_title_media_3"
         ></com.ikaowo.join.modules.promption.widget.MediaItem>
   </LinearLayout>
 </LinearLayout>

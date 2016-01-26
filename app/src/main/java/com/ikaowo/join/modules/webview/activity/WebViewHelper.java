@@ -1,5 +1,6 @@
 package com.ikaowo.join.modules.webview.activity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
@@ -64,8 +65,7 @@ public class WebViewHelper {
       settings.setAppCacheMaxSize(5 * 1024 * 1024);
     }
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-      settings.setDatabasePath(
-          "/data/data/" + mWebView.getContext().getPackageName() + "/databases/");
+      settings.setDatabasePath(JApplication.getInstance().getApplicationContext().getFilesDir().getPath() + mWebView.getContext().getPackageName() + "/databases/");
     }
 
     //去掉缩放按钮

@@ -49,8 +49,7 @@ public class MineItemWidget extends LinearLayout {
     int width = typedArray.getDimensionPixelSize(R.styleable.MineItemWidget_icon_height, 0);
     int height = typedArray.getDimensionPixelSize(R.styleable.MineItemWidget_icon_height, 0);
 
-    int iconMargin = typedArray.getDimensionPixelSize(R.styleable.MineItemWidget_icon_margin, 0);
-
+    typedArray.recycle();
     if ("icon".equals(type)) {
       imageView = new FullImageView(context);
       shortNameTv = new TextView(context);

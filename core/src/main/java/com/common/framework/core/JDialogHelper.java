@@ -77,7 +77,7 @@ public class JDialogHelper {
   public void showConfirmDialog(final String msg, final String okBtnStr,
                                 final DoAfterClickCallback callback) {
     confirmDialog =
-      createDialog(context, "注意", msg, new String[] { okBtnStr }, new View.OnClickListener[] {
+      createDialog(context, "提示", msg, new String[] { okBtnStr }, new View.OnClickListener[] {
         new View.OnClickListener() {
           @Override public void onClick(View v) {
             if (confirmDialog != null && confirmDialog.isShowing()) {
@@ -136,7 +136,7 @@ public class JDialogHelper {
 
   public Dialog createDialog(int contentRes, String[] buttons,
                              View.OnClickListener[] listeners) {
-    String title = "注意";
+    String title = "提示";
     String content = context.getString(contentRes);
     return createDialog(context, title, content, buttons, listeners);
   }
@@ -156,7 +156,7 @@ public class JDialogHelper {
 
   public Dialog createDialog(int contentRes, View.OnClickListener[] listeners) {
 
-    String title = "注意";
+    String title = "提示";
     String content = context.getString(contentRes);
     return createDialog(context, title, content, new String[] {"取消", "确定"}, listeners);
   }

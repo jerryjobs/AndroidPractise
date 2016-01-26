@@ -30,12 +30,13 @@
           android:layout_height="68dp"
           android:layout_gravity="center_vertical"
           android:layout_marginRight="16dp"
+          android:layout_marginEnd="16dp"
           android:scaleType="centerCrop"
           android:src="@drawable/brand_icon_default"
           />
 
       <LinearLayout
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:layout_weight="1"

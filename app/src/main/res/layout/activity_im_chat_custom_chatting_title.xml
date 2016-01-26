@@ -12,9 +12,11 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerVertical="true"
-      android:layout_marginLeft="10dip"
+      android:layout_marginLeft="10dp"
+      android:layout_marginStart="10dip"
+      android:drawableStart="@drawable/abc_ic_ab_back_mtrl_am_alpha"
       android:drawableLeft="@drawable/abc_ic_ab_back_mtrl_am_alpha"
-      android:gravity="left"
+      android:gravity="start"
       android:textColor="@android:color/white"
       android:textSize="20sp"
       />
@@ -24,7 +26,6 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerInParent="true"
-      android:text="abc"
       android:textColor="@android:color/white"
       android:textSize="20sp"
       />

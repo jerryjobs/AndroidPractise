@@ -335,7 +335,12 @@ public class MainTabActivity extends TabActivity {
               dialog.dismiss();
               onClicked(tabbarList.get(0));
               userService.logout(MainTabActivity.this);
-              userService.goToSignin(MainTabActivity.this);
+              new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                  userService.goToSignin(MainTabActivity.this);
+                }
+              }, 400);
             }
           }
         });

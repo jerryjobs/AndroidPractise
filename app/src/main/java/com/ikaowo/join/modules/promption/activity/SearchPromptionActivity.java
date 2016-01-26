@@ -125,7 +125,7 @@ public class SearchPromptionActivity extends BaseFragmentActivity {
 
     //mSearchView.setFocusable(true);
     searchView.setQuery("", false);
-    searchView.setQueryHint(getResources().getString(R.string.brand_query_hint));
+    searchView.setQueryHint(getResources().getString(R.string.hint_promption_query));
 
     return true;
   }

@@ -85,7 +85,7 @@ public class MineFragment extends BaseEventBusFragment {
       AvatarHelper.getInstance()
           .showAvatar(getContext(), user.uId, iconIv, shortNameTv, targetImgWidth, targetImgHeight, user.icon,
               user.nickName);
-      nameTitleTv.setText(user.nickName + " | " + user.title);
+      nameTitleTv.setText(getContext().getString(R.string.user_name_and_title, user.nickName, user.title));
       brandNameTv.setText(user.brandInfo != null ? user.brandInfo.brand_name : "");
     }
   }

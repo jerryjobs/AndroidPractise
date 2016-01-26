@@ -165,7 +165,7 @@ public class JoinDetailActivity extends BaseActivity {
                     .showAvatar(JoinDetailActivity.this, joinInfo.userId, iconIv, shortNameTv, userIconTargetWidth,
                         userIconTargetHeight, joinInfo.userIcon, joinInfo.nickname);
 
-                nameTitleTv.setText(joinInfo.nickname + " | " + joinInfo.title);
+                nameTitleTv.setText(getString(R.string.user_name_and_title, joinInfo.nickname, joinInfo.title));
 
                 if (userService.isLogined()
                     && userService.getUserId() == joinInfo.publishUId
@@ -242,13 +242,12 @@ public class JoinDetailActivity extends BaseActivity {
                       }
                     });
 
-                    new JDialogHelper(JoinDetailActivity.this)
-                      .showConfirmDialog(R.string.hint_join_submit_suc, R.string.custom_ok_btn,
-                      new JDialogHelper.DoAfterClickCallback() {
-                        @Override public void doAction() {
-                          finish();
-                        }
-                      });
+                    new Handler().postDelayed(new Runnable() {
+                      @Override
+                      public void run() {
+                        finish();
+                      }
+                    },300);
                   }
                 });
       }
