@@ -119,16 +119,16 @@ public class CompletePromptionActivity extends BaseActivity {
                   case 0: // left
                     completeJoinItem = new CompleteJoinItem(CompletePromptionActivity.this);
                     completeJoinItem.setItemClickInterface(
-                        new CompleteJoinItem.ItemClickInterface() {
-                          @Override public void itemClicked(int id, boolean selected) {
-                            invalidateOptionsMenu();
-                            if (selected) {
-                              idSets.remove(id);
-                            } else {
-                              idSets.add(id);
-                            }
+                      new CompleteJoinItem.ItemClickInterface() {
+                        @Override public void itemClicked(int id, boolean selected) {
+                          invalidateOptionsMenu();
+                          if (selected) {
+                            idSets.remove(id);
+                          } else {
+                            idSets.add(id);
                           }
-                        });
+                        }
+                      });
                     container.addView(completeJoinItem);
                     completeJoinItem.setLeft(joinedUser);
 
