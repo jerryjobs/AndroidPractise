@@ -64,7 +64,7 @@ public abstract class UserService extends JCommonService {
   public abstract String getLoginedUserName(Context context);
 
   public abstract void reSubmitInfo(Context context);
-  public abstract void reSubmitInfo(Context context, boolean fromPush);
+  public abstract void reSubmitInfo(Context context, boolean needCheckState);
 
   public interface CheckStateCallback {
     void onProcessing();
