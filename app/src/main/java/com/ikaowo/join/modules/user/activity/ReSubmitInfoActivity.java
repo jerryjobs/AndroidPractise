@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.widget.LinearLayout;
 import butterknife.Bind;
 import com.common.framework.core.JApplication;
+import com.common.framework.core.JDialogHelper;
 import com.common.framework.network.NetworkCallback;
 import com.common.framework.network.NetworkManager;
 import com.ikaowo.join.R;
@@ -33,7 +34,9 @@ public class ReSubmitInfoActivity extends BaseUserInputActivity {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    boolean fromPush = getIntent().getExtras() == null ? false : getIntent().getExtras().getBoolean(Constant.NEED_RETRIEVE_LATEST_STATE, false);
+    boolean fromPush = getIntent().getExtras() == null ?
+        false : getIntent().getExtras().getBoolean(Constant.NEED_RETRIEVE_LATEST_STATE, false);
+
     if (fromPush) {
       NetworkManager networkManager = JApplication.getNetworkManager();
       UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
@@ -53,6 +56,16 @@ public class ReSubmitInfoActivity extends BaseUserInputActivity {
               user = userService.getUser();
               user.state = stateResponse.data.sta;
               user.comment = stateResponse.data.comment;
+              if (!user.state.equalsIgnoreCase(Constant.AUTH_STATE_FAILED)) {
+                new JDialogHelper(ReSubmitInfoActivity.this)
+                  .showConfirmDialog(R.string.hint_state_update, R.string.custom_ok_btn,
+                    new JDialogHelper.DoAfterClickCallback() {
+                      @Override public void doAction() {
+                        finish();
+                      }
+                });
+                return;
+              }
               setupDate(user);
             }
           }

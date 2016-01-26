@@ -46,6 +46,7 @@ public class EditPromptionActivity extends AddPromptionActivity {
               finish();
             }
 
+            //如果来自于推送或者从系统消息点入，则想要判断状态是否已经发生变更
             if (!TextUtils.isEmpty(notificationType)
                 && notificationType.equalsIgnoreCase(Constant.PUSH_PROMPTION_FAILED)) {
 

@@ -45,6 +45,7 @@ public class PromptionServiceImpl extends PromptionService {
     JApplication.getJContext().startActivity(context, intent);
   }
 
+  //来自于推送或者系统消息
   @Override public void goToEditPromptionActivity(Context context, int promptionId, String type) {
     Intent intent = new Intent(context, EditPromptionActivity.class);
     intent.putExtra(Constant.PROMPTION_ID, promptionId);
