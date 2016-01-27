@@ -53,6 +53,9 @@ import com.ikaowo.join.network.NotificationInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.MD5Util;
 import com.ikaowo.join.util.SharedPreferenceHelper;
+import com.mcxiaoke.packer.helper.PackerNg;
+import com.umeng.analytics.AnalyticsConfig;
+
 import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,6 +103,8 @@ public class MainTabActivity extends TabActivity {
     umengService.init(this);
     umengService.checkUpdate(this, false);
 
+    final String market = PackerNg.getMarket(this, "Test");
+    AnalyticsConfig.setChannel(market);
   }
 
   private void getEnumData() {

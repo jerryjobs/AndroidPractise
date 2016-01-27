@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'packer'
 
 android {
   compileSdkVersion 23
@@ -26,6 +27,7 @@ android {
     }
   }
 
+
   buildTypes {
     debug {
       buildConfigField "String", "PROMPTION_URL", "\"http://web.test.ikaowo.com/activity/\""
@@ -33,11 +35,9 @@ android {
                               'GETUI_APP_KEY'   : 'G2arsybjrZ6t0XCKxISDr2',
                               'GETUI_APP_SECRET': 'zv83oqfGfJA8XTRFkQ87E8',
                               'PACKAGE_NAME': 'com.ikaowo.join',
-                              'UMENG_APPKEY': '565d592e67e58eb11b000e44',
-                              'CHANNEL_NAME': 'test']
+                              'UMENG_APPKEY': '565d592e67e58eb11b000e44']
 
-      minifyEnabled true
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      minifyEnabled false
       debuggable true
     }
 
@@ -47,8 +47,7 @@ android {
                               'GETUI_APP_KEY'   : 'G2arsybjrZ6t0XCKxISDr2',
                               'GETUI_APP_SECRET': 'zv83oqfGfJA8XTRFkQ87E8',
                               'PACKAGE_NAME': 'com.ikaowo.join',
-                              'UMENG_APPKEY': '565d592e67e58eb11b000e44',
-                              'CHANNEL_NAME': 'test']
+                              'UMENG_APPKEY': '565d592e67e58eb11b000e44']
       minifyEnabled true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -72,6 +71,7 @@ android {
 }
 
 dependencies {
+  compile 'com.mcxiaoke.gradle:packer-helper:1.0.4'
   compile fileTree(dir: 'libs', include: ['*.jar'])
   compile 'com.android.support:appcompat-v7:23.1.1'
   compile 'com.android.support:design:23.1.1'
