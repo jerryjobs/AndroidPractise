@@ -28,6 +28,7 @@ public class SearchHistory {
     view = LayoutInflater.from(mContext).inflate(R.layout.widget_search_history_view, null);
     ButterKnife.bind(this, view);
     this.text = history;
+    mSearchHistoryTv.setSingleLine();
     mSearchHistoryTv.setText(history);
 
     return view;
@@ -52,6 +53,6 @@ public class SearchHistory {
   }
 
   public interface DeleteListener {
-    public void delete();
+    void delete();
   }
 }

@@ -19,7 +19,7 @@
   <string name="title_brand">品牌</string>
   <string name="title_message">消息</string>
   <string name="title_mine">我</string>
-  <string name="title_activity_complete_promption">完成活动</string>
+  <string name="title_activity_complete_promption">完成推广</string>
   <string name="title_activity_resubmit">重新认证</string>
   <string name="title_activity_system_notification">系统通知</string>
 
@@ -42,7 +42,7 @@
   <string name="signup_suc">注册成功</string>
   <string name="resubmit_suc">重新提交成功</string>
   <string name="promotion_content_hint">填写推广描述，比如已有资源，让更多品牌能报名合作 &#8230;</string>
-  <string name="promotion_title_hint">填写推广活动标题（15个字以内）</string>
+  <string name="promotion_title_hint">填写推广标题（15个字以内）</string>
   <string name="promotion_time">举办时间</string>
   <string name="promption_address">举办地点</string>
   <string name="promption_end">报名截止</string>
@@ -81,6 +81,7 @@
   <string name="empty_hint_search_promption">没有找到相关推广，换个关键词试试？</string>
   <string name="empty_hint_no_brand_introduce">暂无品牌介绍</string>
   <string name="empty_hint_no_system_notification">暂无系统通知</string>
+  <string name="empty_hint_msg">暂无消息，赶紧去联系合作伙伴吧</string>
 
   <string name="hint_verify_code_sent">验证码已发送</string>
   <string name="hint_promption_posted">发布成功 通过审核后即可上线，请耐心等待</string>
@@ -107,6 +108,7 @@
   <string name="hint_promption_query">搜索推广活动</string>
   <string name="hint_brand_query_signup">搜索品牌名或成员名，搜不到可以点击右上角录入</string>
   <string name="hint_brand_query">搜索品牌名或成员名</string>
+  <string name="hint_auth_failed">认证没有通过，可以修改重新认证</string>
 
   <string name="custom_ok_btn">我知道了</string>
   <string name="item_title_media_1">媒体１</string>

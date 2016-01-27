@@ -295,27 +295,52 @@ public class UserServiceImpl extends UserService {
       }
 
       @Override public void onFailed() {
-        dialog = new JDialogHelper((JFragmentActivity) context)
-          .createDialog(context,
-            context.getString(R.string.dialog_title),
-            context.getString(R.string.auth_failed_hint, actionStr),
-            new String[]{"取消", "重新审核"},
-            new View.OnClickListener[] {
-              new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  dialog.dismiss();
+
+        if (context instanceof JoinActivity) {
+          dialog = new JDialogHelper((JFragmentActivity) context)
+            .createDialog(context,
+              context.getString(R.string.dialog_title),
+              context.getString(R.string.auth_failed_hint, actionStr),
+              new String[]{"我知道了", "重新审核"},
+              new View.OnClickListener[] {
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    ((JFragmentActivity) context).finish();
+                  }
+                },
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    dialog.dismiss();
+                    reSubmitInfo(context);
+                  }
                 }
-              },
-              new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  dialog.dismiss();
-                  reSubmitInfo(context);
+              });
+          dialog.show();
+        } else {
+          dialog = new JDialogHelper((JFragmentActivity) context)
+            .createDialog(context,
+              context.getString(R.string.dialog_title),
+              context.getString(R.string.auth_failed_hint, actionStr),
+              new String[]{"取消", "重新审核"},
+              new View.OnClickListener[] {
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    dialog.dismiss();
+                  }
+                },
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    dialog.dismiss();
+                    reSubmitInfo(context);
+                  }
                 }
-              }
-            });
-        dialog.show();
+              });
+          dialog.show();
+        }
       }
     });
   }

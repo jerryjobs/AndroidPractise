@@ -36,7 +36,6 @@ public abstract class BasePromptionFragment
     extends BaseListFragment<BaseListResponse<Promption>, Promption> {
 
   protected PromptionInterface promptionInterface;
-  protected boolean showState;
 
   private ImageLoader imageLoader;
   private int targetImgBgWidth, targetImgBgHeight;
@@ -107,20 +106,18 @@ public abstract class BasePromptionFragment
         viewHolder.promptionAddressTv.setText(promption.address);
         viewHolder.promptionTimeTv.setText(promption.date);
         viewHolder.promptionTitleTv.setText(promption.title);
-        if (showState) {
-          if (Constant.PROMPTION_STATE_PASS.equalsIgnoreCase(promption.state)) {
-            viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
-            viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_ing);
-          } else if (Constant.PROMPTION_STATE_OVER.equals(promption.state)) {
-            viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
-            viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_finish);
-          } else if (Constant.PROMPTION_STATE_DONE.equalsIgnoreCase(promption.state)) {
-            viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
-            viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_complete);
-          }
-        } else {
-          viewHolder.promptionStateIv.setVisibility(View.GONE);
+
+        if (Constant.PROMPTION_STATE_PASS.equalsIgnoreCase(promption.state)) {
+          viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
+          viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_ing);
+        } else if (Constant.PROMPTION_STATE_OVER.equals(promption.state)) {
+          viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
+          viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_finish);
+        } else if (Constant.PROMPTION_STATE_DONE.equalsIgnoreCase(promption.state)) {
+          viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
+          viewHolder.promptionStateIv.setImageResource(R.drawable.content_ic_join_complete);
         }
+
         imageLoader.loadImage(viewHolder.promptionBgImg, promption.background, targetImgBgWidth,
             targetImgBgHeight, R.drawable.brand_icon_default);
         viewHolder.promptionContentTv.setText(promption.content);

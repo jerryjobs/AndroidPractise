@@ -164,8 +164,8 @@ public class MineActivity extends BaseEventBusFragmentActivity
       if (failed) {
         new Handler().post(new Runnable() {
           @Override public void run() {
-            dialog = dialogHelper.createDialog(MineActivity.this, "认证未通过", "认证没有通过，可以修改重新认证",
-                new String[] { "取消", "前往修改" }, new View.OnClickListener[] {
+            dialog = dialogHelper.createDialog(R.string.dialog_title, R.string.hint_auth_failed,
+                new String[] { "取消", "重新审核" }, new View.OnClickListener[] {
                     new View.OnClickListener() {
                       @Override public void onClick(View v) {
                         dialog.dismiss();
