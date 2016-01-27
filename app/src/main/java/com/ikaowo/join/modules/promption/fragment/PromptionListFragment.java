@@ -5,6 +5,7 @@ import com.common.framework.network.NetworkCallback;
 import com.ikaowo.join.model.Promption;
 import com.ikaowo.join.model.base.BaseListResponse;
 import com.ikaowo.join.model.request.PromptionListRequest;
+
 import retrofit.Call;
 
 /**
@@ -12,16 +13,18 @@ import retrofit.Call;
  */
 public class PromptionListFragment extends BasePromptionFragment {
 
-  @Override protected void sendHttpRequest(NetworkCallback callback, int cp, int ps) {
-    PromptionListRequest request = new PromptionListRequest();
-    request.company_id = -1;
-    request.cp = cp;
-    request.ps = ps;
-    Call<BaseListResponse<Promption>> call = promptionInterface.getPromptionList(request.getMap());
-    JApplication.getNetworkManager().async(call, callback);
-  }
+    @Override
+    protected void sendHttpRequest(NetworkCallback callback, int cp, int ps) {
+        PromptionListRequest request = new PromptionListRequest();
+        request.company_id = -1;
+        request.cp = cp;
+        request.ps = ps;
+        Call<BaseListResponse<Promption>> call = promptionInterface.getPromptionList(request.getMap());
+        JApplication.getNetworkManager().async(call, callback);
+    }
 
-  @Override public String getPageName() {
-    return "PromptionListFragment";
-  }
+    @Override
+    public String getPageName() {
+        return "PromptionListFragment";
+    }
 }

@@ -7,15 +7,15 @@ import android.content.Context;
  */
 public abstract class JDeviceManager {
 
-  public abstract int getDeviceScreenWidth();
+    public abstract int getDeviceScreenWidth();
 
-  public abstract int getDeviceScreenHeight();
+    public abstract int getDeviceScreenHeight();
 
-  public abstract int dip2px(float dp);
+    public abstract int dip2px(float dp);
 
-  public abstract void playSoundAndVibrate(int playCount);
+    public abstract void playSoundAndVibrate(int playCount);
 
-  public abstract void stopVibrateAndMediaPlayer();
+    public abstract void stopVibrateAndMediaPlayer();
 
-  public abstract boolean isNetworkConnected(Context context);
+    public abstract boolean isNetworkConnected(Context context);
 }

@@ -1,6 +1,7 @@
 package com.ikaowo.join.modules.push.processer;
 
 import android.content.Context;
+
 import com.ikaowo.join.common.service.MineService;
 
 /**
@@ -8,8 +9,9 @@ import com.ikaowo.join.common.service.MineService;
  */
 public class AuthSucProcesser extends PushDataProcesser {
 
-  @Override public void openPage(Context context, String target, String targetUrl) {
-    MineService mineService = jContext.getServiceByInterface(MineService.class);
-    mineService.viewUserInfo(context);
-  }
+    @Override
+    public void openPage(Context context, String target, String targetUrl) {
+        MineService mineService = jContext.getServiceByInterface(MineService.class);
+        mineService.viewUserInfo(context);
+    }
 }

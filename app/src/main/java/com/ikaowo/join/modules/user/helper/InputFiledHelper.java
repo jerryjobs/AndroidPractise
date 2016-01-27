@@ -11,24 +11,24 @@ import android.widget.TextView;
  */
 public class InputFiledHelper {
 
-  public EditText getEditText(Context context, int hintRes, TextWatcher textWatcher) {
-    EditText editText = new EditText(context);
-    editText.setPadding(0, 0, 0, 0);
-    editText.setSingleLine();
-    editText.setGravity(Gravity.END);
-    editText.setTextSize(14);
-    editText.setHint(hintRes);
-    if (textWatcher != null) {
-      editText.addTextChangedListener(textWatcher);
+    public EditText getEditText(Context context, int hintRes, TextWatcher textWatcher) {
+        EditText editText = new EditText(context);
+        editText.setPadding(0, 0, 0, 0);
+        editText.setSingleLine();
+        editText.setGravity(Gravity.END);
+        editText.setTextSize(14);
+        editText.setHint(hintRes);
+        if (textWatcher != null) {
+            editText.addTextChangedListener(textWatcher);
+        }
+        return editText;
     }
-    return editText;
-  }
 
-  public TextView getTextView(Context context, int hintRes) {
-    TextView tv = new TextView(context);
-    tv.setTextColor(tv.getCurrentHintTextColor());
+    public TextView getTextView(Context context, int hintRes) {
+        TextView tv = new TextView(context);
+        tv.setTextColor(tv.getCurrentHintTextColor());
 
-    tv.setHint(hintRes);
-    return tv;
-  }
+        tv.setHint(hintRes);
+        return tv;
+    }
 }

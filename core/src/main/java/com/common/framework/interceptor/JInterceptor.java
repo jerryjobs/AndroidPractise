@@ -8,17 +8,19 @@ import android.content.Intent;
  */
 public interface JInterceptor {
 
-  boolean check(Context context, Intent intent);
+    boolean check(Context context, Intent intent);
 
-  boolean check();
+    boolean check();
 
-  class Stub implements JInterceptor {
-    @Override public boolean check() {
-      return false;
+    class Stub implements JInterceptor {
+        @Override
+        public boolean check() {
+            return false;
+        }
+
+        @Override
+        public boolean check(Context context, Intent intent) {
+            return false;
+        }
     }
-
-    @Override public boolean check(Context context, Intent intent) {
-      return false;
-    }
-  }
 }

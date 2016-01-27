@@ -30,8 +30,8 @@ public class ConversationListUICustom extends IMConversationListUI {
 
     /**
      * 该方法可以构造一个会话列表为空时的展示View
-     * @return
-     *      empty view
+     *
+     * @return empty view
      */
     @Override
     public View getCustomEmptyViewInConversationUI(Context context) {

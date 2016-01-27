@@ -8,11 +8,11 @@ import com.alibaba.mobileim.aop.custom.YWSDKGlobalConfig;
  */
 public class ChattingGlobalConfigCustom extends YWSDKGlobalConfig {
 
-  public ChattingGlobalConfigCustom(Pointcut pointcut) {
-    super(pointcut);
-  }
+    public ChattingGlobalConfigCustom(Pointcut pointcut) {
+        super(pointcut);
+    }
 
-  public boolean enableMsgReadStatus() {
-    return true;
-  }
+    public boolean enableMsgReadStatus() {
+        return true;
+    }
 }

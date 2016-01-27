@@ -13,40 +13,41 @@ import android.widget.ImageView;
  */
 public class FullImageView extends ImageView {
 
-  private String imgUrl;
-  private Uri imgUri;
-  private Context context;
+    private String imgUrl;
+    private Uri imgUri;
+    private Context context;
 
-  public FullImageView(Context context) {
-    super(context);
-    this.context = context;
-    init();
-  }
+    public FullImageView(Context context) {
+        super(context);
+        this.context = context;
+        init();
+    }
 
-  public FullImageView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    this.context = context;
-    init();
-  }
+    public FullImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        init();
+    }
 
-  private void init() {
-    setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View v) {
-        PhotoService photoService = new PhotoService(context);
-        if (imgUri != null) {
-          photoService.viewPhoto(context, imgUri);
-        } else if (!TextUtils.isEmpty(imgUrl)) {
-          photoService.viewPhoto(context, imgUrl);
-        }
-      }
-    });
-  }
+    private void init() {
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoService photoService = new PhotoService(context);
+                if (imgUri != null) {
+                    photoService.viewPhoto(context, imgUri);
+                } else if (!TextUtils.isEmpty(imgUrl)) {
+                    photoService.viewPhoto(context, imgUrl);
+                }
+            }
+        });
+    }
 
-  public void setImgUrl(String imgUrl) {
-    this.imgUrl = imgUrl;
-  }
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
-  public void setImgUri(Uri imgUri) {
-    this.imgUri = imgUri;
-  }
+    public void setImgUri(Uri imgUri) {
+        this.imgUri = imgUri;
+    }
 }

@@ -1,6 +1,5 @@
 package com.ikaowo.join.modules.user.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -16,15 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.common.framework.core.JApplication;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.BaseEventBusActivity;
@@ -40,287 +36,325 @@ import com.ikaowo.join.util.QiniuUploadHelper;
 import com.ikaowo.join.util.VerifyCodeHelper;
 import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by weibo on 15-12-11.
  */
 public abstract class BaseUserInputActivity extends BaseEventBusActivity
-    implements TextWatcher, PhotoService.UploadFinishListener,
-    DeletableEditTextView.TextChangeListener {
+        implements TextWatcher, PhotoService.UploadFinishListener,
+        DeletableEditTextView.TextChangeListener {
 
-  protected UserService userService =
-      JApplication.getJContext().getServiceByInterface(UserService.class);
-  protected InputFiledHelper inputHelper = new InputFiledHelper();
-  protected PhotoService photoService = new PhotoService(BaseUserInputActivity.this);
-  protected VerifyCodeHelper verifyCodeHelper;
-  protected QiniuUploadHelper qiniuUploadHelper;
+    protected UserService userService =
+            JApplication.getJContext().getServiceByInterface(UserService.class);
+    protected InputFiledHelper inputHelper = new InputFiledHelper();
+    protected PhotoService photoService = new PhotoService(BaseUserInputActivity.this);
+    protected VerifyCodeHelper verifyCodeHelper;
+    protected QiniuUploadHelper qiniuUploadHelper;
 
-  @Bind(R.id.scrollview) ScrollView scrollView;
-  @Bind(R.id.divider) View divider;
-  @Bind(R.id.container) LinearLayout containerLayout;
-  @Bind(R.id.brand_name) CustomEditTextView brandNameTv;
-  @Bind(R.id.user_name) CustomEditTextView userNameTv;
-  @Bind(R.id.user_title) CustomEditTextView userTitleTv;
-  @Bind(R.id.user_card) CustomEditTextView userCardTv;
+    @Bind(R.id.scrollview)
+    ScrollView scrollView;
+    @Bind(R.id.divider)
+    View divider;
+    @Bind(R.id.container)
+    LinearLayout containerLayout;
+    @Bind(R.id.brand_name)
+    CustomEditTextView brandNameTv;
+    @Bind(R.id.user_name)
+    CustomEditTextView userNameTv;
+    @Bind(R.id.user_title)
+    CustomEditTextView userTitleTv;
+    @Bind(R.id.user_card)
+    CustomEditTextView userCardTv;
 
-  @Bind(R.id.phone_viewstub) ViewStub phoneViewStub;
+    @Bind(R.id.phone_viewstub)
+    ViewStub phoneViewStub;
 
-  PhoneViewHolder phoneViewHoder;
+    PhoneViewHolder phoneViewHoder;
 
-  TextView brandNameEt;
-  EditText userNameEt;
-  EditText userTitleEt;
-  ImageView userCardIv;
+    TextView brandNameEt;
+    EditText userNameEt;
+    EditText userTitleEt;
+    ImageView userCardIv;
 
-  String userName;
-  String userTitle;
-  String userCardUrl;
-  String phone;
-  String verifyCode;
-  String password;
-  Uri imageUri;
-  Brand choosedBrand;
+    String userName;
+    String userTitle;
+    String userCardUrl;
+    String phone;
+    String verifyCode;
+    String password;
+    Uri imageUri;
+    Brand choosedBrand;
 
-  int width = JApplication.getJContext().dip2px(48);
+    int width = JApplication.getJContext().dip2px(48);
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_signup);
-    ButterKnife.bind(this);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+        ButterKnife.bind(this);
 
-    qiniuUploadHelper = new QiniuUploadHelper();
-    toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
+        qiniuUploadHelper = new QiniuUploadHelper();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-    displayHomeAsIndicator(0);
+        displayHomeAsIndicator(0);
 
-    setupOptionMenu();
-    setupView();
-  }
-
-  protected void setupView() {
-
-    brandNameTv.setTitle(getString(R.string.brand_name));
-    brandNameEt = inputHelper.getTextView(this, R.string.choose_hint);
-    brandNameEt.setFocusable(false);
-    brandNameEt.setTextColor(ContextCompat.getColor(this, R.color.c1));
-    brandNameTv.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        chooseBrand();
-      }
-    });
-    brandNameTv.addRightView(brandNameEt, 0);
-
-    userNameTv.setTitle(getString(R.string.user_name));
-    userNameEt = inputHelper.getEditText(this, R.string.input_hint, this);
-    userNameEt.requestFocus();
-    userNameTv.addRightView(userNameEt, R.color.c1);
-
-    userTitleTv.setTitle(getString(R.string.user_title));
-    userTitleEt = inputHelper.getEditText(this, R.string.input_hint, this);
-    userTitleTv.addRightView(userTitleEt, R.color.c1);
-
-    userCardTv.setTitle(getString(R.string.user_card));
-    userCardIv = new ImageView(this);
-    userCardIv.setImageResource(R.drawable.register_uppic);
-
-    userCardIv.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        hideInput(BaseUserInputActivity.this, toolbar);
-        if (imageUri != null) {
-          photoService.viewPhoto(BaseUserInputActivity.this, imageUri);
-        } else if (!TextUtils.isEmpty(userCardUrl)) {
-          photoService.viewPhoto(BaseUserInputActivity.this, userCardUrl);
-        } else {
-          photoService.takePhotoAnySize(BaseUserInputActivity.this, toolbar);
-        }
-      }
-    });
-    userCardTv.addRightView(userCardIv, 0);
-
-    userNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-          bindGlobalLayoutChangeToScrollView(hasFocus, 1);
-        }
-      }
-    });
-
-    userTitleEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-          bindGlobalLayoutChangeToScrollView(hasFocus, 2);
-        }
-      }
-    });
-
-    if (phoneViewHoder != null) {
-      phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-        @Override public void onFocusChange(View v, boolean hasFocus) {
-          bindGlobalLayoutChangeToScrollView(hasFocus, -1);
-        }
-      });
-
-      phoneViewHoder.verifyCodeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-        @Override public void onFocusChange(View v, boolean hasFocus) {
-          bindGlobalLayoutChangeToScrollView(hasFocus, -1);
-        }
-      });
-
-      phoneViewHoder.passwordEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-        @Override public void onFocusChange(View v, boolean hasFocus) {
-          bindGlobalLayoutChangeToScrollView(hasFocus, -1);
-        }
-      });
+        setupOptionMenu();
+        setupView();
     }
-  }
 
+    protected void setupView() {
 
-  private void bindGlobalLayoutChangeToScrollView(boolean hasFocus, final int index) {
-    if (!hasFocus) {
-      return;
-    }
-    scrollView.getViewTreeObserver()
-        .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-          @Override public void onGlobalLayout() {
-            if (Build.VERSION.SDK_INT >= 16) {
-              scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            } else {
-              scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+        brandNameTv.setTitle(getString(R.string.brand_name));
+        brandNameEt = inputHelper.getTextView(this, R.string.choose_hint);
+        brandNameEt.setFocusable(false);
+        brandNameEt.setTextColor(ContextCompat.getColor(this, R.color.c1));
+        brandNameTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseBrand();
             }
-
-            if (phoneViewHoder.phoneEt.isFocused()
-                || phoneViewHoder.verifyCodeEt.isFocused()
-                || phoneViewHoder.passwordEt.isFocused()) {
-              new Handler().postDelayed(new Runnable() {
-                @Override public void run() {
-                  scrollView.smoothScrollBy(0, JApplication.getJContext().getScreenHeight());
-                }
-              }, 300);
-
-            } else if (userTitleEt.isFocused() || userNameEt.isFocused()) {
-              new Handler().postDelayed(new Runnable() {
-                @Override public void run() {
-                  scrollView.smoothScrollBy(0, index * userTitleTv.getMeasuredHeight());
-                }
-              }, 300);
-            }
-          }
         });
-  }
+        brandNameTv.addRightView(brandNameEt, 0);
 
-  private void setupOptionMenu() {
-    menuResId = R.menu.menu_add_submit;
-    invalidateOptionsMenu();
-  }
+        userNameTv.setTitle(getString(R.string.user_name));
+        userNameEt = inputHelper.getEditText(this, R.string.input_hint, this);
+        userNameEt.requestFocus();
+        userNameTv.addRightView(userNameEt, R.color.c1);
 
-  @OnClick(R.id.brand_name) public void chooseBrand() {
-    userService.chooseBrandList(this);
-  }
+        userTitleTv.setTitle(getString(R.string.user_title));
+        userTitleEt = inputHelper.getEditText(this, R.string.input_hint, this);
+        userTitleTv.addRightView(userTitleEt, R.color.c1);
 
-  @OnClick(R.id.user_card) public void takePhoto() {
-    hideInput(this, toolbar);
-    photoService.takePhotoAnySize(BaseUserInputActivity.this, toolbar);
-  }
+        userCardTv.setTitle(getString(R.string.user_card));
+        userCardIv = new ImageView(this);
+        userCardIv.setImageResource(R.drawable.register_uppic);
 
-  @Override public boolean onPrepareOptionsMenu(Menu menu) {
-    menu.getItem(0).setEnabled(prepareOptionMenu());
-    return true;
-  }
+        userCardIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideInput(BaseUserInputActivity.this, toolbar);
+                if (imageUri != null) {
+                    photoService.viewPhoto(BaseUserInputActivity.this, imageUri);
+                } else if (!TextUtils.isEmpty(userCardUrl)) {
+                    photoService.viewPhoto(BaseUserInputActivity.this, userCardUrl);
+                } else {
+                    photoService.takePhotoAnySize(BaseUserInputActivity.this, toolbar);
+                }
+            }
+        });
+        userCardTv.addRightView(userCardIv, 0);
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.action_submit:
-        submit();
-        break;
-    }
-    return super.onOptionsItemSelected(item);
-  }
+        userNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    bindGlobalLayoutChangeToScrollView(hasFocus, 1);
+                }
+            }
+        });
 
-  protected boolean prepareOptionMenu() {
-    boolean brandNameInputed = choosedBrand != null;
-    userName = userNameEt.getText().toString().trim();
-    userTitle = userTitleEt.getText().toString().trim();
+        userTitleEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    bindGlobalLayoutChangeToScrollView(hasFocus, 2);
+                }
+            }
+        });
 
-    boolean userNameInputed = !TextUtils.isEmpty(userName);
-    boolean userTitleInputed = !TextUtils.isEmpty(userTitle);
-    boolean userCardInputed = !TextUtils.isEmpty(userCardUrl);
+        if (phoneViewHoder != null) {
+            phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+                }
+            });
 
-    return brandNameInputed && userNameInputed && userTitleInputed && userCardInputed;
-  }
+            phoneViewHoder.verifyCodeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+                }
+            });
 
-  protected abstract void submit();
-
-  @Override
-  protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
-  }
-
-  @Override public void onUpLoadImageFinish(String url, Uri imgUri) {
-
-    imageUri = imgUri;
-    Picasso.with(this).load(imgUri).centerCrop().resize(width, width).into(userCardIv);
-    userCardUrl = url;
-    invalidateOptionsMenu();
-  }
-
-  @Override public void onUpLoadImageFailed() {
-
-  }
-
-  @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-  }
-
-  @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-  }
-
-  @Override public void afterTextChanged(Editable s) {
-    invalidateOptionsMenu();
-
-    if (phoneViewHoder != null) {
-      if (phoneViewHoder.verifyCodeEt.isFocused()) {
-        return;
-      }
-      String phone = phoneViewHoder.phoneEt.getText().toString().trim();
-      if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
-        if (!phoneViewHoder.getVerifyBtn.isEnabled()) {
-          phoneViewHoder.getVerifyBtn.setEnabled(true);
+            phoneViewHoder.passwordEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    bindGlobalLayoutChangeToScrollView(hasFocus, -1);
+                }
+            });
         }
-      } else {
-        if (phoneViewHoder.getVerifyBtn.isEnabled()) {
-          phoneViewHoder.getVerifyBtn.setEnabled(false);
+    }
+
+
+    private void bindGlobalLayoutChangeToScrollView(boolean hasFocus, final int index) {
+        if (!hasFocus) {
+            return;
         }
-      }
+        scrollView.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        if (Build.VERSION.SDK_INT >= 16) {
+                            scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+
+                        if (phoneViewHoder.phoneEt.isFocused()
+                                || phoneViewHoder.verifyCodeEt.isFocused()
+                                || phoneViewHoder.passwordEt.isFocused()) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scrollView.smoothScrollBy(0, JApplication.getJContext().getScreenHeight());
+                                }
+                            }, 300);
+
+                        } else if (userTitleEt.isFocused() || userNameEt.isFocused()) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scrollView.smoothScrollBy(0, index * userTitleTv.getMeasuredHeight());
+                                }
+                            }, 300);
+                        }
+                    }
+                });
     }
-  }
 
-  @Override public void onChanged(Editable s) {
-    invalidateOptionsMenu();
-  }
-
-  public void onEvent(ChooseBrandCallback callback) {
-    Brand brand = callback.getChoosedBrand();
-    brandNameEt.setText(brand.brand_name);
-    choosedBrand = brand;
-  }
-
-  public void onEvent(AddBrandCallback callback) {
-    Brand brand = callback.addBrand();
-    brandNameEt.setText(brand.brand_name);
-    choosedBrand = brand;
-  }
-
-  class PhoneViewHolder {
-    @Bind(R.id.phone_relate_layout) LinearLayout phoneRelatedContainerLayout;
-    @Bind(R.id.phone) DeletableEditTextView phoneEt;
-    @Bind(R.id.verify_code) DeletableEditTextView verifyCodeEt;
-    @Bind(R.id.password) DeletableEditTextView passwordEt;
-
-    @Bind(R.id.verify_btn) TextView getVerifyBtn;
-
-    public PhoneViewHolder(View phoneView) {
-      ButterKnife.bind(this, phoneView);
+    private void setupOptionMenu() {
+        menuResId = R.menu.menu_add_submit;
+        invalidateOptionsMenu();
     }
-  }
+
+    @OnClick(R.id.brand_name)
+    public void chooseBrand() {
+        userService.chooseBrandList(this);
+    }
+
+    @OnClick(R.id.user_card)
+    public void takePhoto() {
+        hideInput(this, toolbar);
+        photoService.takePhotoAnySize(BaseUserInputActivity.this, toolbar);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setEnabled(prepareOptionMenu());
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_submit:
+                submit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected boolean prepareOptionMenu() {
+        boolean brandNameInputed = choosedBrand != null;
+        userName = userNameEt.getText().toString().trim();
+        userTitle = userTitleEt.getText().toString().trim();
+
+        boolean userNameInputed = !TextUtils.isEmpty(userName);
+        boolean userTitleInputed = !TextUtils.isEmpty(userTitle);
+        boolean userCardInputed = !TextUtils.isEmpty(userCardUrl);
+
+        return brandNameInputed && userNameInputed && userTitleInputed && userCardInputed;
+    }
+
+    protected abstract void submit();
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
+    }
+
+    @Override
+    public void onUpLoadImageFinish(String url, Uri imgUri) {
+
+        imageUri = imgUri;
+        Picasso.with(this).load(imgUri).centerCrop().resize(width, width).into(userCardIv);
+        userCardUrl = url;
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onUpLoadImageFailed() {
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        invalidateOptionsMenu();
+
+        if (phoneViewHoder != null) {
+            if (phoneViewHoder.verifyCodeEt.isFocused()) {
+                return;
+            }
+            String phone = phoneViewHoder.phoneEt.getText().toString().trim();
+            if (!TextUtils.isEmpty(phone) && phone.length() == 11) {
+                if (!phoneViewHoder.getVerifyBtn.isEnabled()) {
+                    phoneViewHoder.getVerifyBtn.setEnabled(true);
+                }
+            } else {
+                if (phoneViewHoder.getVerifyBtn.isEnabled()) {
+                    phoneViewHoder.getVerifyBtn.setEnabled(false);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onChanged(Editable s) {
+        invalidateOptionsMenu();
+    }
+
+    public void onEvent(ChooseBrandCallback callback) {
+        Brand brand = callback.getChoosedBrand();
+        brandNameEt.setText(brand.brand_name);
+        choosedBrand = brand;
+    }
+
+    public void onEvent(AddBrandCallback callback) {
+        Brand brand = callback.addBrand();
+        brandNameEt.setText(brand.brand_name);
+        choosedBrand = brand;
+    }
+
+    class PhoneViewHolder {
+        @Bind(R.id.phone_relate_layout)
+        LinearLayout phoneRelatedContainerLayout;
+        @Bind(R.id.phone)
+        DeletableEditTextView phoneEt;
+        @Bind(R.id.verify_code)
+        DeletableEditTextView verifyCodeEt;
+        @Bind(R.id.password)
+        DeletableEditTextView passwordEt;
+
+        @Bind(R.id.verify_btn)
+        TextView getVerifyBtn;
+
+        public PhoneViewHolder(View phoneView) {
+            ButterKnife.bind(this, phoneView);
+        }
+    }
 }

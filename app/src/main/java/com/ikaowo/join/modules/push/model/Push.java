@@ -6,8 +6,8 @@ import java.io.Serializable;
  * Created by weibo on 16-1-12.
  */
 public class Push implements Serializable {
-  public int id; //notification id;
-  public String type;
-  public String targetId;
-  public String targetUrl;
+    public int id; //notification id;
+    public String type;
+    public String targetId;
+    public String targetUrl;
 }

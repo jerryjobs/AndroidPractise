@@ -6,5 +6,5 @@ import com.ikaowo.join.model.UserLatestState;
  * Created by weibo on 16-1-6.
  */
 public interface CheckLatestStateCallback {
-  UserLatestState getLatestState();
+    UserLatestState getLatestState();
 }

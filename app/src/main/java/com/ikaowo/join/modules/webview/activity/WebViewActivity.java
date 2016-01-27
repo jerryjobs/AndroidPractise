@@ -10,8 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.ikaowo.join.BaseEventBusActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.JoinedActivityCallback;
@@ -19,121 +18,134 @@ import com.ikaowo.join.eventbus.RefreshWebViewCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
 import com.ikaowo.join.util.Constant;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by weibo on 15-12-25.
  */
 
 public class WebViewActivity extends BaseEventBusActivity
-    implements WebViewHelper.WebViewInterface {
+        implements WebViewHelper.WebViewInterface {
 
-  protected String url;
-  protected WebViewHelper webViewHelper;
-  protected Intent intent;
-  @Bind(R.id.webview) WebView webView;
-  @Bind(R.id.webview_container_layout) ViewGroup webviewContainerLayout;
-  @Bind(R.id.webview_progress) ProgressBar progressBar;
+    protected String url;
+    protected WebViewHelper webViewHelper;
+    protected Intent intent;
+    @Bind(R.id.webview)
+    WebView webView;
+    @Bind(R.id.webview_container_layout)
+    ViewGroup webviewContainerLayout;
+    @Bind(R.id.webview_progress)
+    ProgressBar progressBar;
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_webview);
-    ButterKnife.bind(this);
+        setContentView(R.layout.activity_webview);
+        ButterKnife.bind(this);
 
-    toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-    ActionBar ab = getSupportActionBar();
-    ab.setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
-    getIntentData();
-    setupView();
-  }
-
-  protected void getIntentData() {
-    intent = getIntent();
-    if (intent.getExtras() != null) {
-      url = intent.getStringExtra(Constant.URL);
+        getIntentData();
+        setupView();
     }
-  }
 
-  private void setupView() {
-    webViewHelper = new WebViewHelper(url, webView, progressBar);
-    webViewHelper.setJavascriptInterface(this);
+    protected void getIntentData() {
+        intent = getIntent();
+        if (intent.getExtras() != null) {
+            url = intent.getStringExtra(Constant.URL);
+        }
+    }
 
-    webViewHelper.setWebViewInterface(this);
-    //html5那边获取webviwe的高度和宽度的时候，有可能Webview还没有加载完成，获取的高度为0
-    webviewContainerLayout.getViewTreeObserver()
-        .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-          @Override public void onGlobalLayout() {
-            webViewHelper.init();
-            if (Build.VERSION.SDK_INT >= 16) {
-              webviewContainerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            } else {
-              webviewContainerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+    private void setupView() {
+        webViewHelper = new WebViewHelper(url, webView, progressBar);
+        webViewHelper.setJavascriptInterface(this);
+
+        webViewHelper.setWebViewInterface(this);
+        //html5那边获取webviwe的高度和宽度的时候，有可能Webview还没有加载完成，获取的高度为0
+        webviewContainerLayout.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        webViewHelper.init();
+                        if (Build.VERSION.SDK_INT >= 16) {
+                            webviewContainerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            webviewContainerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    protected String getTag() {
+        return "WebViewActivity";
+    }
+
+    @Override
+    public void setWebViewTitle(String title) {
+        toolbar.setTitle(title);
+    }
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if (url == null) {
+            return false;
+        }
+
+        if (url.startsWith("join://")) {
+            view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            return true;
+        } else if (url.startsWith("tel:")) {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse(url));
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
             }
-          }
-        });
-  }
-
-  @Override protected String getTag() {
-    return "WebViewActivity";
-  }
-
-  @Override public void setWebViewTitle(String title) {
-    toolbar.setTitle(title);
-  }
-
-  @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
-    if (url == null) {
-      return false;
+            return true;
+        }
+        return false;
     }
 
-    if (url.startsWith("join://")) {
-      view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-      return true;
-    } else if (url.startsWith("tel:")) {
-      Intent intent = new Intent(Intent.ACTION_DIAL);
-      intent.setData(Uri.parse(url));
-      if (intent.resolveActivity(getPackageManager()) != null) {
-        startActivity(intent);
-      }
-      return true;
+    public void onEvent(SigninCallback callback) {
+        if (callback.singined()) {
+            url = webViewHelper.getCompleteUrl(url, true);
+            webView.loadUrl(url);
+        }
     }
-    return false;
-  }
 
-  public void onEvent(SigninCallback callback) {
-    if (callback.singined()) {
-      url = webViewHelper.getCompleteUrl(url, true);
-      webView.loadUrl(url);
+    public void onEvent(JoinedActivityCallback callback) {
+        if (callback.joined()) {
+            url = webViewHelper.getCompleteUrl(url, true);
+            webView.loadUrl(url);
+        }
     }
-  }
 
-  public void onEvent(JoinedActivityCallback callback) {
-    if (callback.joined()) {
-      url = webViewHelper.getCompleteUrl(url, true);
-      webView.loadUrl(url);
+    public void onEvent(RefreshWebViewCallback callback) {
+        if (callback.refreshWebView()) {
+            webView.reload();
+        }
     }
-  }
 
-  public void onEvent(RefreshWebViewCallback callback) {
-    if (callback.refreshWebView()) {
-      webView.reload();
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
-  }
 
-  @Override public void onBackPressed() {
-    if (webView.canGoBack()) {
-      webView.goBack();
-    } else {
-      super.onBackPressed();
+    @Override
+    protected void onDestroy() {
+        if (webViewHelper != null) {
+            webViewHelper.onDestroy(webviewContainerLayout);
+        }
+        super.onDestroy();
     }
-  }
-
-  @Override protected void onDestroy() {
-    if (webViewHelper != null) {
-      webViewHelper.onDestroy(webviewContainerLayout);
-    }
-    super.onDestroy();
-  }
 }

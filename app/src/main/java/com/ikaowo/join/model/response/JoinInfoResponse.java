@@ -7,5 +7,5 @@ import com.ikaowo.join.model.base.BaseResponse;
  * Created by leiweibo on 12/31/15.
  */
 public class JoinInfoResponse extends BaseResponse {
-  public JoinInfo data;
+    public JoinInfo data;
 }

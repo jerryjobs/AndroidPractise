@@ -1,6 +1,7 @@
 package com.ikaowo.join.modules.push.processer;
 
 import android.content.Context;
+
 import com.ikaowo.join.common.service.PromptionService;
 
 /**
@@ -8,8 +9,9 @@ import com.ikaowo.join.common.service.PromptionService;
  */
 public class JoinNewProcesser extends PushDataProcesser {
 
-  @Override public void openPage(Context context, String target, String targetUrl) {
-    PromptionService promptionService = jContext.getServiceByInterface(PromptionService.class);
-    promptionService.viewJoinedUserList(context, Integer.valueOf(target));
-  }
+    @Override
+    public void openPage(Context context, String target, String targetUrl) {
+        PromptionService promptionService = jContext.getServiceByInterface(PromptionService.class);
+        promptionService.viewJoinedUserList(context, Integer.valueOf(target));
+    }
 }

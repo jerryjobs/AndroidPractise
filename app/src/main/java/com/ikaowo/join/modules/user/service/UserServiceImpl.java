@@ -46,6 +46,7 @@ import com.ikaowo.join.network.KwMarketNetworkCallback;
 import com.ikaowo.join.network.UserInterface;
 import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.SharedPreferenceHelper;
+
 import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
@@ -54,381 +55,418 @@ import retrofit.Call;
  */
 public class UserServiceImpl extends UserService {
 
-  private SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
-  private boolean changTab = true;
+    Dialog dialog;
+    private SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
+    private boolean changTab = true;
 
-  @Override public void goToSignin(Context context) {
-    Intent intent = new Intent(context, SigninActivity.class);
-    intent.putExtra(Constant.CHANGE_TAB, true); //从这里进入的登录页面，登录完成之后，都需要进行tab切换。
-    JApplication.getJContext().startActivity(context, intent);
-  }
+    @Override
+    public void goToSignin(Context context) {
+        Intent intent = new Intent(context, SigninActivity.class);
+        intent.putExtra(Constant.CHANGE_TAB, true); //从这里进入的登录页面，登录完成之后，都需要进行tab切换。
+        JApplication.getJContext().startActivity(context, intent);
+    }
 
-  @Override public void resetPassword(Context context) {
-    Intent intent = new Intent(context, ResetPasswdActivity.class);
-    JApplication.getJContext().startActivity(context, intent);
-  }
+    @Override
+    public void resetPassword(Context context) {
+        Intent intent = new Intent(context, ResetPasswdActivity.class);
+        JApplication.getJContext().startActivity(context, intent);
+    }
 
-  @Override public void goToSignup(Context context) {
-    Intent intent = new Intent(context, SignupActivity.class);
-    JApplication.getJContext().startActivity(context, intent);
-  }
+    @Override
+    public void goToSignup(Context context) {
+        Intent intent = new Intent(context, SignupActivity.class);
+        JApplication.getJContext().startActivity(context, intent);
+    }
 
-  @Override public void addBrand(Context context) {
-    Intent intent = new Intent(context, AddBrandActivity.class);
-    JApplication.getJContext().startActivity(context, intent);
-  }
+    @Override
+    public void addBrand(Context context) {
+        Intent intent = new Intent(context, AddBrandActivity.class);
+        JApplication.getJContext().startActivity(context, intent);
+    }
 
-  @Override public void chooseBrandList(Context context) {
-    Intent intent = new Intent(context, BrandListActivity.class);
-    intent.putExtra(CHOOSE, true);
-    JApplication.getJContext().startActivity(context, intent);
-  }
+    @Override
+    public void chooseBrandList(Context context) {
+        Intent intent = new Intent(context, BrandListActivity.class);
+        intent.putExtra(CHOOSE, true);
+        JApplication.getJContext().startActivity(context, intent);
+    }
 
-  @Override public void doLogin(final Context context, final String userName, String password) {
-    UserInterface userNetworkService =
-        JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
-    LoginRequest request = new LoginRequest();
-    request.username = userName;
-    request.password = password;
-    JApplication.getNetworkManager()
-        .async(context, Constant.LOGINING, userNetworkService.signin(request),
-          new NetworkCallback<SignupResponse>(context) {
+    @Override
+    public void doLogin(final Context context, final String userName, String password) {
+        UserInterface userNetworkService =
+                JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+        LoginRequest request = new LoginRequest();
+        request.username = userName;
+        request.password = password;
+        JApplication.getNetworkManager()
+                .async(context, Constant.LOGINING, userNetworkService.signin(request),
+                        new NetworkCallback<SignupResponse>(context) {
+                            @Override
+                            public void onSuccess(SignupResponse signupResponse) {
+                                ((JFragmentActivity) context).dialogHelper.dismissProgressDialog();
+                                sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
+                                doAfterSignin(context, signupResponse);
+                            }
+                        });
+    }
+
+    @Override
+    public void doLogin(final Context context, String userName, String password, boolean changeTab) {
+        changTab = changeTab;
+        doLogin(context, userName, password);
+    }
+
+    @Override
+    public void doAfterSignin(Context context, SignupResponse signupResponse) {
+        sharedPreferenceHelper.saveUser(signupResponse.data);
+        EventBus.getDefault().post(new SigninCallback() {
             @Override
-            public void onSuccess(SignupResponse signupResponse) {
-              ((JFragmentActivity) context).dialogHelper.dismissProgressDialog();
-              sharedPreferenceHelper.saveLoginName(context, userName); //TODO 放到异步里面去做
-              doAfterSignin(context, signupResponse);
+            public boolean singined() {
+                return true;
             }
-          });
-  }
 
-  @Override
-  public void doLogin(final Context context, String userName, String password, boolean changeTab) {
-    changTab = changeTab;
-    doLogin(context, userName, password);
-  }
-
-  @Override
-  public void doAfterSignin(Context context, SignupResponse signupResponse) {
-    sharedPreferenceHelper.saveUser(signupResponse.data);
-    EventBus.getDefault().post(new SigninCallback() {
-      @Override
-      public boolean singined() {
-        return true;
-      }
-
-      @Override
-      public boolean changeTab() {
-        return changTab;
-      }
-    });
-    ((Activity) context).finish();
-  }
-
-  @Override
-  public void doAfterResubmit(Context context, UserLoginData userLoginData, String suc_hint) {
-    sharedPreferenceHelper.saveUser(userLoginData);
-    EventBus.getDefault().post(new ClosePageCallback() {
-      @Override public boolean close() {
-        return true;
-      }
-    });
-
-    EventBus.getDefault().post(new UpdatedataCallback() {
-      @Override public boolean update() {
-        return true;
-      }
-    });
-
-    ((Activity) context).finish();
-    JToast.toastShort(suc_hint);
-  }
-
-  @Override
-  public void resetPasswd(final Context context, String userName, String vCode, String password) {
-    UserInterface userNetworkService =
-        JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
-
-    ResetPasswdRequest request = new ResetPasswdRequest();
-    request.phone = userName;
-    request.vcode = vCode;
-    request.password = password;
-
-    Call<BaseResponse> call = userNetworkService.resetPasswd(request);
-    JApplication.getNetworkManager()
-        .async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback(context) {
-          @Override public void onSuccess(Object o) {
-            ((Activity) context).finish();
-            JToast.toastShort(context.getString(R.string.hint_reset_passwd_suc));
-          }
+            @Override
+            public boolean changeTab() {
+                return changTab;
+            }
         });
-  }
+        ((Activity) context).finish();
+    }
 
-  @Override public boolean isLogined() {
-    return sharedPreferenceHelper.isLogined();
-  }
-
-  @Override public boolean isAuthed() {
-    return isLogined() && (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(getUser().state));
-  }
-
-  @Override public boolean isPendingAuthed() {
-    return isLogined() && (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(getUser().state));
-  }
-
-  @Override public boolean isAuthFailed() {
-    return isLogined() && (Constant.AUTH_STATE_FAILED.equalsIgnoreCase(getUser().state));
-  }
-
-  @Override public int getUserCompanyId() {
-    return sharedPreferenceHelper.getUserCompanyId();
-  }
-
-  public UserLoginData getUser() {
-    return sharedPreferenceHelper.getUser();
-  }
-
-  @Override public int getUserId() {
-    return sharedPreferenceHelper.getUserId();
-  }
-
-  @Override public void logout(final Context context) {
-    new GetuiService().unBindGetuiService(context, getUserId());
-
-    sharedPreferenceHelper.clearUser();
-    JApplication.getNetworkManager().clearCookieStore();
-    LoginHelper.getInstance().getIMKit().getLoginService().logout(new IWxCallback() {
-      @Override public void onSuccess(Object... objects) {
-        Log.e("IMService", "退出登录成功");
-      }
-
-      @Override public void onError(int i, String s) {
-        Log.e("IMService", "退出登录失败");
-      }
-
-      @Override public void onProgress(int i) {
-
-      }
-    });
-    new Handler().postDelayed(new Runnable() {
-      @Override public void run() {
-        //将MineActivity 页面关闭
+    @Override
+    public void doAfterResubmit(Context context, UserLoginData userLoginData, String suc_hint) {
+        sharedPreferenceHelper.saveUser(userLoginData);
         EventBus.getDefault().post(new ClosePageCallback() {
-          @Override public boolean close() {
-            return true;
-          }
+            @Override
+            public boolean close() {
+                return true;
+            }
         });
 
-        EventBus.getDefault().post(new SignoutCallback() {
-          @Override public boolean signout() {
-            return true;
-          }
+        EventBus.getDefault().post(new UpdatedataCallback() {
+            @Override
+            public boolean update() {
+                return true;
+            }
         });
-      }
-    }, 300);
 
-    EventBus.getDefault().post(new ClickTabCallback() {
-      @Override
-      public int getClickedSys() {
-        return 0;
-      }
-    });
-  }
-
-  @Override public void updateAvatarInfo(String avatarUrl) {
-    UserLoginData user = getUser();
-    user.icon = avatarUrl;
-    sharedPreferenceHelper.saveUser(user);
-  }
-
-  @Override public boolean authed() {
-    UserLoginData user = getUser();
-    return Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
-        && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
-  }
-
-  @Override public void updateLocalUserInfo(UserLatestState state) {
-    UserLoginData user = getUser();
-    user.state = state.sta;
-    user.comment = state.comment;
-    //    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
-
-    sharedPreferenceHelper.saveUser(user);
-  }
-
-  @Override
-  public void interceptorCheckUserState(final Context context, int actionRes, final AuthedAction authedAction) {
-    if (isAuthed()) {
-      authedAction.doActionAfterAuthed();
-    } else if (isAuthFailed()) {
-      checkState(context, actionRes, authedAction);
-    } else if (isPendingAuthed()) {
-      checkState(context, actionRes, authedAction);
-    } else {
-      goToSignin(context);
+        ((Activity) context).finish();
+        JToast.toastShort(suc_hint);
     }
-  }
 
-  Dialog dialog;
-  private void checkState(final Context context, final int actionRes, final AuthedAction authedAction) {
-    final String actionStr = context.getString(actionRes);
-    checkLatestUserState(context, new CheckStateCallback() {
-      @Override public void onProcessing() {
-        if (context instanceof JoinActivity) {
-          new JDialogHelper(context).showConfirmDialog(
-            context.getString(R.string.unauthed_hint, actionStr), context.getString(R.string.custom_ok_btn),
-              new JDialogHelper.DoAfterClickCallback() {
-              @Override
-              public void doAction() {
-                ((JoinActivity) context).finish();
-              }
-          });
+    @Override
+    public void resetPasswd(final Context context, String userName, String vCode, String password) {
+        UserInterface userNetworkService =
+                JApplication.getNetworkManager().getServiceByClass(UserInterface.class);
+
+        ResetPasswdRequest request = new ResetPasswdRequest();
+        request.phone = userName;
+        request.vcode = vCode;
+        request.password = password;
+
+        Call<BaseResponse> call = userNetworkService.resetPasswd(request);
+        JApplication.getNetworkManager()
+                .async(context, Constant.PROCESSING, call, new KwMarketNetworkCallback(context) {
+                    @Override
+                    public void onSuccess(Object o) {
+                        ((Activity) context).finish();
+                        JToast.toastShort(context.getString(R.string.hint_reset_passwd_suc));
+                    }
+                });
+    }
+
+    @Override
+    public boolean isLogined() {
+        return sharedPreferenceHelper.isLogined();
+    }
+
+    @Override
+    public boolean isAuthed() {
+        return isLogined() && (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(getUser().state));
+    }
+
+    @Override
+    public boolean isPendingAuthed() {
+        return isLogined() && (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(getUser().state));
+    }
+
+    @Override
+    public boolean isAuthFailed() {
+        return isLogined() && (Constant.AUTH_STATE_FAILED.equalsIgnoreCase(getUser().state));
+    }
+
+    @Override
+    public int getUserCompanyId() {
+        return sharedPreferenceHelper.getUserCompanyId();
+    }
+
+    public UserLoginData getUser() {
+        return sharedPreferenceHelper.getUser();
+    }
+
+    @Override
+    public int getUserId() {
+        return sharedPreferenceHelper.getUserId();
+    }
+
+    @Override
+    public void logout(final Context context) {
+        new GetuiService().unBindGetuiService(context, getUserId());
+
+        sharedPreferenceHelper.clearUser();
+        JApplication.getNetworkManager().clearCookieStore();
+        LoginHelper.getInstance().getIMKit().getLoginService().logout(new IWxCallback() {
+            @Override
+            public void onSuccess(Object... objects) {
+                Log.e("IMService", "退出登录成功");
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.e("IMService", "退出登录失败");
+            }
+
+            @Override
+            public void onProgress(int i) {
+
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //将MineActivity 页面关闭
+                EventBus.getDefault().post(new ClosePageCallback() {
+                    @Override
+                    public boolean close() {
+                        return true;
+                    }
+                });
+
+                EventBus.getDefault().post(new SignoutCallback() {
+                    @Override
+                    public boolean signout() {
+                        return true;
+                    }
+                });
+            }
+        }, 300);
+
+        EventBus.getDefault().post(new ClickTabCallback() {
+            @Override
+            public int getClickedSys() {
+                return 0;
+            }
+        });
+    }
+
+    @Override
+    public void updateAvatarInfo(String avatarUrl) {
+        UserLoginData user = getUser();
+        user.icon = avatarUrl;
+        sharedPreferenceHelper.saveUser(user);
+    }
+
+    @Override
+    public boolean authed() {
+        UserLoginData user = getUser();
+        return Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
+                && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
+    }
+
+    @Override
+    public void updateLocalUserInfo(UserLatestState state) {
+        UserLoginData user = getUser();
+        user.state = state.sta;
+        user.comment = state.comment;
+        //    user.companyState = passed ? Constant.AUTH_STATE_PASSED : Constant.AUTH_STATE_FAILED;
+
+        sharedPreferenceHelper.saveUser(user);
+    }
+
+    @Override
+    public void interceptorCheckUserState(final Context context, int actionRes, final AuthedAction authedAction) {
+        if (isAuthed()) {
+            authedAction.doActionAfterAuthed();
+        } else if (isAuthFailed()) {
+            checkState(context, actionRes, authedAction);
+        } else if (isPendingAuthed()) {
+            checkState(context, actionRes, authedAction);
         } else {
-          JToast.toastShort(context.getString(R.string.unauthed_hint, actionStr));
+            goToSignin(context);
         }
-      }
+    }
 
-      @Override public void onPassed() {
-        if (authedAction != null) {
-          authedAction.doActionAfterAuthed();
-        }
-      }
-
-      @Override public void onFailed() {
-
-        if (context instanceof JoinActivity) {
-          dialog = new JDialogHelper((JFragmentActivity) context)
-            .createDialog(context,
-              context.getString(R.string.dialog_title),
-              context.getString(R.string.auth_failed_hint, actionStr),
-              new String[]{"我知道了", "重新审核"},
-              new View.OnClickListener[] {
-                new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    ((JFragmentActivity) context).finish();
-                  }
-                },
-                new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    dialog.dismiss();
-                    reSubmitInfo(context);
-                  }
+    private void checkState(final Context context, final int actionRes, final AuthedAction authedAction) {
+        final String actionStr = context.getString(actionRes);
+        checkLatestUserState(context, new CheckStateCallback() {
+            @Override
+            public void onProcessing() {
+                if (context instanceof JoinActivity) {
+                    new JDialogHelper(context).showConfirmDialog(
+                            context.getString(R.string.unauthed_hint, actionStr), context.getString(R.string.custom_ok_btn),
+                            new JDialogHelper.DoAfterClickCallback() {
+                                @Override
+                                public void doAction() {
+                                    ((JoinActivity) context).finish();
+                                }
+                            });
+                } else {
+                    JToast.toastShort(context.getString(R.string.unauthed_hint, actionStr));
                 }
-              });
-          dialog.show();
-        } else {
-          dialog = new JDialogHelper((JFragmentActivity) context)
-            .createDialog(context,
-              context.getString(R.string.dialog_title),
-              context.getString(R.string.auth_failed_hint, actionStr),
-              new String[]{"取消", "重新审核"},
-              new View.OnClickListener[] {
-                new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    dialog.dismiss();
-                  }
-                },
-                new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    dialog.dismiss();
-                    reSubmitInfo(context);
-                  }
+            }
+
+            @Override
+            public void onPassed() {
+                if (authedAction != null) {
+                    authedAction.doActionAfterAuthed();
                 }
-              });
-          dialog.show();
-        }
-      }
-    });
-  }
+            }
 
-  private void checkLatestUserState(Context context, final CheckStateCallback callback) {
-    NetworkManager networkManager = JApplication.getNetworkManager();
-    UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
-    CheckStateRequest request = new CheckStateRequest();
-    request.u_id = getUserId();
-    final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
-    networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
-      @Override public void onSuccess(final CheckStateResponse response) {
-        if (response == null || response.data == null) {
-          return;
-        }
-        updateLocalUserInfo(response.data);
+            @Override
+            public void onFailed() {
 
-        EventBus.getDefault().post(new CheckLatestStateCallback() {
-          @Override public UserLatestState getLatestState() {
-            return response.data;
-          }
+                if (context instanceof JoinActivity) {
+                    dialog = new JDialogHelper((JFragmentActivity) context)
+                            .createDialog(context,
+                                    context.getString(R.string.dialog_title),
+                                    context.getString(R.string.auth_failed_hint, actionStr),
+                                    new String[]{"我知道了", "重新审核"},
+                                    new View.OnClickListener[]{
+                                            new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    ((JFragmentActivity) context).finish();
+                                                }
+                                            },
+                                            new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    dialog.dismiss();
+                                                    reSubmitInfo(context);
+                                                }
+                                            }
+                                    });
+                    dialog.show();
+                } else {
+                    dialog = new JDialogHelper((JFragmentActivity) context)
+                            .createDialog(context,
+                                    context.getString(R.string.dialog_title),
+                                    context.getString(R.string.auth_failed_hint, actionStr),
+                                    new String[]{"取消", "重新审核"},
+                                    new View.OnClickListener[]{
+                                            new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    dialog.dismiss();
+                                                }
+                                            },
+                                            new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    dialog.dismiss();
+                                                    reSubmitInfo(context);
+                                                }
+                                            }
+                                    });
+                    dialog.show();
+                }
+            }
         });
-
-        if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(response.data.sta)) {
-          callback.onPassed();
-        } else if (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(response.data.sta)) {
-          callback.onProcessing();
-        } else {
-          callback.onFailed();
-        }
-      }
-    });
-  }
-
-  @Override public void imChat(final Context context, final String targetUserWxId) {
-    interceptorCheckUserState(context, R.string.action_msg, new AuthedAction() {
-      @Override public void doActionAfterAuthed() {
-        String target = targetUserWxId;
-        if (loginSuccessed(context)) {
-          Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
-          JApplication.getJContext().startActivity(context, intent);
-        }
-      }
-    });
-  }
-
-  private boolean loginSuccessed(Context context) {
-    LoginHelper loginHelper = LoginHelper.getInstance();
-    YWIMKit imKit = loginHelper.getIMKit();
-    if (imKit == null) {
-      return false;
     }
 
-    if (imKit.getIMCore().getLoginState().equals(YWLoginState.success)) {
-      return true;
-    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.idle)) {
-      JToast.toastShort(context.getString(R.string.hint_wx_service_logining));
-      return false;
-    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
-      JToast.toastShort(context.getString(R.string.hint_wx_service_failed));
-      return false;
-    } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
-      JToast.toastShort(context.getString(R.string.hint_wx_service_disconnected));
-      return false;
+    private void checkLatestUserState(Context context, final CheckStateCallback callback) {
+        NetworkManager networkManager = JApplication.getNetworkManager();
+        UserInterface userNetworkService = networkManager.getServiceByClass(UserInterface.class);
+        CheckStateRequest request = new CheckStateRequest();
+        request.u_id = getUserId();
+        final Call<CheckStateResponse> call = userNetworkService.checkLatestState(request);
+        networkManager.async(call, new KwMarketNetworkCallback<CheckStateResponse>(context) {
+            @Override
+            public void onSuccess(final CheckStateResponse response) {
+                if (response == null || response.data == null) {
+                    return;
+                }
+                updateLocalUserInfo(response.data);
+
+                EventBus.getDefault().post(new CheckLatestStateCallback() {
+                    @Override
+                    public UserLatestState getLatestState() {
+                        return response.data;
+                    }
+                });
+
+                if (Constant.AUTH_STATE_PASSED.equalsIgnoreCase(response.data.sta)) {
+                    callback.onPassed();
+                } else if (Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(response.data.sta)) {
+                    callback.onProcessing();
+                } else {
+                    callback.onFailed();
+                }
+            }
+        });
     }
-    return false;
-  }
 
-  @Override public String getLoginedUserName(Context context) {
-    return sharedPreferenceHelper.getLoginedUserName(context);
-  }
+    @Override
+    public void imChat(final Context context, final String targetUserWxId) {
+        interceptorCheckUserState(context, R.string.action_msg, new AuthedAction() {
+            @Override
+            public void doActionAfterAuthed() {
+                String target = targetUserWxId;
+                if (loginSuccessed(context)) {
+                    Intent intent = LoginHelper.getInstance().getIMKit().getChattingActivityIntent(target);
+                    JApplication.getJContext().startActivity(context, intent);
+                }
+            }
+        });
+    }
 
-  @Override public void reSubmitInfo(Context context) {
-    Intent intent = new Intent(context, ReSubmitInfoActivity.class);
-    JApplication.getJContext().startActivity(context, intent);
-  }
+    private boolean loginSuccessed(Context context) {
+        LoginHelper loginHelper = LoginHelper.getInstance();
+        YWIMKit imKit = loginHelper.getIMKit();
+        if (imKit == null) {
+            return false;
+        }
 
-  @Override public void reSubmitInfo(Context context, boolean needCheckState) {
-    Intent intent = new Intent(context, ReSubmitInfoActivity.class);
-    intent.putExtra(Constant.NEED_RETRIEVE_LATEST_STATE, needCheckState);
-    JApplication.getJContext().startActivity(context, intent);
-  }
+        if (imKit.getIMCore().getLoginState().equals(YWLoginState.success)) {
+            return true;
+        } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.idle)) {
+            JToast.toastShort(context.getString(R.string.hint_wx_service_logining));
+            return false;
+        } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
+            JToast.toastShort(context.getString(R.string.hint_wx_service_failed));
+            return false;
+        } else if (imKit.getIMCore().getLoginState().equals(YWLoginState.fail)) {
+            JToast.toastShort(context.getString(R.string.hint_wx_service_disconnected));
+            return false;
+        }
+        return false;
+    }
 
-  @Override public void onCreate() {
+    @Override
+    public String getLoginedUserName(Context context) {
+        return sharedPreferenceHelper.getLoginedUserName(context);
+    }
 
-  }
+    @Override
+    public void reSubmitInfo(Context context) {
+        Intent intent = new Intent(context, ReSubmitInfoActivity.class);
+        JApplication.getJContext().startActivity(context, intent);
+    }
 
-  @Override public void onDestroy() {
+    @Override
+    public void reSubmitInfo(Context context, boolean needCheckState) {
+        Intent intent = new Intent(context, ReSubmitInfoActivity.class);
+        intent.putExtra(Constant.NEED_RETRIEVE_LATEST_STATE, needCheckState);
+        JApplication.getJContext().startActivity(context, intent);
+    }
 
-  }
+    @Override
+    public void onCreate() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
 }
