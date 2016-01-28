@@ -135,23 +135,23 @@ public abstract class BaseUserInputActivity extends BaseEventBusActivity
     });
     userCardTv.addRightView(userCardIv, 0);
 
-    userNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-          bindGlobalLayoutChangeToScrollView(hasFocus, 1);
-        }
-      }
-    });
-
-    userTitleEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-          bindGlobalLayoutChangeToScrollView(hasFocus, 2);
-        }
-      }
-    });
-
     if (phoneViewHoder != null) {
+      userNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override public void onFocusChange(View v, boolean hasFocus) {
+          if (hasFocus) {
+            bindGlobalLayoutChangeToScrollView(hasFocus, 1);
+          }
+        }
+      });
+
+      userTitleEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override public void onFocusChange(View v, boolean hasFocus) {
+          if (hasFocus) {
+            bindGlobalLayoutChangeToScrollView(hasFocus, 2);
+          }
+        }
+      });
+
       phoneViewHoder.phoneEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
         @Override public void onFocusChange(View v, boolean hasFocus) {
           bindGlobalLayoutChangeToScrollView(hasFocus, -1);
