@@ -49,7 +49,7 @@
       android:background="@color/c5"
       />
 
-  <GridView
+  <com.ikaowo.join.modules.promption.widget.CustomGridView
       android:id="@+id/promption_imgs_container"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

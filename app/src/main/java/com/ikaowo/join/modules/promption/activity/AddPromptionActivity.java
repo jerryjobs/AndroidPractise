@@ -36,6 +36,7 @@ import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
+import com.ikaowo.join.eventbus.AddGridViewImageCallback;
 import com.ikaowo.join.eventbus.RefreshWebViewCallback;
 import com.ikaowo.join.eventbus.UpdatePromptionCallback;
 import com.ikaowo.join.model.base.BaseResponse;
@@ -312,6 +313,12 @@ public class AddPromptionActivity extends BaseEventBusActivity
   }
 
   public void onEvent(Boolean b) {
+  }
+
+  public void onEvent(AddGridViewImageCallback callback) {
+    if (callback.clicked()) {
+      clickedPos = null;
+    }
   }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {

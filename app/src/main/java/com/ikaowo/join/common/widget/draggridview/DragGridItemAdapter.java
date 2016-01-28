@@ -18,7 +18,9 @@ import com.common.framework.core.JFragmentActivity;
 import com.component.photo.FullImageView;
 import com.component.photo.PhotoService;
 import com.ikaowo.join.R;
+import com.ikaowo.join.eventbus.AddGridViewImageCallback;
 import com.squareup.picasso.Picasso;
+import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,13 +122,6 @@ public class DragGridItemAdapter extends BaseAdapter {
       }
     }
 
-    if (addHolder != null) {
-      RelativeLayout.LayoutParams rlp =
-          new RelativeLayout.LayoutParams(width - JApplication.getJContext().dip2px(12),
-              width - JApplication.getJContext().dip2px(12));
-
-      addHolder.imageView.setLayoutParams(rlp);
-    }
     return convertView;
   }
 
@@ -152,7 +147,7 @@ public class DragGridItemAdapter extends BaseAdapter {
       ButterKnife.bind(this, view);
     }
 
-    @OnClick(R.id.widget_draggrid_delete_icon) public void deleteImg(final View deleteIconView) {
+    @OnClick(R.id.widget_draggrid_delete_layout) public void deleteImg() {
 
       View.OnClickListener listeners[] = new View.OnClickListener[] {
           new View.OnClickListener() {
@@ -161,7 +156,7 @@ public class DragGridItemAdapter extends BaseAdapter {
             }
           }, new View.OnClickListener() {
         @Override public void onClick(View view) {
-          int pos = (int) deleteIconView.getTag();
+          int pos = (int) deleteImg.getTag();
           thumbList.remove(pos);
           if (thumbList.size() == maxCount - 1
               && thumbList.get(thumbList.size() - 1).type != ItemImageObj.TYPE_ADD) {
@@ -201,6 +196,12 @@ public class DragGridItemAdapter extends BaseAdapter {
       } else {
         photoService.takePhoto(context, view, null);
       }
+
+      EventBus.getDefault().post(new AddGridViewImageCallback() {
+        @Override public boolean clicked() {
+          return true;
+        }
+      });
     }
   }
 }

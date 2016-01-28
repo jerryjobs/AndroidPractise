@@ -47,7 +47,7 @@ public class ErrorHintLayout extends LinearLayout {
     textView.setTextColor(ContextCompat.getColor(context, R.color.c11));
     textView.setGravity(Gravity.CENTER_VERTICAL);
     textView.setLayoutParams(llp);
-    textView.setSingleLine();
+    textView.setMaxLines(2);
     textView.setEllipsize(TextUtils.TruncateAt.END);
     errHintLayout.addView(textView);
     View view = new View(context);
