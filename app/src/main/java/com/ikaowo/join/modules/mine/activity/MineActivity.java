@@ -116,12 +116,9 @@ public class MineActivity extends BaseEventBusFragmentActivity
     private void setupDate() {
         UserLoginData user = userService.getUser();
         if (user != null) {
-            boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state)
-                    && Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.companyState);
-            boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state)
-                    || Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.companyState);
-            boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state)
-                    || Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.companyState);
+            boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state);
+            boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state);
+            boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state);
 
             Map<String, String> stateDescMap = SharedPreferenceHelper.getInstance().getEnumValue(this);
             String state = "";
