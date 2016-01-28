@@ -2,7 +2,6 @@ package com.ikaowo.join;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -10,15 +9,13 @@ import de.greenrobot.event.EventBus;
  */
 public abstract class BaseEventBusFragment extends BaseFragment {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    EventBus.getDefault().register(this);
+  }
 
-    @Override
-    public void onDestroyView() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroyView();
-    }
+  @Override public void onDestroyView() {
+    EventBus.getDefault().unregister(this);
+    super.onDestroyView();
+  }
 }

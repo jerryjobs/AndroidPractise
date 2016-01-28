@@ -1,7 +1,6 @@
 package com.ikaowo.join;
 
 import android.os.Bundle;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -9,15 +8,13 @@ import de.greenrobot.event.EventBus;
  */
 public abstract class BaseEventBusActivity extends BaseActivity {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    EventBus.getDefault().register(this);
+  }
 
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
+  @Override protected void onDestroy() {
+    EventBus.getDefault().unregister(this);
+    super.onDestroy();
+  }
 }

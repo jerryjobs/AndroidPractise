@@ -4,13 +4,13 @@ package com.ikaowo.join.eventbus;
  * Created by weibo on 16-1-4.
  */
 public interface UpdatePromptionCallback {
-    boolean promptionUpdated();
+  boolean promptionUpdated();
 
-    String getNewTitle();
+  String getNewTitle();
 
-    String getNewEndTime();
+  String getNewEndTime();
 
-    String getNewState();
+  String getNewState();
 
-    String getNewBg();
+  String getNewBg();
 }

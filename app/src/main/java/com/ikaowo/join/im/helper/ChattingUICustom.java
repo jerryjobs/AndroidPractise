@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.alibaba.mobileim.aop.Pointcut;
 import com.alibaba.mobileim.aop.custom.IMChattingPageUI;
 import com.alibaba.mobileim.channel.util.AccountUtils;
@@ -26,96 +25,92 @@ import com.ikaowo.join.R;
  */
 public class ChattingUICustom extends IMChattingPageUI {
 
-    public ChattingUICustom(Pointcut pointcut) {
-        super(pointcut);
-    }
+  public ChattingUICustom(Pointcut pointcut) {
+    super(pointcut);
+  }
 
-    /**
-     * isv需要返回自定义的view. openIMSDK会回调这个方法，获取用户设置的view. Fragment 聊天界面的fragment
-     */
-    @Override
-    public View getCustomTitleView(final Fragment fragment, final Context context,
-                                   LayoutInflater inflater, final YWConversation conversation) {
-        // 单聊和群聊都会使用这个方法，所以这里需要做一下区分
-        // 本demo示例是处理单聊，如果群聊界面也支持自定义，请去掉此判断
+  /**
+   * isv需要返回自定义的view. openIMSDK会回调这个方法，获取用户设置的view. Fragment 聊天界面的fragment
+   */
+  @Override public View getCustomTitleView(final Fragment fragment, final Context context,
+      LayoutInflater inflater, final YWConversation conversation) {
+    // 单聊和群聊都会使用这个方法，所以这里需要做一下区分
+    // 本demo示例是处理单聊，如果群聊界面也支持自定义，请去掉此判断
 
-        //TODO 重要：必须以该形式初始化view---［inflate(R.layout.**, new RelativeLayout(context),false)］------，以让inflater知道父布局的类型，否则布局**中的高度和宽度无效，均变为wrap_content
-        View view = inflater.inflate(R.layout.activity_im_chat_custom_chatting_title,
-                new RelativeLayout(context), false);
-        view.setBackgroundColor(Color.parseColor("#1ba7e1"));
-        TextView textView = (TextView) view.findViewById(R.id.title);
-        String title = null;
-        if (conversation.getConversationType() == YWConversationType.P2P) {
-            YWP2PConversationBody conversationBody =
-                    (YWP2PConversationBody) conversation.getConversationBody();
-            if (!TextUtils.isEmpty(conversationBody.getContact().getShowName())) {
-                title = conversationBody.getContact().getShowName();
-            } else {
-                IYWContact contact =
-                        IMUtility.getContactProfileInfo(conversationBody.getContact().getUserId(),
-                                conversationBody.getContact().getAppKey());
-                //生成showName，According to id。
+    //TODO 重要：必须以该形式初始化view---［inflate(R.layout.**, new RelativeLayout(context),false)］------，以让inflater知道父布局的类型，否则布局**中的高度和宽度无效，均变为wrap_content
+    View view = inflater.inflate(R.layout.activity_im_chat_custom_chatting_title,
+        new RelativeLayout(context), false);
+    view.setBackgroundColor(Color.parseColor("#1ba7e1"));
+    TextView textView = (TextView) view.findViewById(R.id.title);
+    String title = null;
+    if (conversation.getConversationType() == YWConversationType.P2P) {
+      YWP2PConversationBody conversationBody =
+          (YWP2PConversationBody) conversation.getConversationBody();
+      if (!TextUtils.isEmpty(conversationBody.getContact().getShowName())) {
+        title = conversationBody.getContact().getShowName();
+      } else {
+        IYWContact contact =
+            IMUtility.getContactProfileInfo(conversationBody.getContact().getUserId(),
+                conversationBody.getContact().getAppKey());
+        //生成showName，According to id。
 
-                if (contact != null && !TextUtils.isEmpty(contact.getShowName())) {
-                    title = contact.getShowName();
-                }
-            }
-            //如果标题为空，那么直接使用Id
-            if (TextUtils.isEmpty(title)) {
-                title = conversationBody.getContact().getUserId();
-            }
-        } else {
-            if (conversation.getConversationBody() instanceof YWTribeConversationBody) {
-                title = ((YWTribeConversationBody) conversation.getConversationBody()).getTribe()
-                        .getTribeName();
-                if (TextUtils.isEmpty(title)) {
-                    title = "聊天";
-                }
-            } else {
-                if (conversation.getConversationType() == YWConversationType.SHOP) { //为OpenIM的官方客服特殊定义了下、
-                    title = AccountUtils.getShortUserID(conversation.getConversationId());
-                }
-            }
+        if (contact != null && !TextUtils.isEmpty(contact.getShowName())) {
+          title = contact.getShowName();
         }
-        textView.setText(title);
-        textView.setTextColor(Color.parseColor("#FFFFFF"));
-        textView.setTextSize(20);
-        TextView backView = (TextView) view.findViewById(R.id.back);
-        backView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                fragment.getActivity().finish();
-            }
-        });
-
-        return view;
+      }
+      //如果标题为空，那么直接使用Id
+      if (TextUtils.isEmpty(title)) {
+        title = conversationBody.getContact().getUserId();
+      }
+    } else {
+      if (conversation.getConversationBody() instanceof YWTribeConversationBody) {
+        title = ((YWTribeConversationBody) conversation.getConversationBody()).getTribe()
+            .getTribeName();
+        if (TextUtils.isEmpty(title)) {
+          title = "聊天";
+        }
+      } else {
+        if (conversation.getConversationType() == YWConversationType.SHOP) { //为OpenIM的官方客服特殊定义了下、
+          title = AccountUtils.getShortUserID(conversation.getConversationId());
+        }
+      }
     }
+    textView.setText(title);
+    textView.setTextColor(Color.parseColor("#FFFFFF"));
+    textView.setTextSize(20);
+    TextView backView = (TextView) view.findViewById(R.id.back);
+    backView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View arg0) {
+        fragment.getActivity().finish();
+      }
+    });
 
-    /**
-     * 是否需要圆角矩形的头像
-     *
-     * @return true:需要圆角矩形
-     * <br>
-     * false:不需要圆角矩形，默认为圆形
-     * <br>
-     * 注：如果返回true，则需要使用{@link #getRoundRectRadius()}给出圆角的设置半径，否则无圆角效果
-     */
-    @Override
-    public boolean isNeedRoundRectHead() {
-        return true;
-    }
+    return view;
+  }
 
-    /**
-     * 返回设置圆角矩形的圆角半径大小
-     *
-     * @return 0:如果{@link #isNeedRoundRectHead()}返回true，此处返回0则表示头像显示为直角正方形
-     */
-    @Override
-    public int getRoundRectRadius() {
-        return 0;
-    }
+  /**
+   * 是否需要圆角矩形的头像
+   *
+   * @return true:需要圆角矩形
+   * <br>
+   * false:不需要圆角矩形，默认为圆形
+   * <br>
+   * 注：如果返回true，则需要使用{@link #getRoundRectRadius()}给出圆角的设置半径，否则无圆角效果
+   */
+  @Override public boolean isNeedRoundRectHead() {
+    return true;
+  }
 
-    public int getDefaultHeadImageResId() {
-        return R.drawable.brand_icon_default;
-    }
+  /**
+   * 返回设置圆角矩形的圆角半径大小
+   *
+   * @return 0:如果{@link #isNeedRoundRectHead()}返回true，此处返回0则表示头像显示为直角正方形
+   */
+  @Override public int getRoundRectRadius() {
+    return 0;
+  }
+
+  public int getDefaultHeadImageResId() {
+    return R.drawable.brand_icon_default;
+  }
 }

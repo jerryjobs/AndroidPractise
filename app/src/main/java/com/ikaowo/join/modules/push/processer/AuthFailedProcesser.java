@@ -1,7 +1,6 @@
 package com.ikaowo.join.modules.push.processer;
 
 import android.content.Context;
-
 import com.ikaowo.join.common.service.UserService;
 
 /**
@@ -9,9 +8,8 @@ import com.ikaowo.join.common.service.UserService;
  */
 public class AuthFailedProcesser extends PushDataProcesser {
 
-    @Override
-    public void openPage(Context context, String target, String targetUrl) {
-        UserService userService = jContext.getServiceByInterface(UserService.class);
-        userService.reSubmitInfo(context, true);
-    }
+  @Override public void openPage(Context context, String target, String targetUrl) {
+    UserService userService = jContext.getServiceByInterface(UserService.class);
+    userService.reSubmitInfo(context, true);
+  }
 }

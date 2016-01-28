@@ -8,13 +8,12 @@ import com.common.framework.model.JServiceInfo;
  */
 public interface JServiceManager {
 
-    /**
-     * 注册服务
-     *
-     * @param serviceInfo 服务信息
-     * @return
-     */
-    boolean registerService(JServiceInfo serviceInfo);
+  /**
+   * 注册服务
+   *
+   * @param serviceInfo 服务信息
+   */
+  boolean registerService(JServiceInfo serviceInfo);
 
-    <T> T getServiceByInterface(Class<? extends JCommonService> serviceInterface);
+  <T> T getServiceByInterface(Class<? extends JCommonService> serviceInterface);
 }

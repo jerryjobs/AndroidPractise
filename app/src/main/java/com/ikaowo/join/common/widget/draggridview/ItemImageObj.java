@@ -1,9 +1,7 @@
 package com.ikaowo.join.common.widget.draggridview;
 
 import android.net.Uri;
-
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -11,37 +9,31 @@ import java.io.Serializable;
  */
 public class ItemImageObj implements Serializable {
 
-    public static final int TYPE_ADD = 0, TYPE_NORMAL = 1;
+  public static final int TYPE_ADD = 0, TYPE_NORMAL = 1;
 
-    @SerializedName("u_id")
-    public long uId;
+  @SerializedName("u_id") public long uId;
 
-    @SerializedName("tbr_id")
-    public long thumbId;
+  @SerializedName("tbr_id") public long thumbId;
 
-    @SerializedName("tbr_img")
-    public String thumbImg = "";
+  @SerializedName("tbr_img") public String thumbImg = "";
 
-    @SerializedName("tbr_txt")
-    public String thumbTxt = "";
+  @SerializedName("tbr_txt") public String thumbTxt = "";
 
-    @SerializedName("sq")
-    public int order;
+  @SerializedName("sq") public int order;
 
-    public int type = TYPE_NORMAL; // 0: add, 2:normal //数据库对应的2表示活动的照片
+  public int type = TYPE_NORMAL; // 0: add, 2:normal //数据库对应的2表示活动的照片
 
-    public Uri uri;
+  public Uri uri;
 
-    @Override
-    public boolean equals(Object o) {
-        boolean isEqual = true;
-        ItemImageObj itemImageObj = (ItemImageObj) o;
-        if (itemImageObj == null) {
-            isEqual = false;
-        } else {
-            isEqual = thumbTxt.equals(itemImageObj.thumbTxt) && thumbImg.equals(itemImageObj.thumbImg);
-        }
-
-        return isEqual;
+  @Override public boolean equals(Object o) {
+    boolean isEqual = true;
+    ItemImageObj itemImageObj = (ItemImageObj) o;
+    if (itemImageObj == null) {
+      isEqual = false;
+    } else {
+      isEqual = thumbTxt.equals(itemImageObj.thumbTxt) && thumbImg.equals(itemImageObj.thumbImg);
     }
+
+    return isEqual;
+  }
 }

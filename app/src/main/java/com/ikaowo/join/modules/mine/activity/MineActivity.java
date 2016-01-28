@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkManager;
@@ -35,271 +37,243 @@ import com.ikaowo.join.util.Constant;
 import com.ikaowo.join.util.QiniuUploadHelper;
 import com.ikaowo.join.util.SharedPreferenceHelper;
 import com.squareup.picasso.Picasso;
-
+import de.greenrobot.event.EventBus;
 import java.util.HashMap;
 import java.util.Map;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 /**
  * Created by weibo on 15-12-29.
  */
 public class MineActivity extends BaseEventBusFragmentActivity
-        implements PhotoService.UploadFinishListener {
+    implements PhotoService.UploadFinishListener {
 
-    @Bind(R.id.auth_state)
-    MineItemWidget authStateItem;
+  @Bind(R.id.auth_state) MineItemWidget authStateItem;
 
-    @Bind(R.id.user_icon)
-    MineItemWidget userIconItem;
+  @Bind(R.id.user_icon) MineItemWidget userIconItem;
 
-    @Bind(R.id.user_name)
-    MineItemWidget userNameItem;
+  @Bind(R.id.user_name) MineItemWidget userNameItem;
 
-    @Bind(R.id.brand_name)
-    MineItemWidget userBrandNameItem;
+  @Bind(R.id.brand_name) MineItemWidget userBrandNameItem;
 
-    @Bind(R.id.user_title)
-    MineItemWidget userTitleItem;
+  @Bind(R.id.user_title) MineItemWidget userTitleItem;
 
-    @Bind(R.id.user_phone)
-    MineItemWidget userPhoneItem;
+  @Bind(R.id.user_phone) MineItemWidget userPhoneItem;
 
-    private UserService userService;
-    private MineService mineService;
-    private PhotoService photoService;
-    private ImageLoader imageLoader;
-    private QiniuUploadHelper qiniuUploadHelper;
-    private Map<String, Integer> stateColorMap = new HashMap<>();
-    private int targetWidth = JApplication.getJContext().dip2px(64);
-    private int targetHeight = JApplication.getJContext().dip2px(64);
+  private UserService userService;
+  private MineService mineService;
+  private PhotoService photoService;
+  private ImageLoader imageLoader;
+  private QiniuUploadHelper qiniuUploadHelper;
+  private Map<String, Integer> stateColorMap = new HashMap<>();
+  private int targetWidth = JApplication.getJContext().dip2px(64);
+  private int targetHeight = JApplication.getJContext().dip2px(64);
 
-    private FullImageView imageView;
-    private TextView shortNameTv;
-    private Dialog dialog = null;
+  private FullImageView imageView;
+  private TextView shortNameTv;
+  private Dialog dialog = null;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mine);
-        ButterKnife.bind(this);
-        mineService = JApplication.getJContext().getServiceByInterface(MineService.class);
-        userService = JApplication.getJContext().getServiceByInterface(UserService.class);
-        photoService = new PhotoService(this);
-        imageLoader = JApplication.getImageLoader();
-        qiniuUploadHelper = new QiniuUploadHelper();
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_mine);
+    ButterKnife.bind(this);
+    mineService = JApplication.getJContext().getServiceByInterface(MineService.class);
+    userService = JApplication.getJContext().getServiceByInterface(UserService.class);
+    photoService = new PhotoService(this);
+    imageLoader = JApplication.getImageLoader();
+    qiniuUploadHelper = new QiniuUploadHelper();
 
-        if (!userService.isLogined()) {
-            finish();
-            return;
-        }
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_ativity_mine);
-        setSupportActionBar(toolbar);
-
-        stateColorMap.put(Constant.AUTH_STATE_PASSED, R.color.c1);
-        stateColorMap.put(Constant.AUTH_STATE_PENDING_APPROVE, R.color.c1);
-        stateColorMap.put(Constant.AUTH_STATE_FAILED, R.color.c11);
-
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-
-        setupDate();
-        setupOptionMenu();
+    if (!userService.isLogined()) {
+      finish();
+      return;
     }
 
-    private void setupDate() {
-        UserLoginData user = userService.getUser();
-        if (user != null) {
-            boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state);
-            boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state);
-            boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state);
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    toolbar.setTitle(R.string.title_ativity_mine);
+    setSupportActionBar(toolbar);
 
-            Map<String, String> stateDescMap = SharedPreferenceHelper.getInstance().getEnumValue(this);
-            String state = "";
-            if (stateDescMap != null) {
-                if (authed) {
-                    state = stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_PASSED);
-                } else if (failed) {
-                    state = stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_FAILED);
-                } else if (processing) {
-                    state =
-                            stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_PENDING_APPROVE);
-                }
-            } else {
-                if (authed) {
-                    state = "已认证";
-                } else if (failed) {
-                    state = "认证失败";
-                } else if (processing) {
-                    state = "认证中";
-                }
-            }
+    stateColorMap.put(Constant.AUTH_STATE_PASSED, R.color.c1);
+    stateColorMap.put(Constant.AUTH_STATE_PENDING_APPROVE, R.color.c1);
+    stateColorMap.put(Constant.AUTH_STATE_FAILED, R.color.c11);
 
-            authStateItem.setText(state);
-            authStateItem.setTextColor(stateColorMap.get(user.state));
-            imageView = userIconItem.getImageView();
-            shortNameTv = userIconItem.getShortNameTv();
+    ActionBar ab = getSupportActionBar();
+    ab.setDisplayHomeAsUpEnabled(true);
+
+    setupDate();
+    setupOptionMenu();
+  }
+
+  private void setupDate() {
+    UserLoginData user = userService.getUser();
+    if (user != null) {
+      boolean authed = Constant.AUTH_STATE_PASSED.equalsIgnoreCase(user.state);
+      boolean failed = Constant.AUTH_STATE_FAILED.equalsIgnoreCase(user.state);
+      boolean processing = Constant.AUTH_STATE_PENDING_APPROVE.equalsIgnoreCase(user.state);
+
+      Map<String, String> stateDescMap = SharedPreferenceHelper.getInstance().getEnumValue(this);
+      String state = "";
+      if (stateDescMap != null) {
+        if (authed) {
+          state = stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_PASSED);
+        } else if (failed) {
+          state = stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_FAILED);
+        } else if (processing) {
+          state =
+              stateDescMap.get(Constant.USER_STATE_PREFIX + Constant.AUTH_STATE_PENDING_APPROVE);
+        }
+      } else {
+        if (authed) {
+          state = "已认证";
+        } else if (failed) {
+          state = "认证失败";
+        } else if (processing) {
+          state = "认证中";
+        }
+      }
+
+      authStateItem.setText(state);
+      authStateItem.setTextColor(stateColorMap.get(user.state));
+      imageView = userIconItem.getImageView();
+      shortNameTv = userIconItem.getShortNameTv();
+      if (shortNameTv != null) {
+        shortNameTv.setOnClickListener(new View.OnClickListener() {
+          @Override public void onClick(View v) {
+            photoService.takePhoto(MineActivity.this, toolbar, null);
+          }
+        });
+      }
+      if (imageView != null) {
+        imageView.setImgUrl(user.icon);
+        AvatarHelper.getInstance()
+            .showAvatar(MineActivity.this, user.uId, imageView, userIconItem.getShortNameTv(),
+                targetWidth, targetHeight, user.icon, user.nickName);
+      }
+
+      userNameItem.setText(user.nickName);
+      userBrandNameItem.setText(user.brandInfo != null ? user.brandInfo.brand_name : "");
+      userTitleItem.setText(user.title);
+      userPhoneItem.setText(user.phone);
+
+      if (failed) {
+        new Handler().post(new Runnable() {
+          @Override public void run() {
+            dialog = dialogHelper.createDialog(R.string.dialog_title, R.string.hint_auth_failed,
+                new String[] { "取消", "重新审核" }, new View.OnClickListener[] {
+                    new View.OnClickListener() {
+                      @Override public void onClick(View v) {
+                        dialog.dismiss();
+                      }
+                    }, new View.OnClickListener() {
+                  @Override public void onClick(View v) {
+                    userService.reSubmitInfo(MineActivity.this);
+                    dialog.dismiss();
+                  }
+                }
+                });
+            dialog.show();
+          }
+        });
+      }
+    }
+  }
+
+  private void setupOptionMenu() {
+    menuResId = R.menu.menu_resubmit_userinfo;
+    invalidateOptionsMenu();
+  }
+
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    if (userService.isAuthFailed()) {
+      menu.getItem(0).setVisible(true);
+    } else {
+      menu.getItem(0).setVisible(false);
+    }
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.resubmit:
+        userService.reSubmitInfo(MineActivity.this);
+        break;
+      default:
+        super.onOptionsItemSelected(item);
+    }
+    return true;
+  }
+
+  @OnClick(R.id.user_icon) public void updateIcon() {
+    photoService.takePhoto(this, toolbar, null);
+  }
+
+  @OnClick(R.id.user_update_passwd) public void updatePasswd() {
+    mineService.updatePassword(this);
+  }
+
+  @OnClick((R.id.logout)) public void logout() {
+    userService.logout(this);
+  }
+
+  @Override protected String getTag() {
+    return "MineActivity";
+  }
+
+  public void onEvent(ClosePageCallback callback) {
+    if (callback.close()) {
+      finish();
+    }
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
+  }
+
+  @Override public void onUpLoadImageFinish(final String imgUrl, final Uri imgUri) {
+    if (imageView == null) {
+      return;
+    }
+    imageView.setImgUrl(imgUrl);
+    imageView.setImgUri(imgUri);
+    NetworkManager networkManager = JApplication.getNetworkManager();
+    UserInterface userInterface = networkManager.getServiceByClass(UserInterface.class);
+    UpdateAvatarRequest request = new UpdateAvatarRequest();
+    request.icon = imgUrl;
+    Call<BaseResponse> call = userInterface.updateAvatar(request);
+    networkManager.async(this, Constant.PROCESSING, call,
+        new KwMarketNetworkCallback<BaseResponse>(this) {
+
+          @Override public void onSuccess(BaseResponse baseResponse) {
+
             if (shortNameTv != null) {
-                shortNameTv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        photoService.takePhoto(MineActivity.this, toolbar, null);
-                    }
-                });
+              shortNameTv.setVisibility(View.GONE);
             }
-            if (imageView != null) {
-                imageView.setImgUrl(user.icon);
-                AvatarHelper.getInstance()
-                        .showAvatar(MineActivity.this, user.uId, imageView, userIconItem.getShortNameTv(), targetWidth,
-                                targetHeight, user.icon, user.nickName);
+            if (imgUri != null) {
+              Picasso.with(MineActivity.this)
+                  .load(imgUri)
+                  .centerCrop()
+                  .resize(targetWidth, targetHeight)
+                  .into(imageView);
+            } else if (!TextUtils.isEmpty(imgUrl)) {
+              imageLoader.loadImage(imageView, imgUrl, targetWidth, targetHeight,
+                  R.drawable.brand_icon_default);
             }
 
-            userNameItem.setText(user.nickName);
-            userBrandNameItem.setText(user.brandInfo != null ? user.brandInfo.brand_name : "");
-            userTitleItem.setText(user.title);
-            userPhoneItem.setText(user.phone);
+            userService.updateAvatarInfo(imgUrl);
 
-            if (failed) {
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog = dialogHelper.createDialog(R.string.dialog_title, R.string.hint_auth_failed,
-                                new String[]{"取消", "重新审核"}, new View.OnClickListener[]{
-                                        new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                dialog.dismiss();
-                                            }
-                                        }, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        userService.reSubmitInfo(MineActivity.this);
-                                        dialog.dismiss();
-                                    }
-                                }
-                                });
-                        dialog.show();
-                    }
-                });
-            }
-        }
-    }
+            EventBus.getDefault().post(new AvatarUpdateCallback() {
+              @Override public String updatedAvatar() {
+                return imgUrl;
+              }
+            });
+          }
+        });
+  }
 
-    private void setupOptionMenu() {
-        menuResId = R.menu.menu_resubmit_userinfo;
-        invalidateOptionsMenu();
-    }
+  @Override public void onUpLoadImageFailed() {
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (userService.isAuthFailed()) {
-            menu.getItem(0).setVisible(true);
-        } else {
-            menu.getItem(0).setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.resubmit:
-                userService.reSubmitInfo(MineActivity.this);
-                break;
-            default:
-                super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
-
-    @OnClick(R.id.user_icon)
-    public void updateIcon() {
-        photoService.takePhoto(this, toolbar, null);
-    }
-
-    @OnClick(R.id.user_update_passwd)
-    public void updatePasswd() {
-        mineService.updatePassword(this);
-    }
-
-    @OnClick((R.id.logout))
-    public void logout() {
-        userService.logout(this);
-    }
-
-    @Override
-    protected String getTag() {
-        return "MineActivity";
-    }
-
-    public void onEvent(ClosePageCallback callback) {
-        if (callback.close()) {
-            finish();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        qiniuUploadHelper.uploadImg(this, requestCode, resultCode, data, this);
-    }
-
-    @Override
-    public void onUpLoadImageFinish(final String imgUrl, final Uri imgUri) {
-        if (imageView == null) {
-            return;
-        }
-        imageView.setImgUrl(imgUrl);
-        imageView.setImgUri(imgUri);
-        NetworkManager networkManager = JApplication.getNetworkManager();
-        UserInterface userInterface = networkManager.getServiceByClass(UserInterface.class);
-        UpdateAvatarRequest request = new UpdateAvatarRequest();
-        request.icon = imgUrl;
-        Call<BaseResponse> call = userInterface.updateAvatar(request);
-        networkManager.async(this, Constant.PROCESSING, call,
-                new KwMarketNetworkCallback<BaseResponse>(this) {
-
-                    @Override
-                    public void onSuccess(BaseResponse baseResponse) {
-
-                        if (shortNameTv != null) {
-                            shortNameTv.setVisibility(View.GONE);
-                        }
-                        if (imgUri != null) {
-                            Picasso.with(MineActivity.this)
-                                    .load(imgUri)
-                                    .centerCrop()
-                                    .resize(targetWidth, targetHeight)
-                                    .into(imageView);
-                        } else if (!TextUtils.isEmpty(imgUrl)) {
-                            imageLoader.loadImage(imageView, imgUrl, targetWidth, targetHeight,
-                                    R.drawable.brand_icon_default);
-                        }
-
-                        userService.updateAvatarInfo(imgUrl);
-
-                        EventBus.getDefault().post(new AvatarUpdateCallback() {
-                            @Override
-                            public String updatedAvatar() {
-                                return imgUrl;
-                            }
-                        });
-                    }
-                });
-    }
-
-    @Override
-    public void onUpLoadImageFailed() {
-
-    }
+  }
 }

@@ -8,7 +8,7 @@ import com.ikaowo.join.model.base.BaseResponse;
  */
 public class SignupResponse extends BaseResponse {
 
-    public UserLoginData data;
+  public UserLoginData data;
 }
 
 
