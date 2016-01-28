@@ -170,7 +170,8 @@ public class JoinDetailActivity extends BaseActivity {
 
                 if (userService.isLogined()
                     && userService.getUserId() == joinInfo.publishUId
-                    && joinInfo.prompState.equalsIgnoreCase(Constant.PROMPTION_STATE_PASS)) {
+                      && (joinInfo.prompState.equalsIgnoreCase(Constant.PROMPTION_STATE_PASS)
+                          || joinInfo.prompState.equalsIgnoreCase(Constant.PROMPTION_STATE_OVER))) {
                   if (Constant.JOIN_STATE_FAILED.equalsIgnoreCase(joinInfo.state)) {
                     btnLayout.setVisibility(View.VISIBLE);
                     approveBtn.setVisibility(View.VISIBLE);
