@@ -153,7 +153,7 @@ public class SystemNotificationActivity
     public NotificationViewHolder(View itemView, final RecyclerViewHelper helper) {
       super(itemView);
       ButterKnife.bind(this, itemView);
-
+      titleTv.setSingleLine();
       itemView.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
           helper.getRecyclerHelperImpl().performItemClick(getLayoutPosition());

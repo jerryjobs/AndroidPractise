@@ -5,7 +5,8 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingRight="12dp"
+    android:paddingTop="6dp">
 
   <LinearLayout
       android:layout_width="match_parent"
@@ -22,17 +23,17 @@
         >
 
       <LinearLayout
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
           >
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="新的报名"
+            android:ellipsize="end"
             android:textColor="@color/c3"
             android:textSize="16sp"
             />
@@ -53,8 +54,9 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="8dp"
-          android:text="给推广的内容"
           android:textColor="@color/c10"
+          android:ellipsize="end"
+          android:maxLines="2"
           android:textSize="14sp"
           />
     </LinearLayout>
@@ -71,5 +73,6 @@
       android:layout_width="match_parent"
       android:layout_height="0.5dp"
       android:background="@color/c5"
+      android:layout_marginTop="6dp"
       />
 </LinearLayout>
