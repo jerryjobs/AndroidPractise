@@ -21,13 +21,18 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:textColor="#999"
+        android:maxWidth="160dp"
+        android:ellipsize="end"
+        android:layout_marginRight="8dp"
         android:textSize="12sp"
         />
 
     <LinearLayout
+        android:layout_toRightOf="@id/company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:gravity="right"
         android:layout_alignParentEnd="true"
         >
 
@@ -46,6 +51,7 @@
           android:layout_marginLeft="6dp"
           android:layout_marginStart="6dp"
           android:textColor="@color/c9"
+          android:ellipsize="end"
           android:textSize="12sp"
           />
 
@@ -66,6 +72,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
+          android:ellipsize="end"
           android:textColor="#999"
           android:textSize="12sp"
           />

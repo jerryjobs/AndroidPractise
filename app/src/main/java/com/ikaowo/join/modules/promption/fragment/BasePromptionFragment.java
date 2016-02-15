@@ -103,8 +103,11 @@ public abstract class BasePromptionFragment
         Promption promption = objList.get(position);
         viewHolder.companyNameTv.setText(promption.brandName);
         viewHolder.promptionAddressTv.setText(promption.address);
+        viewHolder.promptionAddressTv.setSingleLine();
         viewHolder.promptionTimeTv.setText(promption.date);
+        viewHolder.promptionTimeTv.setSingleLine();
         viewHolder.promptionTitleTv.setText(promption.title);
+        viewHolder.promptionTitleTv.setSingleLine();
 
         if (Constant.PROMPTION_STATE_PASS.equalsIgnoreCase(promption.state)) {
           viewHolder.promptionStateIv.setVisibility(View.VISIBLE);
