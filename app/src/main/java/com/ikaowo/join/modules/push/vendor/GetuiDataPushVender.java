@@ -33,9 +33,9 @@ public class GetuiDataPushVender implements PushVendor {
     PushDataProcesser processer =
         new PushProcesserFactory().getDataProcesser(getuiReceiveData.type);
     if (processer != null) {
-      if (getuiReceiveData != null || Constant.PUSH_ACCT_PASSED.equalsIgnoreCase(
+      if (getuiReceiveData != null && (Constant.PUSH_ACCT_PASSED.equalsIgnoreCase(
           getuiReceiveData.type) || Constant.PUSH_ACCT_FAILED.equalsIgnoreCase(
-          getuiReceiveData.type)) {
+          getuiReceiveData.type))) {
         UserLatestState userLatestState = new UserLatestState();
         userLatestState.sta =
             Constant.PUSH_ACCT_FAILED.equalsIgnoreCase(getuiReceiveData.type) ? "F" : "T";
