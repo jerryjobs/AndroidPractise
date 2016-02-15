@@ -36,18 +36,19 @@ public class ErrorHintLayout extends LinearLayout {
   private void init() {
     LinearLayout.LayoutParams llp =
         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-            JApplication.getJContext().dip2px(30));
+            ViewGroup.LayoutParams.WRAP_CONTENT);
     LinearLayout errHintLayout = new LinearLayout(context);
     errHintLayout.setOrientation(LinearLayout.VERTICAL);
     errHintLayout.setLayoutParams(llp);
     errHintLayout.setGravity(Gravity.CENTER_VERTICAL);
     textView = new TextView(context);
-    textView.setPadding(JApplication.getJContext().dip2px(20), 0, 0, 0);
+    int paddingLR = JApplication.getJContext().dip2px(12);
+    int paddingTB = JApplication.getJContext().dip2px(6);
+    textView.setPadding(paddingLR, paddingTB, paddingLR, paddingTB);
     textView.setBackgroundColor(ContextCompat.getColor(context, R.color.c12));
     textView.setTextColor(ContextCompat.getColor(context, R.color.c11));
     textView.setGravity(Gravity.CENTER_VERTICAL);
     textView.setLayoutParams(llp);
-    textView.setMaxLines(2);
     textView.setEllipsize(TextUtils.TruncateAt.END);
     errHintLayout.addView(textView);
     View view = new View(context);
