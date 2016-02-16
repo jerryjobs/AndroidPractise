@@ -99,13 +99,22 @@ public abstract class BasePromptionFragment
 
     @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
       if (holder instanceof PromptionListViewHolder) {
+        int screenWidth = JApplication.getJContext().getScreenWidth();
+
         PromptionListViewHolder viewHolder = (PromptionListViewHolder) holder;
         Promption promption = objList.get(position);
+        viewHolder.companyNameTv.setSingleLine();
+        viewHolder.companyNameTv.setMaxWidth(screenWidth * 3 / 10);
         viewHolder.companyNameTv.setText(promption.brandName);
+
+        viewHolder.promptionAddressTv.setMaxWidth(screenWidth * 3 / 10);
         viewHolder.promptionAddressTv.setText(promption.address);
         viewHolder.promptionAddressTv.setSingleLine();
+
+        viewHolder.promptionTimeTv.setMaxWidth(screenWidth * 3 / 10);
         viewHolder.promptionTimeTv.setText(promption.date);
         viewHolder.promptionTimeTv.setSingleLine();
+
         viewHolder.promptionTitleTv.setText(promption.title);
         viewHolder.promptionTitleTv.setSingleLine();
 
