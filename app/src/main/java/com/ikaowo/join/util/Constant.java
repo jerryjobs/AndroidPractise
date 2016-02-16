@@ -26,20 +26,20 @@ public class Constant {
   public static final int SEARCH_TYPE_PROMPTION = 1;
   public static final int SEARCH_TYPE_BRAND = 2;
 
-  public static final String PROMPTION_STATE_NEW = "N"; //待审核
-  public static final String PROMPTION_STATE_PASS = "T"; //审核通过
-  public static final String PROMPTION_STATE_FAILED = "F"; //审核失败
-  public static final String PROMPTION_STATE_DONE = "O"; //已经完成
+  public static final String PROMPTION_STATE_NEW = "N"; //审核中
+  public static final String PROMPTION_STATE_PASS = "T"; //已上线
+  public static final String PROMPTION_STATE_FAILED = "F"; //审核未通过
+  public static final String PROMPTION_STATE_DONE = "O"; //已完成
   public static final String PROMPTION_STATE_OVER = "E"; //报名已结束
-  public static final String PROMPTION_STATE_CANCEL = "C";//主办方取消
+  public static final String PROMPTION_STATE_CANCEL = "C";//已取消
 
-  public static final String JOIN_STATE_PASSED = "T"; //审核通过
-  public static final String JOIN_STATE_FAILED = "F"; //审核不通过
-  public static final String JOIN_STATE_PENDING_APPROVE = "J";//待审核
+  public static final String JOIN_STATE_PASSED = "T"; //已同意
+  public static final String JOIN_STATE_FAILED = "F"; //已拒绝
+  public static final String JOIN_STATE_PENDING_APPROVE = "J";//待确认
   public static final String JOIN_STATE_USER_CANCEL = "X";//用户取消
-  public static final String JOIN_STATE_CANCEL = "C";//主办方取消
-  public static final String JOIN_STATE_JOINED = "P"; //审核通过，并且参与
-  public static final String JOIN_STATE_NOT_JOINED = "Q"; //审核通过，但是没有参与
+  public static final String JOIN_STATE_CANCEL = "C";//主办方已取消
+  public static final String JOIN_STATE_JOINED = "P"; //已参加
+  public static final String JOIN_STATE_NOT_JOINED = "Q"; //未参加
 
   public static final String AUTH_STATE_PASSED = "T";
   public static final String AUTH_STATE_FAILED = "F";
