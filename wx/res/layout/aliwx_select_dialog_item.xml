@@ -15,5 +15,4 @@
     android:paddingRight="15dip"
     android:paddingTop="20dp"
     android:textColor="#333333"
-    android:textSize="15sp"
-    />
+    android:textSize="15sp" />

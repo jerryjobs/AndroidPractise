@@ -3,9 +3,8 @@
     android:id="@+id/custom_content_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:gravity="center"
-    android:paddingBottom="@dimen/aliwx_large_padding"
-    >
+    android:layout_gravity="center"
+    android:paddingBottom="@dimen/aliwx_large_padding" >
 
 </RelativeLayout>
