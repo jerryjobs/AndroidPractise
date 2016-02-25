@@ -16,6 +16,8 @@ public abstract class JApplication extends MultiDexApplication {
   private static NetworkManager networkManager;
   private static ImageLoader imageLoader;
 
+  protected boolean prdEnv;
+
   public static JApplication getInstance() {
     return application;
   }
@@ -37,7 +39,7 @@ public abstract class JApplication extends MultiDexApplication {
 
     application = this;
     context = new JContext(this);
-    networkManager = new NetworkManager(getApplicationContext(), getBaseUrl());
+    networkManager = new NetworkManager(getApplicationContext(), getBaseUrl(), prdEnv);
     imageLoader = new ImageLoader(getApplicationContext());
 
     registerService(context);

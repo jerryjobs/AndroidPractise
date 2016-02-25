@@ -36,7 +36,7 @@ public class NetworkManager {
   private Map<Class, Object> serviceMap = new HashMap<>();
   private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
 
-  public NetworkManager(Context context, String baseUrl) {
+  public NetworkManager(Context context, String baseUrl, boolean prdEnv) {
     okHttpClient = getUnSafeOkHttpClient();
     cookieStore = new PersistentCookieStore(context);
     CookieManager cookieManager = (new CookieManager(cookieStore, CookiePolicy.ACCEPT_ALL));
@@ -60,7 +60,7 @@ public class NetworkManager {
     });
 
     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+    logging.setLevel(prdEnv? HttpLoggingInterceptor.Level.NONE : HttpLoggingInterceptor.Level.BODY);
     okHttpClient.interceptors().add(logging);
 
     retrofit = new Retrofit.Builder().client(okHttpClient)
