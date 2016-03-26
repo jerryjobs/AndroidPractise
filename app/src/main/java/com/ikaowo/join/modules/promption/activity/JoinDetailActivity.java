@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.component.photo.FullImageView;
-import com.ikaowo.join.BaseActivity;
+import com.ikaowo.join.base.BaseActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.UserService;

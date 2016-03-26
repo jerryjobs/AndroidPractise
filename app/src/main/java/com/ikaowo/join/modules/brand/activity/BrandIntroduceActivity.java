@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.ikaowo.join.BaseActivity;
+import com.ikaowo.join.base.BaseActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.util.Constant;
 

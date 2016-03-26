@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
 import com.common.framework.network.NetworkManager;
-import com.ikaowo.join.BaseActivity;
+import com.ikaowo.join.base.BaseActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.RefreshWebViewCallback;
 import com.ikaowo.join.model.JoinedUser;

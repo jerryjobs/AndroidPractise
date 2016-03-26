@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.ikaowo.join.BaseFragment;
+import com.ikaowo.join.base.BaseFragment;
 import com.ikaowo.join.R;
 
 /**

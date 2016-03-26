@@ -12,8 +12,10 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.ikaowo.join.BaseEventBusActivity;
+import com.ikaowo.join.base.BaseActivity;
+import com.ikaowo.join.base.BaseEventBusActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.base.EventBusListener;
 import com.ikaowo.join.eventbus.JoinedActivityCallback;
 import com.ikaowo.join.eventbus.RefreshWebViewCallback;
 import com.ikaowo.join.eventbus.SigninCallback;
@@ -23,8 +25,8 @@ import com.ikaowo.join.util.Constant;
  * Created by weibo on 15-12-25.
  */
 
-public class WebViewActivity extends BaseEventBusActivity
-    implements WebViewHelper.WebViewInterface {
+public class WebViewActivity extends BaseActivity
+    implements WebViewHelper.WebViewInterface, EventBusListener {
 
   protected String url;
   protected WebViewHelper webViewHelper;

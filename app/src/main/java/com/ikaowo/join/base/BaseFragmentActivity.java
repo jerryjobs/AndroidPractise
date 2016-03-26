@@ -1,4 +1,4 @@
-package com.ikaowo.join;
+package com.ikaowo.join.base;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.common.framework.core.JFragment;
 import com.common.framework.core.JFragmentActivity;
 import com.umeng.analytics.MobclickAgent;
+import de.greenrobot.event.EventBus;
 import java.util.List;
 
 /**
@@ -20,6 +21,16 @@ public abstract class BaseFragmentActivity extends JFragmentActivity {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    if (this instanceof EventBusListener) {
+      EventBus.getDefault().register(this);
+    }
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    if (this instanceof EventBusListener) {
+      EventBus.getDefault().unregister(this);
+    }
   }
 
   public void updateFragment(int fragmentContainerId, BaseFragment fragment) {

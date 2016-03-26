@@ -8,8 +8,9 @@ import android.support.v7.widget.Toolbar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
-import com.ikaowo.join.BaseEventBusFragmentActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.base.BaseFragmentActivity;
+import com.ikaowo.join.base.EventBusListener;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.modules.mine.adapter.MyPromptionTabLayoutAdapter;
@@ -17,7 +18,7 @@ import com.ikaowo.join.modules.mine.adapter.MyPromptionTabLayoutAdapter;
 /**
  * Created by leiweibo on 12/29/15.
  */
-public class MyPromptionActivity extends BaseEventBusFragmentActivity {
+public class MyPromptionActivity extends BaseFragmentActivity implements EventBusListener {
 
   @Bind(R.id.tabs) TabLayout tabLayout;
   @Bind(R.id.viewpager) ViewPager viewPager;

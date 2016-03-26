@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.component.photo.PhotoService;
-import com.ikaowo.join.BaseActivity;
+import com.ikaowo.join.base.BaseActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.eventbus.AddBrandCallback;
 import com.ikaowo.join.eventbus.ClosePageCallback;

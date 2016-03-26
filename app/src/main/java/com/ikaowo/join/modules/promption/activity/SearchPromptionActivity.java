@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import com.ikaowo.join.BaseFragmentActivity;
+import com.ikaowo.join.base.BaseFragmentActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.modules.promption.fragment.SearchHistoryFragment;
 import com.ikaowo.join.modules.promption.fragment.SearchPromptionFragment;

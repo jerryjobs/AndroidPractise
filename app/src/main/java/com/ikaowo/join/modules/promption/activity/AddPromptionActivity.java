@@ -31,8 +31,10 @@ import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.common.framework.core.JDialogHelper;
 import com.component.photo.PhotoService;
-import com.ikaowo.join.BaseEventBusActivity;
+import com.ikaowo.join.base.BaseActivity;
+import com.ikaowo.join.base.BaseEventBusActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.base.EventBusListener;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.common.widget.draggridview.DragGridItemAdapter;
 import com.ikaowo.join.common.widget.draggridview.ItemImageObj;
@@ -59,8 +61,8 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-22.
  */
-public class AddPromptionActivity extends BaseEventBusActivity
-    implements PhotoService.UploadFinishListener, TextWatcher {
+public class AddPromptionActivity extends BaseActivity
+    implements PhotoService.UploadFinishListener, TextWatcher, EventBusListener {
 
   protected final int MAX_COUNT = 6;
   private final int MAX_CONTENT_LENGTH = 140;

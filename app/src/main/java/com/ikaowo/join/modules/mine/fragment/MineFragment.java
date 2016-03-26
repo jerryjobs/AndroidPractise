@@ -15,8 +15,10 @@ import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkManager;
-import com.ikaowo.join.BaseEventBusFragment;
+import com.ikaowo.join.base.BaseEventBusFragment;
 import com.ikaowo.join.R;
+import com.ikaowo.join.base.BaseFragment;
+import com.ikaowo.join.base.EventBusListener;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
@@ -38,7 +40,7 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-8.
  */
-public class MineFragment extends BaseEventBusFragment {
+public class MineFragment extends BaseFragment implements EventBusListener {
 
   @Bind(R.id.icon) ImageView iconIv;
   @Bind(R.id.name_title) TextView nameTitleTv;

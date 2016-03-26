@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import com.common.framework.core.JApplication;
+import com.ikaowo.join.base.BaseActivity;
 
 /**
  * Created by weibo on 16-2-16.

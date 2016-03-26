@@ -20,8 +20,9 @@ import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkManager;
 import com.component.photo.FullImageView;
 import com.component.photo.PhotoService;
-import com.ikaowo.join.BaseEventBusFragmentActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.base.BaseFragmentActivity;
+import com.ikaowo.join.base.EventBusListener;
 import com.ikaowo.join.common.service.MineService;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.AvatarUpdateCallback;
@@ -45,8 +46,8 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-29.
  */
-public class MineActivity extends BaseEventBusFragmentActivity
-    implements PhotoService.UploadFinishListener {
+public class MineActivity extends BaseFragmentActivity
+    implements PhotoService.UploadFinishListener, EventBusListener {
 
   @Bind(R.id.auth_state) MineItemWidget authStateItem;
 

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.ikaowo.join.BaseFragment;
+import com.ikaowo.join.base.BaseFragment;
 import com.ikaowo.join.R;
 import com.ikaowo.join.modules.promption.activity.SearchPromptionActivity;
 import com.ikaowo.join.modules.promption.widget.SearchHistory;

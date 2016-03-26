@@ -1,10 +1,11 @@
-package com.ikaowo.join;
+package com.ikaowo.join.base;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import com.common.framework.core.JFragmentActivity;
 import com.umeng.analytics.MobclickAgent;
+import de.greenrobot.event.EventBus;
 
 /**
  * 不含有Fragment的Activity继承这个，跟BaseFragmentActivity区别是
@@ -15,6 +16,9 @@ public abstract class BaseActivity extends JFragmentActivity {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if (this instanceof EventBusListener) {
+      EventBus.getDefault().register(this);
+    }
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
   }
 
@@ -28,6 +32,13 @@ public abstract class BaseActivity extends JFragmentActivity {
     super.onPause();
     MobclickAgent.onPause(this);
     MobclickAgent.onPageEnd(getTag());
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    if (this instanceof EventBusListener) {
+      EventBus.getDefault().unregister(this);
+    }
   }
 
   protected void displayHomeAsIndicator(int drawable) {

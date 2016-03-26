@@ -13,7 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.common.framework.util.JToast;
-import com.ikaowo.join.BaseFragmentActivity;
+import com.ikaowo.join.base.BaseFragmentActivity;
 import com.ikaowo.join.R;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.model.base.BaseResponse;

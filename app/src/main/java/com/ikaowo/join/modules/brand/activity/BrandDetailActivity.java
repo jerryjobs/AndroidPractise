@@ -15,8 +15,9 @@ import butterknife.ButterKnife;
 import com.common.framework.core.JApplication;
 import com.common.framework.image.ImageLoader;
 import com.common.framework.network.NetworkManager;
-import com.ikaowo.join.BaseEventBusFragmentActivity;
+import com.ikaowo.join.base.BaseEventBusFragmentActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.base.BaseFragmentActivity;
 import com.ikaowo.join.common.service.BrandService;
 import com.ikaowo.join.eventbus.GetListCountCallback;
 import com.ikaowo.join.model.Brand;
@@ -31,7 +32,7 @@ import retrofit.Call;
 /**
  * Created by weibo on 15-12-28.
  */
-public class BrandDetailActivity extends BaseEventBusFragmentActivity {
+public class BrandDetailActivity extends BaseFragmentActivity {
 
   @Bind(R.id.collapse_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
   @Bind(R.id.brand_icon) ImageView brandIcon;

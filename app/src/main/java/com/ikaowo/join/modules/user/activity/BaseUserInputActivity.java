@@ -25,8 +25,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.common.framework.core.JApplication;
 import com.component.photo.PhotoService;
-import com.ikaowo.join.BaseEventBusActivity;
+import com.ikaowo.join.base.BaseActivity;
+import com.ikaowo.join.base.BaseEventBusActivity;
 import com.ikaowo.join.R;
+import com.ikaowo.join.base.EventBusListener;
 import com.ikaowo.join.common.service.UserService;
 import com.ikaowo.join.eventbus.AddBrandCallback;
 import com.ikaowo.join.eventbus.ChooseBrandCallback;
@@ -41,9 +43,9 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by weibo on 15-12-11.
  */
-public abstract class BaseUserInputActivity extends BaseEventBusActivity
+public abstract class BaseUserInputActivity extends BaseActivity
     implements TextWatcher, PhotoService.UploadFinishListener,
-    DeletableEditTextView.TextChangeListener {
+    DeletableEditTextView.TextChangeListener, EventBusListener {
 
   protected UserService userService =
       JApplication.getJContext().getServiceByInterface(UserService.class);

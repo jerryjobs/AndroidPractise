@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.common.framework.core.JApplication;
+import com.ikaowo.join.base.BaseActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 

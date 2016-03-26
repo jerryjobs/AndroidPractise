@@ -15,7 +15,7 @@ import com.common.framework.network.NetworkCallback;
 import com.common.framework.widget.listview.RecyclerViewHelper;
 import com.common.framework.widget.listview.RecyclerViewHelperInterface;
 import com.common.framework.widget.listview.ScrollMoreRecyclerView;
-import com.ikaowo.join.BaseFragment;
+import com.ikaowo.join.base.BaseFragment;
 import com.ikaowo.join.R;
 import com.ikaowo.join.model.base.BaseListResponse;
 import java.util.List;

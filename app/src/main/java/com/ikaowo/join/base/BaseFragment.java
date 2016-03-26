@@ -1,15 +1,32 @@
-package com.ikaowo.join;
+package com.ikaowo.join.base;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.common.framework.core.JFragment;
 import com.umeng.analytics.MobclickAgent;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by weibo on 15-12-8.
  */
 public abstract class BaseFragment extends JFragment {
+
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (this instanceof EventBusListener) {
+      EventBus.getDefault().register(this);
+    }
+  }
+
+  @Override public void onDestroy() {
+    super.onDestroy();
+    if (this instanceof EventBusListener) {
+      EventBus.getDefault().unregister(this);
+    }
+  }
 
   protected void showInputMethod(final View view) {
     view.postDelayed(new Runnable() {
